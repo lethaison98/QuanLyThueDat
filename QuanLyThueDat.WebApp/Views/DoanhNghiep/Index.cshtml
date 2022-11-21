@@ -1,0 +1,116 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section>
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Doanh nghiệp</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+                        <li class="breadcrumb-item active">Doanh nghiệp</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+</section>
+<section>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Tìm kiếm doanh nghiệp</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6 col-md-6 col-lg-6 col-xl-8">
+                                <div class="ttls-cm">
+                                    <div class="ttls-label">Từ khóa</div>
+                                    <div class="ttls-content">
+                                        <input type="text" id="txtKEY_WORD" placeholder="Nhập từ khóa tìm kiếm..." class="form-control" data-name="Keyword" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-6 col-md-6 col-lg-6 col-xl-4">
+                                <div class="ttls-cm">
+                                    <div class="ttls-label">&nbsp;</div>
+                                    <div class="ttls-content">
+                                        <a class="btn btn-sm btn-primary waves-effect waves-light" id="btnSearchDoanhNghiep">
+                                            <span>Tra cứu</span>
+                                            <i class="fas fa-search"></i>
+                                        </a>
+                                        <a class="btn btn-sm btn-success waves-effect waves-light" id="btnCreateDoanhNghiep">
+                                            <span>Tạo mới</span>
+                                            <i class="fas fa-plus"></i>
+                                        </a>
+                                        <a class="btn btn-sm btn-success waves-effect waves-light" id="btnThemMoiHangLoat">
+                                            <span>Nhập từ excel</span>
+                                            <i class="fas fa-plus"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Danh sách doanh nghiệp</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="tbl" class="table table-bordered table-hover table-striped" style="width: 100%">
+                            <thead>
+                                <tr>
+                                    <th style="width: 5%">STT</th>
+                                    <th>Tên doanh nghiệp</th>
+                                    <th>Mã số thuế</th>
+                                    <th>Địa chỉ</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+</section>
+<div id="modalDetailDoanhNghiep"></div>
+<div id="modalImportDoanhNghiep"></div>
+<div id="modalThongBaoDoanhNghiep"></div>
+<div id="modalDetailQuyetDinhThueDat"></div>
+<div id="modalDetailQuyetDinhMienTienThueDat"></div>
+<div id="modalDetailHopDongThueDat"></div>
+<div id="modalDetailThongBaoDonGiaThueDat"></div>
+<div id="modalDetailThongBaoTienThueDat"></div>
+
+
+@await Html.PartialAsync("Test.cshtml")
+@section Scripts{
+<script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment-with-locales.min.js"></script>
+<script src="~/lib/daterangepicker/daterangepicker.js"></script>
+<link href="~/lib/daterangepicker/daterangepicker.css" rel="stylesheet" type="text/css">
+<script src="~/js/controller/DoanhNghiepControl.js"></script>
+<script src="~/js/controller/QuyetDinhThueDatControl.js"></script>
+<script src="~/js/controller/QuyetDinhMienTienThueDatControl.js"></script>
+<script src="~/js/controller/HopDongThueDatControl.js"></script>
+<script src="~/js/controller/ThongBaoDonGiaThueDatControl.js"></script>
+<script src="~/js/controller/ThongBaoTienThueDatControl.js"></script>
+}

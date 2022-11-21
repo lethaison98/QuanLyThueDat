@@ -1,0 +1,47 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32421.90
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuanLyThueDat.WebApp", "QuanLyThueDat.WebApp\QuanLyThueDat.WebApp.csproj", "{0FA52046-41AF-4CEE-9203-B5B858BD88FC}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3800D056-52C8-4786-B6D9-E09DEDDF6585} = {3800D056-52C8-4786-B6D9-E09DEDDF6585}
+		{25AF5A9F-CBF3-45F6-8C6E-EEACE16B1AE0} = {25AF5A9F-CBF3-45F6-8C6E-EEACE16B1AE0}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuanLyThueDat.Data", "QuanLyThueDat.Data\QuanLyThueDat.Data.csproj", "{25AF5A9F-CBF3-45F6-8C6E-EEACE16B1AE0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuanLyThueDat.Application", "QuanLyThueDat.Application\QuanLyThueDat.Application.csproj", "{3800D056-52C8-4786-B6D9-E09DEDDF6585}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuanLyThueDat.API", "QuanLyThueDat.API\QuanLyThueDat.API.csproj", "{4AD8742D-50AE-4933-B7A1-B0974E5E3BFE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0FA52046-41AF-4CEE-9203-B5B858BD88FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FA52046-41AF-4CEE-9203-B5B858BD88FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FA52046-41AF-4CEE-9203-B5B858BD88FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FA52046-41AF-4CEE-9203-B5B858BD88FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25AF5A9F-CBF3-45F6-8C6E-EEACE16B1AE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25AF5A9F-CBF3-45F6-8C6E-EEACE16B1AE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25AF5A9F-CBF3-45F6-8C6E-EEACE16B1AE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25AF5A9F-CBF3-45F6-8C6E-EEACE16B1AE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3800D056-52C8-4786-B6D9-E09DEDDF6585}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3800D056-52C8-4786-B6D9-E09DEDDF6585}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3800D056-52C8-4786-B6D9-E09DEDDF6585}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3800D056-52C8-4786-B6D9-E09DEDDF6585}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AD8742D-50AE-4933-B7A1-B0974E5E3BFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AD8742D-50AE-4933-B7A1-B0974E5E3BFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AD8742D-50AE-4933-B7A1-B0974E5E3BFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AD8742D-50AE-4933-B7A1-B0974E5E3BFE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DC9A6E28-7083-49B8-A995-94BA171EE4B9}
+	EndGlobalSection
+EndGlobal

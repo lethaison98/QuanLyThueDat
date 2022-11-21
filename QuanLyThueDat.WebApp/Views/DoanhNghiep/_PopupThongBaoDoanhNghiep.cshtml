@@ -1,0 +1,169 @@
+﻿@{
+    Layout = null;
+}
+<div class="modal fade" id="popupThongBaoDoanhNghiep" data-backdrop="static" role="dialog">
+    <div class="modal-dialog modal-xl">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body" style="min-height:600px">
+                <div class="col-12 col-sm-12">
+                    <div class="card card-primary card-outline card-outline-tabs">
+                        <div class="card-header p-0 border-bottom-0">
+                            <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="selectTabQuyetDinhThueDat" data-toggle="pill" href="#tabQuyetDinhThueDat" role="tab" aria-controls="tabQuyetDinhThueDat" aria-selected="true">Quyết định thuê đất</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="selectTabQuyetDinhMienTienThueDat" data-toggle="pill" href="#tabQuyetDinhMienTienThueDat" role="tab" aria-controls="tabQuyetDinhMienTienThueDat" aria-selected="false">Quyết định miễn tiền thuê đất</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="selectTabHopDongThueDat" data-toggle="pill" href="#tabHopDongThueDat" role="tab" aria-controls="tabHopDongThueDat" aria-selected="false">Hợp đồng thuê đất</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="selectTabThongBaoDonGiaThueDat" data-toggle="pill" href="#tabThongBaoDonGiaThueDat" role="tab" aria-controls="tabThongBaoDonGiaThueDat" aria-selected="false">Thông báo đơn giá thuê đất</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="selectTabThongBaoTienThueDat" data-toggle="pill" href="#tabThongBaoTienThueDat" role="tab" aria-controls="tabThongBaoTienThueDat" aria-selected="false">Thông báo tiền thuê đất</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-body">
+                            <div class="tab-content" id="custom-tabs-four-tabContent">
+                                <div class="tab-pane fade show active" id="tabQuyetDinhThueDat" role="tabpanel" aria-labelledby="selectTabQuyetDinhThueDat">
+                                    <div class="ttls-content d-flex mb-1" style="justify-content: space-between;">
+                                        <h5>DANH SÁCH QUYẾT ĐỊNH THUÊ ĐẤT</h5>
+                                        <a class="btn btn-sm btn-success waves-effect waves-light" id="btnCreateQuyetDinhThueDat">
+                                            <span>Tạo mới</span>
+                                            <i class="fas fa-plus"></i>
+                                        </a>
+                                    </div>
+                                    <table id="tblQuyetDinhThueDat" class="table table-bordered table-hover table-striped" style="width: 100%">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 5%">STT</th>
+                                                <th>Tên doanh nghiệp</th>
+                                                <th style="width: 10%">Số quyết định giao đất</th>
+                                                <th style="width: 10%">Số quyết định thuê đất</th>
+                                                <th style="width: 30%">Nội dung</th>
+                                                <th style="width: 10%">Ngày ký</th>
+                                                <th style="width: 10%">Thao tác</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="tab-pane fade" id="tabQuyetDinhMienTienThueDat" role="tabpanel" aria-labelledby="selectTabQuyetDinhMienTienThueDat">
+                                    <div class="ttls-content d-flex mb-1" style="justify-content: space-between;">
+                                        <h5>DANH SÁCH QUYẾT ĐỊNH MIỄN TIỀN THUÊ ĐẤT</h5>
+                                        <a class="btn btn-sm btn-success waves-effect waves-light" id="btnCreateQuyetDinhMienTienThueDat">
+                                            <span>Tạo mới</span>
+                                            <i class="fas fa-plus"></i>
+                                        </a>
+                                    </div>
+                                    <table id="tblQuyetDinhMienTienThueDat" class="table table-bordered table-hover table-striped" style="width: 100%">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 5%">STT</th>
+                                                <th>Tên doanh nghiệp</th>
+                                                <th>Số quyết định thuê đất</th>
+                                                <th>Số quyết định miễn tiền thuê đất</th>
+                                                <th>Nội dung</th>
+                                                <th>Ngày ký</th>
+                                                <th>Thao tác</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="tab-pane fade" id="tabHopDongThueDat" role="tabpanel" aria-labelledby="selectTabHopDongThueDat">
+                                    <div class="ttls-content d-flex mb-1" style="justify-content: space-between;">
+                                        <h5>DANH SÁCH HỢP ĐỒNG THUÊ ĐẤT</h5>
+                                        <a class="btn btn-sm btn-success waves-effect waves-light" id="btnCreateHopDongThueDat">
+                                            <span>Tạo mới</span>
+                                            <i class="fas fa-plus"></i>
+                                        </a>
+                                    </div>
+                                    <table id="tblHopDongThueDat" class="table table-bordered table-hover table-striped" style="width: 100%">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 5%">STT</th>
+                                                <th style="width: 20%">Số hợp đồng</th>
+                                                <th>Tên doanh nghiệp</th>
+                                                <th style="width: 15%">Ngày ký</th>
+                                                <th style="width: 10%">Thao tác</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="tab-pane fade" id="tabThongBaoDonGiaThueDat" role="tabpanel" aria-labelledby="selectTabThongBaoDonGiaThueDat">
+                                    <div class="ttls-content d-flex mb-1" style="justify-content: space-between;">
+                                        <h5>DANH SÁCH THÔNG BÁO ĐƠN GIÁ THUÊ ĐẤT</h5>
+                                        <a class="btn btn-sm btn-success waves-effect waves-light" id="btnCreateThongBaoDonGiaThueDat">
+                                            <span>Tạo mới</span>
+                                            <i class="fas fa-plus"></i>
+                                        </a>
+                                    </div>
+                                    <table id="tblThongBaoDonGiaThueDat" class="table table-bordered table-hover table-striped" style="width: 100%">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 5%">STT</th>
+                                                <th>Số thông báo</th>
+                                                <th>Tên doanh nghiệp</th>
+                                                <th>Ngày thông báo</th>
+                                                <th>Diện tích phải nộp tiền</th>
+                                                <th>Diện tích không phải nộp tiền</th>
+                                                <th>Đơn giá</th>
+                                                <th>Ngày hiệu lực</th>
+                                                <th>Ngày hết hiệu lực</th>
+                                                <th>Thao tác</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="tab-pane fade" id="tabThongBaoTienThueDat" role="tabpanel" aria-labelledby="selectTabThongBaoTienThueDat">
+                                    <div class="ttls-content d-flex mb-1" style="justify-content: space-between;">
+                                        <h5>DANH SÁCH THÔNG BÁO TIỀN THUÊ ĐẤT</h5>
+                                        <a class="btn btn-sm btn-success waves-effect waves-light" id="btnCreateThongBaoTienThueDat">
+                                            <span>Tạo mới</span>
+                                            <i class="fas fa-plus"></i>
+                                        </a>
+                                    </div>
+                                    <table id="tblThongBaoTienThueDat" class="table table-bordered table-hover table-striped" style="width: 100%">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 5px">STT</th>
+                                                <th>Số thông báo</th>
+                                                <th>Tên doanh nghiệp</th>
+                                                <th>Năm</th>
+                                                <th>Số tiền phải nộp</th>
+                                                <th>Thao tác</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                @*                <button type="button" class="btn btn-primary" id="btnSave">Lưu</button>*@
+                <button type="button" class="btn btn-danger" id="btnClose" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+
+    </div>
+</div>

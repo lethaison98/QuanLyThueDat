@@ -1,0 +1,17 @@
+D:\VNPT\QLThueDat\QuanLyThueDat\Infrastructure\bin\Debug\net6.0\Infrastructure.deps.json
+D:\VNPT\QLThueDat\QuanLyThueDat\Infrastructure\bin\Debug\net6.0\Infrastructure.dll
+D:\VNPT\QLThueDat\QuanLyThueDat\Infrastructure\bin\Debug\net6.0\Infrastructure.pdb
+D:\VNPT\QLThueDat\QuanLyThueDat\Infrastructure\bin\Debug\net6.0\QuanLyThueDat.Application.dll
+D:\VNPT\QLThueDat\QuanLyThueDat\Infrastructure\bin\Debug\net6.0\QuanLyThueDat.Data.dll
+D:\VNPT\QLThueDat\QuanLyThueDat\Infrastructure\bin\Debug\net6.0\QuanLyThueDat.Application.pdb
+D:\VNPT\QLThueDat\QuanLyThueDat\Infrastructure\bin\Debug\net6.0\QuanLyThueDat.Data.pdb
+D:\VNPT\QLThueDat\QuanLyThueDat\Infrastructure\obj\Debug\net6.0\Infrastructure.csproj.AssemblyReference.cache
+D:\VNPT\QLThueDat\QuanLyThueDat\Infrastructure\obj\Debug\net6.0\Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+D:\VNPT\QLThueDat\QuanLyThueDat\Infrastructure\obj\Debug\net6.0\Infrastructure.AssemblyInfoInputs.cache
+D:\VNPT\QLThueDat\QuanLyThueDat\Infrastructure\obj\Debug\net6.0\Infrastructure.AssemblyInfo.cs
+D:\VNPT\QLThueDat\QuanLyThueDat\Infrastructure\obj\Debug\net6.0\Infrastructure.csproj.CoreCompileInputs.cache
+D:\VNPT\QLThueDat\QuanLyThueDat\Infrastructure\obj\Debug\net6.0\Infrastructure.csproj.CopyComplete
+D:\VNPT\QLThueDat\QuanLyThueDat\Infrastructure\obj\Debug\net6.0\Infrastructure.dll
+D:\VNPT\QLThueDat\QuanLyThueDat\Infrastructure\obj\Debug\net6.0\refint\Infrastructure.dll
+D:\VNPT\QLThueDat\QuanLyThueDat\Infrastructure\obj\Debug\net6.0\Infrastructure.pdb
+D:\VNPT\QLThueDat\QuanLyThueDat\Infrastructure\obj\Debug\net6.0\ref\Infrastructure.dll

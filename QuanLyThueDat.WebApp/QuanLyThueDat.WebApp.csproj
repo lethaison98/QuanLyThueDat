@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <COMReference Include="Microsoft.Office.Interop.Word">
+	    <WrapperTool>tlbimp</WrapperTool>
+	    <VersionMinor>7</VersionMinor>
+	    <VersionMajor>8</VersionMajor>
+	    <Guid>00020905-0000-0000-c000-000000000046</Guid>
+	    <Lcid>0</Lcid>
+	    <Isolated>false</Isolated>
+	    <EmbedInteropTypes>true</EmbedInteropTypes>
+	  </COMReference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="wwwroot\dist\img\background-login.jpeg" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="DocumentFormat.OpenXml" Version="2.18.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.9" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\QuanLyThueDat.Application\QuanLyThueDat.Application.csproj" />
+		<ProjectReference Include="..\QuanLyThueDat.Data\QuanLyThueDat.Data.csproj" />
+	</ItemGroup>
+</Project>

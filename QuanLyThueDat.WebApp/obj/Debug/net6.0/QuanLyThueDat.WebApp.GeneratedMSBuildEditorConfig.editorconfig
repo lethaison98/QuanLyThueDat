@@ -1,0 +1,128 @@
+is_global = true
+build_property.TargetFramework = net6.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = QuanLyThueDat.WebApp
+build_property.RootNamespace = QuanLyThueDat.WebApp
+build_property.ProjectDir = D:\VNPT\QLThueDat\QuanLyThueDat17.11\QuanLyThueDat\QuanLyThueDat.WebApp\
+build_property.RazorLangVersion = 6.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = true
+build_property.MSBuildProjectDirectory = D:\VNPT\QLThueDat\QuanLyThueDat17.11\QuanLyThueDat\QuanLyThueDat.WebApp
+build_property._RazorSourceGeneratorDebug = 
+
+[D:/VNPT/QLThueDat/QuanLyThueDat17.11/QuanLyThueDat/QuanLyThueDat.WebApp/Views/DoanhNghiep/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRG9hbmhOZ2hpZXBcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/VNPT/QLThueDat/QuanLyThueDat17.11/QuanLyThueDat/QuanLyThueDat.WebApp/Views/DoanhNghiep/Test.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRG9hbmhOZ2hpZXBcVGVzdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/VNPT/QLThueDat/QuanLyThueDat17.11/QuanLyThueDat/QuanLyThueDat.WebApp/Views/DoanhNghiep/_PopupDetailDoanhNghiep.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRG9hbmhOZ2hpZXBcX1BvcHVwRGV0YWlsRG9hbmhOZ2hpZXAuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/VNPT/QLThueDat/QuanLyThueDat17.11/QuanLyThueDat/QuanLyThueDat.WebApp/Views/DoanhNghiep/_PopupImportDoanhNghiep.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRG9hbmhOZ2hpZXBcX1BvcHVwSW1wb3J0RG9hbmhOZ2hpZXAuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/VNPT/QLThueDat/QuanLyThueDat17.11/QuanLyThueDat/QuanLyThueDat.WebApp/Views/DoanhNghiep/_PopupThongBaoDoanhNghiep.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRG9hbmhOZ2hpZXBcX1BvcHVwVGhvbmdCYW9Eb2FuaE5naGllcC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/VNPT/QLThueDat/QuanLyThueDat17.11/QuanLyThueDat/QuanLyThueDat.WebApp/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/VNPT/QLThueDat/QuanLyThueDat17.11/QuanLyThueDat/QuanLyThueDat.WebApp/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/VNPT/QLThueDat/QuanLyThueDat17.11/QuanLyThueDat/QuanLyThueDat.WebApp/Views/HopDongThueDat/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9wRG9uZ1RodWVEYXRcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/VNPT/QLThueDat/QuanLyThueDat17.11/QuanLyThueDat/QuanLyThueDat.WebApp/Views/HopDongThueDat/Test.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9wRG9uZ1RodWVEYXRcVGVzdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/VNPT/QLThueDat/QuanLyThueDat17.11/QuanLyThueDat/QuanLyThueDat.WebApp/Views/HopDongThueDat/_PopupDetailHopDongThueDat.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9wRG9uZ1RodWVEYXRcX1BvcHVwRGV0YWlsSG9wRG9uZ1RodWVEYXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/VNPT/QLThueDat/QuanLyThueDat17.11/QuanLyThueDat/QuanLyThueDat.WebApp/Views/QuyetDinhMienTienThueDat/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUXV5ZXREaW5oTWllblRpZW5UaHVlRGF0XEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/VNPT/QLThueDat/QuanLyThueDat17.11/QuanLyThueDat/QuanLyThueDat.WebApp/Views/QuyetDinhMienTienThueDat/Test.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUXV5ZXREaW5oTWllblRpZW5UaHVlRGF0XFRlc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/VNPT/QLThueDat/QuanLyThueDat17.11/QuanLyThueDat/QuanLyThueDat.WebApp/Views/QuyetDinhMienTienThueDat/_PopupDetailQuyetDinhMienTienThueDat.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUXV5ZXREaW5oTWllblRpZW5UaHVlRGF0XF9Qb3B1cERldGFpbFF1eWV0RGluaE1pZW5UaWVuVGh1ZURhdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/VNPT/QLThueDat/QuanLyThueDat17.11/QuanLyThueDat/QuanLyThueDat.WebApp/Views/QuyetDinhThueDat/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUXV5ZXREaW5oVGh1ZURhdFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/VNPT/QLThueDat/QuanLyThueDat17.11/QuanLyThueDat/QuanLyThueDat.WebApp/Views/QuyetDinhThueDat/Test.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUXV5ZXREaW5oVGh1ZURhdFxUZXN0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/VNPT/QLThueDat/QuanLyThueDat17.11/QuanLyThueDat/QuanLyThueDat.WebApp/Views/QuyetDinhThueDat/_PopupDetailQuyetDinhThueDat.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUXV5ZXREaW5oVGh1ZURhdFxfUG9wdXBEZXRhaWxRdXlldERpbmhUaHVlRGF0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/VNPT/QLThueDat/QuanLyThueDat17.11/QuanLyThueDat/QuanLyThueDat.WebApp/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/VNPT/QLThueDat/QuanLyThueDat17.11/QuanLyThueDat/QuanLyThueDat.WebApp/Views/ThongBaoDonGiaThueDat/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGhvbmdCYW9Eb25HaWFUaHVlRGF0XEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/VNPT/QLThueDat/QuanLyThueDat17.11/QuanLyThueDat/QuanLyThueDat.WebApp/Views/ThongBaoDonGiaThueDat/Test.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGhvbmdCYW9Eb25HaWFUaHVlRGF0XFRlc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/VNPT/QLThueDat/QuanLyThueDat17.11/QuanLyThueDat/QuanLyThueDat.WebApp/Views/ThongBaoDonGiaThueDat/_PopupDetailThongBaoDonGiaThueDat.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGhvbmdCYW9Eb25HaWFUaHVlRGF0XF9Qb3B1cERldGFpbFRob25nQmFvRG9uR2lhVGh1ZURhdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/VNPT/QLThueDat/QuanLyThueDat17.11/QuanLyThueDat/QuanLyThueDat.WebApp/Views/ThongBaoTienThueDat/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGhvbmdCYW9UaWVuVGh1ZURhdFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/VNPT/QLThueDat/QuanLyThueDat17.11/QuanLyThueDat/QuanLyThueDat.WebApp/Views/ThongBaoTienThueDat/Test.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGhvbmdCYW9UaWVuVGh1ZURhdFxUZXN0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/VNPT/QLThueDat/QuanLyThueDat17.11/QuanLyThueDat/QuanLyThueDat.WebApp/Views/ThongBaoTienThueDat/_PopupDetailThongBaoTienThueDat.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGhvbmdCYW9UaWVuVGh1ZURhdFxfUG9wdXBEZXRhaWxUaG9uZ0Jhb1RpZW5UaHVlRGF0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/VNPT/QLThueDat/QuanLyThueDat17.11/QuanLyThueDat/QuanLyThueDat.WebApp/Views/User/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/VNPT/QLThueDat/QuanLyThueDat17.11/QuanLyThueDat/QuanLyThueDat.WebApp/Views/User/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxMb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/VNPT/QLThueDat/QuanLyThueDat17.11/QuanLyThueDat/QuanLyThueDat.WebApp/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/VNPT/QLThueDat/QuanLyThueDat17.11/QuanLyThueDat/QuanLyThueDat.WebApp/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/VNPT/QLThueDat/QuanLyThueDat17.11/QuanLyThueDat/QuanLyThueDat.WebApp/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-wjmeystnjz

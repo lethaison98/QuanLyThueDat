@@ -1,0 +1,55 @@
+﻿@{
+    Layout = null;
+}
+<div class="modal fade" id="popupDetailDoanhNghiep" data-backdrop="static" role="dialog">
+    <div class="modal-dialog modal-xl">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Thêm mới doanh nghiệp</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body" style="min-height:600px">
+                <div class="row col-sm-12" id="FormDetailDoanhNghiep">
+                    <div class="form-group col-md-6">
+                        <h5>Tên doanh nghiệp</h5>
+                        <input type="hidden" class="form-control" data-name="IdDoanhNghiep" value="0">
+                        <input type="text" class="form-control" data-name="TenDoanhNghiep" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <h5>Địa chỉ</h5>
+                        <input type="text" class="form-control" data-name="DiaChi" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <h5>Số điện thoại</h5>
+                        <input type="text" class="form-control" data-name="SoDienThoai" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <h5>Email</h5>
+                        <input type="text" class="form-control" data-name="Email" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <h5>Mã số thuế</h5>
+                        <input type="text" class="form-control" data-name="MaSoThue" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <h5>Cơ quan quản lý thuế</h5>
+                        <input type="text" class="form-control" data-name="CoQuanQuanLyThue" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <h5>Ngày cấp</h5>
+                        <input type="text" class="form-control" data-name="NgayCap" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <h5>Tên người đại diện</h5>
+                        <input type="text" class="form-control" data-name="TenNguoiDaiDien" required>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btnSaveDoanhNghiep">Lưu</button>
+                <button type="button" class="btn btn-danger" id="btnCloseDoanhNghiep" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>

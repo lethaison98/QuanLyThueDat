@@ -1,0 +1,98 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section>
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Thông báo tiền thuê đất</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+                        <li class="breadcrumb-item active">Thông báo tiền thuê đất</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+</section>
+<section>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Tìm kiếm thông báo tiền thuê đất</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-9 col-md-9 col-lg-9 col-xl-9">
+                                <div class="ttls-cm">
+                                    <div class="ttls-label">Từ khóa</div>
+                                    <div class="ttls-content">
+                                        <input type="text" id="txtKEY_WORD" placeholder="Nhập từ khóa tìm kiếm..." class="form-control" data-name="Keyword" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-3 col-md-3 col-lg-3 col-xl-3">
+                                <div class="ttls-cm">
+                                    <div class="ttls-label">&nbsp;</div>
+                                    <div class="ttls-content">
+                                        <a class="btn btn-sm btn-primary waves-effect waves-light" id="btnSearchThongBaoTienThueDat">
+                                            <span>Tra cứu</span>
+                                            <i class="fas fa-search"></i>
+                                        </a>
+                                        <a class="btn btn-sm btn-success waves-effect waves-light" id="btnCreateThongBaoTienThueDat">
+                                            <span>Tạo mới</span>
+                                            <i class="fas fa-plus"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Danh sách thông báo tiền thuê đất</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="tblThongBaoTienThueDat" class="table table-bordered table-hover table-striped" style="width: 100%">
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Số thông báo</th>
+                                    <th>Tên doanh nghiệp</th>
+                                    <th>Năm</th>
+                                    <th>Số tiền phải nộp</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+</section>
+<div id="modalDetailThongBaoTienThueDat"></div>
+@section Scripts{
+<script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment-with-locales.min.js"></script>
+<script src="~/lib/daterangepicker/daterangepicker.js"></script>
+<link href="~/lib/daterangepicker/daterangepicker.css" rel="stylesheet" type="text/css">
+<script src="~/js/controller/ThongBaoTienThueDatControl.js"></script>
+}
