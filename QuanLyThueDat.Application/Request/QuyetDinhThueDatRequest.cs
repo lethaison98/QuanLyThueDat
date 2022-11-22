@@ -24,5 +24,17 @@ namespace QuanLyThueDat.Application.Request
         public string HinhThucThue { get; set; }
         public string ViTriThuaDat { get; set; }
         public string DiaChiThuaDat { get; set; }
+        public List<QuyetDinhThueDatChiTietRequest> QuyetDinhThueDatChiTiet { get; set; }
+    }
+    public class QuyetDinhThueDatChiTietRequest
+    {
+        public int IdQuyetDinhThueDatChiTiet { get; set; }
+        public int IdQuyetDinhThueDat { get; set; }
+        public string HinhThucThue { get; set; }
+        public decimal DienTich { get; set; }
+        public string ThoiHanThue { get; set; }
+        public string DenNgayThue { get; set; }
+        public string TuNgayThue { get; set; }
+        public string MucDichSuDung { get; set; }
     }
 }

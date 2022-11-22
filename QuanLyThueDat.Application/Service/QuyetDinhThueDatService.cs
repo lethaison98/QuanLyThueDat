@@ -39,13 +39,13 @@ namespace QuanLyThueDat.Application.Service
                     TenQuyetDinhGiaoDat = rq.TenQuyetDinhGiaoDat,
                     NgayQuyetDinhGiaoDat = string.IsNullOrEmpty(rq.NgayQuyetDinhGiaoDat) ? null : DateTime.Parse(rq.NgayQuyetDinhGiaoDat, new CultureInfo("vi-VN")),
                     TongDienTich = rq.TongDienTich,
-                    ThoiHanThue = rq.ThoiHanThue,
-                    TuNgayThue = string.IsNullOrEmpty(rq.TuNgayThue) ? null : DateTime.Parse(rq.TuNgayThue, new CultureInfo("vi-VN")),
-                    DenNgayThue = string.IsNullOrEmpty(rq.DenNgayThue) ? null : DateTime.Parse(rq.DenNgayThue, new CultureInfo("vi-VN")),
-                    MucDichSuDung = rq.MucDichSuDung,
-                    HinhThucThue = rq.HinhThucThue,
-                    ViTriThuaDat = rq.ViTriThuaDat,
-                    DiaChiThuaDat = rq.DiaChiThuaDat
+                    //ThoiHanThue = rq.ThoiHanThue,
+                    //TuNgayThue = string.IsNullOrEmpty(rq.TuNgayThue) ? null : DateTime.Parse(rq.TuNgayThue, new CultureInfo("vi-VN")),
+                    //DenNgayThue = string.IsNullOrEmpty(rq.DenNgayThue) ? null : DateTime.Parse(rq.DenNgayThue, new CultureInfo("vi-VN")),
+                    //MucDichSuDung = rq.MucDichSuDung,
+                    //HinhThucThue = rq.HinhThucThue,
+                    //ViTriThuaDat = rq.ViTriThuaDat,
+                    //DiaChiThuaDat = rq.DiaChiThuaDat
                 };
             }
             else
@@ -59,15 +59,32 @@ namespace QuanLyThueDat.Application.Service
                 entity.TenQuyetDinhGiaoDat = rq.TenQuyetDinhGiaoDat;
                 entity.NgayQuyetDinhGiaoDat = string.IsNullOrEmpty(rq.NgayQuyetDinhGiaoDat) ? null : DateTime.Parse(rq.NgayQuyetDinhGiaoDat, new CultureInfo("vi-VN"));
                 entity.TongDienTich = rq.TongDienTich;
-                entity.ThoiHanThue = rq.ThoiHanThue;
-                entity.TuNgayThue = string.IsNullOrEmpty(rq.TuNgayThue) ? null : DateTime.Parse(rq.TuNgayThue, new CultureInfo("vi-VN"));
-                entity.DenNgayThue = string.IsNullOrEmpty(rq.DenNgayThue) ? null : DateTime.Parse(rq.DenNgayThue, new CultureInfo("vi-VN"));
-                entity.MucDichSuDung = rq.MucDichSuDung;
-                entity.HinhThucThue = rq.HinhThucThue;
-                entity.ViTriThuaDat = rq.ViTriThuaDat;
-                entity.DiaChiThuaDat = rq.DiaChiThuaDat;
+                //entity.ThoiHanThue = rq.ThoiHanThue;
+                //entity.TuNgayThue = string.IsNullOrEmpty(rq.TuNgayThue) ? null : DateTime.Parse(rq.TuNgayThue, new CultureInfo("vi-VN"));
+                //entity.DenNgayThue = string.IsNullOrEmpty(rq.DenNgayThue) ? null : DateTime.Parse(rq.DenNgayThue, new CultureInfo("vi-VN"));
+                //entity.MucDichSuDung = rq.MucDichSuDung;
+                //entity.HinhThucThue = rq.HinhThucThue;
+                //entity.ViTriThuaDat = rq.ViTriThuaDat;
+                //entity.DiaChiThuaDat = rq.DiaChiThuaDat;
             }
-
+            var listQuyetDinhThueDatChiTiet = new List<QuyetDinhThueDatChiTiet>();
+            if (rq.QuyetDinhThueDatChiTiet != null)
+            {
+                foreach(var item in rq.QuyetDinhThueDatChiTiet)
+                {
+                    var ct = new QuyetDinhThueDatChiTiet();
+                    ct.IdQuyetDinhThueDat = item.IdQuyetDinhThueDat;
+                    ct.IdQuyetDinhThueDatChiTiet = item.IdQuyetDinhThueDatChiTiet;
+                    ct.HinhThucThue = item.HinhThucThue; ;
+                    ct.MucDichSuDung = item.MucDichSuDung;
+                    ct.DienTich = item.DienTich;
+                    ct.ThoiHanThue = item.ThoiHanThue;
+                    ct.TuNgayThue = string.IsNullOrEmpty(item.TuNgayThue) ? null : DateTime.Parse(item.TuNgayThue, new CultureInfo("vi-VN"));
+                    ct.DenNgayThue = string.IsNullOrEmpty(item.DenNgayThue) ? null : DateTime.Parse(item.DenNgayThue, new CultureInfo("vi-VN"));
+                    listQuyetDinhThueDatChiTiet.Add(ct);
+                }
+            }
+            entity.DsQuyetDinhThueDatChiTiet = listQuyetDinhThueDatChiTiet;
             _context.QuyetDinhThueDat.Update(entity);
             await _context.SaveChangesAsync();
             result = true;

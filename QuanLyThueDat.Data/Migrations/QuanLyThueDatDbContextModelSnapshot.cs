@@ -514,6 +514,42 @@ namespace QuanLyThueDat.Data.Migrations
                     b.ToTable("QuyetDinhThueDat", (string)null);
                 });
 
+            modelBuilder.Entity("QuanLyThueDat.Data.Entities.QuyetDinhThueDatChiTiet", b =>
+                {
+                    b.Property<int>("IdQuyetDinhThueDatChiTiet")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdQuyetDinhThueDatChiTiet"), 1L, 1);
+
+                    b.Property<DateTime?>("DenNgayThue")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("DienTich")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("HinhThucThue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("IdQuyetDinhThueDat")
+                        .HasColumnType("int");
+
+                    b.Property<string>("MucDichSuDung")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ThoiHanThue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("TuNgayThue")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("IdQuyetDinhThueDatChiTiet");
+
+                    b.HasIndex("IdQuyetDinhThueDat");
+
+                    b.ToTable("QuyetDinhThueDatChiTiet", (string)null);
+                });
+
             modelBuilder.Entity("QuanLyThueDat.Data.Entities.ThongBaoDonGiaThueDat", b =>
                 {
                     b.Property<int>("IdThongBaoDonGiaThueDat")
@@ -762,6 +798,17 @@ namespace QuanLyThueDat.Data.Migrations
                     b.Navigation("DoanhNghiep");
                 });
 
+            modelBuilder.Entity("QuanLyThueDat.Data.Entities.QuyetDinhThueDatChiTiet", b =>
+                {
+                    b.HasOne("QuanLyThueDat.Data.Entities.QuyetDinhThueDat", "QuyetDinhThueDat")
+                        .WithMany("DsQuyetDinhThueDatChiTiet")
+                        .HasForeignKey("IdQuyetDinhThueDat")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("QuyetDinhThueDat");
+                });
+
             modelBuilder.Entity("QuanLyThueDat.Data.Entities.ThongBaoDonGiaThueDat", b =>
                 {
                     b.HasOne("QuanLyThueDat.Data.Entities.DoanhNghiep", "DoanhNghiep")
@@ -801,6 +848,11 @@ namespace QuanLyThueDat.Data.Migrations
                     b.Navigation("DsThongBaoDonGiaThueDat");
 
                     b.Navigation("DsThongBaoTienThueDat");
+                });
+
+            modelBuilder.Entity("QuanLyThueDat.Data.Entities.QuyetDinhThueDat", b =>
+                {
+                    b.Navigation("DsQuyetDinhThueDatChiTiet");
                 });
 #pragma warning restore 612, 618
         }

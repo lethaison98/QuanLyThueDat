@@ -11,15 +11,23 @@
             </div>
             <div class="modal-body" style="min-height:600px">
                 <div class="row col-sm-12" id="FormDetailQuyetDinhThueDat">
+
+                    <div class="form-group col-md-6">
+                        <h5>Số quyết định giao đất (UBND tỉnh)</h5>
+                        <input type="text" class="form-control" data-name="SoQuyetDinhGiaoDat" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <h5>Tên quyết định giao đất (UBND tỉnh)</h5>
+                        <input type="text" class="form-control" data-name="TenQuyetDinhGiaoDat" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <h5>Ngày ký quyết định giao đất (UBND tỉnh)</h5>
+                        <input type="text" class="form-control" data-name="NgayQuyetDinhGiaoDat" placeholder='dd/mm/yyyy' required>
+                    </div>
                     <div class="form-group col-md-6">
                         <h5>Số quyết định thuê đất</h5>
                         <input type="hidden" class="form-control" data-name="IdQuyetDinhThueDat" value="0">
                         <input type="text" class="form-control" data-name="SoQuyetDinhThueDat" required>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <h5>Doanh nghiệp</h5>
-                        <select class="form-control select2 ddDoanhNghiep" style="width: 100%;">
-                        </select>
                     </div>
                     <div class="form-group col-md-6">
                         <h5>Tên quyết định thuê đất</h5>
@@ -30,50 +38,66 @@
                         <input type="text" class="form-control" data-name="NgayQuyetDinhThueDat" placeholder='dd/mm/yyyy' required>
                     </div>
                     <div class="form-group col-md-6">
-                        <h5>Số quyết định giao đất</h5>
-                        <input type="text" class="form-control" data-name="SoQuyetDinhGiaoDat" required>
+                        <h5>Vị trí trên bản đồ</h5>
+                        <input type="text" class="form-control number" data-name="ViTriThuaDat" required>
                     </div>
                     <div class="form-group col-md-6">
-                        <h5>Tên quyết định giao đất</h5>
-                        <input type="text" class="form-control" data-name="TenQuyetDinhGiaoDat" required>
+                        <h5>Địa chỉ</h5>
+                        <input type="text" class="form-control number" data-name="DiaChiThuaDat" required>
                     </div>
                     <div class="form-group col-md-6">
-                        <h5>Ngày ký quyết định giao đất</h5>
-                        <input type="text" class="form-control" data-name="NgayQuyetDinhGiaoDat" placeholder='dd/mm/yyyy' required>
+                        <h5>Doanh nghiệp</h5>
+                        <select class="form-control select2 ddDoanhNghiep" style="width: 100%;">
+                        </select>
                     </div>
                     <div class="form-group col-md-6">
                         <h5>Tổng diện tích</h5>
                         <input type="text" class="form-control number" data-name="TongDienTich" required>
                     </div>
-                    <div class="form-group col-md-6">
-                        <h5>Mục đích sử dụng</h5>
-                        <input type="text" class="form-control" data-name="MucDichSuDung" required>
+                    <div class="form-group col-md-12">
+                        <h5>Chi tiết Quyết định</h5>
+                        <table id="tblChiTietQuyetDinhThueDat" class="table table-bordered table-hover dataTable" role="grid">
+                            <thead>
+                                <tr>
+                                    <th style="display:none">
+                                        IdValue_tdda
+                                    </th>
+                                    <th style="width:22%">
+                                        Loại quyết định
+                                    </th>
+                                    <th style="width:10%">
+                                        Diện tích
+                                    </th>
+                                    <th style="width:24%">
+                                        Mục đích sử dụng
+                                    </th>
+                                    <th style="width:15%">
+                                        Thời hạn
+                                    </th>
+                                    <th style="width:12%">
+                                        Từ ngày
+                                    </th>
+                                    <th style="width:12%">
+                                        Đến ngày
+                                    </th>
+                                    <th style="width:5%">
+                                        Xóa
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="8">
+                                        <button class="btn btn-xs btn-success" id="btnAddChiTietQuyetDinhThueDat" type="button">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
                     </div>
-                    <div class="form-group col-md-6">
-                        <h5>Thời hạn thuê</h5>
-                        <input type="text" class="form-control" data-name="ThoiHanThue" required>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <h5>Từ ngày</h5>
-                        <input type="text" class="form-control" data-name="TuNgayThue" placeholder='dd/mm/yyyy' required>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <h5>Đến ngày</h5>
-                        <input type="text" class="form-control" data-name="DenNgayThue" placeholder='dd/mm/yyyy' required>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <h5>Hình thức thuê</h5>
-                        <input type="text" class="form-control" data-name="HinhThucThue" required>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <h5>Địa chỉ thửa đất</h5>
-                        <input type="text" class="form-control" data-name="DiaChiThuaDat" required>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <h5>Vị trí thửa đất</h5>
-                        <input type="text" class="form-control" data-name="ViTriThuaDat" required>
-                    </div>
-
                 </div>
                 <div class="col-12 col-sm-12 col-md-12 col-lg-12">
                     <div class="row">
@@ -91,6 +115,38 @@
                     </div>
                 </div>
             </div>
+            <table style="display:none">
+                <tbody id="tempChiTietQuyetDinhThueDat">
+                    <tr>
+                        <td style="width:22%">
+                            <select class="form-control px-0" style="width: 100%;" data-name="HinhThucThue">
+                                <option value="ThueDatTraTienHangNam">Thuê đất trả tiền hàng năm</option>
+                                <option value="ThueDatTraTienMotLan">Thuê đất trả tiền một lần</option>
+                                <option value="GiaoDatCoThuTien">Giao đất có thu tiền</option>
+                                <option value="GiaoDatKhongThuTien">Giao đất không thu tiền</option>
+                            </select>
+                        </td>
+                        <td style="width:10%">
+                            <input type="text" class="form-control px-1" data-name="DienTich" required>
+                        </td>
+                        <td style="width:24%">
+                            <input type="text" class="form-control px-1" data-name="MucDichSuDung" required>
+                        </td>
+                        <td style="width:15%">
+                            <input type="text" class="form-control px-1" data-name="ThoiHanThue" required>
+                        </td>
+                        <td style="width:12%">
+                            <input type="text" class="form-control px-1" data-name="TuNgayThue" required>
+                        </td>
+                        <td style="width:12%">
+                            <input type="text" class="form-control px-1" data-name="DenNgayThue" required>
+                        </td>
+                        <td style="width:5%">
+                            <a href="javascript:;" class="tr-remove text-danger"><i class="fas fa-trash-alt" title="Xóa"></i></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" id="btnSaveQuyetDinhThueDat">Lưu</button>
                 <button type="button" class="btn btn-danger" id="btnCloseQuyetDinhThueDat" data-dismiss="modal">Đóng</button>

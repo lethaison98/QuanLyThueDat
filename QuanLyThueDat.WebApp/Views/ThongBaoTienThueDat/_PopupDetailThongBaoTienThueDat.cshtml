@@ -11,35 +11,6 @@
             </div>
             <div class="modal-body" style="min-height:600px">
                 <div class="row col-sm-12" id="FormDetailThongBaoTienThueDat">
-                    <div class="card" style="width: 100%">
-                        <div class="card-header">
-                            <h2 class="card-title">Thông báo tiền thuê đất</h2>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                    <h5>Số thông báo tiền thuê đất</h5>
-                                    <input type="hidden" class="form-control" data-name="IdThongBaoTienThueDat" value="0">
-                                    <input type="text" class="form-control" data-name="SoThongBaoTienThueDat" required>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <h5>Doanh nghiệp</h5>
-                                    <select class="form-control select2 ddDoanhNghiep" style="width: 100%;">
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                    <h5>Năm</h5>
-                                    <input type="text" class="form-control" data-name="Nam" required>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <h5>Thông báo lần</h5>
-                                    <input type="text" class="form-control" data-name="LanThongBaoTienThueDat" required>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
                     @*Quyết định thuê đất*@
                     <div class="card groupQuyetDinhThueDat" style="width: 100%">
@@ -171,6 +142,55 @@
                                     <h5>Số tiền phải nộp</h5>
                                     <input type="text" class="form-control number" data-name="SoTienPhaiNop" required>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card" style="width: 100%">
+                        <div class="card-header">
+                            <h2 class="card-title">Thông báo tiền thuê đất</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <h5>Số thông báo tiền thuê đất</h5>
+                                    <input type="hidden" class="form-control" data-name="IdThongBaoTienThueDat" value="0">
+                                    <input type="text" class="form-control" data-name="SoThongBaoTienThueDat" required>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <h5>Doanh nghiệp</h5>
+                                    <select class="form-control select2 ddDoanhNghiep" style="width: 100%;">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <h5>Năm</h5>
+                                    <input type="text" class="form-control" data-name="Nam" required>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <h5>Loại thông báo</h5>
+                                    <select class="form-control select2 ddlanthongbao" style="width: 100%;">
+                                        <option value="Thông báo lần đầu">Thông báo lần đầu</option>
+                                        <option value="Thông báo từ năm thứ hai trở đi">Thông báo từ năm thứ hai trở đi</option>
+                                        <option value="Thông báo điều chỉnh">Thông báo điều chỉnh</option>
+                                        <option value="Thông báo bổ sung">Thông báo bổ sung</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <h5>Lãnh đạo ký thông báo tiền thuê đất</h5>
+                                    <select class="form-control select2 ddlanhdaoky" style="width: 100%;">
+                                        <option value="Trưởng ban - Lê Tiến Trị">Trưởng ban - Lê Tiến Trị</option>
+                                        <option value="Phó trưởng ban - Phan Văn Bình">Phó trưởng ban - Phan Văn Bình</option>
+
+                                    </select>
+                                </div>
+                                @*<div class="form-group col-md-6">
+                                    <h5>Doanh nghiệp</h5>
+                                    <select class="form-control select2 ddDoanhNghiep" style="width: 100%;">
+                                    </select>
+                                    </div>*@
                             </div>
                         </div>
                     </div>

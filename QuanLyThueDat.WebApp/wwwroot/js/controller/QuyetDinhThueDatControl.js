@@ -109,16 +109,7 @@ QuyetDinhThueDatControl = {
                                         } else {
                                             $('#popupDetailQuyetDinhThueDat .ddDoanhNghiep').append('<option value="' + res.Data.IdDoanhNghiep + '">' + res.Data.TenDoanhNghiep + '</option>');
                                         }
-                                        $('.select2').select2();
-                                        $(".number").change(function () {
-                                            $(this).val(ConvertDecimalToString($(this).val()));
-                                        });
-                                        $("#btnSaveQuyetDinhThueDat").off('click').on('click', function () {
-                                            self.InsertUpdate();
-                                        });
-                                        //$("#btnTraCuu").on('click', function () {
-                                        //    $('#modal-add-edit').modal('show');
-                                        //});
+                                        self.RegisterEventsPopup();
                                     }
                                 })
                             }
@@ -161,6 +152,23 @@ QuyetDinhThueDatControl = {
         });
 
     },
+    RegisterEventsPopup: function (opts) {
+        var self = this;
+        $('.select2').select2();
+        $(".number").change(function () {
+            $(this).val(ConvertDecimalToString($(this).val()));
+        });
+        $("#btnSaveQuyetDinhThueDat").off('click').on('click', function () {
+            self.InsertUpdate();
+        });
+        $("#btnAddChiTietQuyetDinhThueDat").off('click').on('click', function () {
+            var $td = $("#tempChiTietQuyetDinhThueDat").html();
+            $("#tblChiTietQuyetDinhThueDat tbody").append($td);
+            $(".tr-remove").off('click').on('click', function () {
+                $(this).parents('tr:first').remove();
+            });
+        });
+    },
     RegisterEvents: function (opts) {
         var self = this;
         self.LoadDatatable(opts);
@@ -177,13 +185,7 @@ QuyetDinhThueDatControl = {
                     } else {
                         self.LoadDanhSachDoanhNghiep();
                     }
-                    $('.select2').select2();
-                    $(".number").change(function () {
-                        $(this).val(ConvertDecimalToString($(this).val()));
-                    });
-                    $("#btnSaveQuyetDinhThueDat").off('click').on('click', function () {
-                        self.InsertUpdate();
-                    });
+                    self.RegisterEventsPopup();
                 }
             })
         });
@@ -201,6 +203,25 @@ QuyetDinhThueDatControl = {
         var data = LoadFormData("#FormDetailQuyetDinhThueDat");
         data.IdDoanhNghiep = $(".ddDoanhNghiep option:selected").val();
         console.log(data);
+
+        var arrayRow = $("#tblChiTietQuyetDinhThueDat tbody tr");
+        var quyetDinhThueDatChiTiet = [];
+        $.each(arrayRow, function (i, item) {
+            var ct = $(item).find('[data-name="DienTich"]').val();
+            if (ct != undefined) {
+                quyetDinhThueDatChiTiet.push({
+                    HinhThucThue: $(item).find('[data-name="HinhThucThue"] option:selected').val(),
+                    MucDichSuDung: $(item).find('[data-name="MucDichSuDung"]').val(),
+                    DienTich: $(item).find('[data-name="DienTich"]').val(),
+                    ThoiHan: $(item).find('[data-name="ThoiHan"]').val(),
+                    TuNgayThue: $(item).find('[data-name="TuNgayThue"]').val(),
+                    DenNgayThue: $(item).find('[data-name="DenNgayThue"]').val()
+                });
+            }
+        });
+        console.log(quyetDinhThueDatChiTiet);
+        data.QuyetDinhThueDatChiTiet = quyetDinhThueDatChiTiet;
+
         Post({
             "url": localStorage.getItem("API_URL") + "/QuyetDinhThueDat/InsertUpdate",
             "data": data,
