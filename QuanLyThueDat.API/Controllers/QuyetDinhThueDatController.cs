@@ -22,6 +22,12 @@ namespace QuanLyThueDat.API.Controllers
             var result = await _QuyetDinhThueDatService.GetAll(idDoanhNghiep);
             return Ok(result);
         }
+        [HttpGet("GetListQuyetDinhThueDatChiTiet")]
+        public async Task<IActionResult> GetListQuyetDinhThueDatChiTiet(int idDoanhNghiep)
+        {
+            var result = await _QuyetDinhThueDatService.GetListQuyetDinhThueDatChiTiet(idDoanhNghiep);
+            return Ok(result);
+        }
         [HttpPost("InsertUpdate")]
         public async Task<IActionResult> InsertUpdate(QuyetDinhThueDatRequest req)
         {

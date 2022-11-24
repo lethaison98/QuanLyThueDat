@@ -110,6 +110,26 @@ QuyetDinhThueDatControl = {
                                             $('#popupDetailQuyetDinhThueDat .ddDoanhNghiep').append('<option value="' + res.Data.IdDoanhNghiep + '">' + res.Data.TenDoanhNghiep + '</option>');
                                         }
                                         self.RegisterEventsPopup();
+                                        if (res.Data.DsQuyetDinhThueDatChiTiet != null) {
+                                            $.each(res.Data.DsQuyetDinhThueDatChiTiet, function (i, item) {
+                                                var $td = $("#tempChiTietQuyetDinhThueDat").html();
+                                                $("#tblChiTietQuyetDinhThueDat tbody").append($td);
+
+                                                $("#tblChiTietQuyetDinhThueDat tbody tr").eq(i).find('[data-name="IdQuyetDinhThueDatChiTiet"]').val(item.IdQuyetDinhThueDatChiTiet);
+                                                $("#tblChiTietQuyetDinhThueDat tbody tr").eq(i).find('[data-name="MucDichSuDung"]').val(item.MucDichSuDung);
+                                                $("#tblChiTietQuyetDinhThueDat tbody tr").eq(i).find('[data-name="ThoiHanThue"]').val(item.ThoiHanThue);
+                                                $("#tblChiTietQuyetDinhThueDat tbody tr").eq(i).find('[data-name="TuNgayThue"]').val(item.TuNgayThue);
+                                                $("#tblChiTietQuyetDinhThueDat tbody tr").eq(i).find('[data-name="DenNgayThue"]').val(item.DenNgayThue);
+                                                $("#tblChiTietQuyetDinhThueDat tbody tr").eq(i).find('[data-name="HinhThucThue"]').val(item.HinhThucThue);
+                                                $("#tblChiTietQuyetDinhThueDat tbody tr").eq(i).find('[data-name="DienTich"]').val(item.DienTich);
+
+
+                                                $(".tr-remove").off('click').on('click', function () {
+                                                    $(this).parents('tr:first').remove();
+                                                });
+
+                                            });
+                                        }
                                     }
                                 })
                             }
@@ -210,10 +230,12 @@ QuyetDinhThueDatControl = {
             var ct = $(item).find('[data-name="DienTich"]').val();
             if (ct != undefined) {
                 quyetDinhThueDatChiTiet.push({
+                    IdQuyetDinhThueDatChiTiet: $(item).find('[data-name="IdQuyetDinhThueDatChiTiet"]').val(),
+                    IdQuyetDinhThueDat: $('[data-name="IdQuyetDinhThueDat"]').val(),
                     HinhThucThue: $(item).find('[data-name="HinhThucThue"] option:selected').val(),
                     MucDichSuDung: $(item).find('[data-name="MucDichSuDung"]').val(),
                     DienTich: $(item).find('[data-name="DienTich"]').val(),
-                    ThoiHan: $(item).find('[data-name="ThoiHan"]').val(),
+                    ThoiHanThue: $(item).find('[data-name="ThoiHanThue"]').val(),
                     TuNgayThue: $(item).find('[data-name="TuNgayThue"]').val(),
                     DenNgayThue: $(item).find('[data-name="DenNgayThue"]').val()
                 });

@@ -181,6 +181,7 @@ ThongBaoTienThueDatControl = {
                         self.LoadDanhSachQuyetDinhThueDat();
                     } else {
                         self.LoadDanhSachDoanhNghiep();
+                        self.LoadDanhSachQuyetDinhThueDat();
                     }
                     self.RegisterEventsPopup();
                 }

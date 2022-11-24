@@ -250,33 +250,35 @@ ThongBaoDonGiaThueDatControl = {
     LoadDanhSachQuyetDinhThueDat: function () {
         var popup = $('#popupDetailThongBaoDonGiaThueDat')
         Get({
-            url: localStorage.getItem("API_URL") + "/QuyetDinhThueDat/GetAll",
+            url: localStorage.getItem("API_URL") + "/QuyetDinhThueDat/GetListQuyetDinhThueDatChiTiet",
             data: {
                 idDoanhNghiep: popup.find(".ddDoanhNghiep option:selected").val()
             },
             showLoading: true,
             callback: function (res) {
                 popup.find('.ddQuyetDinhThueDat').html('');
+                popup.find('.ddQuyetDinhThueDat').append('<option value= "" selected="true" style="display: none"></option>');
                 $.each(res.Data, function (i, item) {
-                    popup.find('.ddQuyetDinhThueDat').append('<option value= "" selected="true" style="display: none"></option>');
-                    popup.find('.ddQuyetDinhThueDat').append('<option value="' + item.IdQuyetDinhThueDat + '">' + item.SoQuyetDinhThueDat + '</option>');
+                    popup.find('.ddQuyetDinhThueDat').append('<option value=' + i + '>' + item.SoQuyetDinhThueDat + '</option>');
                 })
                 popup.find('.ddQuyetDinhThueDat').on('change', function () {
-                    console.log(11)
-                    if (popup.find(".ddQuyetDinhThueDat option:selected").val() != 0 && popup.find(".ddQuyetDinhThueDat option:selected").val() != undefined) {
-                        Get({
-                            url: localStorage.getItem("API_URL") + '/QuyetDinhThueDat/GetById',
-                            data: {
-                                idQuyetDinhThueDat: popup.find(".ddQuyetDinhThueDat option:selected").val()
-                            },
-                            callback: function (res) {
-                                if (res.IsSuccess) {
-                                    FillFormData('#FormDetailThongBaoDonGiaThueDat', res.Data);
-                                }
-                            }
-                        });
-                    } else {
-                        $('.groupQuyetDinhThueDat input').val("");
+                    $('.groupQuyetDinhThueDat input').val("");
+                    if (popup.find(".ddQuyetDinhThueDat option:selected").val() != undefined) {
+                        var qd = res.Data[popup.find(".ddQuyetDinhThueDat option:selected").val()];
+                        console.log(popup.find(".ddQuyetDinhThueDat option:selected").val());
+                        console.log(qd);
+                        FillFormData('#FormDetailThongBaoDonGiaThueDat', qd);
+                        //Get({
+                        //    url: localStorage.getItem("API_URL") + '/QuyetDinhThueDat/GetById',
+                        //    data: {
+                        //        idQuyetDinhThueDat: popup.find(".ddQuyetDinhThueDat option:selected").val()
+                        //    },
+                        //    callback: function (res) {
+                        //        if (res.IsSuccess) {
+                        //            FillFormData('#FormDetailThongBaoDonGiaThueDat', res.Data);
+                        //        }
+                        //    }
+                        //});
                     }
                 });
                 popup.find('.ddQuyetDinhThueDat').trigger('change');

@@ -39,11 +39,11 @@
                     </div>
                     <div class="form-group col-md-6">
                         <h5>Vị trí trên bản đồ</h5>
-                        <input type="text" class="form-control number" data-name="ViTriThuaDat" required>
+                        <input type="text" class="form-control" data-name="ViTriThuaDat" required>
                     </div>
                     <div class="form-group col-md-6">
                         <h5>Địa chỉ</h5>
-                        <input type="text" class="form-control number" data-name="DiaChiThuaDat" required>
+                        <input type="text" class="form-control" data-name="DiaChiThuaDat" required>
                     </div>
                     <div class="form-group col-md-6">
                         <h5>Doanh nghiệp</h5>
@@ -119,6 +119,7 @@
                 <tbody id="tempChiTietQuyetDinhThueDat">
                     <tr>
                         <td style="width:22%">
+                            <input type="hidden" class="form-control" data-name="IdQuyetDinhThueDatChiTiet" value="0">
                             <select class="form-control px-0" style="width: 100%;" data-name="HinhThucThue">
                                 <option value="ThueDatTraTienHangNam">Thuê đất trả tiền hàng năm</option>
                                 <option value="ThueDatTraTienMotLan">Thuê đất trả tiền một lần</option>
@@ -127,7 +128,7 @@
                             </select>
                         </td>
                         <td style="width:10%">
-                            <input type="text" class="form-control px-1" data-name="DienTich" required>
+                            <input type="text" class="form-control number px-1" data-name="DienTich" required>
                         </td>
                         <td style="width:24%">
                             <input type="text" class="form-control px-1" data-name="MucDichSuDung" required>
