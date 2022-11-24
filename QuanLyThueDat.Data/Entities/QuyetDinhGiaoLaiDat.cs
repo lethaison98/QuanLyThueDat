@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace QuanLyThueDat.Data.Entities
 {
-    public class QuyetDinhGiaoLaiDat
+    public class QuyetDinhGiaoLaiDat: BaseEntity
     {
         public int IdQuyetDinhGiaoLaiDat { get; set; }
         public int IdDoanhNghiep { get; set; }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace QuanLyThueDat.Data.Entities
 {
-    public class HopDongThueDat
+    public class HopDongThueDat: BaseEntity
     {
         public int IdHopDongThueDat { get; set; }
         public int IdDoanhNghiep { get; set; }
@@ -14,6 +14,8 @@ namespace QuanLyThueDat.Data.Entities
         public int? IdQuyetDinhThueDat { get; set; }
         public string SoHopDong { get; set; }
         public string TenHopDong { get; set; }
+        public string CoQuanKy { get; set; }
+        public string NguoiKy { get; set; }
         public DateTime? NgayKyHopDong { get; set; }
         public DateTime? NgayHieuLucHopDong { get; set; }
         public DateTime? NgayHetHieuLucHopDong { get; set; }

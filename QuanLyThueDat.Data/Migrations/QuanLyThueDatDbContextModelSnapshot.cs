@@ -235,11 +235,29 @@ namespace QuanLyThueDat.Data.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("IdNguoiCapNhat")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IdNguoiTao")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("MaSoThue")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("NgayCap")
                         .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("NgayCapNhat")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("NgayTao")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NguoiCapNhat")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NguoiTao")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NoiCap")
                         .HasColumnType("nvarchar(max)");
@@ -267,11 +285,23 @@ namespace QuanLyThueDat.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdHopDongThueDat"), 1L, 1);
 
+                    b.Property<string>("CoQuanKy")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("IdDoanhNghiep")
                         .HasColumnType("int");
 
+                    b.Property<string>("IdNguoiCapNhat")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IdNguoiTao")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("IdQuyetDinhThueDat")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("NgayCapNhat")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("NgayHetHieuLucHopDong")
                         .HasColumnType("datetime2");
@@ -281,6 +311,18 @@ namespace QuanLyThueDat.Data.Migrations
 
                     b.Property<DateTime?>("NgayKyHopDong")
                         .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("NgayTao")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NguoiCapNhat")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NguoiKy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NguoiTao")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SoHopDong")
                         .HasColumnType("nvarchar(max)");
@@ -309,6 +351,15 @@ namespace QuanLyThueDat.Data.Migrations
                     b.Property<int>("IdDoanhNghiep")
                         .HasColumnType("int");
 
+                    b.Property<string>("IdNguoiCapNhat")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IdNguoiTao")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("NgayCapNhat")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime?>("NgayHetHieuLuc")
                         .HasColumnType("datetime2");
 
@@ -317,6 +368,15 @@ namespace QuanLyThueDat.Data.Migrations
 
                     b.Property<DateTime?>("NgayKy")
                         .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("NgayTao")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NguoiCapNhat")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NguoiTao")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SoQuyetDinh")
                         .HasColumnType("nvarchar(max)");
@@ -345,6 +405,15 @@ namespace QuanLyThueDat.Data.Migrations
                     b.Property<int?>("DoanhNghiepIdDoanhNghiep")
                         .HasColumnType("int");
 
+                    b.Property<string>("IdNguoiCapNhat")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IdNguoiTao")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("NgayCapNhat")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime?>("NgayHetHieuLuc")
                         .HasColumnType("datetime2");
 
@@ -353,6 +422,15 @@ namespace QuanLyThueDat.Data.Migrations
 
                     b.Property<DateTime?>("NgayKy")
                         .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("NgayTao")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NguoiCapNhat")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NguoiTao")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SoQuyetDinh")
                         .HasColumnType("nvarchar(max)");
@@ -384,6 +462,15 @@ namespace QuanLyThueDat.Data.Migrations
                     b.Property<int>("IdDoanhNghiep")
                         .HasColumnType("int");
 
+                    b.Property<string>("IdNguoiCapNhat")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IdNguoiTao")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("NgayCapNhat")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime?>("NgayHetHieuLuc")
                         .HasColumnType("datetime2");
 
@@ -392,6 +479,15 @@ namespace QuanLyThueDat.Data.Migrations
 
                     b.Property<DateTime?>("NgayKy")
                         .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("NgayTao")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NguoiCapNhat")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NguoiTao")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SoQuyetDinh")
                         .HasColumnType("nvarchar(max)");
@@ -426,8 +522,17 @@ namespace QuanLyThueDat.Data.Migrations
                     b.Property<int>("IdDoanhNghiep")
                         .HasColumnType("int");
 
+                    b.Property<string>("IdNguoiCapNhat")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IdNguoiTao")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("IdQuyetDinhThueDat")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("NgayCapNhat")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("NgayHetHieuLucMienTienThueDat")
                         .HasColumnType("datetime2");
@@ -437,6 +542,15 @@ namespace QuanLyThueDat.Data.Migrations
 
                     b.Property<DateTime?>("NgayQuyetDinhMienTienThueDat")
                         .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("NgayTao")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NguoiCapNhat")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NguoiTao")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SoQuyetDinhMienTienThueDat")
                         .HasColumnType("nvarchar(max)");
@@ -474,14 +588,32 @@ namespace QuanLyThueDat.Data.Migrations
                     b.Property<int>("IdDoanhNghiep")
                         .HasColumnType("int");
 
+                    b.Property<string>("IdNguoiCapNhat")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IdNguoiTao")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("MucDichSuDung")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("NgayCapNhat")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("NgayQuyetDinhGiaoDat")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("NgayQuyetDinhThueDat")
                         .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("NgayTao")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NguoiCapNhat")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NguoiTao")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SoQuyetDinhGiaoDat")
                         .HasColumnType("nvarchar(max)");
@@ -582,6 +714,12 @@ namespace QuanLyThueDat.Data.Migrations
                     b.Property<int?>("IdHopDongThueDat")
                         .HasColumnType("int");
 
+                    b.Property<string>("IdNguoiCapNhat")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IdNguoiTao")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("IdQuyetDinhThueDat")
                         .HasColumnType("int");
 
@@ -590,6 +728,9 @@ namespace QuanLyThueDat.Data.Migrations
 
                     b.Property<string>("MucDichSuDung")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("NgayCapNhat")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("NgayHetHieuLucDonGiaThueDat")
                         .HasColumnType("datetime2");
@@ -600,8 +741,17 @@ namespace QuanLyThueDat.Data.Migrations
                     b.Property<DateTime?>("NgayQuyetDinhThueDat")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime?>("NgayTao")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime?>("NgayThongBaoDonGiaThueDat")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("NguoiCapNhat")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NguoiTao")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SoQuyetDinhThueDat")
                         .HasColumnType("nvarchar(max)");
@@ -666,6 +816,12 @@ namespace QuanLyThueDat.Data.Migrations
                     b.Property<int?>("IdHopDongThueDat")
                         .HasColumnType("int");
 
+                    b.Property<string>("IdNguoiCapNhat")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IdNguoiTao")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("IdQuyetDinhMienTienThueDat")
                         .HasColumnType("int");
 
@@ -684,7 +840,13 @@ namespace QuanLyThueDat.Data.Migrations
                     b.Property<int>("Nam")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("NgayCapNhat")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime?>("NgayQuyetDinhThueDat")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("NgayTao")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("NgayThongBaoDonGiaThueDat")
@@ -692,6 +854,12 @@ namespace QuanLyThueDat.Data.Migrations
 
                     b.Property<DateTime?>("NgayThongBaoTienThueDat")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("NguoiCapNhat")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NguoiTao")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SoQuyetDinhThueDat")
                         .HasColumnType("nvarchar(max)");
