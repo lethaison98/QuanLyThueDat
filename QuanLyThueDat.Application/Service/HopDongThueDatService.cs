@@ -34,7 +34,9 @@ namespace QuanLyThueDat.Application.Service
                     IdQuyetDinhThueDat = rq.IdQuyetDinhThueDat,
                     SoHopDong = rq.SoHopDong,
                     TenHopDong = rq.TenHopDong,
-                    NgayKyHopDong = string.IsNullOrEmpty(rq.NgayKyHopDong) ? null :  DateTime.Parse(rq.NgayKyHopDong, new CultureInfo("vi-VN")),
+                    CoQuanKy = rq.CoQuanKy,
+                    NguoiKy = rq.NguoiKy,
+                    NgayKyHopDong = string.IsNullOrEmpty(rq.NgayKyHopDong) ? null : DateTime.Parse(rq.NgayKyHopDong, new CultureInfo("vi-VN")),
                     NgayHieuLucHopDong = string.IsNullOrEmpty(rq.NgayHieuLucHopDong) ? null : DateTime.Parse(rq.NgayHieuLucHopDong, new CultureInfo("vi-VN")),
                     NgayHetHieuLucHopDong = string.IsNullOrEmpty(rq.NgayHetHieuLucHopDong) ? null : DateTime.Parse(rq.NgayHetHieuLucHopDong, new CultureInfo("vi-VN")),
                 };
@@ -46,6 +48,8 @@ namespace QuanLyThueDat.Application.Service
                 entity.IdQuyetDinhThueDat = rq.IdQuyetDinhThueDat;
                 entity.SoHopDong = rq.SoHopDong;
                 entity.TenHopDong = rq.TenHopDong;
+                entity.CoQuanKy = rq.CoQuanKy;
+                entity.NguoiKy = rq.NguoiKy;
                 entity.NgayKyHopDong = string.IsNullOrEmpty(rq.NgayKyHopDong) ? null : DateTime.Parse(rq.NgayKyHopDong, new CultureInfo("vi-VN"));
                 entity.NgayHieuLucHopDong = string.IsNullOrEmpty(rq.NgayHieuLucHopDong) ? null : DateTime.Parse(rq.NgayHieuLucHopDong, new CultureInfo("vi-VN"));
                 entity.NgayHetHieuLucHopDong = string.IsNullOrEmpty(rq.NgayHetHieuLucHopDong) ? null : DateTime.Parse(rq.NgayHetHieuLucHopDong, new CultureInfo("vi-VN"));
@@ -79,7 +83,7 @@ namespace QuanLyThueDat.Application.Service
         public async Task<ApiResult<List<HopDongThueDatViewModel>>> GetAll()
         {
             var result = new List<HopDongThueDatViewModel>();
-            var data = await _context.HopDongThueDat.Include(x=> x.DoanhNghiep).ToListAsync();
+            var data = await _context.HopDongThueDat.Include(x => x.DoanhNghiep).ToListAsync();
             foreach (var item in data)
             {
                 var HopDongThueDat = new HopDongThueDatViewModel
@@ -90,6 +94,8 @@ namespace QuanLyThueDat.Application.Service
                     TenDoanhNghiep = item.DoanhNghiep.TenDoanhNghiep,
                     SoHopDong = item.SoHopDong,
                     TenHopDong = item.TenHopDong,
+                    CoQuanKy = item.CoQuanKy,
+                    NguoiKy = item.NguoiKy,
                     NgayKyHopDong = item.NgayKyHopDong != null ? item.NgayKyHopDong.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                     NgayHieuLucHopDong = item.NgayHieuLucHopDong != null ? item.NgayHieuLucHopDong.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                     NgayHetHieuLucHopDong = item.NgayHetHieuLucHopDong != null ? item.NgayHetHieuLucHopDong.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
@@ -101,7 +107,7 @@ namespace QuanLyThueDat.Application.Service
 
         public async Task<ApiResult<PageViewModel<HopDongThueDatViewModel>>> GetAllPaging(int? idDoanhNghiep, string keyword, int pageIndex, int pageSize)
         {
-            var query = from a in _context.HopDongThueDat.Include(x => x.DoanhNghiep).Include(x=> x.DoanhNghiep)
+            var query = from a in _context.HopDongThueDat.Include(x => x.DoanhNghiep).Include(x => x.DoanhNghiep)
                         select a;
             if (!string.IsNullOrEmpty(keyword))
             {
@@ -126,6 +132,8 @@ namespace QuanLyThueDat.Application.Service
                     TenDoanhNghiep = item.DoanhNghiep.TenDoanhNghiep,
                     SoHopDong = item.SoHopDong,
                     TenHopDong = item.TenHopDong,
+                    CoQuanKy = item.CoQuanKy,
+                    NguoiKy = item.NguoiKy,
                     NgayKyHopDong = item.NgayKyHopDong != null ? item.NgayKyHopDong.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                     NgayHieuLucHopDong = item.NgayHieuLucHopDong != null ? item.NgayHieuLucHopDong.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                     NgayHetHieuLucHopDong = item.NgayHetHieuLucHopDong != null ? item.NgayHetHieuLucHopDong.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
@@ -145,7 +153,7 @@ namespace QuanLyThueDat.Application.Service
         public async Task<ApiResult<HopDongThueDatViewModel>> GetById(int idHopDongThueDat)
         {
             var result = new HopDongThueDatViewModel();
-            var entity = await _context.HopDongThueDat.Include(x=> x.DoanhNghiep).FirstOrDefaultAsync(x => x.IdHopDongThueDat == idHopDongThueDat);
+            var entity = await _context.HopDongThueDat.Include(x => x.DoanhNghiep).FirstOrDefaultAsync(x => x.IdHopDongThueDat == idHopDongThueDat);
             if (entity != null)
             {
                 result = new HopDongThueDatViewModel
@@ -156,6 +164,8 @@ namespace QuanLyThueDat.Application.Service
                     TenDoanhNghiep = entity.DoanhNghiep.TenDoanhNghiep,
                     SoHopDong = entity.SoHopDong,
                     TenHopDong = entity.TenHopDong,
+                    CoQuanKy = entity.CoQuanKy,
+                    NguoiKy = entity.NguoiKy,
                     NgayKyHopDong = entity.NgayKyHopDong != null ? entity.NgayKyHopDong.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                     NgayHieuLucHopDong = entity.NgayHieuLucHopDong != null ? entity.NgayHieuLucHopDong.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                     NgayHetHieuLucHopDong = entity.NgayHetHieuLucHopDong != null ? entity.NgayHetHieuLucHopDong.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",

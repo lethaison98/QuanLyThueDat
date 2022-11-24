@@ -40,13 +40,14 @@ namespace QuanLyThueDat.Application.Service
                     TenQuyetDinhGiaoDat = rq.TenQuyetDinhGiaoDat,
                     NgayQuyetDinhGiaoDat = string.IsNullOrEmpty(rq.NgayQuyetDinhGiaoDat) ? null : DateTime.Parse(rq.NgayQuyetDinhGiaoDat, new CultureInfo("vi-VN")),
                     TongDienTich = rq.TongDienTich,
+                    ViTriThuaDat = rq.ViTriThuaDat,
+                    DiaChiThuaDat = rq.DiaChiThuaDat
                     //ThoiHanThue = rq.ThoiHanThue,
                     //TuNgayThue = string.IsNullOrEmpty(rq.TuNgayThue) ? null : DateTime.Parse(rq.TuNgayThue, new CultureInfo("vi-VN")),
                     //DenNgayThue = string.IsNullOrEmpty(rq.DenNgayThue) ? null : DateTime.Parse(rq.DenNgayThue, new CultureInfo("vi-VN")),
                     //MucDichSuDung = rq.MucDichSuDung,
                     //HinhThucThue = rq.HinhThucThue,
-                    //ViTriThuaDat = rq.ViTriThuaDat,
-                    //DiaChiThuaDat = rq.DiaChiThuaDat
+
                 };
             }
             else
@@ -60,13 +61,14 @@ namespace QuanLyThueDat.Application.Service
                 entity.TenQuyetDinhGiaoDat = rq.TenQuyetDinhGiaoDat;
                 entity.NgayQuyetDinhGiaoDat = string.IsNullOrEmpty(rq.NgayQuyetDinhGiaoDat) ? null : DateTime.Parse(rq.NgayQuyetDinhGiaoDat, new CultureInfo("vi-VN"));
                 entity.TongDienTich = rq.TongDienTich;
+                entity.ViTriThuaDat = rq.ViTriThuaDat;
+                entity.DiaChiThuaDat = rq.DiaChiThuaDat;
                 //entity.ThoiHanThue = rq.ThoiHanThue;
                 //entity.TuNgayThue = string.IsNullOrEmpty(rq.TuNgayThue) ? null : DateTime.Parse(rq.TuNgayThue, new CultureInfo("vi-VN"));
                 //entity.DenNgayThue = string.IsNullOrEmpty(rq.DenNgayThue) ? null : DateTime.Parse(rq.DenNgayThue, new CultureInfo("vi-VN"));
                 //entity.MucDichSuDung = rq.MucDichSuDung;
                 //entity.HinhThucThue = rq.HinhThucThue;
-                //entity.ViTriThuaDat = rq.ViTriThuaDat;
-                //entity.DiaChiThuaDat = rq.DiaChiThuaDat; 
+
             }
             var listQuyetDinhThueDatChiTiet = new List<QuyetDinhThueDatChiTiet>();
             if (rq.QuyetDinhThueDatChiTiet != null)
@@ -295,7 +297,7 @@ namespace QuanLyThueDat.Application.Service
                             IdQuyetDinhThueDat = item.IdQuyetDinhThueDat,
                             IdDoanhNghiep = item.IdDoanhNghiep,
                             TenDoanhNghiep = item.DoanhNghiep.TenDoanhNghiep,
-                            SoQuyetDinhThueDat = item.SoQuyetDinhThueDat + " - "+typeof(LoaiQuyetDinhThueDatConstant).GetField(ct.HinhThucThue).GetValue(null).ToString() + " - Diện tích " + ct.DienTich + " mét vuông",
+                            SoQuyetDinhThueDat = item.SoQuyetDinhThueDat,
                             TenQuyetDinhThueDat = item.TenQuyetDinhThueDat ,
                             NgayQuyetDinhThueDat = item.NgayQuyetDinhThueDat != null ? item.NgayQuyetDinhThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                             SoQuyetDinhGiaoDat = item.SoQuyetDinhGiaoDat,

@@ -15,6 +15,8 @@ namespace QuanLyThueDat.Application.ViewModel
         public string SoHopDong { get; set; }
         public string TenHopDong { get; set; }
         public string NgayKyHopDong { get; set; }
+        public string NguoiKy { get; set; }
+        public string CoQuanKy { get; set; }
         public string NgayHieuLucHopDong { get; set; }
         public string NgayHetHieuLucHopDong { get; set; }
     }

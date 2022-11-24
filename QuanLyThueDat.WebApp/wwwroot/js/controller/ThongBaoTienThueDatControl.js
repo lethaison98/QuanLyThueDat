@@ -220,7 +220,7 @@ ThongBaoTienThueDatControl = {
                 var dienTichKhongPhaiNop = ConvertStringToDecimal($("[data-name='DienTichKhongPhaiNop']").val());
                 var soTienMienGiam = ConvertDecimalToString((donGia * dienTichKhongPhaiNop).toFixed(0));
                 $("[data-name='SoTienMienGiam']").val(soTienMienGiam);
-                var dienTichPhaiNop = ConvertDecimalToString((tongDienTich - dienTichKhongPhaiNop).toFixed(0));
+                var dienTichPhaiNop = ConvertDecimalToString((tongDienTich - dienTichKhongPhaiNop).toFixed(2));
                 $("[data-name='DienTichPhaiNop']").val(dienTichPhaiNop);
             };
             if ($("[data-name='SoTien']").val() != '') {
@@ -282,31 +282,37 @@ ThongBaoTienThueDatControl = {
         var self = this;
         var popup = $('#popupDetailThongBaoTienThueDat')
         Get({
-            url: localStorage.getItem("API_URL") + "/QuyetDinhThueDat/GetAll",
+            url: localStorage.getItem("API_URL") + "/QuyetDinhThueDat/GetListQuyetDinhThueDatChiTiet",
             data: {
                 idDoanhNghiep: popup.find(".ddDoanhNghiep option:selected").val()
             },
             showLoading: true,
             callback: function (res) {
                 popup.find('.ddQuyetDinhThueDat').html('');
+                popup.find('.ddQuyetDinhThueDat').append('<option value= "" selected="true" style="display: none"></option>');
                 $.each(res.Data, function (i, item) {
-                    popup.find('.ddQuyetDinhThueDat').append('<option value= "" selected="true" style="display: none"></option>');
-                    popup.find('.ddQuyetDinhThueDat').append('<option value="' + item.IdQuyetDinhThueDat + '">' + item.SoQuyetDinhThueDat + '</option>');
+                    var name = item.SoQuyetDinhThueDat + " - " + item.HinhThucThue + " - Diện tích " + item.TongDienTich + " mét vuông"
+                    popup.find('.ddQuyetDinhThueDat').append('<option value=' + i + '>' + name + '</option>');
                 })
                 popup.find('.ddQuyetDinhThueDat').on('change', function () {
-                    if (popup.find(".ddQuyetDinhThueDat option:selected").val() != 0 && popup.find(".ddQuyetDinhThueDat option:selected").val() != undefined) {
-                        Get({
-                            url: localStorage.getItem("API_URL") + '/QuyetDinhThueDat/GetById',
-                            data: {
-                                idQuyetDinhThueDat: popup.find(".ddQuyetDinhThueDat option:selected").val()
-                            },
-                            callback: function (res) {
-                                if (res.IsSuccess) {
-                                    FillFormData('#FormDetailThongBaoTienThueDat', res.Data);
-                                    self.LoadDanhSachThongBaoDonGiaThueDat();
-                                }
-                            }
-                        });
+                    $('.groupQuyetDinhThueDat input').val("");
+                    if (popup.find(".ddQuyetDinhThueDat option:selected").val() != undefined && popup.find(".ddQuyetDinhThueDat option:selected").val() != "") {
+                        var qd = res.Data[popup.find(".ddQuyetDinhThueDat option:selected").val()];
+                        console.log(qd);
+                        FillFormData('#FormDetailThongBaoTienThueDat', qd);
+                        self.LoadDanhSachThongBaoDonGiaThueDat();
+                        //Get({
+                        //    url: localStorage.getItem("API_URL") + '/QuyetDinhThueDat/GetById',
+                        //    data: {
+                        //        idQuyetDinhThueDat: popup.find(".ddQuyetDinhThueDat option:selected").val()
+                        //    },
+                        //    callback: function (res) {
+                        //        if (res.IsSuccess) {
+                        //            FillFormData('#FormDetailThongBaoTienThueDat', res.Data);
+                        //            self.LoadDanhSachThongBaoDonGiaThueDat();
+                        //        }
+                        //    }
+                        //});
                     } else {
                         $('.groupQuyetDinhThueDat input').val("");
                     }

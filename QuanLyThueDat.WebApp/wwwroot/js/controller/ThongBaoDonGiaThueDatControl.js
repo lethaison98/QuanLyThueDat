@@ -259,14 +259,13 @@ ThongBaoDonGiaThueDatControl = {
                 popup.find('.ddQuyetDinhThueDat').html('');
                 popup.find('.ddQuyetDinhThueDat').append('<option value= "" selected="true" style="display: none"></option>');
                 $.each(res.Data, function (i, item) {
-                    popup.find('.ddQuyetDinhThueDat').append('<option value=' + i + '>' + item.SoQuyetDinhThueDat + '</option>');
+                    var name = item.SoQuyetDinhThueDat + " - " + item.HinhThucThue + " - Diện tích " + item.TongDienTich + " mét vuông"
+                    popup.find('.ddQuyetDinhThueDat').append('<option value=' + i + '>' + name + '</option>');
                 })
                 popup.find('.ddQuyetDinhThueDat').on('change', function () {
                     $('.groupQuyetDinhThueDat input').val("");
                     if (popup.find(".ddQuyetDinhThueDat option:selected").val() != undefined) {
                         var qd = res.Data[popup.find(".ddQuyetDinhThueDat option:selected").val()];
-                        console.log(popup.find(".ddQuyetDinhThueDat option:selected").val());
-                        console.log(qd);
                         FillFormData('#FormDetailThongBaoDonGiaThueDat', qd);
                         //Get({
                         //    url: localStorage.getItem("API_URL") + '/QuyetDinhThueDat/GetById',
