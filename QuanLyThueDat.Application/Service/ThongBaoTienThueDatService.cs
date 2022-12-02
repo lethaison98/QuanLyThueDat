@@ -25,7 +25,7 @@ namespace QuanLyThueDat.Application.Service
         public async Task<ApiResult<bool>> InsertUpdate(ThongBaoTienThueDatRequest rq)
         {
             var result = false;
-            var entity = _context.ThongBaoTienThueDat.FirstOrDefault(x => x.IdThongBaoTienThueDat == rq.IdThongBaoTienThueDat);
+            var entity = _context.ThongBaoTienThueDat.Include(x => x.DsThongBaoTienThueDatChiTiet).FirstOrDefault(x => x.IdThongBaoTienThueDat == rq.IdThongBaoTienThueDat);
             if (entity == null)
             {
                 entity = new ThongBaoTienThueDat()
@@ -35,7 +35,7 @@ namespace QuanLyThueDat.Application.Service
                     IdHopDongThueDat = rq.IdHopDongThueDat,
                     IdQuyetDinhMienTienThueDat = rq.IdQuyetDinhMienTienThueDat,
                     IdThongBaoDonGiaThueDat = rq.IdThongBaoDonGiaThueDat,
-                    LanThongBaoTienThueDat = rq.LanThongBaoTienThueDat,
+                    LoaiThongBaoTienThueDat = rq.LoaiThongBaoTienThueDat,
                     SoQuyetDinhThueDat = rq.SoQuyetDinhThueDat,
                     TenQuyetDinhThueDat = rq.TenQuyetDinhThueDat,
                     NgayQuyetDinhThueDat = string.IsNullOrEmpty(rq.NgayQuyetDinhThueDat) ? null : DateTime.Parse(rq.NgayQuyetDinhThueDat, new CultureInfo("vi-VN")),
@@ -68,7 +68,7 @@ namespace QuanLyThueDat.Application.Service
                 entity.IdHopDongThueDat = rq.IdHopDongThueDat;
                 entity.IdQuyetDinhMienTienThueDat = rq.IdQuyetDinhMienTienThueDat;
                 entity.IdThongBaoDonGiaThueDat = rq.IdThongBaoDonGiaThueDat;
-                entity.LanThongBaoTienThueDat = rq.LanThongBaoTienThueDat;
+                entity.LoaiThongBaoTienThueDat = rq.LoaiThongBaoTienThueDat;
                 entity.SoQuyetDinhThueDat = rq.SoQuyetDinhThueDat;
                 entity.TenQuyetDinhThueDat = rq.TenQuyetDinhThueDat;
                 entity.NgayQuyetDinhThueDat = string.IsNullOrEmpty(rq.NgayQuyetDinhThueDat) ? null : DateTime.Parse(rq.NgayQuyetDinhThueDat, new CultureInfo("vi-VN"));
@@ -92,7 +92,27 @@ namespace QuanLyThueDat.Application.Service
                 entity.TuNgayThue = string.IsNullOrEmpty(rq.TuNgayThue) ? null : DateTime.Parse(rq.TuNgayThue, new CultureInfo("vi-VN"));
                 entity.TongDienTich = rq.TongDienTich;
             }
-
+            var listThongBaoTienThueDatChiTiet = new List<ThongBaoTienThueDatChiTiet>();
+            if (rq.ThongBaoTienThueDatChiTiet != null)
+            {
+                foreach (var item in rq.ThongBaoTienThueDatChiTiet)
+                {
+                    var ct = new ThongBaoTienThueDatChiTiet();
+                    ct.IdThongBaoTienThueDat = item.IdThongBaoTienThueDat;
+                    ct.IdThongBaoTienThueDatChiTiet = item.IdThongBaoTienThueDatChiTiet;
+                    ct.Nam = item.Nam; ;
+                    ct.DonGia = item.DonGia;
+                    ct.DienTichPhaiNop = item.DienTichPhaiNop;
+                    ct.DienTichKhongPhaiNop = item.DienTichKhongPhaiNop;
+                    ct.SoTien = item.SoTien;
+                    ct.SoTienMienGiam = item.SoTienMienGiam;
+                    ct.SoTienPhaiNop = item.SoTienPhaiNop;
+                    ct.TuNgayTinhTien = string.IsNullOrEmpty(item.TuNgayTinhTien) ? null : DateTime.Parse(item.TuNgayTinhTien, new CultureInfo("vi-VN"));
+                    ct.DenNgayTinhTien = string.IsNullOrEmpty(item.DenNgayTinhTien) ? null : DateTime.Parse(item.DenNgayTinhTien, new CultureInfo("vi-VN"));
+                    listThongBaoTienThueDatChiTiet.Add(ct);
+                }
+            }
+            entity.DsThongBaoTienThueDatChiTiet = listThongBaoTienThueDatChiTiet;
             _context.ThongBaoTienThueDat.Update(entity);
             await _context.SaveChangesAsync();
             result = true;
@@ -138,7 +158,7 @@ namespace QuanLyThueDat.Application.Service
                     SoTien = item.SoTien.ToString("N0", new CultureInfo("vi-VN")),
                     SoTienMienGiam = item.SoTienMienGiam.ToString("N0", new CultureInfo("vi-VN")),
                     SoTienPhaiNop = item.SoTienPhaiNop.ToString("N0", new CultureInfo("vi-VN")),
-                    LanThongBaoTienThueDat = item.LanThongBaoTienThueDat,
+                    LoaiThongBaoTienThueDat = item.LoaiThongBaoTienThueDat,
                     Nam = item.Nam,
                 };
                 result.Add(ThongBaoTienThueDat);
@@ -179,7 +199,7 @@ namespace QuanLyThueDat.Application.Service
                     SoTien = item.SoTien.ToString("N0", new CultureInfo("vi-VN")),
                     SoTienMienGiam = item.SoTienMienGiam.ToString("N0", new CultureInfo("vi-VN")),
                     SoTienPhaiNop = item.SoTienPhaiNop.ToString("N0", new CultureInfo("vi-VN")),
-                    LanThongBaoTienThueDat = item.LanThongBaoTienThueDat,
+                    LoaiThongBaoTienThueDat = item.LoaiThongBaoTienThueDat,
                     Nam = item.Nam,
                 };
                 listItem.Add(ThongBaoTienThueDat);
@@ -216,7 +236,7 @@ namespace QuanLyThueDat.Application.Service
                     DiaChi = entity.DoanhNghiep.DiaChi,
                     SoDienThoai = entity.DoanhNghiep.SoDienThoai,   
                     Email = entity.DoanhNghiep.Email,
-                    LanThongBaoTienThueDat = entity.LanThongBaoTienThueDat,
+                    LoaiThongBaoTienThueDat = entity.LoaiThongBaoTienThueDat,
                     SoQuyetDinhThueDat = entity.SoQuyetDinhThueDat,
                     TenQuyetDinhThueDat = entity.TenQuyetDinhThueDat,
                     NgayQuyetDinhThueDat = entity.NgayQuyetDinhThueDat != null ? entity.NgayQuyetDinhThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",

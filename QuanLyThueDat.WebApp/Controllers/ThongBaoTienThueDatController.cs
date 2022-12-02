@@ -14,5 +14,10 @@ namespace QuanLyThueDat.WebApp.Controllers
         {
             return View();
         }
+        [Route("PopupDetailThongBaoTienThueDatDieuChinh")]
+        public ViewResult _PopupDetailThongBaoTienThueDatDieuChinh()
+        {
+            return View();
+        }
     }
 }

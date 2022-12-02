@@ -18,7 +18,8 @@ namespace QuanLyThueDat.Data.Entities
         public string SoThongBaoTienThueDat { get; set; }
         public int Nam { get; set; }
         public DateTime? NgayThongBaoTienThueDat { get; set; }
-        public string LanThongBaoTienThueDat { get; set; }
+        public string LoaiThongBaoTienThueDat { get; set; }
+        public string LanhDaoKyThongBaoTienThueDat { get; set; }
 
         //QuyetDinhThueDat
         public string SoQuyetDinhThueDat { get; set; }
@@ -45,5 +46,6 @@ namespace QuanLyThueDat.Data.Entities
         public decimal DienTichPhaiNop { get; set; }
         public decimal SoTien { get; set; }
         public decimal SoTienPhaiNop { get; set; }
+        public List<ThongBaoTienThueDatChiTiet> DsThongBaoTienThueDatChiTiet { get; set; }
     }
 }

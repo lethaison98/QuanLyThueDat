@@ -184,6 +184,9 @@ QuyetDinhThueDatControl = {
         $("#btnAddChiTietQuyetDinhThueDat").off('click').on('click', function () {
             var $td = $("#tempChiTietQuyetDinhThueDat").html();
             $("#tblChiTietQuyetDinhThueDat tbody").append($td);
+            $(".number").change(function () {
+                $(this).val(ConvertDecimalToString($(this).val()));
+            });
             $(".tr-remove").off('click').on('click', function () {
                 $(this).parents('tr:first').remove();
             });

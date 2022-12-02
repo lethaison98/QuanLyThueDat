@@ -726,6 +726,9 @@ namespace QuanLyThueDat.Data.Migrations
                     b.Property<string>("LanThongBaoDonGiaThueDat")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("LanhDaoKyThongBaoDonGiaThueDat")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("MucDichSuDung")
                         .HasColumnType("nvarchar(max)");
 
@@ -831,7 +834,10 @@ namespace QuanLyThueDat.Data.Migrations
                     b.Property<int?>("IdThongBaoDonGiaThueDat")
                         .HasColumnType("int");
 
-                    b.Property<string>("LanThongBaoTienThueDat")
+                    b.Property<string>("LanhDaoKyThongBaoTienThueDat")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LoaiThongBaoTienThueDat")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MucDichSuDung")
@@ -902,6 +908,54 @@ namespace QuanLyThueDat.Data.Migrations
                     b.HasIndex("IdDoanhNghiep");
 
                     b.ToTable("ThongBaoTienThueDat", (string)null);
+                });
+
+            modelBuilder.Entity("QuanLyThueDat.Data.Entities.ThongBaoTienThueDatChiTiet", b =>
+                {
+                    b.Property<int>("IdThongBaoTienThueDatChiTiet")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdThongBaoTienThueDatChiTiet"), 1L, 1);
+
+                    b.Property<DateTime?>("DenNgayTinhTien")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("DienTichKhongPhaiNop")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("DienTichPhaiNop")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("DonGia")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("GhiChu")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("IdThongBaoTienThueDat")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Nam")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("SoTien")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("SoTienMienGiam")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("SoTienPhaiNop")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("TuNgayTinhTien")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("IdThongBaoTienThueDatChiTiet");
+
+                    b.HasIndex("IdThongBaoTienThueDat");
+
+                    b.ToTable("ThongBaoTienThueDatChiTiet", (string)null);
                 });
 
             modelBuilder.Entity("QuanLyThueDat.Data.Entities.HopDongThueDat", b =>
@@ -999,6 +1053,17 @@ namespace QuanLyThueDat.Data.Migrations
                     b.Navigation("DoanhNghiep");
                 });
 
+            modelBuilder.Entity("QuanLyThueDat.Data.Entities.ThongBaoTienThueDatChiTiet", b =>
+                {
+                    b.HasOne("QuanLyThueDat.Data.Entities.ThongBaoTienThueDat", "ThongBaoTienThueDat")
+                        .WithMany("DsThongBaoTienThueDatChiTiet")
+                        .HasForeignKey("IdThongBaoTienThueDat")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ThongBaoTienThueDat");
+                });
+
             modelBuilder.Entity("QuanLyThueDat.Data.Entities.DoanhNghiep", b =>
                 {
                     b.Navigation("DsHopDongThueDat");
@@ -1021,6 +1086,11 @@ namespace QuanLyThueDat.Data.Migrations
             modelBuilder.Entity("QuanLyThueDat.Data.Entities.QuyetDinhThueDat", b =>
                 {
                     b.Navigation("DsQuyetDinhThueDatChiTiet");
+                });
+
+            modelBuilder.Entity("QuanLyThueDat.Data.Entities.ThongBaoTienThueDat", b =>
+                {
+                    b.Navigation("DsThongBaoTienThueDatChiTiet");
                 });
 #pragma warning restore 612, 618
         }

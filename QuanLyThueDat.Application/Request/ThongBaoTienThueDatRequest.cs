@@ -42,9 +42,25 @@ namespace QuanLyThueDat.Application.Request
         public string SoThongBaoTienThueDat { get; set; }
         public int Nam { get; set; }
         public string NgayThongBaoTienThueDat { get; set; }
-        public string LanThongBaoTienThueDat { get; set; }
+        public string LoaiThongBaoTienThueDat { get; set; }
         public decimal DienTichPhaiNop { get; set; }
         public decimal SoTien { get; set; }
         public decimal SoTienPhaiNop { get; set; }
+        public List<ThongBaoTienThueDatChiTietRequest> ThongBaoTienThueDatChiTiet { get; set; }
+    }
+    public class ThongBaoTienThueDatChiTietRequest
+    {
+        public int IdThongBaoTienThueDatChiTiet { get; set; }
+        public int IdThongBaoTienThueDat { get; set; }
+        public int Nam { get; set; }
+        public decimal DonGia { get; set; }
+        public decimal DienTichKhongPhaiNop { get; set; }
+        public decimal DienTichPhaiNop { get; set; }
+        public decimal SoTien { get; set; }
+        public decimal SoTienMienGiam { get; set; }
+        public decimal SoTienPhaiNop { get; set; }
+        public string TuNgayTinhTien { get; set; }
+        public string DenNgayTinhTien { get; set; }
+        public string GhiChu { get; set; }
     }
 }

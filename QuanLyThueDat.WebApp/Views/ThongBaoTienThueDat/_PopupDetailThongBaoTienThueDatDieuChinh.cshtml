@@ -1,7 +1,7 @@
 ﻿@{
     Layout = null;
 }
-<div class="modal fade" id="popupDetailThongBaoTienThueDat" data-backdrop="static" role="dialog">
+<div class="modal fade" id="popupDetailThongBaoTienThueDatDieuChinh" data-backdrop="static" role="dialog">
     <div class="modal-dialog modal-xl">
         <!-- Modal content-->
         <div class="modal-content">
@@ -10,7 +10,7 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body" style="min-height:600px">
-                <div class="row col-sm-12" id="FormDetailThongBaoTienThueDat">
+                <div class="row col-sm-12" id="FormDetailThongBaoTienThueDatDieuChinh">
 
                     @*Quyết định thuê đất*@
                     <div class="card groupQuyetDinhThueDat" style="width: 100%">
@@ -157,26 +157,21 @@
                                     <input type="text" class="form-control" data-name="SoThongBaoTienThueDat" required>
                                 </div>
                                 <div class="form-group col-md-6">
+                                    <h5>Loại thông báo</h5>
+                                    <select class="form-control" style="width: 100%;" data-name="LoaiThongBao">
+                                        <option value="ThongBaoLanDau">Thông báo lần đầu</option>
+                                        <option value="ThongBaoTuNamThuHaiTroDi">Thông báo từ năm thứ hai trở đi</option>
+                                        <option value="ThongBaoDieuChinh">Thông báo điều chỉnh</option>
+                                        <option value="ThongBaoBoSung">Thông báo bổ sung</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6" style="display: none">
                                     <h5>Doanh nghiệp</h5>
                                     <select class="form-control select2 ddDoanhNghiep" style="width: 100%;">
                                     </select>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                    <h5>Năm</h5>
-                                    <input type="text" class="form-control" data-name="Nam" required>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <h5>Loại thông báo</h5>
-                                    <select class="form-control select2" style="width: 100%;" data-name="LoaiThongBao">
-                                        <option value="Thông báo lần đầu">Thông báo lần đầu</option>
-                                        <option value="Thông báo từ năm thứ hai trở đi">Thông báo từ năm thứ hai trở đi</option>
-                                        <option value="Thông báo điều chỉnh">Thông báo điều chỉnh</option>
-                                        <option value="Thông báo bổ sung">Thông báo bổ sung</option>
-                                    </select>
-                                </div>
-                            </div>
+                            
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <h5>Lãnh đạo ký thông báo tiền thuê đất</h5>
@@ -192,12 +187,79 @@
                                     </select>
                                     </div>*@
                             </div>
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <h5>Chi tiết Thông báo tiền thuê đất</h5>
+                                    <table id="tblChiTietThongBaoTienThueDatDieuChinh" class="table table-bordered table-hover dataTable" role="grid">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:10%">
+                                                    Năm
+                                                </th>
+                                                <th style="width:20%">
+                                                    Tiền thuê đất đã thông báo
+                                                </th>
+                                                <th style="width:20%">
+                                                    Tiền thuê đất sau điều chỉnh
+                                                </th>
+                                                <th style="width:20%">
+                                                    Chênh lệch
+                                                </th>
+                                                <th style="width:25%">
+                                                    Ghi chú
+                                                </th>
+                                                <th style="width:5%">
+                                                    Xóa
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="8">
+                                                    <button class="btn btn-xs btn-success" id="btnAddChiTietThongBaoTienThueDatDieuChinh" type="button">
+                                                        <i class="fa fa-plus"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
             </div>
+            <table style="display:none">
+                <tbody id="tempChiTietThongBaoTienThueDatDieuChinh">
+                    <tr>
+                        <td style="width:10%">
+                            <input type="hidden" class="form-control" data-name="IdThongBaoTienThueDatChiTiet" value="0">
+                            <input type="text" class="form-control px-1" data-name="Nam" required>
+                        </td>
+                        <td style="width:20%">
+                            <input type="text" class="form-control number px-1" data-name="SoTien" required>
+                        </td>
+                        <td style="width:20%">
+                            <input type="text" class="form-control number px-1" data-name="SoTienPhaiNop" required>
+                        </td>
+                        <td style="width:20%">
+                            <input type="text" class="form-control number px-1" data-name="SoTienMienGiam" required>
+                        </td>
+                        <td style="width:25%">
+                            <input type="text" class="form-control px-1" data-name="GhiChu" required>
+                        </td>
+                        <td style="width:5%">
+                            <a href="javascript:;" class="tr-remove text-danger"><i class="fas fa-trash-alt" title="Xóa"></i></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="btnSaveThongBaoTienThueDat">Lưu</button>
+                <button type="button" class="btn btn-primary" id="btnSaveThongBaoTienThueDatDieuChinh">Lưu</button>
                 <button type="button" class="btn btn-danger" id="btnCloseThongBaoTienThueDat" data-dismiss="modal">Đóng</button>
             </div>
         </div>

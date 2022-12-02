@@ -38,6 +38,7 @@ namespace QuanLyThueDat.Data.EF
             modelBuilder.ApplyConfiguration(new QuyetDinhThueDatChiTietConfiguration());
             modelBuilder.ApplyConfiguration(new ThongBaoDonGiaThueDatConfiguration());
             modelBuilder.ApplyConfiguration(new ThongBaoTienThueDatConfiguration());
+            modelBuilder.ApplyConfiguration(new ThongBaoTienThueDatChiTietConfiguration());
 
             //base.OnModelCreating(modelBuilder);
         }
@@ -54,5 +55,6 @@ namespace QuanLyThueDat.Data.EF
         public DbSet<HopDongThueDat> HopDongThueDat { get; set; }
         public DbSet<ThongBaoDonGiaThueDat> ThongBaoDonGiaThueDat { get; set; }
         public DbSet<ThongBaoTienThueDat> ThongBaoTienThueDat { get; set; }
+        public DbSet<ThongBaoTienThueDatChiTiet> ThongBaoTienThueDatChiTiet { get; set; }
     }
 }

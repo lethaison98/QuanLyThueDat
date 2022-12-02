@@ -133,10 +133,18 @@
                                 <div class="tab-pane fade" id="tabThongBaoTienThueDat" role="tabpanel" aria-labelledby="selectTabThongBaoTienThueDat">
                                     <div class="ttls-content d-flex mb-1" style="justify-content: space-between;">
                                         <h5>DANH SÁCH THÔNG BÁO TIỀN THUÊ ĐẤT</h5>
-                                        <a class="btn btn-sm btn-success waves-effect waves-light" id="btnCreateThongBaoTienThueDat">
-                                            <span>Tạo mới</span>
-                                            <i class="fas fa-plus"></i>
-                                        </a>
+                                        <div class="input-group-prepend">
+                                            <button type="button" class="btn btn-sm btn-success waves-effect waves-light dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                Tạo mới
+                                            </button>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a class="dropdown-item" href="#" id="btnCreateThongBaoTienThueDat">Thông báo hàng năm</a>
+                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item" href="#">Thông báo bổ sung</a>
+                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item" href="#" id="btnCreateThongBaoTienThueDatDieuChinh">Thông báo điều chỉnh</a>
+                                            </div>
+                                        </div>
                                     </div>
                                     <table id="tblThongBaoTienThueDat" class="table table-bordered table-hover table-striped" style="width: 100%">
                                         <thead>
