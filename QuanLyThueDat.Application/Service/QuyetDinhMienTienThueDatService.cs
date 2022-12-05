@@ -22,9 +22,9 @@ namespace QuanLyThueDat.Application.Service
             _context = context;
         }
 
-        public async Task<ApiResult<bool>> InsertUpdate(QuyetDinhMienTienThueDatRequest rq)
+        public async Task<ApiResult<int>> InsertUpdate(QuyetDinhMienTienThueDatRequest rq)
         {
-            var result = false;
+            var result = 0;
             var entity = _context.QuyetDinhMienTienThueDat.FirstOrDefault(x => x.IdQuyetDinhMienTienThueDat == rq.IdQuyetDinhMienTienThueDat);
             if (entity == null)
             {
@@ -59,8 +59,8 @@ namespace QuanLyThueDat.Application.Service
 
             _context.QuyetDinhMienTienThueDat.Update(entity);
             await _context.SaveChangesAsync();
-            result = true;
-            return new ApiSuccessResult<bool>() { Data = result };
+            result = entity.IdQuyetDinhMienTienThueDat;
+            return new ApiSuccessResult<int>() { Data = result };
         }
 
         public async Task<ApiResult<bool>> Delete(int idQuyetDinhMienTienThueDat)

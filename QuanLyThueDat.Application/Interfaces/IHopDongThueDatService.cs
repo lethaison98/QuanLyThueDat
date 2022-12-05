@@ -10,7 +10,7 @@ namespace QuanLyThueDat.Application.Interfaces
 {
     public interface IHopDongThueDatService
     {
-        public Task<ApiResult<bool>> InsertUpdate(HopDongThueDatRequest rq);
+        public Task<ApiResult<int>> InsertUpdate(HopDongThueDatRequest rq);
         public Task<ApiResult<bool>> Delete(int idHopDong);
         public Task<ApiResult<HopDongThueDatViewModel>> GetById(int idHopDong);
         public Task<ApiResult<List<HopDongThueDatViewModel>>> GetAll();
