@@ -1,7 +1,9 @@
 ﻿using ExcelDataReader;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using OfficeOpenXml;
+using QuanLyThueDat.Application.Common.Constant;
 using QuanLyThueDat.Application.Interfaces;
 using QuanLyThueDat.Application.Request;
 using QuanLyThueDat.Application.ViewModel;
@@ -224,6 +226,7 @@ namespace QuanLyThueDat.Application.Service
 
                             //Quyết định thuê đất
                             j += 6;
+                            var quyetDinhThueDatChiTiet = new QuyetDinhThueDatChiTietRequest();
                             imp.QuyetDinhThueDatRequest.SoQuyetDinhThueDat = workSheet.Cells[i, j].Value == null ? "" : workSheet.Cells[i, j].Value.ToString();
                             j++; //12
                             var col12 = workSheet.Cells[i, j].Value;
@@ -245,6 +248,11 @@ namespace QuanLyThueDat.Application.Service
                             imp.QuyetDinhThueDatRequest.ThoiHanThue = workSheet.Cells[i, j].Value == null ? "" : workSheet.Cells[i, j].Value.ToString();
                             j++;
                             imp.QuyetDinhThueDatRequest.MucDichSuDung = workSheet.Cells[i, j].Value == null ? "" : workSheet.Cells[i, j].Value.ToString();
+                            quyetDinhThueDatChiTiet.MucDichSuDung = imp.QuyetDinhThueDatRequest.MucDichSuDung;
+                            quyetDinhThueDatChiTiet.ThoiHanThue = imp.QuyetDinhThueDatRequest.ThoiHanThue;
+                            quyetDinhThueDatChiTiet.HinhThucThue = "ThueDatTraTienHangNam";
+                            quyetDinhThueDatChiTiet.DienTich = imp.QuyetDinhThueDatRequest.TongDienTich;
+                            imp.QuyetDinhThueDatRequest.QuyetDinhThueDatChiTiet = new List<QuyetDinhThueDatChiTietRequest>{ quyetDinhThueDatChiTiet };
                             j++;
                             var soThua = (workSheet.Cells[i, j].Value == null ? "" : workSheet.Cells[i, j].Value.ToString());
                             j++;

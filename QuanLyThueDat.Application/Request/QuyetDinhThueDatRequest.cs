@@ -24,7 +24,7 @@ namespace QuanLyThueDat.Application.Request
         public string HinhThucThue { get; set; }
         public string ViTriThuaDat { get; set; }
         public string DiaChiThuaDat { get; set; }
-        public List<QuyetDinhThueDatChiTietRequest> QuyetDinhThueDatChiTiet { get; set; }
+        public List<QuyetDinhThueDatChiTietRequest> QuyetDinhThueDatChiTiet { get; set; } 
     }
     public class QuyetDinhThueDatChiTietRequest
     {

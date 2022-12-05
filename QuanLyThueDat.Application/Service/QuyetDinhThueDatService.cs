@@ -159,7 +159,7 @@ namespace QuanLyThueDat.Application.Service
                         select a;
             if (!string.IsNullOrEmpty(keyword))
             {
-                query = query.Where(x => x.TenQuyetDinhThueDat.ToLower().Contains(keyword.ToLower()) || x.DoanhNghiep.MaSoThue.ToLower().Contains(keyword.ToLower()));
+                query = query.Where(x => x.TenQuyetDinhThueDat.ToLower().Contains(keyword.ToLower()) || x.DoanhNghiep.MaSoThue.ToLower().Contains(keyword.ToLower())|| x.DoanhNghiep.TenDoanhNghiep.ToLower().Contains(keyword.ToLower()));
             }
             if (idDoanhNghiep != null)
             {
