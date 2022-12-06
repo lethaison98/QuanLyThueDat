@@ -10,7 +10,7 @@ namespace QuanLyThueDat.Application.Interfaces
 {
     public  interface IUserService
     {
-        public Task<ApiResult<string>> Authencate(LoginRequest request);
+        public Task<ApiResult<UserLoginViewModel>> Authencate(LoginRequest request);
         public Task<ApiResult<bool>> Register(RegisterRequest request);
 
     }

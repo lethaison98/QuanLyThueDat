@@ -44,7 +44,7 @@
             if (jqXHR.status === 0) {
                 msg = 'Not connect.\n Verify Network.';
             } else if (jqXHR.status == 401) {
-                window.location.href = "/Account/Logout";
+                //window.location.href = "/User/Login";
             } else if (jqXHR.status == 404) {
                 msg = 'Requested page not found. [404]';
             } else if (jqXHR.status == 500) {
@@ -98,7 +98,7 @@
             if (jqXHR.status === 0) {
                 msg = 'Not connect.\n Verify Network.';
             } else if (jqXHR.status == 401) {
-                window.location.href = "/Account/Logout";
+                //window.location.href = "/User/Login";
             } else if (jqXHR.status == 404) {
                 msg = 'Requested page not found. [404]';
             } else if (jqXHR.status == 500) {
@@ -152,7 +152,7 @@
             if (jqXHR.status === 0) {
                 msg = 'Not connect.\n Verify Network.';
             } else if (jqXHR.status == 401) {
-                window.location.href = "/Account/Logout";
+                window.location.href = "/User/Login";
             } else if (jqXHR.status == 404) {
                 msg = 'Requested page not found. [404]';
             } else if (jqXHR.status == 500) {
@@ -447,7 +447,7 @@
             if (jqXHR.status === 0) {
                 msg = 'Not connect.\n Verify Network.';
             } else if (jqXHR.status == 401) {
-                window.location.href = "/Account/Logout";
+                window.location.href =  "/User/Login";
             } else if (jqXHR.status == 404) {
                 msg = 'Requested page not found. [404]';
             } else if (jqXHR.status == 500) {

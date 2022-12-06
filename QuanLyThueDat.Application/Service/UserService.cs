@@ -31,15 +31,15 @@ namespace QuanLyThueDat.Application.Service
             _config = config;
         }
 
-        public async Task< ApiResult<string>> Authencate(LoginRequest request)
+        public async Task< ApiResult<UserLoginViewModel>> Authencate(LoginRequest request)
         {
             var user = await _userManager.FindByNameAsync(request.Username);
-            if (user == null) return new ApiErrorResult<string>("Tài khoản không tồn tại"); ;
+            if (user == null) return new ApiErrorResult<UserLoginViewModel>("Tài khoản không tồn tại"); ;
 
-            var result = await _signInManager.PasswordSignInAsync(user, request.Password, request.RememberMe, true);
-            if (!result.Succeeded)
+            var login = await _signInManager.PasswordSignInAsync(user, request.Password, request.RememberMe, true);
+            if (!login.Succeeded)
             {
-                return new ApiErrorResult<string>("Đăng nhập không thành công");
+                return new ApiErrorResult<UserLoginViewModel>("Đăng nhập không thành công");
             }
             var roles = await _userManager.GetRolesAsync(user);
             var claims = new[]
@@ -55,8 +55,11 @@ namespace QuanLyThueDat.Application.Service
                 claims,
                 expires: DateTime.Now.AddHours(3),
                 signingCredentials: creds);
-
-            return new ApiSuccessResult<string>(new JwtSecurityTokenHandler().WriteToken(token));
+            var result = new UserLoginViewModel();
+            result.Token = new JwtSecurityTokenHandler().WriteToken(token);
+            result.UserName = user.UserName;
+            result.HoTen = user.HoTen;
+            return new ApiSuccessResult<UserLoginViewModel>(result);
         }
         public async Task<ApiResult<bool>> Register(RegisterRequest request)
         {

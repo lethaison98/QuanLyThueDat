@@ -36,18 +36,22 @@ namespace QuanLyThueDat.WebApp.Controllers
                 return View(ModelState);
 
             var result = await _userApiClient.Authenticate(request);
+            
             if (result.Data == null)
             {
                 ModelState.AddModelError("", result.Message);
                 return View();
             }
-            var userPrincipal = this.ValidateToken(result.Data);
+            var userPrincipal = this.ValidateToken(result.Data.Token);
             var authProperties = new AuthenticationProperties
             {
                 ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
                 IsPersistent = false
             };
-            HttpContext.Session.SetString("Token", result.Data);
+            ViewBag.AccessToken = result.Data.Token;
+            ViewBag.UserName = result.Data.UserName;
+            ViewBag.HoTen = result.Data.HoTen;
+            HttpContext.Session.SetString("Token", result.Data.Token);
             await HttpContext.SignInAsync(
                         CookieAuthenticationDefaults.AuthenticationScheme,
                         userPrincipal,

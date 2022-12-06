@@ -26,20 +26,20 @@ namespace QuanLyThueDat.WebApp.Service
             _httpClientFactory = httpClientFactory;
         }
 
-        public async Task<ApiResult<string>> Authenticate(LoginRequest request)
+        public async Task<ApiResult<UserLoginViewModel>> Authenticate(LoginRequest request)
         {
             var json = JsonConvert.SerializeObject(request);
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
-            var response = await client.PostAsync("/user/authenticate", httpContent);
+            var response = await client.PostAsync("/api/user/authenticate", httpContent);
             if (response.IsSuccessStatusCode)
             {
-                return JsonConvert.DeserializeObject<ApiSuccessResult<string>>(await response.Content.ReadAsStringAsync());
+                return JsonConvert.DeserializeObject<ApiSuccessResult<UserLoginViewModel>>(await response.Content.ReadAsStringAsync());
             }
 
-            return JsonConvert.DeserializeObject<ApiErrorResult<string>>(await response.Content.ReadAsStringAsync());
+            return JsonConvert.DeserializeObject<ApiErrorResult<UserLoginViewModel>>(await response.Content.ReadAsStringAsync());
         }
     }
 }

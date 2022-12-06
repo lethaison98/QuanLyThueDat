@@ -9,6 +9,6 @@ namespace QuanLyThueDat.WebApp.Service
 {
     public interface IUserApiClient
     {
-        Task<ApiResult<string>> Authenticate(LoginRequest request);
+        Task<ApiResult<UserLoginViewModel>> Authenticate(LoginRequest request);
     }
 }
