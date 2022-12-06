@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QuanLyThueDat.Application.Interfaces;
 using QuanLyThueDat.Application.Request;
@@ -8,6 +9,7 @@ namespace QuanLyThueDat.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class DoanhNghiepController : ControllerBase
     {
         private readonly IDoanhNghiepService _doanhNghiepService;

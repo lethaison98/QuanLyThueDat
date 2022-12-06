@@ -156,7 +156,7 @@ DoanhNghiepControl = {
                             $.ajax({
                                 url: localStorage.getItem("API_URL") + "/DoanhNghiep/Delete?idDoanhNghiep=" + $y.attr('data-id') + "&Type=1",
                                 //headers: {
-                                //    'Authorization': 'Bearer ' + localStorage.getItem("access_token")
+                                //    'Authorization': 'Bearer ' + localStorage.getItem("ACCESS_TOKEN")
                                 //},
                                 dataType: 'json',
                                 contentType: "application/json-patch+json",
@@ -238,7 +238,7 @@ DoanhNghiepControl = {
                                 url: localStorage.getItem("API_URL") + "/DoanhNghiep/ImportDoanhNghiep",
                                 type: "POST",
                                 headers: {
-                                    'Authorization': 'Bearer ' + localStorage.getItem("access_token")
+                                    'Authorization': 'Bearer ' + localStorage.getItem("ACCESS_TOKEN")
                                 },
                                 cache: false,
                                 contentType: false,

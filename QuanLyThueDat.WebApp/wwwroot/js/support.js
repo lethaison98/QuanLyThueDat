@@ -7,7 +7,7 @@
 
             },
             headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem("access_token")
+                'Authorization': 'Bearer ' + localStorage.getItem("ACCESS_TOKEN")
             },
             dataType: 'json',
             showLoading: true,
@@ -44,7 +44,7 @@
             if (jqXHR.status === 0) {
                 msg = 'Not connect.\n Verify Network.';
             } else if (jqXHR.status == 401) {
-                //window.location.href = "/User/Login";
+                window.location.href = "/User/Login";
             } else if (jqXHR.status == 404) {
                 msg = 'Requested page not found. [404]';
             } else if (jqXHR.status == 500) {
@@ -73,7 +73,7 @@
 
             },
             headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem("access_token")
+                'Authorization': 'Bearer ' + localStorage.getItem("ACCESS_TOKEN")
             },
             dataType: 'json',
             showLoading: true,
@@ -98,7 +98,7 @@
             if (jqXHR.status === 0) {
                 msg = 'Not connect.\n Verify Network.';
             } else if (jqXHR.status == 401) {
-                //window.location.href = "/User/Login";
+                window.location.href = "/User/Login";
             } else if (jqXHR.status == 404) {
                 msg = 'Requested page not found. [404]';
             } else if (jqXHR.status == 500) {
@@ -127,7 +127,7 @@
 
             },
             headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem("access_token")
+                'Authorization': 'Bearer ' + localStorage.getItem("ACCESS_TOKEN")
             },
             dataType: 'json',
             showLoading: true,
@@ -325,7 +325,7 @@
                 },
                 dataType: 'json',
                 headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem("access_token")
+                    'Authorization': 'Bearer ' + localStorage.getItem("ACCESS_TOKEN")
                 }
             },
             dom: opts.dom,

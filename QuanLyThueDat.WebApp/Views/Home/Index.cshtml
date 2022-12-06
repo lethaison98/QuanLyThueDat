@@ -1,4 +1,7 @@
 ﻿@using Microsoft.Extensions.Configuration
+@using Microsoft.AspNetCore.Http;
+
+@inject IHttpContextAccessor HttpContextAccessor
 @inject IConfiguration Configuration
 @{
     ViewData["Title"] = "Home Page";
@@ -152,7 +155,10 @@
 <script>
     const API_URL = @Json.Serialize(@Configuration.GetSection("BaseAddress").Value);
     window.localStorage.setItem('API_URL', API_URL);
+    window.localStorage.setItem('ACCESS_TOKEN', '@TempData["AccessToken"]');
+    window.localStorage.setItem('HoTen', '@TempData["HoTen"]');
+    window.localStorage.setItem('UserName', '@TempData["UserName"]');
 </script>
 @section Scripts{
-<script src="~/js/controller/DashBoardControl.js"></script>
+    <script src="~/js/controller/DashBoardControl.js"></script>
 }
