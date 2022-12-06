@@ -310,7 +310,8 @@ namespace QuanLyThueDat.Application.Service
                             TuNgayThue = ct.TuNgayThue != null ? ct.TuNgayThue.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                             DenNgayThue = ct.DenNgayThue != null ? ct.DenNgayThue.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                             MucDichSuDung = ct.MucDichSuDung,
-                            HinhThucThue = typeof(LoaiQuyetDinhThueDatConstant).GetField(ct.HinhThucThue).GetValue(null).ToString(),
+                            HinhThucThue = ct.HinhThucThue,
+                            TextHinhThucThue = typeof(LoaiQuyetDinhThueDatConstant).GetField(ct.HinhThucThue).GetValue(null).ToString(),
                         };
                         result.Add(QuyetDinhThueDat);
                     }

@@ -273,8 +273,21 @@ namespace QuanLyThueDat.WebApp.Service
                     {
                         data.Data.CoQuanQuanLyThue = "Chi cục thuế Bắc Vinh";
                     }
+                    if (!String.IsNullOrEmpty(data.Data.LanhDaoKyThongBaoTienThueDat))
+                    {
+                        var arr = data.Data.LanhDaoKyThongBaoTienThueDat.Split('-');
+                        data.Data.TextChucVuLanhDao = arr[0];
+                        data.Data.TextTenLanhDao = arr[1];
+                        if(data.Data.TextChucVuLanhDao!= "TRƯỞNG BAN")
+                        {
+                            data.Data.TextKyThayLanhDao = "KT. TRƯỞNG BAN";
+                        }
+                    }
+                    data.Data.TextLoaiThongBaoTienThueDat = typeof(LoaiThongBaoTienThueDatConstant).GetField(data.Data.LoaiThongBaoTienThueDat).GetValue(null).ToString();
                     data.Data.TextSoTienPhaiNop = NumberToTextVN(data.Data.SoTienPhaiNop);
                     data.Data.TextTongDienTich = NumberToTextVN(data.Data.TongDienTich);
+
+
                     break;
             }
             var filename = Path.Combine(Directory.GetCurrentDirectory(), pathFileTemplate);

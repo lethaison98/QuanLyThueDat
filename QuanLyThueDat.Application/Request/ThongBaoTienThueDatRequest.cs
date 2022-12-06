@@ -43,6 +43,7 @@ namespace QuanLyThueDat.Application.Request
         public int Nam { get; set; }
         public string NgayThongBaoTienThueDat { get; set; }
         public string LoaiThongBaoTienThueDat { get; set; }
+        public string LanhDaoKyThongBaoTienThueDat { get; set; }
         public decimal DienTichPhaiNop { get; set; }
         public decimal SoTien { get; set; }
         public decimal SoTienPhaiNop { get; set; }

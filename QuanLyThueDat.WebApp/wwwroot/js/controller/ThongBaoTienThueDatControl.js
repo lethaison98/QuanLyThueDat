@@ -101,12 +101,8 @@ ThongBaoTienThueDatControl = {
                                         $('#popupDetailThongBaoTienThueDat').modal();
 
                                         FillFormData('#FormDetailThongBaoTienThueDat', res.Data);
-                                        if (opts != undefined) {
-                                            $('#popupDetailThongBaoTienThueDat .ddDoanhNghiep').append('<option value="' + opts.IdDoanhNghiep + '">' + opts.TenDoanhNghiep + '</option>');
-                                        } else {
-                                            $('#popupDetailThongBaoTienThueDat .ddDoanhNghiep').append('<option value="' + res.Data.IdDoanhNghiep + '">' + res.Data.TenDoanhNghiep + '</option>');
-                                        }
-                                        self.RegisterEventsPopup();
+                                        opts.LoaiThongBaoTienThueDat = res.Data.LoaiThongBaoTienThueDat;
+                                        self.RegisterEventsPopup(opts);
                                         $('#popupDetailThongBaoTienThueDat .select2').attr("disabled", true);
 
                                         //$("#btnTraCuu").on('click', function () {
@@ -154,11 +150,11 @@ ThongBaoTienThueDatControl = {
     },
     RegisterEventsPopup: function (opts) {
         var self = this;
-        opts.LoaiThongBao = "ThongBaoHangNam";
         var popup = $('#popupDetailThongBaoTienThueDat');
         $('.select2').select2();
+
+        popup.find("[data-name = 'LoaiThongBaoTienThueDat']").val(opts.LoaiThongBaoTienThueDat);
         popup.find('.ddDoanhNghiep').append('<option value="' + opts.IdDoanhNghiep + '">' + opts.TenDoanhNghiep + '</option>');
-        self.LoadDanhSachQuyetDinhThueDat(opts);
 
         $('.groupThongBaoDonGiaThueDat input').change(function () {
             self.TinhToanCongThuc(opts);
@@ -173,10 +169,9 @@ ThongBaoTienThueDatControl = {
     },
     RegisterEventsPopupThongBaoDieuChinh: function (opts) {
         var self = this;
-        opts.LoaiThongBao = "ThongBaoDieuChinh";
         var popup = $('#popupDetailThongBaoTienThueDatDieuChinh');
-
         popup.find('.ddDoanhNghiep').append('<option value="' + opts.IdDoanhNghiep + '">' + opts.TenDoanhNghiep + '</option>');
+        popup.find("[data-name = 'LoaiThongBaoTienThueDat']").val(opts.LoaiThongBaoTienThueDat);
         self.LoadDanhSachQuyetDinhThueDat(opts);
         $('.select2').select2();
         $(".number").change(function () {
@@ -199,7 +194,7 @@ ThongBaoTienThueDatControl = {
     RegisterEvents: function (opts) {
         var self = this;
         self.LoadDatatable(opts);
-        $('#btnCreateThongBaoTienThueDat').off('click').on('click', function () {
+        $('#btnCreateThongBaoLanDau').off('click').on('click', function () {
             var $y = $(this);
             Get({
                 url: '/ThongBaoTienThueDat/PopupDetailThongBaoTienThueDat',
@@ -207,8 +202,23 @@ ThongBaoTienThueDatControl = {
                 callback: function (res) {
                     $('#modalDetailThongBaoTienThueDat').html(res);
                     $('#popupDetailThongBaoTienThueDat').modal();
-
+                    opts.LoaiThongBaoTienThueDat = "ThongBaoLanDau";
                     self.RegisterEventsPopup(opts);
+                    self.LoadDanhSachQuyetDinhThueDat(opts);
+                }
+            })
+        });
+        $('#btnCreateThongBaoTuNamThuHaiTroDi').off('click').on('click', function () {
+            var $y = $(this);
+            Get({
+                url: '/ThongBaoTienThueDat/PopupDetailThongBaoTienThueDat',
+                dataType: 'text',
+                callback: function (res) {
+                    $('#modalDetailThongBaoTienThueDat').html(res);
+                    $('#popupDetailThongBaoTienThueDat').modal();
+                    opts.LoaiThongBaoTienThueDat = "ThongBaoTuNamThuHaiTroDi";
+                    self.RegisterEventsPopup(opts);
+                    self.LoadDanhSachQuyetDinhThueDat(opts);
                 }
             })
         });
@@ -220,7 +230,7 @@ ThongBaoTienThueDatControl = {
                 callback: function (res) {
                     $('#modalDetailThongBaoTienThueDatDieuChinh').html(res);
                     $('#popupDetailThongBaoTienThueDatDieuChinh').modal();
-                    $('#modalDetailThongBaoTienThueDatDieuChinh').find('[data-name="LoaiThongBao"]').val("ThongBaoDieuChinh");
+                    opts.LoaiThongBaoTienThueDat = "ThongBaoDieuChinh";
                     self.RegisterEventsPopupThongBaoDieuChinh(opts);
                 }
             })
@@ -234,7 +244,7 @@ ThongBaoTienThueDatControl = {
 
     },
     TinhToanCongThuc: function (opts) {
-        if (opts.LoaiThongBao == "ThongBaoDieuChinh") {
+        if (opts.LoaiThongBaoTienThueDat == "ThongBaoDieuChinh") {
             var popup = $('#popupDetailThongBaoTienThueDatDieuChinh');
             var form = '#FormDetailThongBaoTienThueDatDieuChinh';
         } else {
@@ -291,11 +301,11 @@ ThongBaoTienThueDatControl = {
             $(this).val(ConvertStringToDecimal($(this).val()));
         });
         if (opts != undefined) {
-            if (opts.LoaiThongBao == "ThongBaoDieuChinh") {
+            if (opts.LoaiThongBaoTienThueDat == "ThongBaoDieuChinh") {
                 var popup = $('#popupDetailThongBaoTienThueDatDieuChinh');
                 var data = LoadFormData("#FormDetailThongBaoTienThueDatDieuChinh");
                 data.IdDoanhNghiep = popup.find(".ddDoanhNghiep option:selected").val();
-
+                data.LanhDaoKyThongBaoTienThueDat = popup.find(".ddLanhDaoKyThongBaoTienThueDat option:selected").val();
                 var arrayRow = $("#tblChiTietThongBaoTienThueDatDieuChinh tbody tr");
                 var thongBaoChiTiet = [];
                 $.each(arrayRow, function (i, item) {
@@ -316,11 +326,15 @@ ThongBaoTienThueDatControl = {
                 var popup = $('#popupDetailThongBaoTienThueDat');
                 var data = LoadFormData("#FormDetailThongBaoTienThueDat");
                 data.IdDoanhNghiep = popup.find(".ddDoanhNghiep option:selected").val();
+                data.LanhDaoKyThongBaoTienThueDat = popup.find(".ddLanhDaoKyThongBaoTienThueDat option:selected").val();
+
             };
         } else {
             var popup = $('#popupDetailThongBaoTienThueDat');
             var data = LoadFormData("#FormDetailThongBaoTienThueDat");
             data.IdDoanhNghiep = popup.find(".ddDoanhNghiep option:selected").val();
+            data.LanhDaoKyThongBaoTienThueDat = popup.find(".ddLanhDaoKyThongBaoTienThueDat option:selected").val();
+
         }
         Post({
             "url": localStorage.getItem("API_URL") + "/ThongBaoTienThueDat/InsertUpdate",
@@ -334,7 +348,7 @@ ThongBaoTienThueDatControl = {
     LoadDanhSachDoanhNghiep: function (opts) {
         var self = this;
         if (opts != undefined) {
-            if (opts.LoaiThongBao == "ThongBaoDieuChinh") {
+            if (opts.LoaiThongBaoTienThueDat == "ThongBaoDieuChinh") {
                 var popup = $('#popupDetailThongBaoTienThueDatDieuChinh');
             } else {
                 var popup = $('#popupDetailThongBaoTienThueDat');
@@ -363,7 +377,7 @@ ThongBaoTienThueDatControl = {
     LoadDanhSachQuyetDinhThueDat: function (opts) {
         var self = this;
         if (opts != undefined) {
-            if (opts.LoaiThongBao == "ThongBaoDieuChinh") {
+            if (opts.LoaiThongBaoTienThueDat == "ThongBaoDieuChinh") {
                 var popup = $('#popupDetailThongBaoTienThueDatDieuChinh');
                 var form = '#FormDetailThongBaoTienThueDatDieuChinh';
             } else {
@@ -374,10 +388,11 @@ ThongBaoTienThueDatControl = {
             var popup = $('#popupDetailThongBaoTienThueDat');
             var form = '#FormDetailThongBaoTienThueDat';
         }
+        console.log(popup.find(".ddDoanhNghiep option:selected").val());
         Get({
             url: localStorage.getItem("API_URL") + "/QuyetDinhThueDat/GetListQuyetDinhThueDatChiTiet",
             data: {
-                idDoanhNghiep: popup.find(".ddDoanhNghiep option:selected").val()
+                idDoanhNghiep: opts.IdDoanhNghiep
             },
             showLoading: true,
             callback: function (res) {
@@ -385,7 +400,7 @@ ThongBaoTienThueDatControl = {
                 popup.find('.ddQuyetDinhThueDat').html('');
                 popup.find('.ddQuyetDinhThueDat').append('<option value= "" selected="true" style="display: none"></option>');
                 $.each(res.Data, function (i, item) {
-                    var name = item.SoQuyetDinhThueDat + " - " + item.HinhThucThue + " - Diện tích " + item.TongDienTich + " mét vuông"
+                    var name = item.SoQuyetDinhThueDat + " - " + item.TextHinhThucThue + " - Diện tích " + item.TongDienTich + " mét vuông"
                     popup.find('.ddQuyetDinhThueDat').append('<option value=' + i + '>' + name + '</option>');
                 })
                 popup.find('.ddQuyetDinhThueDat').on('change', function () {
@@ -418,7 +433,7 @@ ThongBaoTienThueDatControl = {
     LoadDanhSachThongBaoDonGiaThueDat: function (opts) {
         var self = this;
         if (opts != undefined) {
-            if (opts.LoaiThongBao == "ThongBaoDieuChinh") {
+            if (opts.LoaiThongBaoTienThueDat == "ThongBaoDieuChinh") {
                 var popup = $('#popupDetailThongBaoTienThueDatDieuChinh');
                 var form = '#FormDetailThongBaoTienThueDatDieuChinh';
             } else {

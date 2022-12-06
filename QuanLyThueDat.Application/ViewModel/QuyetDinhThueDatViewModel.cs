@@ -23,6 +23,7 @@ namespace QuanLyThueDat.Application.ViewModel
         public string TuNgayThue { get; set; }
         public string MucDichSuDung { get; set; }
         public string HinhThucThue { get; set; }
+        public string TextHinhThucThue { get; set; }
         public string ViTriThuaDat { get; set; }
         public string DiaChiThuaDat { get; set; }
         public List<QuyetDinhThueDatChiTietViewModel> DsQuyetDinhThueDatChiTiet { get; set; }

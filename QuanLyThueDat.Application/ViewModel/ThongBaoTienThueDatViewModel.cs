@@ -19,7 +19,12 @@ namespace QuanLyThueDat.Application.ViewModel
         public int Nam { get; set; }
         public string NgayThongBaoTienThueDat { get; set; }
         public string LoaiThongBaoTienThueDat { get; set; }
-
+        public string LanhDaoKyThongBaoTienThueDat { get; set; }
+        public string TextLoaiThongBaoTienThueDat { get; set; }
+        public string TextTenLanhDao { get; set; }
+        public string TextChucVuLanhDao { get; set; }
+        public string TextKyThayLanhDao { get; set; }
+        
         //DoanhNghiep
         public string TenDoanhNghiep { get; set; }
         public string MaSoThue { get; set; }
@@ -53,6 +58,7 @@ namespace QuanLyThueDat.Application.ViewModel
         public string SoTienMienGiam { get; set; }
         public string SoTienPhaiNop { get; set; }
         public string TextSoTienPhaiNop { get; set; }
+
         public List<ThongBaoTienThueDatChiTietViewModel> DsThongBaoTienThueDatChiTiet { get; set; }
     }
 

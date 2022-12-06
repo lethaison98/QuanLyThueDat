@@ -158,7 +158,7 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     <h5>Doanh nghiệp</h5>
-                                    <select class="form-control select2 ddDoanhNghiep" style="width: 100%;">
+                                    <select class="form-control ddDoanhNghiep" style="width: 100%;">
                                     </select>
                                 </div>
                             </div>
@@ -168,24 +168,26 @@
                                     <input type="text" class="form-control" data-name="Nam" required>
                                 </div>
                                 <div class="form-group col-md-6">
+                                    <h5>Lãnh đạo ký thông báo tiền thuê đất</h5>
+                                    <select class="form-control ddLanhDaoKyThongBaoTienThueDat" data-name="LanhDaoKyThongBaoTienThueDat" style="width: 100%;">
+                                        <option value="TRƯỞNG BAN-Lê Tiến Trị">Trưởng ban - Lê Tiến Trị</option>
+                                        <option value="PHÓ TRƯỞNG BAN-Phan Văn Bình">Phó trưởng ban - Phan Văn Bình</option>
+
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6" style="display: none">
                                     <h5>Loại thông báo</h5>
-                                    <select class="form-control select2" style="width: 100%;" data-name="LoaiThongBao">
+                                    <input type="text" class="form-control" data-name="LoaiThongBaoTienThueDat" required>
+                                    @*                                    <select class="form-control select2" style="width: 100%;" data-name="LoaiThongBaoTienThueDat">
                                         <option value="Thông báo lần đầu">Thông báo lần đầu</option>
                                         <option value="Thông báo từ năm thứ hai trở đi">Thông báo từ năm thứ hai trở đi</option>
                                         <option value="Thông báo điều chỉnh">Thông báo điều chỉnh</option>
                                         <option value="Thông báo bổ sung">Thông báo bổ sung</option>
-                                    </select>
+                                        </select>*@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group col-md-6">
-                                    <h5>Lãnh đạo ký thông báo tiền thuê đất</h5>
-                                    <select class="form-control select2 ddlanhdaoky" style="width: 100%;">
-                                        <option value="Trưởng ban - Lê Tiến Trị">Trưởng ban - Lê Tiến Trị</option>
-                                        <option value="Phó trưởng ban - Phan Văn Bình">Phó trưởng ban - Phan Văn Bình</option>
 
-                                    </select>
-                                </div>
                                 @*<div class="form-group col-md-6">
                                     <h5>Doanh nghiệp</h5>
                                     <select class="form-control select2 ddDoanhNghiep" style="width: 100%;">
