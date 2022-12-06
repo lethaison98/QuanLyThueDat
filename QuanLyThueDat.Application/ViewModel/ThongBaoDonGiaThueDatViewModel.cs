@@ -43,5 +43,9 @@ namespace QuanLyThueDat.Application.ViewModel
         public string NgayHieuLucDonGiaThueDat { get; set; }
         public string NgayHetHieuLucDonGiaThueDat { get; set; }
         public string HinhThucThue { get; set; }
+        public string LanhDaoKyThongBaoDonGiaThueDat { get; set; }
+        public string TextTenLanhDao { get; set; }
+        public string TextChucVuLanhDao { get; set; }
+        public string TextKyThayLanhDao { get; set; }
     }
 }

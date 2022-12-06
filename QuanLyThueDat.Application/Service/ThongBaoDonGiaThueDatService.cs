@@ -52,7 +52,8 @@ namespace QuanLyThueDat.Application.Service
                     NgayThongBaoDonGiaThueDat = string.IsNullOrEmpty(rq.NgayThongBaoDonGiaThueDat) ? null : DateTime.Parse(rq.NgayThongBaoDonGiaThueDat, new CultureInfo("vi-VN")),
                     NgayHieuLucDonGiaThueDat = string.IsNullOrEmpty(rq.NgayHieuLucDonGiaThueDat) ? null : DateTime.Parse(rq.NgayHieuLucDonGiaThueDat, new CultureInfo("vi-VN")),
                     NgayHetHieuLucDonGiaThueDat = string.IsNullOrEmpty(rq.NgayHetHieuLucDonGiaThueDat) ? null : DateTime.Parse(rq.NgayHetHieuLucDonGiaThueDat, new CultureInfo("vi-VN")),
-                    HinhThucThue = rq.HinhThucThue
+                    HinhThucThue = rq.HinhThucThue,
+                    LanhDaoKyThongBaoDonGiaThueDat = rq.LanhDaoKyThongBaoDonGiaThueDat
                 };
             }
             else
@@ -81,6 +82,7 @@ namespace QuanLyThueDat.Application.Service
                 entity.NgayHieuLucDonGiaThueDat = string.IsNullOrEmpty(rq.NgayHieuLucDonGiaThueDat) ? null : DateTime.Parse(rq.NgayHieuLucDonGiaThueDat, new CultureInfo("vi-VN"));
                 entity.NgayHetHieuLucDonGiaThueDat = string.IsNullOrEmpty(rq.NgayHetHieuLucDonGiaThueDat) ? null : DateTime.Parse(rq.NgayHetHieuLucDonGiaThueDat, new CultureInfo("vi-VN"));
                 entity.HinhThucThue = rq.HinhThucThue;
+                entity.LanhDaoKyThongBaoDonGiaThueDat = rq.LanhDaoKyThongBaoDonGiaThueDat;
             }
 
             _context.ThongBaoDonGiaThueDat.Update(entity);
@@ -215,7 +217,8 @@ namespace QuanLyThueDat.Application.Service
                     NgayThongBaoDonGiaThueDat = entity.NgayThongBaoDonGiaThueDat != null ? entity.NgayThongBaoDonGiaThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                     NgayHieuLucDonGiaThueDat = entity.NgayHieuLucDonGiaThueDat != null ? entity.NgayHieuLucDonGiaThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                     NgayHetHieuLucDonGiaThueDat = entity.NgayHetHieuLucDonGiaThueDat != null ? entity.NgayHetHieuLucDonGiaThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
-                    HinhThucThue = entity.HinhThucThue
+                    HinhThucThue = entity.HinhThucThue,
+                    LanhDaoKyThongBaoDonGiaThueDat = entity.LanhDaoKyThongBaoDonGiaThueDat
                 };
                 return new ApiSuccessResult<ThongBaoDonGiaThueDatViewModel>() { Data = result };
 

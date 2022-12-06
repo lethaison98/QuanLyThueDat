@@ -275,7 +275,9 @@ ThongBaoTienThueDatControl = {
                 var dienTichKhongPhaiNop = ConvertStringToDecimal(popup.find("[data-name='DienTichKhongPhaiNop']").val());
                 var soTienMienGiam = ConvertDecimalToString((donGia * dienTichKhongPhaiNop).toFixed(0));
                 popup.find("[data-name='SoTienMienGiam']").val(soTienMienGiam);
-                var dienTichPhaiNop = ConvertDecimalToString((tongDienTich - dienTichKhongPhaiNop).toFixed(2));
+                console.log(tongDienTich);
+                console.log((tongDienTich - dienTichKhongPhaiNop));
+                var dienTichPhaiNop = ConvertDecimalToString((tongDienTich - dienTichKhongPhaiNop).toFixed(2).toString().replace(".", ","));
                 popup.find("[data-name='DienTichPhaiNop']").val(dienTichPhaiNop);
             };
             if (popup.find("[data-name='SoTien']").val() != '') {
@@ -305,7 +307,6 @@ ThongBaoTienThueDatControl = {
                 var popup = $('#popupDetailThongBaoTienThueDatDieuChinh');
                 var data = LoadFormData("#FormDetailThongBaoTienThueDatDieuChinh");
                 data.IdDoanhNghiep = popup.find(".ddDoanhNghiep option:selected").val();
-                data.LanhDaoKyThongBaoTienThueDat = popup.find(".ddLanhDaoKyThongBaoTienThueDat option:selected").val();
                 var arrayRow = $("#tblChiTietThongBaoTienThueDatDieuChinh tbody tr");
                 var thongBaoChiTiet = [];
                 $.each(arrayRow, function (i, item) {
@@ -326,15 +327,12 @@ ThongBaoTienThueDatControl = {
                 var popup = $('#popupDetailThongBaoTienThueDat');
                 var data = LoadFormData("#FormDetailThongBaoTienThueDat");
                 data.IdDoanhNghiep = popup.find(".ddDoanhNghiep option:selected").val();
-                data.LanhDaoKyThongBaoTienThueDat = popup.find(".ddLanhDaoKyThongBaoTienThueDat option:selected").val();
 
             };
         } else {
             var popup = $('#popupDetailThongBaoTienThueDat');
             var data = LoadFormData("#FormDetailThongBaoTienThueDat");
             data.IdDoanhNghiep = popup.find(".ddDoanhNghiep option:selected").val();
-            data.LanhDaoKyThongBaoTienThueDat = popup.find(".ddLanhDaoKyThongBaoTienThueDat option:selected").val();
-
         }
         Post({
             "url": localStorage.getItem("API_URL") + "/ThongBaoTienThueDat/InsertUpdate",

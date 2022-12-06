@@ -37,5 +37,6 @@ namespace QuanLyThueDat.Application.Request
         public string NgayHieuLucDonGiaThueDat { get; set; }
         public string NgayHetHieuLucDonGiaThueDat { get; set; }
         public string HinhThucThue { get; set; }
+        public string LanhDaoKyThongBaoDonGiaThueDat { get; set; }
     }
 }

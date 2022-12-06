@@ -261,6 +261,16 @@ namespace QuanLyThueDat.WebApp.Service
                     {
                         data.Data.CoQuanQuanLyThue = "Chi cục thuế Bắc Vinh";
                     }
+                    if (!String.IsNullOrEmpty(data.Data.LanhDaoKyThongBaoDonGiaThueDat))
+                    {
+                        var arr = data.Data.LanhDaoKyThongBaoDonGiaThueDat.Split('-');
+                        data.Data.TextChucVuLanhDao = arr[0];
+                        data.Data.TextTenLanhDao = arr[1];
+                        if (data.Data.TextChucVuLanhDao != "TRƯỞNG BAN")
+                        {
+                            data.Data.TextKyThayLanhDao = "KT. TRƯỞNG BAN";
+                        }
+                    }
                     break;
                 case LoaiThongBaoConstant.ThongBaoTienThueDat:
                     pathFileTemplate = "Assets/Template/MauThongBaoTienThueDat.docx";

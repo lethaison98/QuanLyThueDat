@@ -224,9 +224,25 @@ namespace QuanLyThueDat.Application.Service
                             imp.DoanhNghiepRequest.DiaChi = workSheet.Cells[i, j].Value == null ? "" : workSheet.Cells[i, j].Value.ToString();
                             j++;
 
-                            //Quyết định thuê đất
-                            j += 6;
+                            //Quyết định giao đất UBND tỉnh
                             var quyetDinhThueDatChiTiet = new QuyetDinhThueDatChiTietRequest();
+                            var col5 = workSheet.Cells[i, j].Value == null ? "" : workSheet.Cells[i, j].Value.ToString();
+                            if (col5 != "")
+                            {
+                                var arr = col5.Split(new string[] { "ngày" }, StringSplitOptions.None);
+                                imp.QuyetDinhThueDatRequest.NgayQuyetDinhGiaoDat = arr[1].ToString().Trim();
+                                var soTB = arr[0].Trim().Split(' ');
+                                imp.QuyetDinhThueDatRequest.SoQuyetDinhGiaoDat = soTB[soTB.Length - 1].ToString().Trim();
+                            }
+                            else
+                            {
+                                imp.ThongBaoDonGiaThueDatRequest.NgayThongBaoDonGiaThueDat = "";
+                                imp.ThongBaoDonGiaThueDatRequest.SoThongBaoDonGiaThueDat = "";
+                            }
+                            j++;
+
+                            //Quyết định thuê đất
+                            j += 5;
                             imp.QuyetDinhThueDatRequest.SoQuyetDinhThueDat = workSheet.Cells[i, j].Value == null ? "" : workSheet.Cells[i, j].Value.ToString();
                             j++; //12
                             var col12 = workSheet.Cells[i, j].Value;
