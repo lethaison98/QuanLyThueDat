@@ -29,6 +29,8 @@ namespace QuanLyThueDat.Data.EF
             modelBuilder.ApplyConfiguration(new AppRoleConfiguration());
             modelBuilder.ApplyConfiguration(new AppUserConfiguration());
             modelBuilder.ApplyConfiguration(new DoanhNghiepConfiguration());
+            modelBuilder.ApplyConfiguration(new FilesConfiguration());
+            modelBuilder.ApplyConfiguration(new FileTaiLieuConfiguration());
             modelBuilder.ApplyConfiguration(new HopDongThueDatConfiguration());
             modelBuilder.ApplyConfiguration(new QuyetDinhDonGiaThueDatConfiguration());
             modelBuilder.ApplyConfiguration(new QuyetDinhGiaoDatConfiguration());
@@ -45,6 +47,8 @@ namespace QuanLyThueDat.Data.EF
         public DbSet<AppConfig> AppConfig { get; set; }
         public DbSet<AppRole> AppRole { get; set; }
         public DbSet<AppUser> AppUser { get; set; }
+        public DbSet<Files> Files { get; set; }
+        public DbSet<FileTaiLieu> FileTaiLieu { get; set; }
         public DbSet<DoanhNghiep> DoanhNghiep { get; set; }
         public DbSet<QuyetDinhGiaoDat> QuyetDinhGiaoDat { get; set; }
         public DbSet<QuyetDinhGiaoLaiDat> QuyetDinhGiaoLaiDat { get; set; }
