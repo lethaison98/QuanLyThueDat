@@ -154,12 +154,11 @@
 </section>
 <script>
     const API_URL = @Json.Serialize(@Configuration.GetSection("BaseAddress").Value);
-    if('@TempData["AccessToken"]'!=''){
-        window.localStorage.setItem('API_URL', API_URL);
-        window.localStorage.setItem('ACCESS_TOKEN', '@TempData["AccessToken"]');
-        window.localStorage.setItem('HoTen', '@TempData["HoTen"]');
-        window.localStorage.setItem('UserName', '@TempData["UserName"]');
-    }
+    window.localStorage.setItem('API_URL', API_URL);
+    window.localStorage.setItem('ACCESS_TOKEN', '@Context.Session.GetString("AccessToken")');
+    window.localStorage.setItem('HoTen', '@Context.Session.GetString("HoTen")');
+    window.localStorage.setItem('UserName', '@Context.Session.GetString("UserName")');
+
 
 </script>
 @section Scripts{

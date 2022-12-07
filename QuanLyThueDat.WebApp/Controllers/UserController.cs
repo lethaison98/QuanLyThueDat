@@ -48,20 +48,16 @@ namespace QuanLyThueDat.WebApp.Controllers
                 ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
                 IsPersistent = false
             };
-            TempData["AccessToken"]  = result.Data.Token;
-            TempData["UserName"] = result.Data.UserName;
-            TempData["HoTen"] = result.Data.HoTen;
-            HttpContext.Session.SetString("Token", result.Data.Token);
+
             await HttpContext.SignInAsync(
                         CookieAuthenticationDefaults.AuthenticationScheme,
                         userPrincipal,
                         authProperties);
+            HttpContext.Session.SetString("AccessToken", result.Data.Token);
+            HttpContext.Session.SetString("UserName", result.Data.UserName);
+            HttpContext.Session.SetString("HoTen", result.Data.HoTen);
 
-            //await _protectedLocalStorage.SetAsync("Access_Token", result.Data.Token);
-            //await _protectedLocalStorage.SetAsync("UserName", result.Data.UserName);
-            //await _protectedLocalStorage.SetAsync("HoTen", result.Data.HoTen);
-
-            return RedirectToAction("Index", "Home", result.Data);
+            return RedirectToAction("Index", "Home");
         }
 
         private ClaimsPrincipal ValidateToken(string jwtToken)
