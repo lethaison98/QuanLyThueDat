@@ -20,7 +20,7 @@
                     <div class="icon">
                         <i class="ion ion-bag"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="~/DoanhNghiep" class="small-box-footer">Chi tiết <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
@@ -35,7 +35,7 @@
                     <div class="icon">
                         <i class="ion ion-stats-bars"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="~/ThongBaoDonGiaThueDat" class="small-box-footer">Chi tiết <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
@@ -50,7 +50,7 @@
                     <div class="icon">
                         <i class="ion ion-person-add"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="#" class="small-box-footer">Chi tiết <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
@@ -65,7 +65,7 @@
                     <div class="icon">
                         <i class="ion ion-pie-graph"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href=""~/ThongBaoTienThueDat" class="small-box-footer">Chi tiết <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
@@ -154,10 +154,13 @@
 </section>
 <script>
     const API_URL = @Json.Serialize(@Configuration.GetSection("BaseAddress").Value);
-    window.localStorage.setItem('API_URL', API_URL);
-    window.localStorage.setItem('ACCESS_TOKEN', '@TempData["AccessToken"]');
-    window.localStorage.setItem('HoTen', '@TempData["HoTen"]');
-    window.localStorage.setItem('UserName', '@TempData["UserName"]');
+    if('@TempData["AccessToken"]'!=''){
+        window.localStorage.setItem('API_URL', API_URL);
+        window.localStorage.setItem('ACCESS_TOKEN', '@TempData["AccessToken"]');
+        window.localStorage.setItem('HoTen', '@TempData["HoTen"]');
+        window.localStorage.setItem('UserName', '@TempData["UserName"]');
+    }
+
 </script>
 @section Scripts{
     <script src="~/js/controller/DashBoardControl.js"></script>

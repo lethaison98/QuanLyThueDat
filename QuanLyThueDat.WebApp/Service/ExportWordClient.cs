@@ -12,13 +12,12 @@ namespace QuanLyThueDat.WebApp.Service
 {
     public class ExportWordClient : IExportWordClient
     {
-        private readonly IThongBaoDonGiaThueDatService _thongBaoDonGiaThueDatService;
-        private readonly IThongBaoTienThueDatService _thongBaoTienThueDatService;
-
-        public ExportWordClient(IThongBaoDonGiaThueDatService thongBaoDonGiaThueDatService, IThongBaoTienThueDatService thongBaoTienThueDatService)
+        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IConfiguration _configuration;
+        public ExportWordClient(IHttpClientFactory httpClientFactory, IConfiguration configuration)
         {
-            _thongBaoDonGiaThueDatService = thongBaoDonGiaThueDatService;
-            _thongBaoTienThueDatService = thongBaoTienThueDatService;
+            _httpClientFactory = httpClientFactory;
+            _configuration = configuration;
         }
 
         private void FindAndReplace(Microsoft.Office.Interop.Word.Application wordApp, object toFindText, object replaceWithText)
@@ -72,11 +71,18 @@ namespace QuanLyThueDat.WebApp.Service
         {
             var pathFileTemplate = "";
             dynamic data = new System.Dynamic.ExpandoObject();
+            var response = new HttpResponseMessage();
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
             switch (loaiThongBaoConstant)
             {
                 case LoaiThongBaoConstant.ThongBaoDonGiaThueDat:
-                    pathFileTemplate = "Assets/Template/MauThongBaoDonGiaThueDat.doc";
-                    data = await _thongBaoDonGiaThueDatService.GetById(idThongBao);
+                    pathFileTemplate = "Assets/Template/MauThongBaoDonGiaThueDat.docx";
+                    response = await client.GetAsync("/api/ThongBaoDonGiaThueDat/GetById?idThongBaoDonGiaThueDat=" + idThongBao);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        data = JsonConvert.DeserializeObject<ApiSuccessResult<ThongBaoDonGiaThueDatViewModel>>(await response.Content.ReadAsStringAsync());
+                    }
                     if (String.IsNullOrEmpty(data.Data.TenThongBaoDonGiaThueDat))
                     {
                         data.Data.TenThongBaoDonGiaThueDat = "Về đơn giá thuê đất, thuê mặt nước";
@@ -88,7 +94,11 @@ namespace QuanLyThueDat.WebApp.Service
                     break;
                 case LoaiThongBaoConstant.ThongBaoTienThueDat:
                     pathFileTemplate = "Assets/Template/MauThongBaoTienThueDat.doc";
-                    data = await _thongBaoTienThueDatService.GetById(idThongBao);
+                    response = await client.GetAsync("/api/ThongBaoTienThueDat/GetById?idThongBaoTienThueDat=" + idThongBao);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        data = JsonConvert.DeserializeObject<ApiSuccessResult<ThongBaoTienThueDatViewModel>>(await response.Content.ReadAsStringAsync());
+                    }
                     if (String.IsNullOrEmpty(data.Data.TenThongBaoTienThueDat))
                     {
                         data.Data.TenThongBaoTienThueDat = "Về tiền thuê đất, thuê mặt nước theo hình thức nộp hàng năm";
@@ -248,11 +258,19 @@ namespace QuanLyThueDat.WebApp.Service
         {
             var pathFileTemplate = "";
             dynamic data = new System.Dynamic.ExpandoObject();
+            var response = new HttpResponseMessage();
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
             switch (loaiThongBaoConstant)
             {
                 case LoaiThongBaoConstant.ThongBaoDonGiaThueDat:
                     pathFileTemplate = "Assets/Template/MauThongBaoDonGiaThueDat.docx";
-                    data = await _thongBaoDonGiaThueDatService.GetById(idThongBao);
+                    response = await client.GetAsync("/api/ThongBaoDonGiaThueDat/GetById?idThongBaoDonGiaThueDat=" + idThongBao);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        data = JsonConvert.DeserializeObject<ApiSuccessResult<ThongBaoDonGiaThueDatViewModel>>(await response.Content.ReadAsStringAsync());
+                    }
+
                     if (String.IsNullOrEmpty(data.Data.TenThongBaoDonGiaThueDat))
                     {
                         data.Data.TenThongBaoDonGiaThueDat = "Về đơn giá thuê đất, thuê mặt nước";
@@ -274,7 +292,11 @@ namespace QuanLyThueDat.WebApp.Service
                     break;
                 case LoaiThongBaoConstant.ThongBaoTienThueDat:
                     pathFileTemplate = "Assets/Template/MauThongBaoTienThueDat.docx";
-                    data = await _thongBaoTienThueDatService.GetById(idThongBao);
+                    response = await client.GetAsync("/api/ThongBaoTienThueDat/GetById?idThongBaoTienThueDat=" + idThongBao);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        data = JsonConvert.DeserializeObject<ApiSuccessResult<ThongBaoTienThueDatViewModel>>(await response.Content.ReadAsStringAsync());
+                    }
                     if (String.IsNullOrEmpty(data.Data.TenThongBaoTienThueDat))
                     {
                         data.Data.TenThongBaoTienThueDat = "Về tiền thuê đất, thuê mặt nước theo hình thức nộp hàng năm";
@@ -293,7 +315,10 @@ namespace QuanLyThueDat.WebApp.Service
                             data.Data.TextKyThayLanhDao = "KT. TRƯỞNG BAN";
                         }
                     }
-                    data.Data.TextLoaiThongBaoTienThueDat = typeof(LoaiThongBaoTienThueDatConstant).GetField(data.Data.LoaiThongBaoTienThueDat).GetValue(null).ToString();
+                    if (!String.IsNullOrEmpty(data.Data.LoaiThongBaoTienThueDat))
+                    {
+                        data.Data.TextLoaiThongBaoTienThueDat = typeof(LoaiThongBaoTienThueDatConstant).GetField(data.Data.LoaiThongBaoTienThueDat).GetValue(null).ToString();
+                    }
                     data.Data.TextSoTienPhaiNop = NumberToTextVN(data.Data.SoTienPhaiNop);
                     data.Data.TextTongDienTich = NumberToTextVN(data.Data.TongDienTich);
 

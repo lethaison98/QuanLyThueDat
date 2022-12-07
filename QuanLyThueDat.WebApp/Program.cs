@@ -30,8 +30,6 @@ builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<IUserApiClient, UserApiClient>();
 builder.Services.AddScoped<IExportWordClient, ExportWordClient>();
-builder.Services.AddScoped<IThongBaoDonGiaThueDatService, ThongBaoDonGiaThueDatService>();
-builder.Services.AddScoped<IThongBaoTienThueDatService, ThongBaoTienThueDatService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
