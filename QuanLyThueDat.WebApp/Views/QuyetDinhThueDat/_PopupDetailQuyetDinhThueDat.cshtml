@@ -11,31 +11,43 @@
             </div>
             <div class="modal-body" style="min-height:600px">
                 <div class="row col-sm-12" id="FormDetailQuyetDinhThueDat">
-
                     <div class="form-group col-md-6">
                         <h5>Số quyết định giao đất (UBND tỉnh)</h5>
+                        <div class="d-flex">
+                            <i style="color: gold" class="fa fa-folder" id="btnSelectFileQuyetDinhGiaoDat"></i> &nbsp; &nbsp;
+                            <input type="file" id="fileQuyetDinhGiaoDat" multiple="" style="display: none;">
+                            <div class="fileDinhKem"  data-name="FileQuyetDinhGiaoDat">
+                            </div>
+                        </div>
                         <input type="text" class="form-control" data-name="SoQuyetDinhGiaoDat" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <h5>Số quyết định thuê đất</h5>
+                        <div class="d-flex">
+                            <a href="#" style="color: gold" class="fa fa-folder" id="btnSelectFileQuyetDinhThueDat"></a> &nbsp; &nbsp;
+                            <input type="file" id="fileQuyetDinhThueDat" multiple="" style="display: none;">
+                            <div class="fileDinhKem" data-name="FileQuyetDinhThueDat">
+                            </div>
+                        </div>
+                        <input type="hidden" class="form-control" data-name="IdQuyetDinhThueDat" value="0">
+                        <input type="text" class="form-control" data-name="SoQuyetDinhThueDat" required>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <h5>Ngày ký quyết định giao đất (UBND tỉnh)</h5>
+                        <input type="text" class="form-control" data-name="NgayQuyetDinhGiaoDat" placeholder='dd/mm/yyyy' required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <h5>Ngày ký quyết định thuê đất</h5>
+                        <input type="text" class="form-control" data-name="NgayQuyetDinhThueDat" placeholder='dd/mm/yyyy' required>
                     </div>
                     <div class="form-group col-md-6">
                         <h5>Tên quyết định giao đất (UBND tỉnh)</h5>
                         <input type="text" class="form-control" data-name="TenQuyetDinhGiaoDat" required>
                     </div>
                     <div class="form-group col-md-6">
-                        <h5>Ngày ký quyết định giao đất (UBND tỉnh)</h5>
-                        <input type="text" class="form-control" data-name="NgayQuyetDinhGiaoDat" placeholder='dd/mm/yyyy' required>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <h5>Số quyết định thuê đất</h5>
-                        <input type="hidden" class="form-control" data-name="IdQuyetDinhThueDat" value="0">
-                        <input type="text" class="form-control" data-name="SoQuyetDinhThueDat" required>
-                    </div>
-                    <div class="form-group col-md-6">
                         <h5>Tên quyết định thuê đất</h5>
                         <input type="text" class="form-control" data-name="TenQuyetDinhThueDat" required>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <h5>Ngày ký quyết định thuê đất</h5>
-                        <input type="text" class="form-control" data-name="NgayQuyetDinhThueDat" placeholder='dd/mm/yyyy' required>
                     </div>
                     <div class="form-group col-md-6">
                         <h5>Vị trí trên bản đồ</h5>
@@ -97,21 +109,6 @@
                                 </tr>
                             </tfoot>
                         </table>
-                    </div>
-                </div>
-                <div class="col-12 col-sm-12 col-md-12 col-lg-12">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="ttls-cm">
-                                <div class="ttls-label">File đính kèm<span class="required">*</span></div>
-                                <div class="form-group">
-                                    <a id="btnSelectFile" class="dropzone-attach-files btn btn-sm btn-warning mb-0 dz-clickable">Chọn tệp tin đính kèm</a>
-                                    <input type="file" id="fileUpload" multiple="" style="display: none;">
-                                    <div class="fileDinhKem" id="lstIdFile" data-name="dsIdFile">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

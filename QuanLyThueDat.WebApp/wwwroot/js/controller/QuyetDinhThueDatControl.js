@@ -191,6 +191,57 @@ QuyetDinhThueDatControl = {
                 $(this).parents('tr:first').remove();
             });
         });
+
+        $('#btnSelectFileQuyetDinhThueDat').click(function () {
+            $('#fileQuyetDinhThueDat').trigger("click");
+        });
+
+
+        if ($('#fileQuyetDinhThueDat').length > 0) {
+            $('#fileQuyetDinhThueDat')[0].value = "";
+            $('#fileQuyetDinhThueDat').off('change').on('change', function (e) {
+                var $this = this;
+                var file = $('#fileQuyetDinhThueDat')[0].files.length > 0 ? $('#fileQuyetDinhThueDat')[0].files[0] : null;
+                console.log(file);
+                if (file != null) {
+                    var dataFile = new FormData();
+                    dataFile.append("IdDoanhNghiep", $(".ddDoanhNghiep option:selected").val());
+                    dataFile.append("File", file);
+                    $.ajax({
+                        url: localStorage.getItem("API_URL") + "/File/UploadFile",
+                        type: "POST",
+                        headers: {
+                            'Authorization': 'Bearer ' + localStorage.getItem("access_token")
+                        },
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        data: dataFile,
+                        success: function (res) {
+                            console.log(res);
+                            if (res.IsSuccess) {
+                                $('[data-name="FileQuyetDinhThueDat"]').html('')
+                                $('[data-name="FileQuyetDinhThueDat"]').append('<a href = "#">' + file.name + '</a>');
+                                $('[data-name="FileQuyetDinhThueDat"]').attr('data-id', res.Data);
+                                //$('.btn-deleteFile').off('click').on('click', function () {
+                                //    var $y = $(this);
+                                //    var index = $('.rowFile').index($y.parents('.rowFile:first'));
+                                //    self.listIdFile.splice(index, 1);
+                                //    $('#lstIdFile').val(self.listIdFile.join());
+                                //    $y.parents('.rowFile:first').remove();
+                                //});
+                            } else {
+                                alert("Upload không thành công");
+                            }
+                        }
+                    });
+                }         
+            });
+        }
+
+
+
+
     },
     RegisterEvents: function (opts) {
         var self = this;
