@@ -77,12 +77,14 @@ namespace QuanLyThueDat.WebApp.Controllers
 
             return principal;
         }
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            HttpContext.Session.Remove("Token");
-            return RedirectToAction("Index", "Login");
+            HttpContext.Session.Remove("AccessToken");
+            HttpContext.Session.Remove("HoTen");
+            HttpContext.Session.Remove("UserName");
+            return RedirectToAction("Login", "User");
         }
     }
 }

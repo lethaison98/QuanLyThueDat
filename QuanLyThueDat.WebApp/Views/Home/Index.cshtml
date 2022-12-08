@@ -152,15 +152,6 @@
 
 
 </section>
-<script>
-    const API_URL = @Json.Serialize(@Configuration.GetSection("BaseAddress").Value);
-    window.localStorage.setItem('API_URL', API_URL);
-    window.localStorage.setItem('ACCESS_TOKEN', '@Context.Session.GetString("AccessToken")');
-    window.localStorage.setItem('HoTen', '@Context.Session.GetString("HoTen")');
-    window.localStorage.setItem('UserName', '@Context.Session.GetString("UserName")');
-
-
-</script>
 @section Scripts{
     <script src="~/js/controller/DashBoardControl.js"></script>
 }
