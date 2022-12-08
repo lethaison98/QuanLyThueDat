@@ -72,7 +72,15 @@ namespace QuanLyThueDat.WebApp.Service
             var pathFileTemplate = "";
             dynamic data = new System.Dynamic.ExpandoObject();
             var response = new HttpResponseMessage();
-            var client = _httpClientFactory.CreateClient();
+            var handler = new HttpClientHandler();
+            handler.ClientCertificateOptions = ClientCertificateOption.Manual;
+            handler.ServerCertificateCustomValidationCallback =
+                (httpRequestMessage, cert, cetChain, policyErrors) =>
+                {
+                    return true;
+                };
+
+            var client = new HttpClient(handler);
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
             switch (loaiThongBaoConstant)
             {
@@ -256,113 +264,128 @@ namespace QuanLyThueDat.WebApp.Service
 
         public async Task<ApiResult<byte[]>> CreateWordDocument(int idThongBao, string loaiThongBaoConstant)
         {
-            var pathFileTemplate = "";
-            dynamic data = new System.Dynamic.ExpandoObject();
-            var response = new HttpResponseMessage();
-            var client = _httpClientFactory.CreateClient();
-            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
-            switch (loaiThongBaoConstant)
+            try
             {
-                case LoaiThongBaoConstant.ThongBaoDonGiaThueDat:
-                    pathFileTemplate = "Assets/Template/MauThongBaoDonGiaThueDat.docx";
-                    response = await client.GetAsync("/api/ThongBaoDonGiaThueDat/GetById?idThongBaoDonGiaThueDat=" + idThongBao);
-                    if (response.IsSuccessStatusCode)
-                    {
-                        data = JsonConvert.DeserializeObject<ApiSuccessResult<ThongBaoDonGiaThueDatViewModel>>(await response.Content.ReadAsStringAsync());
-                    }
 
-                    if (String.IsNullOrEmpty(data.Data.TenThongBaoDonGiaThueDat))
+                var pathFileTemplate = "";
+                dynamic data = new System.Dynamic.ExpandoObject();
+                var response = new HttpResponseMessage();
+                var handler = new HttpClientHandler();
+                handler.ClientCertificateOptions = ClientCertificateOption.Manual;
+                handler.ServerCertificateCustomValidationCallback =
+                    (httpRequestMessage, cert, cetChain, policyErrors) =>
                     {
-                        data.Data.TenThongBaoDonGiaThueDat = "Về đơn giá thuê đất, thuê mặt nước";
-                    }
-                    if (String.IsNullOrEmpty(data.Data.CoQuanQuanLyThue))
-                    {
-                        data.Data.CoQuanQuanLyThue = "Chi cục thuế Bắc Vinh";
-                    }
-                    if (!String.IsNullOrEmpty(data.Data.LanhDaoKyThongBaoDonGiaThueDat))
-                    {
-                        var arr = data.Data.LanhDaoKyThongBaoDonGiaThueDat.Split('-');
-                        data.Data.TextChucVuLanhDao = arr[0];
-                        data.Data.TextTenLanhDao = arr[1];
-                        if (data.Data.TextChucVuLanhDao != "TRƯỞNG BAN")
-                        {
-                            data.Data.TextKyThayLanhDao = "KT. TRƯỞNG BAN";
-                        }
-                    }
-                    break;
-                case LoaiThongBaoConstant.ThongBaoTienThueDat:
-                    pathFileTemplate = "Assets/Template/MauThongBaoTienThueDat.docx";
-                    response = await client.GetAsync("/api/ThongBaoTienThueDat/GetById?idThongBaoTienThueDat=" + idThongBao);
-                    if (response.IsSuccessStatusCode)
-                    {
-                        data = JsonConvert.DeserializeObject<ApiSuccessResult<ThongBaoTienThueDatViewModel>>(await response.Content.ReadAsStringAsync());
-                    }
-                    if (String.IsNullOrEmpty(data.Data.TenThongBaoTienThueDat))
-                    {
-                        data.Data.TenThongBaoTienThueDat = "Về tiền thuê đất, thuê mặt nước theo hình thức nộp hàng năm";
-                    }
-                    if (String.IsNullOrEmpty(data.Data.CoQuanQuanLyThue))
-                    {
-                        data.Data.CoQuanQuanLyThue = "Chi cục thuế Bắc Vinh";
-                    }
-                    if (!String.IsNullOrEmpty(data.Data.LanhDaoKyThongBaoTienThueDat))
-                    {
-                        var arr = data.Data.LanhDaoKyThongBaoTienThueDat.Split('-');
-                        data.Data.TextChucVuLanhDao = arr[0];
-                        data.Data.TextTenLanhDao = arr[1];
-                        if(data.Data.TextChucVuLanhDao!= "TRƯỞNG BAN")
-                        {
-                            data.Data.TextKyThayLanhDao = "KT. TRƯỞNG BAN";
-                        }
-                    }
-                    if (!String.IsNullOrEmpty(data.Data.LoaiThongBaoTienThueDat))
-                    {
-                        data.Data.TextLoaiThongBaoTienThueDat = typeof(LoaiThongBaoTienThueDatConstant).GetField(data.Data.LoaiThongBaoTienThueDat).GetValue(null).ToString();
-                    }
-                    data.Data.TextSoTienPhaiNop = NumberToTextVN(data.Data.SoTienPhaiNop);
-                    data.Data.TextTongDienTich = NumberToTextVN(data.Data.TongDienTich);
+                        return true;
+                    };
 
-
-                    break;
-            }
-            var filename = Path.Combine(Directory.GetCurrentDirectory(), pathFileTemplate);
-            byte[] byteArray = File.ReadAllBytes(filename);
-
-
-            using (MemoryStream stream = new MemoryStream())
-            {
-                stream.Write(byteArray, 0, (int)byteArray.Length);
-                using (WordprocessingDocument wordDoc = WordprocessingDocument.Open(stream, true))
+                var client = new HttpClient(handler);
+                client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+                switch (loaiThongBaoConstant)
                 {
-                    string docText = null;
-                    using (StreamReader sr = new StreamReader(wordDoc.MainDocumentPart.GetStream()))
-                    {
-                        docText = sr.ReadToEnd();
-                    }                 
-                    if (data.IsSuccess)
-                    {
-                        var data1 = JsonConvert.SerializeObject(data.Data);
-                        foreach (PropertyInfo propertyInfo in data.Data.GetType().GetProperties())
+                    case LoaiThongBaoConstant.ThongBaoDonGiaThueDat:
+                        pathFileTemplate = "Assets/Template/MauThongBaoDonGiaThueDat.docx";
+                        response = await client.GetAsync("/api/ThongBaoDonGiaThueDat/GetById?idThongBaoDonGiaThueDat=" + idThongBao);
+                        if (response.IsSuccessStatusCode)
                         {
-                            docText = docText.Replace("{" + propertyInfo.Name + "}", Convert.ToString(propertyInfo.GetValue(data.Data, null)));
-                            //docText = docText.Replace("{SoThongBaoTienThueDat}", "1234");
+                            data = JsonConvert.DeserializeObject<ApiSuccessResult<ThongBaoDonGiaThueDatViewModel>>(await response.Content.ReadAsStringAsync());
+                        }
+
+                        if (String.IsNullOrEmpty(data.Data.TenThongBaoDonGiaThueDat))
+                        {
+                            data.Data.TenThongBaoDonGiaThueDat = "Về đơn giá thuê đất, thuê mặt nước";
+                        }
+                        if (String.IsNullOrEmpty(data.Data.CoQuanQuanLyThue))
+                        {
+                            data.Data.CoQuanQuanLyThue = "Chi cục thuế Bắc Vinh";
+                        }
+                        if (!String.IsNullOrEmpty(data.Data.LanhDaoKyThongBaoDonGiaThueDat))
+                        {
+                            var arr = data.Data.LanhDaoKyThongBaoDonGiaThueDat.Split('-');
+                            data.Data.TextChucVuLanhDao = arr[0];
+                            data.Data.TextTenLanhDao = arr[1];
+                            if (data.Data.TextChucVuLanhDao != "TRƯỞNG BAN")
+                            {
+                                data.Data.TextKyThayLanhDao = "KT. TRƯỞNG BAN";
+                            }
+                        }
+                        break;
+                    case LoaiThongBaoConstant.ThongBaoTienThueDat:
+                        pathFileTemplate = "Assets/Template/MauThongBaoTienThueDat.docx";
+                        response = await client.GetAsync("/api/ThongBaoTienThueDat/GetById?idThongBaoTienThueDat=" + idThongBao);
+                        if (response.IsSuccessStatusCode)
+                        {
+                            data = JsonConvert.DeserializeObject<ApiSuccessResult<ThongBaoTienThueDatViewModel>>(await response.Content.ReadAsStringAsync());
+                        }
+                        if (String.IsNullOrEmpty(data.Data.TenThongBaoTienThueDat))
+                        {
+                            data.Data.TenThongBaoTienThueDat = "Về tiền thuê đất, thuê mặt nước theo hình thức nộp hàng năm";
+                        }
+                        if (String.IsNullOrEmpty(data.Data.CoQuanQuanLyThue))
+                        {
+                            data.Data.CoQuanQuanLyThue = "Chi cục thuế Bắc Vinh";
+                        }
+                        if (!String.IsNullOrEmpty(data.Data.LanhDaoKyThongBaoTienThueDat))
+                        {
+                            var arr = data.Data.LanhDaoKyThongBaoTienThueDat.Split('-');
+                            data.Data.TextChucVuLanhDao = arr[0];
+                            data.Data.TextTenLanhDao = arr[1];
+                            if (data.Data.TextChucVuLanhDao != "TRƯỞNG BAN")
+                            {
+                                data.Data.TextKyThayLanhDao = "KT. TRƯỞNG BAN";
+                            }
+                        }
+                        if (!String.IsNullOrEmpty(data.Data.LoaiThongBaoTienThueDat))
+                        {
+                            data.Data.TextLoaiThongBaoTienThueDat = typeof(LoaiThongBaoTienThueDatConstant).GetField(data.Data.LoaiThongBaoTienThueDat).GetValue(null).ToString();
+                        }
+                        data.Data.TextSoTienPhaiNop = NumberToTextVN(data.Data.SoTienPhaiNop);
+                        data.Data.TextTongDienTich = NumberToTextVN(data.Data.TongDienTich);
+
+
+                        break;
+                }
+                var filename = Path.Combine(Directory.GetCurrentDirectory(), pathFileTemplate);
+                byte[] byteArray = File.ReadAllBytes(filename);
+
+
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    stream.Write(byteArray, 0, (int)byteArray.Length);
+                    using (WordprocessingDocument wordDoc = WordprocessingDocument.Open(stream, true))
+                    {
+                        string docText = null;
+                        using (StreamReader sr = new StreamReader(wordDoc.MainDocumentPart.GetStream()))
+                        {
+                            docText = sr.ReadToEnd();
+                        }
+                        if (data.IsSuccess)
+                        {
+                            var data1 = JsonConvert.SerializeObject(data.Data);
+                            foreach (PropertyInfo propertyInfo in data.Data.GetType().GetProperties())
+                            {
+                                docText = docText.Replace("{" + propertyInfo.Name + "}", Convert.ToString(propertyInfo.GetValue(data.Data, null)));
+                                //docText = docText.Replace("{SoThongBaoTienThueDat}", "1234");
+                            }
+                        }
+                        else
+                        {
+                            return new ApiErrorResult<byte[]>("Lấy dữ liệu không thành công");
+                        }
+
+                        using (StreamWriter sw = new StreamWriter(wordDoc.MainDocumentPart.GetStream(FileMode.Create)))
+                        {
+                            sw.Write(docText);
                         }
                     }
-                    else
-                    {
-                        return new ApiErrorResult<byte[]>("Lấy dữ liệu không thành công");
-                    }
-
-                    using (StreamWriter sw = new StreamWriter(wordDoc.MainDocumentPart.GetStream(FileMode.Create)))
-                    {
-                        sw.Write(docText);
-                    }
+                    // Save the file with the new name
+                    byteArray = stream.ToArray();
                 }
-                // Save the file with the new name
-                byteArray = stream.ToArray();
-            }
 
-            return new ApiSuccessResult<byte[]>() { Data = byteArray };
+                return new ApiSuccessResult<byte[]>() { Data = byteArray };
+            }catch (Exception ex)
+            {
+                return new ApiErrorResult<byte[]>(ex.Message);
+            }
         }
 
 
