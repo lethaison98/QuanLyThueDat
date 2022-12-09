@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QuanLyThueDat.Data.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,6 +26,7 @@ namespace QuanLyThueDat.Application.Request
         public string ViTriThuaDat { get; set; }
         public string DiaChiThuaDat { get; set; }
         public List<QuyetDinhThueDatChiTietRequest> QuyetDinhThueDatChiTiet { get; set; } 
+        public List<FileTaiLieu> FileTaiLieu { get; set; }
     }
     public class QuyetDinhThueDatChiTietRequest
     {

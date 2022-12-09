@@ -130,6 +130,22 @@ QuyetDinhThueDatControl = {
 
                                             });
                                         }
+                                        if (res.Data.DsFileTaiLieu != null) {
+                                            $.each(res.Data.DsFileTaiLieu, function (i, item) {
+                                                if (item.LoaiTaiLieu == "QuyetDinhThueDat") {
+                                                    $('[data-name="FileQuyetDinhThueDat"]').html('')
+                                                    $('[data-name="FileQuyetDinhThueDat"]').append('<a href = "' + localStorage.getItem("API_URL").replace('api', '') + item.LinkFile +'" target="_blank">' + item.TenFile + '</a>');
+                                                    $('[data-name="FileQuyetDinhThueDat"]').attr('data-idFile', item.IdFile);
+                                                    $('[data-name="FileQuyetDinhThueDat"]').attr('data-id', item.IdFileTaiLieu);
+                                                }
+                                                if (item.LoaiTaiLieu == "QuyetDinhGiaoDat") {
+                                                    $('[data-name="FileQuyetDinhGiaoDat"]').html('')
+                                                    $('[data-name="FileQuyetDinhGiaoDat"]').append('<a href = "' + localStorage.getItem("API_URL").replace('api', '') + item.LinkFile + '" target="_blank">' + item.TenFile + '</a>');
+                                                    $('[data-name="FileQuyetDinhGiaoDat"]').attr('data-idFile', item.IdFile);
+                                                    $('[data-name="FileQuyetDinhGiaoDat"]').attr('data-id', item.IdFileTaiLieu);
+                                                }
+                                            });
+                                        }
                                     }
                                 })
                             }
@@ -222,7 +238,8 @@ QuyetDinhThueDatControl = {
                             if (res.IsSuccess) {
                                 $('[data-name="FileQuyetDinhThueDat"]').html('')
                                 $('[data-name="FileQuyetDinhThueDat"]').append('<a href = "#">' + file.name + '</a>');
-                                $('[data-name="FileQuyetDinhThueDat"]').attr('data-id', res.Data);
+                                $('[data-name="FileQuyetDinhThueDat"]').attr('data-idFile', res.Data);
+                                $('[data-name="FileQuyetDinhThueDat"]').attr('data-id', 0);
                                 //$('.btn-deleteFile').off('click').on('click', function () {
                                 //    var $y = $(this);
                                 //    var index = $('.rowFile').index($y.parents('.rowFile:first'));
@@ -236,6 +253,53 @@ QuyetDinhThueDatControl = {
                         }
                     });
                 }         
+            });
+        }
+        $('#btnSelectFileQuyetDinhGiaoDat').click(function () {
+            $('#fileQuyetDinhGiaoDat').trigger("click");
+        });
+
+
+        if ($('#fileQuyetDinhGiaoDat').length > 0) {
+            $('#fileQuyetDinhGiaoDat')[0].value = "";
+            $('#fileQuyetDinhGiaoDat').off('change').on('change', function (e) {
+                var $this = this;
+                var file = $('#fileQuyetDinhGiaoDat')[0].files.length > 0 ? $('#fileQuyetDinhGiaoDat')[0].files[0] : null;
+                console.log(file);
+                if (file != null) {
+                    var dataFile = new FormData();
+                    dataFile.append("IdDoanhNghiep", $(".ddDoanhNghiep option:selected").val());
+                    dataFile.append("File", file);
+                    $.ajax({
+                        url: localStorage.getItem("API_URL") + "/File/UploadFile",
+                        type: "POST",
+                        headers: {
+                            'Authorization': 'Bearer ' + localStorage.getItem("access_token")
+                        },
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        data: dataFile,
+                        success: function (res) {
+                            console.log(res);
+                            if (res.IsSuccess) {
+                                $('[data-name="FileQuyetDinhGiaoDat"]').html('')
+                                $('[data-name="FileQuyetDinhGiaoDat"]').append('<a href = "#">' + file.name + '</a>');
+                                $('[data-name="FileQuyetDinhGiaoDat"]').attr('data-idFile', res.Data);
+                                $('[data-name="FileQuyetDinhGiaoDat"]').attr('data-id', 0);
+                                //$('.btn-deleteFile').off('click').on('click', function () {
+                                //    var $y = $(this);
+                                //    var index = $('.rowFile').index($y.parents('.rowFile:first'));
+                                //    self.listIdFile.splice(index, 1);
+                                //    $('#lstIdFile').val(self.listIdFile.join());
+                                //    $y.parents('.rowFile:first').remove();
+                                //});
+                            } else {
+                                alert("Upload không thành công");
+                            }
+                        }
+                    });
+                }
             });
         }
 
@@ -295,8 +359,24 @@ QuyetDinhThueDatControl = {
                 });
             }
         });
-        console.log(quyetDinhThueDatChiTiet);
+        var fileTaiLieu = [];
+        if ($('[data-name="FileQuyetDinhThueDat"]').attr("data-idFile") != undefined) {
+            fileTaiLieu.push({
+                IdFileTaiLieu: $('[data-name="FileQuyetDinhThueDat"]').attr("data-id"),
+                IdFile: $('[data-name="FileQuyetDinhThueDat"]').attr("data-idFile"),
+                LoaiTaiLieu: "QuyetDinhThueDat"
+            });
+        }
+        if ($('[data-name="FileQuyetDinhGiaoDat"]').attr("data-idFile") != undefined) {
+            fileTaiLieu.push({
+                IdFileTaiLieu: $('[data-name="FileQuyetDinhGiaoDat"]').attr("data-id"),
+                IdFile: $('[data-name="FileQuyetDinhGiaoDat"]').attr("data-idFile"),
+                LoaiTaiLieu: "QuyetDinhGiaoDat"
+            });
+        }
+        console.log(fileTaiLieu);
         data.QuyetDinhThueDatChiTiet = quyetDinhThueDatChiTiet;
+        data.FileTaiLieu = fileTaiLieu;
 
         Post({
             "url": localStorage.getItem("API_URL") + "/QuyetDinhThueDat/InsertUpdate",

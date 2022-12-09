@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -71,7 +72,7 @@ namespace QuanLyThueDat.Application.Service
 
             }
             var listQuyetDinhThueDatChiTiet = new List<QuyetDinhThueDatChiTiet>();
-            if (rq.QuyetDinhThueDatChiTiet != null)
+            if (rq.QuyetDinhThueDatChiTiet.Count > 0)
             {
                 foreach (var item in rq.QuyetDinhThueDatChiTiet)
                 {
@@ -89,6 +90,23 @@ namespace QuanLyThueDat.Application.Service
             }
             entity.DsQuyetDinhThueDatChiTiet = listQuyetDinhThueDatChiTiet;
             _context.QuyetDinhThueDat.Update(entity);
+            var listIdOldFile = rq.FileTaiLieu.Where(x => x.IdFileTaiLieu > 0).Select(x=> x.IdFileTaiLieu);
+            var listRemoveFile = _context.FileTaiLieu.Where(x => x.IdTaiLieu == entity.IdQuyetDinhThueDat && x.IdLoaiTaiLieu == NhomLoaiTaiLieuConstant.NhomQuyetDinhThueDat && !listIdOldFile.Contains(x.IdFileTaiLieu));
+            foreach(var item in listRemoveFile)
+            {
+                item.TrangThai = 4;
+            }
+            _context.FileTaiLieu.UpdateRange(listRemoveFile);
+
+            var listNewFile = rq.FileTaiLieu.Where(x => x.IdFileTaiLieu == 0);
+            foreach(var item in listNewFile)
+            {
+                item.IdTaiLieu = entity.IdQuyetDinhThueDat;
+                item.IdLoaiTaiLieu = NhomLoaiTaiLieuConstant.NhomQuyetDinhThueDat;
+                item.TrangThai = 1;
+                item.NgayTao = DateTime.Now;
+            }
+            _context.FileTaiLieu.AddRange(listNewFile);
             await _context.SaveChangesAsync();
             result = entity.IdQuyetDinhThueDat;
             return new ApiSuccessResult<int>() { Data = result };
@@ -246,6 +264,22 @@ namespace QuanLyThueDat.Application.Service
                         listct.Add(ctVM);
                     }
                     result.DsQuyetDinhThueDatChiTiet = listct;
+                    var listFileViewModel = new List<FileTaiLieuViewModel>();
+                    var listFile = _context.FileTaiLieu.Include(x => x.File).Where(x => x.IdLoaiTaiLieu == NhomLoaiTaiLieuConstant.NhomQuyetDinhThueDat && x.IdTaiLieu == entity.IdQuyetDinhThueDat && x.TrangThai != 4).ToList();
+                    foreach(var item in listFile)
+                    {
+                        var fileViewModel = new FileTaiLieuViewModel();
+                        fileViewModel.IdFileTaiLieu = item.IdFileTaiLieu;
+                        fileViewModel.IdFile = item.IdFile;
+                        fileViewModel.TenFile = item.File.TenFile;
+                        fileViewModel.LinkFile = item.File.LinkFile;
+                        fileViewModel.LoaiTaiLieu = item.LoaiTaiLieu;
+                        fileViewModel.IdLoaiTaiLieu = item.IdLoaiTaiLieu;
+                        fileViewModel.IdTaiLieu = item.IdTaiLieu;
+                        listFileViewModel.Add(fileViewModel);
+                    }
+                    result.DsFileTaiLieu = listFileViewModel;
+                    
                 }
                 return new ApiSuccessResult<QuyetDinhThueDatViewModel>() { Data = result };
 

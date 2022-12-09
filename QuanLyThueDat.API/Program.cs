@@ -7,6 +7,7 @@ using QuanLyThueDat.Data.Entities;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -127,9 +128,19 @@ app.UseAuthorization();
 
 app.UseSwagger();
 app.UseSwaggerUI();
+if (!Directory.Exists(Path.Combine(builder.Environment.ContentRootPath, "UploadFile")))
+{
+    Directory.CreateDirectory(Path.Combine(builder.Environment.ContentRootPath, "UploadFile"));
+}
 
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, "UploadFile")),
+    RequestPath = "/UploadFile"
+});
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+

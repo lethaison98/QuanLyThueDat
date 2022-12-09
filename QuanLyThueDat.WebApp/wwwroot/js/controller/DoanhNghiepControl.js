@@ -120,7 +120,9 @@ DoanhNghiepControl = {
                                         $('#modalThongBaoDoanhNghiep').html(popup);
                                         $('#popupThongBaoDoanhNghiep').modal();
                                         $('#popupThongBaoDoanhNghiep .modal-title').text(tenDoanhNghiep);
+                                        console.log(1);
                                         $("#selectTabQuyetDinhThueDat").off('click').on('click', function () {
+                                            console.log(2);
                                             $('#tblQuyetDinhThueDat').DataTable().destroy();
                                             self.RegisterEventsQuyetDinhThueDat(opts);
                                         });
