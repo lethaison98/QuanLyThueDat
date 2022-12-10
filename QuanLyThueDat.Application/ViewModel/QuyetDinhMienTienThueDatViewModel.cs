@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QuanLyThueDat.Data.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,7 @@ namespace QuanLyThueDat.Application.ViewModel
         public string ThoiHanMienTienThueDat { get; set; }
         public string NgayHieuLucMienTienThueDat { get; set; }
         public string NgayHetHieuLucMienTienThueDat { get; set; }
+        public List<FileTaiLieuViewModel> DsFileTaiLieu { get; set; }
 
     }
 }

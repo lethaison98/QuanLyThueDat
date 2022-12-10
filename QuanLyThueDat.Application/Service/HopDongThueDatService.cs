@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using QuanLyThueDat.Application.Common.Constant;
 using QuanLyThueDat.Application.Interfaces;
 using QuanLyThueDat.Application.Request;
 using QuanLyThueDat.Application.ViewModel;
@@ -56,6 +57,23 @@ namespace QuanLyThueDat.Application.Service
             }
 
             _context.HopDongThueDat.Update(entity);
+            var listIdOldFile = rq.FileTaiLieu.Where(x => x.IdFileTaiLieu > 0).Select(x => x.IdFileTaiLieu);
+            var listRemoveFile = _context.FileTaiLieu.Where(x => x.IdTaiLieu == entity.IdHopDongThueDat && x.IdLoaiTaiLieu == NhomLoaiTaiLieuConstant.NhomHopDongThueDat && !listIdOldFile.Contains(x.IdFileTaiLieu));
+            foreach (var item in listRemoveFile)
+            {
+                item.TrangThai = 4;
+            }
+            _context.FileTaiLieu.UpdateRange(listRemoveFile);
+
+            var listNewFile = rq.FileTaiLieu.Where(x => x.IdFileTaiLieu == 0);
+            foreach (var item in listNewFile)
+            {
+                item.IdTaiLieu = entity.IdHopDongThueDat;
+                item.IdLoaiTaiLieu = NhomLoaiTaiLieuConstant.NhomHopDongThueDat;
+                item.TrangThai = 1;
+                item.NgayTao = DateTime.Now;
+            }
+            _context.FileTaiLieu.AddRange(listNewFile);
             await _context.SaveChangesAsync();
             result = entity.IdHopDongThueDat;
             return new ApiSuccessResult<int>() { Data = result };
@@ -170,6 +188,21 @@ namespace QuanLyThueDat.Application.Service
                     NgayHieuLucHopDong = entity.NgayHieuLucHopDong != null ? entity.NgayHieuLucHopDong.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                     NgayHetHieuLucHopDong = entity.NgayHetHieuLucHopDong != null ? entity.NgayHetHieuLucHopDong.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                 };
+                var listFileViewModel = new List<FileTaiLieuViewModel>();
+                var listFile = _context.FileTaiLieu.Include(x => x.File).Where(x => x.IdLoaiTaiLieu == NhomLoaiTaiLieuConstant.NhomHopDongThueDat && x.IdTaiLieu == entity.IdHopDongThueDat && x.TrangThai != 4).ToList();
+                foreach (var item in listFile)
+                {
+                    var fileViewModel = new FileTaiLieuViewModel();
+                    fileViewModel.IdFileTaiLieu = item.IdFileTaiLieu;
+                    fileViewModel.IdFile = item.IdFile;
+                    fileViewModel.TenFile = item.File.TenFile;
+                    fileViewModel.LinkFile = item.File.LinkFile;
+                    fileViewModel.LoaiTaiLieu = item.LoaiTaiLieu;
+                    fileViewModel.IdLoaiTaiLieu = item.IdLoaiTaiLieu;
+                    fileViewModel.IdTaiLieu = item.IdTaiLieu;
+                    listFileViewModel.Add(fileViewModel);
+                }
+                result.DsFileTaiLieu = listFileViewModel;
                 return new ApiSuccessResult<HopDongThueDatViewModel>() { Data = result };
 
             }

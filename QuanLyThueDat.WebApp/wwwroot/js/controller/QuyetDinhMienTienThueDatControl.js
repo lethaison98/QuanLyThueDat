@@ -105,10 +105,18 @@ QuyetDinhMienTienThueDatControl = {
                                         } else {
                                             self.LoadDanhSachDoanhNghiep();
                                         }
-                                        $('.select2').select2();
-                                        $("#btnSaveQuyetDinhMienTienThueDat").off('click').on('click', function () {
-                                            self.InsertUpdate();
-                                        });
+
+                                        if (res.Data.DsFileTaiLieu != null) {
+                                            $.each(res.Data.DsFileTaiLieu, function (i, item) {
+                                                if (item.LoaiTaiLieu == "QuyetDinhMienTienThueDat") {
+                                                    $('[data-name="FileQuyetDinhMienTienThueDat"]').html('')
+                                                    $('[data-name="FileQuyetDinhMienTienThueDat"]').append('<a href = "' + localStorage.getItem("API_URL").replace('api', '') + item.LinkFile + '" target="_blank">' + item.TenFile + '</a>');
+                                                    $('[data-name="FileQuyetDinhMienTienThueDat"]').attr('data-idFile', item.IdFile);
+                                                    $('[data-name="FileQuyetDinhMienTienThueDat"]').attr('data-id', item.IdFileTaiLieu);
+                                                }
+                                            });
+                                        }
+                                        self.RegisterEventsPopup();
                                         //$("#btnTraCuu").on('click', function () {
                                         //    $('#modal-add-edit').modal('show');
                                         //});
@@ -154,6 +162,60 @@ QuyetDinhMienTienThueDatControl = {
         });
 
     },
+    RegisterEventsPopup: function (opts) {
+        var self = this;
+        $('.select2').select2();
+
+        $('#btnSelectFileQuyetDinhMienTienThueDat').click(function () {
+            $('#fileQuyetDinhMienTienThueDat').trigger("click");
+        });
+        if ($('#fileQuyetDinhMienTienThueDat').length > 0) {
+            $('#fileQuyetDinhMienTienThueDat')[0].value = "";
+            $('#fileQuyetDinhMienTienThueDat').off('change').on('change', function (e) {
+                
+                var file = $('#fileQuyetDinhMienTienThueDat')[0].files.length > 0 ? $('#fileQuyetDinhMienTienThueDat')[0].files[0] : null;
+                console.log(file);
+                if (file != null) {
+                    var dataFile = new FormData();
+                    dataFile.append("IdDoanhNghiep", $(".ddDoanhNghiep option:selected").val());
+                    dataFile.append("File", file);
+                    $.ajax({
+                        url: localStorage.getItem("API_URL") + "/File/UploadFile",
+                        type: "POST",
+                        headers: {
+                            'Authorization': 'Bearer ' + localStorage.getItem("access_token")
+                        },
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        data: dataFile,
+                        success: function (res) {
+                            console.log(res);
+                            if (res.IsSuccess) {
+                                $('[data-name="FileQuyetDinhMienTienThueDat"]').html('')
+                                $('[data-name="FileQuyetDinhMienTienThueDat"]').append('<a href = "#">' + file.name + '</a>');
+                                $('[data-name="FileQuyetDinhMienTienThueDat"]').attr('data-idFile', res.Data);
+                                $('[data-name="FileQuyetDinhMienTienThueDat"]').attr('data-id', 0);
+                                //$('.btn-deleteFile').off('click').on('click', function () {
+                                //    var $y = $(this);
+                                //    var index = $('.rowFile').index($y.parents('.rowFile:first'));
+                                //    self.listIdFile.splice(index, 1);
+                                //    $('#lstIdFile').val(self.listIdFile.join());
+                                //    $y.parents('.rowFile:first').remove();
+                                //});
+                            } else {
+                                alert("Upload không thành công");
+                            }
+                        }
+                    });
+                }
+            });
+        }
+        $("#btnSaveQuyetDinhMienTienThueDat").off('click').on('click', function () {
+            self.InsertUpdate();
+        });
+    },
+
     RegisterEvents: function (opts) {
         var self = this;
         self.LoadDatatable(opts);
@@ -170,10 +232,7 @@ QuyetDinhMienTienThueDatControl = {
                     } else {
                         self.LoadDanhSachDoanhNghiep();
                     }
-                    $('.select2').select2();
-                    $("#btnSaveQuyetDinhMienTienThueDat").off('click').on('click', function () {
-                        self.InsertUpdate();
-                    });
+                    self.RegisterEventsPopup();
                 }
             })
         });
@@ -188,7 +247,15 @@ QuyetDinhMienTienThueDatControl = {
         var self = this;
         var data = LoadFormData("#FormDetailQuyetDinhMienTienThueDat");
         data.IdDoanhNghiep = $(".ddDoanhNghiep option:selected").val();
-        console.log(data);
+        var fileTaiLieu = [];
+        if ($('[data-name="FileQuyetDinhMienTienThueDat"]').attr("data-idFile") != undefined) {
+            fileTaiLieu.push({
+                IdFileTaiLieu: $('[data-name="FileQuyetDinhMienTienThueDat"]').attr("data-id"),
+                IdFile: $('[data-name="FileQuyetDinhMienTienThueDat"]').attr("data-idFile"),
+                LoaiTaiLieu: "QuyetDinhMienTienThueDat"
+            });
+        }
+        data.FileTaiLieu = fileTaiLieu;
         Post({
             "url": localStorage.getItem("API_URL") + "/QuyetDinhMienTienThueDat/InsertUpdate",
             "data": data,

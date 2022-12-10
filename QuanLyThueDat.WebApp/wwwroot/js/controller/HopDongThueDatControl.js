@@ -95,15 +95,23 @@ HopDongThueDatControl = {
                                         $('#popupDetailHopDongThueDat').modal();
                                         FillFormData('#FormDetailHopDongThueDat', res.Data);
                                         var popup = $('#popupDetailHopDongThueDat');
-                                        $('.select2').select2();
                                         if (opts != undefined) {
                                             popup.find('.ddDoanhNghiep').append('<option value="' + opts.IdDoanhNghiep + '">' + opts.TenDoanhNghiep + '</option>');
                                         } else {
                                             popup.find('.ddDoanhNghiep').append('<option value="' + res.Data.IdDoanhNghiep + '">' + res.Data.TenDoanhNghiep + '</option>');
                                         }
-                                        $("#btnSave").off('click').on('click', function () {
-                                            self.InsertUpdate();
-                                        });
+                                        self.RegisterEventsPopup();
+                                        if (res.Data.DsFileTaiLieu != null) {
+                                            $.each(res.Data.DsFileTaiLieu, function (i, item) {
+                                                if (item.LoaiTaiLieu == "HopDongThueDat") {
+                                                    $('[data-name="FileHopDongThueDat"]').html('')
+                                                    $('[data-name="FileHopDongThueDat"]').append('<a href = "' + localStorage.getItem("API_URL").replace('api', '') + item.LinkFile + '" target="_blank">' + item.TenFile + '</a>');
+                                                    $('[data-name="FileHopDongThueDat"]').attr('data-idFile', item.IdFile);
+                                                    $('[data-name="FileHopDongThueDat"]').attr('data-id', item.IdFileTaiLieu);
+                                                }
+                                            });
+                                        }
+
                                         //$("#btnTraCuu").on('click', function () {
                                         //    $('#modal-add-edit').modal('show');
                                         //});
@@ -148,6 +156,61 @@ HopDongThueDatControl = {
         });
 
     },
+    RegisterEventsPopup: function (opts) {
+        var self = this;
+        $('.select2').select2();
+
+        $('#btnSelectFileHopDongThueDat').click(function () {
+            $('#fileHopDongThueDat').trigger("click");
+        });
+        if ($('#fileHopDongThueDat').length > 0) {
+            $('#fileHopDongThueDat')[0].value = "";
+            $('#fileHopDongThueDat').off('change').on('change', function (e) {
+                console.log(1);
+                var file = $('#fileHopDongThueDat')[0].files.length > 0 ? $('#fileHopDongThueDat')[0].files[0] : null;
+                console.log(file);
+                if (file != null) {
+                    var dataFile = new FormData();
+                    dataFile.append("IdDoanhNghiep", $(".ddDoanhNghiep option:selected").val());
+                    dataFile.append("File", file);
+                    $.ajax({
+                        url: localStorage.getItem("API_URL") + "/File/UploadFile",
+                        type: "POST",
+                        headers: {
+                            'Authorization': 'Bearer ' + localStorage.getItem("access_token")
+                        },
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        data: dataFile,
+                        success: function (res) {
+                            console.log(res);
+                            if (res.IsSuccess) {
+                                $('[data-name="FileHopDongThueDat"]').html('')
+                                $('[data-name="FileHopDongThueDat"]').append('<a href = "#">' + file.name + '</a>');
+                                $('[data-name="FileHopDongThueDat"]').attr('data-idFile', res.Data);
+                                $('[data-name="FileHopDongThueDat"]').attr('data-id', 0);
+                                //$('.btn-deleteFile').off('click').on('click', function () {
+                                //    var $y = $(this);
+                                //    var index = $('.rowFile').index($y.parents('.rowFile:first'));
+                                //    self.listIdFile.splice(index, 1);
+                                //    $('#lstIdFile').val(self.listIdFile.join());
+                                //    $y.parents('.rowFile:first').remove();
+                                //});
+                            } else {
+                                alert("Upload không thành công");
+                            }
+                        }
+                    });
+                }
+            });
+        }
+        $("#btnSave").off('click').on('click', function () {
+            self.InsertUpdate();
+        });
+
+    },
+
     RegisterEvents: function (opts) {
         var self = this;
         self.LoadDatatable(opts);
@@ -168,10 +231,8 @@ HopDongThueDatControl = {
                         self.LoadDanhSachDoanhNghiep();
                         console.log(2);
                     }
-                    $('.select2').select2();
-                    $("#btnSave").off('click').on('click', function () {
-                        self.InsertUpdate();
-                    });
+                    self.RegisterEventsPopup();
+                    
                 }
             })
         });
@@ -186,7 +247,16 @@ HopDongThueDatControl = {
         var self = this;
         var data = LoadFormData("#FormDetailHopDongThueDat");
         data.IdDoanhNghiep = $(".ddDoanhNghiep option:selected").val();
-        console.log(data);
+        var fileTaiLieu = [];
+        if ($('[data-name="FileHopDongThueDat"]').attr("data-idFile") != undefined) {
+            fileTaiLieu.push({
+                IdFileTaiLieu: $('[data-name="FileHopDongThueDat"]').attr("data-id"),
+                IdFile: $('[data-name="FileHopDongThueDat"]').attr("data-idFile"),
+                LoaiTaiLieu: "HopDongThueDat"
+            });
+        }
+        data.FileTaiLieu = fileTaiLieu;
+
         Post({
             "url": localStorage.getItem("API_URL") + "/HopDongThueDat/InsertUpdate",
             "data": data,
