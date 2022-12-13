@@ -168,10 +168,9 @@ QuyetDinhThueDatControl = {
                                 contentType: "application/json-patch+json",
                                 type: "Delete",
                                 success: function (res) {
-                                    console.log(res);
                                     if (res.IsSuccess) {
                                         alert("Thành công");
-                                        console.log(1);
+
                                         self.table.ajax.reload();
                                     }
                                     else {
@@ -221,7 +220,6 @@ QuyetDinhThueDatControl = {
             $('#fileQuyetDinhThueDat').off('change').on('change', function (e) {
                 var $this = this;
                 var file = $('#fileQuyetDinhThueDat')[0].files.length > 0 ? $('#fileQuyetDinhThueDat')[0].files[0] : null;
-                console.log(file);
                 if (file != null) {
                     var dataFile = new FormData();
                     dataFile.append("IdDoanhNghiep", $(".ddDoanhNghiep option:selected").val());
@@ -237,7 +235,6 @@ QuyetDinhThueDatControl = {
                         processData: false,
                         data: dataFile,
                         success: function (res) {
-                            console.log(res);
                             if (res.IsSuccess) {
                                 $('[data-name="FileQuyetDinhThueDat"]').html('')
                                 $('[data-name="FileQuyetDinhThueDat"]').append('<a href = "#">' + file.name + '</a>');
@@ -268,7 +265,6 @@ QuyetDinhThueDatControl = {
             $('#fileQuyetDinhGiaoDat').off('change').on('change', function (e) {
                 var $this = this;
                 var file = $('#fileQuyetDinhGiaoDat')[0].files.length > 0 ? $('#fileQuyetDinhGiaoDat')[0].files[0] : null;
-                console.log(file);
                 if (file != null) {
                     var dataFile = new FormData();
                     dataFile.append("IdDoanhNghiep", $(".ddDoanhNghiep option:selected").val());
@@ -284,7 +280,6 @@ QuyetDinhThueDatControl = {
                         processData: false,
                         data: dataFile,
                         success: function (res) {
-                            console.log(res);
                             if (res.IsSuccess) {
                                 $('[data-name="FileQuyetDinhGiaoDat"]').html('')
                                 $('[data-name="FileQuyetDinhGiaoDat"]').append('<a href = "#">' + file.name + '</a>');
@@ -343,7 +338,6 @@ QuyetDinhThueDatControl = {
         });
         var data = LoadFormData("#FormDetailQuyetDinhThueDat");
         data.IdDoanhNghiep = $(".ddDoanhNghiep option:selected").val();
-        console.log(data);
 
         var arrayRow = $("#tblChiTietQuyetDinhThueDat tbody tr");
         var quyetDinhThueDatChiTiet = [];
@@ -377,7 +371,6 @@ QuyetDinhThueDatControl = {
                 LoaiTaiLieu: "QuyetDinhGiaoDat"
             });
         }
-        console.log(fileTaiLieu);
         data.QuyetDinhThueDatChiTiet = quyetDinhThueDatChiTiet;
         data.FileTaiLieu = fileTaiLieu;
 

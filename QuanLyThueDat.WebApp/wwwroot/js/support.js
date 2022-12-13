@@ -407,9 +407,6 @@
             "ordering": false,
             "deferRender": true,
             stateSave: true,
-            "language": {
-                "url": "/lib/DataTables/Vietnamese.json"
-            },
             "ajax": {
                 "url": "",
                 "contentType": "application/json",

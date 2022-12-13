@@ -277,8 +277,6 @@ ThongBaoTienThueDatControl = {
                 var dienTichKhongPhaiNop = ConvertStringToDecimal(popup.find("[data-name='DienTichKhongPhaiNop']").val());
                 var soTienMienGiam = ConvertDecimalToString((donGia * dienTichKhongPhaiNop).toFixed(0));
                 popup.find("[data-name='SoTienMienGiam']").val(soTienMienGiam);
-                console.log(tongDienTich);
-                console.log((tongDienTich - dienTichKhongPhaiNop));
                 var dienTichPhaiNop = ConvertDecimalToString((tongDienTich - dienTichKhongPhaiNop).toFixed(2).toString().replace(".", ","));
                 popup.find("[data-name='DienTichPhaiNop']").val(dienTichPhaiNop);
             };
@@ -323,7 +321,6 @@ ThongBaoTienThueDatControl = {
                         });
                     }
                 });
-                console.log(thongBaoChiTiet);
                 data.ThongBaoTienThueDatChiTiet = thongBaoChiTiet;
             } else {
                 var popup = $('#popupDetailThongBaoTienThueDat');
@@ -388,7 +385,6 @@ ThongBaoTienThueDatControl = {
             var popup = $('#popupDetailThongBaoTienThueDat');
             var form = '#FormDetailThongBaoTienThueDat';
         }
-        console.log(popup.find(".ddDoanhNghiep option:selected").val());
         Get({
             url: localStorage.getItem("API_URL") + "/QuyetDinhThueDat/GetListQuyetDinhThueDatChiTiet",
             data: {
@@ -396,7 +392,6 @@ ThongBaoTienThueDatControl = {
             },
             showLoading: true,
             callback: function (res) {
-                console.log(popup)
                 popup.find('.ddQuyetDinhThueDat').html('');
                 popup.find('.ddQuyetDinhThueDat').append('<option value= "" selected="true" style="display: none"></option>');
                 $.each(res.Data, function (i, item) {
@@ -407,7 +402,6 @@ ThongBaoTienThueDatControl = {
                     $('.groupQuyetDinhThueDat input').val("");
                     if (popup.find(".ddQuyetDinhThueDat option:selected").val() != undefined && popup.find(".ddQuyetDinhThueDat option:selected").val() != "") {
                         var qd = res.Data[popup.find(".ddQuyetDinhThueDat option:selected").val()];
-                        console.log(qd);
                         FillFormData(form, qd);
                         self.LoadDanhSachThongBaoDonGiaThueDat(opts);
                         //Get({
@@ -447,7 +441,6 @@ ThongBaoTienThueDatControl = {
             IdQuyetDinhThueDat: popup.find(".ddQuyetDinhThueDat option:selected").val(),
             IdDoanhNghiep: popup.find(".ddDoanhNghiep option:selected").val()
         };
-        console.log(Data);
         Post({
             url: localStorage.getItem("API_URL") + "/ThongBaoDonGiaThueDat/GetAllByRequest",
             data: Data,

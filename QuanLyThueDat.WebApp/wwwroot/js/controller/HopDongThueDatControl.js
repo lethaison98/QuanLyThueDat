@@ -25,11 +25,9 @@ HopDongThueDatControl = {
                     }
                 },
                 "processData2": function (res) {
-                    console.log(res);
                     var json = jQuery.parseJSON(res);
                     json.recordsTotal = json.Data.TotalRecord;
                     json.recordsFiltered = json.Data.TotalRecord;
-                    console.log(json.recordsTotal);
                     json.data = json.Data.Items;
                     return JSON.stringify(json);
                 },
@@ -137,7 +135,6 @@ HopDongThueDatControl = {
                                 contentType: "application/json-patch+json",
                                 type: "Delete",
                                 success: function (res) {
-                                    console.log(res);
                                     if (res.IsSuccess) {
                                         alert("Thành công");
                                         self.table.ajax.reload();
@@ -168,9 +165,7 @@ HopDongThueDatControl = {
         if ($('#fileHopDongThueDat').length > 0) {
             $('#fileHopDongThueDat')[0].value = "";
             $('#fileHopDongThueDat').off('change').on('change', function (e) {
-                console.log(1);
                 var file = $('#fileHopDongThueDat')[0].files.length > 0 ? $('#fileHopDongThueDat')[0].files[0] : null;
-                console.log(file);
                 if (file != null) {
                     var dataFile = new FormData();
                     dataFile.append("IdDoanhNghiep", $(".ddDoanhNghiep option:selected").val());
@@ -186,7 +181,6 @@ HopDongThueDatControl = {
                         processData: false,
                         data: dataFile,
                         success: function (res) {
-                            console.log(res);
                             if (res.IsSuccess) {
                                 $('[data-name="FileHopDongThueDat"]').html('')
                                 $('[data-name="FileHopDongThueDat"]').append('<a href = "#">' + file.name + '</a>');
@@ -227,11 +221,9 @@ HopDongThueDatControl = {
                     $('#popupDetailHopDongThueDat').modal();
                     var popup = $('#popupDetailHopDongThueDat');
                     if (opts != undefined) {
-                        console.log(1);
                         popup.find('.ddDoanhNghiep').append('<option value="' + opts.IdDoanhNghiep + '">' + opts.TenDoanhNghiep + '</option>');
                     } else {
                         self.LoadDanhSachDoanhNghiep();
-                        console.log(2);
                     }
                     self.RegisterEventsPopup();
                     

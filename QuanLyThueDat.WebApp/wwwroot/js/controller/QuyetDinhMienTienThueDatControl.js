@@ -25,11 +25,9 @@ QuyetDinhMienTienThueDatControl = {
                     }
                 },
                 "processData2": function (res) {
-                    console.log(res);
                     var json = jQuery.parseJSON(res);
                     json.recordsTotal = json.Data.TotalRecord;
                     json.recordsFiltered = json.Data.TotalRecord;
-                    console.log(json.recordsTotal);
                     json.data = json.Data.Items;
                     return JSON.stringify(json);
                 },
@@ -142,10 +140,8 @@ QuyetDinhMienTienThueDatControl = {
                                 contentType: "application/json-patch+json",
                                 type: "Delete",
                                 success: function (res) {
-                                    console.log(res);
                                     if (res.IsSuccess) {
                                         alert("Thành công");
-                                        console.log(1);
                                         self.table.ajax.reload();
                                     }
                                     else {
@@ -176,7 +172,6 @@ QuyetDinhMienTienThueDatControl = {
             $('#fileQuyetDinhMienTienThueDat').off('change').on('change', function (e) {
                 
                 var file = $('#fileQuyetDinhMienTienThueDat')[0].files.length > 0 ? $('#fileQuyetDinhMienTienThueDat')[0].files[0] : null;
-                console.log(file);
                 if (file != null) {
                     var dataFile = new FormData();
                     dataFile.append("IdDoanhNghiep", $(".ddDoanhNghiep option:selected").val());
@@ -192,7 +187,6 @@ QuyetDinhMienTienThueDatControl = {
                         processData: false,
                         data: dataFile,
                         success: function (res) {
-                            console.log(res);
                             if (res.IsSuccess) {
                                 $('[data-name="FileQuyetDinhMienTienThueDat"]').html('')
                                 $('[data-name="FileQuyetDinhMienTienThueDat"]').append('<a href = "#">' + file.name + '</a>');

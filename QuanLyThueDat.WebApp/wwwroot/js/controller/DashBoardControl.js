@@ -177,7 +177,6 @@ DashBoardControl = {
         self.LoadDatatableQuyetDinhMienTienThueDat();
         setTimeout(() => {
             $('.bg-danger h3').text(countDenHan);
-            console.log(countDenHan);
         }, "1000");
                
     },
