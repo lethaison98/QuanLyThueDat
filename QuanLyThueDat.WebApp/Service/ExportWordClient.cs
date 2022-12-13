@@ -296,7 +296,7 @@ namespace QuanLyThueDat.WebApp.Service
                         }
                         if (String.IsNullOrEmpty(data.Data.CoQuanQuanLyThue))
                         {
-                            data.Data.CoQuanQuanLyThue = "Chi cục thuế Bắc Vinh";
+                            data.Data.CoQuanQuanLyThue = "Cục thuế Nghệ An";
                         }
                         if (!String.IsNullOrEmpty(data.Data.LanhDaoKyThongBaoDonGiaThueDat))
                         {
@@ -307,6 +307,11 @@ namespace QuanLyThueDat.WebApp.Service
                             {
                                 data.Data.TextKyThayLanhDao = "KT. TRƯỞNG BAN";
                             }
+                        }
+                        else
+                        {
+                            data.Data.TextChucVuLanhDao = "TRƯỞNG BAN";
+                            data.Data.TextTenLanhDao = "LÊ TIẾN TRỊ";
                         }
                         break;
                     case LoaiThongBaoConstant.ThongBaoTienThueDat:
@@ -333,6 +338,11 @@ namespace QuanLyThueDat.WebApp.Service
                             {
                                 data.Data.TextKyThayLanhDao = "KT. TRƯỞNG BAN";
                             }
+                        }
+                        else
+                        {
+                            data.Data.TextChucVuLanhDao = "TRƯỞNG BAN";
+                            data.Data.TextTenLanhDao = "LÊ TIẾN TRỊ";
                         }
                         if (!String.IsNullOrEmpty(data.Data.LoaiThongBaoTienThueDat))
                         {

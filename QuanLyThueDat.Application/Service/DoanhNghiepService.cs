@@ -132,7 +132,7 @@ namespace QuanLyThueDat.Application.Service
             {
                 query = query.Where(x => x.TenDoanhNghiep.ToLower().Contains(keyword.ToLower()) || x.MaSoThue.ToLower().Contains(keyword.ToLower()));
             }
-            var data = await query.OrderByDescending(x => x.TenDoanhNghiep)
+            var data = await query.OrderByDescending(x => x.IdDoanhNghiep)
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize).ToListAsync();
             var listItem = new List<DoanhNghiepViewModel>();
