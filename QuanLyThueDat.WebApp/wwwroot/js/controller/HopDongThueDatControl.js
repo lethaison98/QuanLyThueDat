@@ -159,7 +159,9 @@ HopDongThueDatControl = {
     RegisterEventsPopup: function (opts) {
         var self = this;
         $('.select2').select2();
-
+        $('.datetimepicker-input').datetimepicker({
+            format: 'DD/MM/YYYY'
+        });
         $('#btnSelectFileHopDongThueDat').click(function () {
             $('#fileHopDongThueDat').trigger("click");
         });

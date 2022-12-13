@@ -87,6 +87,9 @@ DoanhNghiepControl = {
                                         $('#popupDetailDoanhNghiep').modal();
                                         $('#popupDetailDoanhNghiep .modal-title').text("Chỉnh sửa thông tin doanh nghiệp");
                                         FillFormData('#FormDetailDoanhNghiep', res.Data);
+                                        $('.datetimepicker-input').datetimepicker({
+                                            format: 'DD/MM/YYYY'
+                                        });
                                         $("#btnSaveDoanhNghiep").off('click').on('click', function () {
                                             self.InsertUpdate();
                                         });
@@ -208,6 +211,9 @@ DoanhNghiepControl = {
                 callback: function (res) {
                     $('#modalDetailDoanhNghiep').html(res);
                     $('#popupDetailDoanhNghiep').modal();
+                    $('.datetimepicker-input').datetimepicker({
+                        format: 'DD/MM/YYYY'
+                    });
                     $("#btnSaveDoanhNghiep").off('click').on('click', function () {
                         self.InsertUpdate();
                     });

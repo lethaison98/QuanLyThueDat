@@ -16,7 +16,7 @@
                         <div class="d-flex">
                             <i style="color: gold" class="fa fa-folder" id="btnSelectFileQuyetDinhGiaoDat"></i> &nbsp; &nbsp;
                             <input type="file" id="fileQuyetDinhGiaoDat" multiple="" style="display: none;">
-                            <div class="fileDinhKem"  data-name="FileQuyetDinhGiaoDat" data-id="0">
+                            <div class="fileDinhKem" data-name="FileQuyetDinhGiaoDat" data-id="0">
                             </div>
                         </div>
                         <input type="text" class="form-control" data-name="SoQuyetDinhGiaoDat" required>
@@ -35,11 +35,13 @@
 
                     <div class="form-group col-md-6">
                         <h5>Ngày ký quyết định giao đất (UBND tỉnh)</h5>
-                        <input type="text" class="form-control" data-name="NgayQuyetDinhGiaoDat" placeholder='dd/mm/yyyy' required>
+                        <input type="text" class="form-control datetimepicker-input" data-toggle="datetimepicker" data-name="NgayQuyetDinhGiaoDat">
+
                     </div>
                     <div class="form-group col-md-6">
                         <h5>Ngày ký quyết định thuê đất</h5>
-                        <input type="text" class="form-control" data-name="NgayQuyetDinhThueDat" placeholder='dd/mm/yyyy' required>
+                        <input type="text" class="form-control datetimepicker-input" data-toggle="datetimepicker" data-name="NgayQuyetDinhThueDat">
+
                     </div>
                     <div class="form-group col-md-6">
                         <h5>Tên quyết định giao đất (UBND tỉnh)</h5>
@@ -134,10 +136,10 @@
                             <input type="text" class="form-control px-1" data-name="ThoiHanThue" required>
                         </td>
                         <td style="width:12%">
-                            <input type="text" class="form-control px-1" data-name="TuNgayThue" required>
+                            <input type="text" class="form-control px-1" data-name="TuNgayThue" placeholder="dd/mm/yyyy" required>
                         </td>
                         <td style="width:12%">
-                            <input type="text" class="form-control px-1" data-name="DenNgayThue" required>
+                            <input type="text" class="form-control px-1" data-name="DenNgayThue" placeholder="dd/mm/yyyy" required>
                         </td>
                         <td style="width:5%">
                             <a href="javascript:;" class="tr-remove text-danger"><i class="fas fa-trash-alt" title="Xóa"></i></a>

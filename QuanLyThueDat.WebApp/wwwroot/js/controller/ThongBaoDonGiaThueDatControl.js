@@ -173,6 +173,9 @@ ThongBaoDonGiaThueDatControl = {
     RegisterEventsPopup: function () {
         var self = this;
         $('.select2').select2();
+        $('.datetimepicker-input').datetimepicker({
+            format: 'DD/MM/YYYY'
+        });
         $("#btnSaveThongBaoDonGiaThueDat").off('click').on('click', function () {
             self.InsertUpdate();
         });

@@ -152,7 +152,9 @@ ThongBaoTienThueDatControl = {
         var self = this;
         var popup = $('#popupDetailThongBaoTienThueDat');
         $('.select2').select2();
-
+        $('.datetimepicker-input').datetimepicker({
+            format: 'DD/MM/YYYY'
+        });
         popup.find("[data-name = 'LoaiThongBaoTienThueDat']").val(opts.LoaiThongBaoTienThueDat);
         popup.find('.ddDoanhNghiep').append('<option value="' + opts.IdDoanhNghiep + '">' + opts.TenDoanhNghiep + '</option>');
 
