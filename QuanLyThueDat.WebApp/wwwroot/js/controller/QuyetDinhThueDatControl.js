@@ -134,16 +134,22 @@ QuyetDinhThueDatControl = {
                                             $.each(res.Data.DsFileTaiLieu, function (i, item) {
                                                 if (item.LoaiTaiLieu == "QuyetDinhThueDat") {
                                                     $('[data-name="FileQuyetDinhThueDat"]').html('')
-                                                    $('[data-name="FileQuyetDinhThueDat"]').append('<a href = "' + localStorage.getItem("API_URL").replace('api', '') + item.LinkFile +'" target="_blank">' + item.TenFile + '</a>');
+                                                    $('[data-name="FileQuyetDinhThueDat"]').append('<a href = "' + localStorage.getItem("API_URL").replace('api', '') + item.LinkFile + '" target="_blank">' + item.TenFile + '</a>&nbsp;<i class="fas fa-trash-alt btn-deleteFile" title="Xóa"></i>');
                                                     $('[data-name="FileQuyetDinhThueDat"]').attr('data-idFile', item.IdFile);
                                                     $('[data-name="FileQuyetDinhThueDat"]').attr('data-id', item.IdFileTaiLieu);
                                                 }
                                                 if (item.LoaiTaiLieu == "QuyetDinhGiaoDat") {
                                                     $('[data-name="FileQuyetDinhGiaoDat"]').html('')
-                                                    $('[data-name="FileQuyetDinhGiaoDat"]').append('<a href = "' + localStorage.getItem("API_URL").replace('api', '') + item.LinkFile + '" target="_blank">' + item.TenFile + '</a>');
+                                                    $('[data-name="FileQuyetDinhGiaoDat"]').append('<a href = "' + localStorage.getItem("API_URL").replace('api', '') + item.LinkFile + '" target="_blank">' + item.TenFile + '</a>&nbsp;<i class="fas fa-trash-alt btn-deleteFile" title="Xóa"></i>');
                                                     $('[data-name="FileQuyetDinhGiaoDat"]').attr('data-idFile', item.IdFile);
                                                     $('[data-name="FileQuyetDinhGiaoDat"]').attr('data-id', item.IdFileTaiLieu);
                                                 }
+                                            });
+                                            $('.btn-deleteFile').off('click').on('click', function () {
+                                                var $y = $(this);
+                                                $y.parent().removeAttr("data-idFile");
+                                                $y.parent().html('');
+
                                             });
                                         }
                                     }
@@ -237,16 +243,15 @@ QuyetDinhThueDatControl = {
                         success: function (res) {
                             if (res.IsSuccess) {
                                 $('[data-name="FileQuyetDinhThueDat"]').html('')
-                                $('[data-name="FileQuyetDinhThueDat"]').append('<a href = "#">' + file.name + '</a>');
+                                $('[data-name="FileQuyetDinhThueDat"]').append('<a href = "#">' + file.name + '</a>&nbsp;<i class="fas fa-trash-alt btn-deleteFile" title="Xóa"></i>');
                                 $('[data-name="FileQuyetDinhThueDat"]').attr('data-idFile', res.Data);
                                 $('[data-name="FileQuyetDinhThueDat"]').attr('data-id', 0);
-                                //$('.btn-deleteFile').off('click').on('click', function () {
-                                //    var $y = $(this);
-                                //    var index = $('.rowFile').index($y.parents('.rowFile:first'));
-                                //    self.listIdFile.splice(index, 1);
-                                //    $('#lstIdFile').val(self.listIdFile.join());
-                                //    $y.parents('.rowFile:first').remove();
-                                //});
+                                $('.btn-deleteFile').off('click').on('click', function () {
+                                    var $y = $(this);
+                                    $y.parent().removeAttr("data-idFile");
+                                    $y.parent().html('');
+
+                                });
                             } else {
                                 alert("Upload không thành công");
                             }
@@ -282,16 +287,15 @@ QuyetDinhThueDatControl = {
                         success: function (res) {
                             if (res.IsSuccess) {
                                 $('[data-name="FileQuyetDinhGiaoDat"]').html('')
-                                $('[data-name="FileQuyetDinhGiaoDat"]').append('<a href = "#">' + file.name + '</a>');
+                                $('[data-name="FileQuyetDinhGiaoDat"]').append('<a href = "#">' + file.name + '</a>&nbsp;<i class="fas fa-trash-alt btn-deleteFile" title="Xóa"></i>');
                                 $('[data-name="FileQuyetDinhGiaoDat"]').attr('data-idFile', res.Data);
                                 $('[data-name="FileQuyetDinhGiaoDat"]').attr('data-id', 0);
-                                //$('.btn-deleteFile').off('click').on('click', function () {
-                                //    var $y = $(this);
-                                //    var index = $('.rowFile').index($y.parents('.rowFile:first'));
-                                //    self.listIdFile.splice(index, 1);
-                                //    $('#lstIdFile').val(self.listIdFile.join());
-                                //    $y.parents('.rowFile:first').remove();
-                                //});
+                                $('.btn-deleteFile').off('click').on('click', function () {
+                                    var $y = $(this);
+                                    $y.parent().removeAttr("data-idFile");
+                                    $y.parent().html('');
+
+                                });
                             } else {
                                 alert("Upload không thành công");
                             }

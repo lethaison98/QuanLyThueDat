@@ -103,13 +103,18 @@ HopDongThueDatControl = {
                                             $.each(res.Data.DsFileTaiLieu, function (i, item) {
                                                 if (item.LoaiTaiLieu == "HopDongThueDat") {
                                                     $('[data-name="FileHopDongThueDat"]').html('')
-                                                    $('[data-name="FileHopDongThueDat"]').append('<a href = "' + localStorage.getItem("API_URL").replace('api', '') + item.LinkFile + '" target="_blank">' + item.TenFile + '</a>');
+                                                    $('[data-name="FileHopDongThueDat"]').append('<a href = "' + localStorage.getItem("API_URL").replace('api', '') + item.LinkFile + '" target="_blank">' + item.TenFile + '</a>&nbsp;<i class="fas fa-trash-alt btn-deleteFile" title="Xóa"></i>');
                                                     $('[data-name="FileHopDongThueDat"]').attr('data-idFile', item.IdFile);
                                                     $('[data-name="FileHopDongThueDat"]').attr('data-id', item.IdFileTaiLieu);
                                                 }
                                             });
                                         }
+                                        $('.btn-deleteFile').off('click').on('click', function () {
+                                            var $y = $(this);
+                                            $y.parent().removeAttr("data-idFile");
+                                            $y.parent().html('');
 
+                                        });
                                         //$("#btnTraCuu").on('click', function () {
                                         //    $('#modal-add-edit').modal('show');
                                         //});
@@ -183,16 +188,15 @@ HopDongThueDatControl = {
                         success: function (res) {
                             if (res.IsSuccess) {
                                 $('[data-name="FileHopDongThueDat"]').html('')
-                                $('[data-name="FileHopDongThueDat"]').append('<a href = "#">' + file.name + '</a>');
+                                $('[data-name="FileHopDongThueDat"]').append('<a href = "#">' + file.name + '</a>&nbsp;<i class="fas fa-trash-alt btn-deleteFile" title="Xóa"></i>');
                                 $('[data-name="FileHopDongThueDat"]').attr('data-idFile', res.Data);
                                 $('[data-name="FileHopDongThueDat"]').attr('data-id', 0);
-                                //$('.btn-deleteFile').off('click').on('click', function () {
-                                //    var $y = $(this);
-                                //    var index = $('.rowFile').index($y.parents('.rowFile:first'));
-                                //    self.listIdFile.splice(index, 1);
-                                //    $('#lstIdFile').val(self.listIdFile.join());
-                                //    $y.parents('.rowFile:first').remove();
-                                //});
+                                $('.btn-deleteFile').off('click').on('click', function () {
+                                    var $y = $(this);
+                                    $y.parent().removeAttr("data-idFile");
+                                    $y.parent().html('');
+
+                                });
                             } else {
                                 alert("Upload không thành công");
                             }

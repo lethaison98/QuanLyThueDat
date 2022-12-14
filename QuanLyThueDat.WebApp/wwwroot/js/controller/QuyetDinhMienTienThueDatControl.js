@@ -108,10 +108,15 @@ QuyetDinhMienTienThueDatControl = {
                                             $.each(res.Data.DsFileTaiLieu, function (i, item) {
                                                 if (item.LoaiTaiLieu == "QuyetDinhMienTienThueDat") {
                                                     $('[data-name="FileQuyetDinhMienTienThueDat"]').html('')
-                                                    $('[data-name="FileQuyetDinhMienTienThueDat"]').append('<a href = "' + localStorage.getItem("API_URL").replace('api', '') + item.LinkFile + '" target="_blank">' + item.TenFile + '</a>');
+                                                    $('[data-name="FileQuyetDinhMienTienThueDat"]').append('<a href = "' + localStorage.getItem("API_URL").replace('api', '') + item.LinkFile + '" target="_blank">' + item.TenFile + '</a>&nbsp;<i class="fas fa-trash-alt btn-deleteFile" title="Xóa"></i>');
                                                     $('[data-name="FileQuyetDinhMienTienThueDat"]').attr('data-idFile', item.IdFile);
                                                     $('[data-name="FileQuyetDinhMienTienThueDat"]').attr('data-id', item.IdFileTaiLieu);
                                                 }
+                                            });
+                                            $('.btn-deleteFile').off('click').on('click', function () {
+                                                var $y = $(this);
+                                                $y.parent().removeAttr("data-idFile");
+                                                $y.parent().html('');
                                             });
                                         }
                                         self.RegisterEventsPopup();
@@ -189,16 +194,15 @@ QuyetDinhMienTienThueDatControl = {
                         success: function (res) {
                             if (res.IsSuccess) {
                                 $('[data-name="FileQuyetDinhMienTienThueDat"]').html('')
-                                $('[data-name="FileQuyetDinhMienTienThueDat"]').append('<a href = "#">' + file.name + '</a>');
+                                $('[data-name="FileQuyetDinhMienTienThueDat"]').append('<a href = "#">' + file.name + '</a>&nbsp;<i class="fas fa-trash-alt btn-deleteFile" title="Xóa"></i>');
                                 $('[data-name="FileQuyetDinhMienTienThueDat"]').attr('data-idFile', res.Data);
                                 $('[data-name="FileQuyetDinhMienTienThueDat"]').attr('data-id', 0);
-                                //$('.btn-deleteFile').off('click').on('click', function () {
-                                //    var $y = $(this);
-                                //    var index = $('.rowFile').index($y.parents('.rowFile:first'));
-                                //    self.listIdFile.splice(index, 1);
-                                //    $('#lstIdFile').val(self.listIdFile.join());
-                                //    $y.parents('.rowFile:first').remove();
-                                //});
+                                $('.btn-deleteFile').off('click').on('click', function () {
+                                    var $y = $(this);
+                                    $y.parent().removeAttr("data-idFile");
+                                    $y.parent().html('');
+
+                                });
                             } else {
                                 alert("Upload không thành công");
                             }
