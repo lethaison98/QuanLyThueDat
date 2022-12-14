@@ -236,6 +236,11 @@ QuyetDinhMienTienThueDatControl = {
                 }
             })
         });
+        $(document).on('keypress', function (e) {
+            if (e.which == 13) {
+                $("#btnSearchQuyetDinhMienTienThueDat").trigger('click');
+            }
+        });
         $("#btnSearchQuyetDinhMienTienThueDat").off('click').on('click', function () {
             self.table.ajax.reload();
 

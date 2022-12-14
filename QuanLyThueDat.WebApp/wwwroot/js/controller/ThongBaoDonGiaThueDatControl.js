@@ -206,6 +206,11 @@ ThongBaoDonGiaThueDatControl = {
                 }
             })
         });
+        $(document).on('keypress', function (e) {
+            if (e.which == 13) {
+                $("#btnSearchThongBaoDonGiaThueDat").trigger('click');
+            }
+        });
         $("#btnSearchThongBaoDonGiaThueDat").off('click').on('click', function () {
             self.table.ajax.reload();
 

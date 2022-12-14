@@ -218,6 +218,11 @@ DoanhNghiepControl = {
                 }
             })
         });
+        $(document).on('keypress', function (e) {
+            if (e.which == 13) {
+                $("#btnSearchDoanhNghiep").trigger('click');
+            }
+        });
         $("#btnSearchDoanhNghiep").off('click').on('click', function () {
             self.table.ajax.reload();
 

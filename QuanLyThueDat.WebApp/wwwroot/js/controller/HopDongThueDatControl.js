@@ -234,6 +234,11 @@ HopDongThueDatControl = {
                 }
             })
         });
+        $(document).on('keypress', function (e) {
+            if (e.which == 13) {
+                $("#btnSearchHopDongThueDat").trigger('click');
+            }
+        });
         $("#btnSearchHopDongThueDat").off('click').on('click', function () {
             self.table.ajax.reload();
 

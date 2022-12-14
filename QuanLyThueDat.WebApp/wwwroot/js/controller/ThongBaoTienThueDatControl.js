@@ -237,6 +237,11 @@ ThongBaoTienThueDatControl = {
                 }
             })
         });
+        $(document).on('keypress', function (e) {
+            if (e.which == 13) {
+                $("#btnSearchThongBaoTienThueDat").trigger('click');
+            }
+        });
         $("#btnSearchThongBaoTienThueDat").off('click').on('click', function () {
             self.table.ajax.reload();
 
