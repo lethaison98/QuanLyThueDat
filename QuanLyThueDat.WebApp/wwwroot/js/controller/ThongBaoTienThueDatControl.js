@@ -21,7 +21,8 @@ ThongBaoTienThueDatControl = {
                 "requestData": function () {
                     return {
                         "keyword": $('#txtKEY_WORD').val(),
-                        "idDoanhNghiep": idDoanhNghiep
+                        "idDoanhNghiep": idDoanhNghiep,
+                        "nam": $('#namThongBao option:selected').val(),
                     }
                 },
                 "processData2": function (res) {
@@ -84,6 +85,7 @@ ThongBaoTienThueDatControl = {
                         window.open("/CreateWordFile?idThongBao=" + id + "&loaiThongBao=ThongBaoTienThueDat", "_blank");
                     }
                 });
+
                 $('#tblThongBaoTienThueDat tbody .ThongBaoTienThueDat-edit').off('click').on('click', function (e) {
                     var id = $(this).attr('data-id');
                     Get({
@@ -246,7 +248,13 @@ ThongBaoTienThueDatControl = {
             self.table.ajax.reload();
 
         });
-
+        $("#btnXuatBaoCaoTienThueDatHangNam").off('click').on('click', function (e) {
+            if ($('#namThongBao option:selected').val() != "") {
+                window.open("/ExportThongBaoTienThueDatHangNam?namThongBao=" + $('#namThongBao option:selected').val());
+            } else {
+                alert("Vui lòng chọn năm thông báo");
+            }
+        });
 
 
     },

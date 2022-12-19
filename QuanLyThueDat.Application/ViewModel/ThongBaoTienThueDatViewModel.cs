@@ -44,6 +44,7 @@ namespace QuanLyThueDat.Application.ViewModel
         public string TenThongBaoDonGiaThueDat { get; set; }
         public string NgayThongBaoDonGiaThueDat { get; set; }
         public string DonGia { get; set; }
+        public string ThoiHanDonGiaThueDat { get; set; }
 
         public string ViTriThuaDat { get; set; }
         public string DiaChiThuaDat { get; set; }

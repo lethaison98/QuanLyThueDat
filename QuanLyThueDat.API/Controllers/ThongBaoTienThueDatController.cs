@@ -29,9 +29,9 @@ namespace QuanLyThueDat.API.Controllers
             return Ok(result);
         }
         [HttpGet("GetAllPaging")]
-        public async Task<IActionResult> GetAllPaging(int? idDoanhNghiep, string keyword ="", int pageNumber=1, int pageSize=10)
+        public async Task<IActionResult> GetAllPaging(int? idDoanhNghiep, int? nam, string keyword ="", int pageNumber=1, int pageSize=10 )
         {
-            var result = await _ThongBaoTienThueDatService.GetAllPaging(idDoanhNghiep, keyword, pageNumber, pageSize);
+            var result = await _ThongBaoTienThueDatService.GetAllPaging(idDoanhNghiep, nam, keyword, pageNumber, pageSize);
             return Ok(result);
         }
         [HttpDelete("Delete")]
@@ -45,6 +45,12 @@ namespace QuanLyThueDat.API.Controllers
         public async Task<IActionResult> GetById(int idThongBaoTienThueDat)
         {
             var result = await _ThongBaoTienThueDatService.GetById(idThongBaoTienThueDat);
+            return Ok(result);
+        }
+        [HttpGet("GetAllByNam")]
+        public async Task<IActionResult> GetAllByNam(int nam)
+        {
+            var result = await _ThongBaoTienThueDatService.GetAllByNam(nam);
             return Ok(result);
         }
     }

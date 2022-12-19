@@ -9,10 +9,12 @@ namespace QuanLyThueDat.WebApp.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IExportWordClient _exportWordClient;
-        public HomeController(ILogger<HomeController> logger, IExportWordClient exportWordClient) 
+        private readonly IExportExcelClient _exportExcelClient;
+        public HomeController(ILogger<HomeController> logger, IExportWordClient exportWordClient, IExportExcelClient exportExcelClient)
         {
             _logger = logger;
-            _exportWordClient = exportWordClient;   
+            _exportWordClient = exportWordClient;
+            _exportExcelClient = exportExcelClient;
         }
 
         public IActionResult Index()
@@ -38,6 +40,19 @@ namespace QuanLyThueDat.WebApp.Controllers
             {
                 //var result = File(data.Data, "application/vnd.ms-word", loaiThongBao + ".doc");
                 var result = File(data.Data, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", loaiThongBao + ".docx");
+                return result;
+            }
+            return Ok(data);
+
+        }
+        [Route("ExportThongBaoTienThueDatHangNam")]
+        public async Task<IActionResult> _ExportThongBaoTienThueDatHangNam(int namThongBao)
+        {
+            var data = await _exportExcelClient.ExportThongBaoTienThueDatHangNam(namThongBao);
+            if (data.IsSuccess)
+            {
+                //var result = File(data.Data, "application/vnd.ms-word", loaiThongBao + ".doc");
+                var result = File(data.Data, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "DanhSachThongBaoTienThueDat.xlsx");
                 return result;
             }
             return Ok(data);
