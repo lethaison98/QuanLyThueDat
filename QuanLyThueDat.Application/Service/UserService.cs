@@ -31,7 +31,7 @@ namespace QuanLyThueDat.Application.Service
             _config = config;
         }
 
-        public async Task< ApiResult<UserLoginViewModel>> Authencate(LoginRequest request)
+        public async Task<ApiResult<UserLoginViewModel>> Authencate(LoginRequest request)
         {
             var user = await _userManager.FindByNameAsync(request.Username);
             if (user == null) return new ApiErrorResult<UserLoginViewModel>("Tài khoản không tồn tại"); ;
@@ -44,8 +44,10 @@ namespace QuanLyThueDat.Application.Service
             var roles = await _userManager.GetRolesAsync(user);
             var claims = new[]
             {
-                new Claim(ClaimTypes.Email,user.Email),
-                new Claim(ClaimTypes.Role, string.Join(";",roles))
+                new Claim("UserName", user.UserName.ToString()),
+                new Claim("UserId", user.Id.ToString()),
+                //new Claim("ip", ipAddress),
+                new Claim("HoTen", user.HoTen.ToString()),
             };
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
