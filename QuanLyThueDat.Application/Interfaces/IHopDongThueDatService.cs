@@ -15,5 +15,6 @@ namespace QuanLyThueDat.Application.Interfaces
         public Task<ApiResult<HopDongThueDatViewModel>> GetById(int idHopDong);
         public Task<ApiResult<List<HopDongThueDatViewModel>>> GetAll();
         public Task<ApiResult<PageViewModel<HopDongThueDatViewModel>>> GetAllPaging(int? idDoanhNghiep, string keyword, int pageIndex, int pageSize);
+        public Task<ApiResult<List<HopDongThueDatViewModel>>> CanhBaoHopDongSapHetHan();
     }
 }

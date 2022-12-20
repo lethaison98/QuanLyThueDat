@@ -211,5 +211,36 @@ namespace QuanLyThueDat.Application.Service
                 return new ApiErrorResult<HopDongThueDatViewModel>("Không tìm thấy dữ liệu");
             }
         }
+        public async Task<ApiResult<List<HopDongThueDatViewModel>>> CanhBaoHopDongSapHetHan()
+        {
+            var result = new List<HopDongThueDatViewModel>();
+            var data = await _context.HopDongThueDat.Include(x => x.DoanhNghiep).Where(x => (DateTime.Now.Date.AddDays(90) > x.NgayHetHieuLucHopDong) && (DateTime.Now < x.NgayHetHieuLucHopDong)).ToListAsync();
+            foreach (var item in data)
+            {
+                double soNgayConLai = 0;
+                if (item.NgayHetHieuLucHopDong.HasValue)
+                {
+                    soNgayConLai = ((item.NgayHetHieuLucHopDong.Value - DateTime.Now.Date).TotalDays);
+                    soNgayConLai = soNgayConLai > 0 ? soNgayConLai : 0;
+                }
+
+                var ThongBaoDonGiaThueDat = new HopDongThueDatViewModel
+                {
+                    IdHopDongThueDat = item.IdHopDongThueDat,
+                    IdDoanhNghiep = item.IdDoanhNghiep,
+                    TenDoanhNghiep = item.DoanhNghiep.TenDoanhNghiep,
+                    SoHopDong = item.SoHopDong,
+                    TenHopDong = item.TenHopDong,
+                    CoQuanKy = item.CoQuanKy,
+                    NguoiKy = item.NguoiKy,
+                    ThoiHanHopDong = soNgayConLai.ToString(),
+                    NgayKyHopDong = item.NgayKyHopDong != null ? item.NgayKyHopDong.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
+                    NgayHieuLucHopDong = item.NgayHieuLucHopDong != null ? item.NgayHieuLucHopDong.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
+                    NgayHetHieuLucHopDong = item.NgayHetHieuLucHopDong != null ? item.NgayHetHieuLucHopDong.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
+                };
+                result.Add(ThongBaoDonGiaThueDat);
+            }
+            return new ApiSuccessResult<List<HopDongThueDatViewModel>>() { Data = result };
+        }
     }
 }
