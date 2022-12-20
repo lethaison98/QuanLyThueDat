@@ -178,7 +178,10 @@ DashBoardControl = {
         setTimeout(() => {
             $('.bg-danger h3').text(countDenHan);
         }, "1000");
-               
+        $('#calendar').datetimepicker({
+            format: 'L',
+            inline: true
+        })
     },
 }
 

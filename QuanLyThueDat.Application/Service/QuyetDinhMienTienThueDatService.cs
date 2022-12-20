@@ -158,6 +158,7 @@ namespace QuanLyThueDat.Application.Service
                     IdDoanhNghiep = item.IdDoanhNghiep,
                     IdQuyetDinhThueDat = item.IdQuyetDinhThueDat,
                     TenDoanhNghiep = item.DoanhNghiep.TenDoanhNghiep,
+                    MaSoThue = item.DoanhNghiep.MaSoThue,
                     SoQuyetDinhMienTienThueDat = item.SoQuyetDinhMienTienThueDat,
                     TenQuyetDinhMienTienThueDat = item.TenQuyetDinhMienTienThueDat,
                     NgayQuyetDinhMienTienThueDat = item.NgayQuyetDinhMienTienThueDat != null ? item.NgayQuyetDinhMienTienThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",

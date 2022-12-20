@@ -175,7 +175,7 @@ QuyetDinhMienTienThueDatControl = {
         if ($('#fileQuyetDinhMienTienThueDat').length > 0) {
             $('#fileQuyetDinhMienTienThueDat')[0].value = "";
             $('#fileQuyetDinhMienTienThueDat').off('change').on('change', function (e) {
-                
+
                 var file = $('#fileQuyetDinhMienTienThueDat')[0].files.length > 0 ? $('#fileQuyetDinhMienTienThueDat')[0].files[0] : null;
                 if (file != null) {
                     var dataFile = new FormData();
@@ -244,6 +244,10 @@ QuyetDinhMienTienThueDatControl = {
         $("#btnSearchQuyetDinhMienTienThueDat").off('click').on('click', function () {
             self.table.ajax.reload();
 
+        });
+
+        $("#btnXuatBaoCaoQuyetDinhMienTienThueDat").off('click').on('click', function (e) {
+            window.open("/ExportQuyetDinhMienTienThueDat");
         });
 
     },

@@ -58,5 +58,18 @@ namespace QuanLyThueDat.WebApp.Controllers
             return Ok(data);
 
         }
+        [Route("ExportQuyetDinhMienTienThueDat")]
+        public async Task<IActionResult> _ExportQuyetDinhMienTienThueDat()
+        {
+            var data = await _exportExcelClient.ExportQuyetDinhMienTienThueDat();
+            if (data.IsSuccess)
+            {
+                //var result = File(data.Data, "application/vnd.ms-word", loaiThongBao + ".doc");
+                var result = File(data.Data, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "DanhSachThongBaoTienThueDat.xlsx");
+                return result;
+            }
+            return Ok(data);
+
+        }
     }
 }
