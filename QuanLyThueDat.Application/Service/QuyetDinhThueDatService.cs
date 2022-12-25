@@ -256,6 +256,7 @@ namespace QuanLyThueDat.Application.Service
                         ctVM.IdQuyetDinhThueDatChiTiet = item.IdQuyetDinhThueDatChiTiet;
                         ctVM.IdQuyetDinhThueDat = item.IdQuyetDinhThueDat;
                         ctVM.HinhThucThue = item.HinhThucThue;
+                        ctVM.TextHinhThucThue = typeof(LoaiQuyetDinhThueDatConstant).GetField(item.HinhThucThue).GetValue(null).ToString();
                         ctVM.ThoiHanThue = item.ThoiHanThue;
                         ctVM.MucDichSuDung = item.MucDichSuDung;
                         ctVM.DienTich = item.DienTich.ToString("N", new CultureInfo("vi-VN"));

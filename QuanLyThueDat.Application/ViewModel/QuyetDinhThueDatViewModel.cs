@@ -36,6 +36,7 @@ namespace QuanLyThueDat.Application.ViewModel
         public int IdQuyetDinhThueDatChiTiet { get; set; }
         public int IdQuyetDinhThueDat { get; set; }
         public string HinhThucThue { get; set; }
+        public string TextHinhThucThue { get; set; }
         public string DienTich { get; set; }
         public string ThoiHanThue { get; set; }
         public string DenNgayThue { get; set; }

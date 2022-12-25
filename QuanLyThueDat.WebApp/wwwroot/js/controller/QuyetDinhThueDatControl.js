@@ -61,7 +61,7 @@ QuyetDinhThueDatControl = {
                     {
                         "class": "name-control",
                         "width": "30%",
-                        "data": "TenQuyetDinhThueDat",
+                        "data": "ViTriThuaDat",
                         "defaultContent": "",
                     },
                     {
@@ -77,17 +77,112 @@ QuyetDinhThueDatControl = {
                         //"data": "thaotac",
                         "defaultContent": "",
                         render: function (data, type, row) {
-                            var thaotac = "<div class='hstn-func' style='text-align: center;' data-type='" + JSON.stringify(row) + "'>" +
-                                "<a href='javascript:;' class='QuyetDinhThueDat-edit' data-id='" + row.IdQuyetDinhThueDat + "'><i class='fas fa-edit' title='Sửa'></i></a>" +
-                                "<a href='javascript:;' class='QuyetDinhThueDat-remove text-danger' data-id='" + row.IdQuyetDinhThueDat + "'><i class='fas fa-trash-alt' title='Xóa' ></i></a>" +
-                                "</div>";
-                            return thaotac;
+                            if (opts == undefined) {
+                                var thaotac = "<div class='hstn-func' style='text-align: center;' data-type='" + JSON.stringify(row) + "'>" +
+                                    "<a href='javascript:;' class='QuyetDinhThueDat-view' data-id='" + row.IdQuyetDinhThueDat + "'><i class='fas fa-eye' title='Xem'></i></a> &nbsp" +
+                                    "</div>";
+                                return thaotac;
+                            } else {
+                                var thaotac = "<div class='hstn-func' style='text-align: center;' data-type='" + JSON.stringify(row) + "'>" +
+                                    "<a href='javascript:;' class='QuyetDinhThueDat-view' data-id='" + row.IdQuyetDinhThueDat + "'><i class='fas fa-eye' title='Xem'></i></a> &nbsp" +
+                                    "<a href='javascript:;' class='QuyetDinhThueDat-edit' data-id='" + row.IdQuyetDinhThueDat + "'><i class='fas fa-edit' title='Sửa'></i></a> &nbsp" +
+                                    "<a href='javascript:;' class='QuyetDinhThueDat-remove text-danger' data-id='" + row.IdQuyetDinhThueDat + "'><i class='fas fa-trash-alt' title='Xóa' ></i></a>" +
+                                    "</div>";
+                                return thaotac;
+                            }
                         }
                     }
                 ]
             },
             callback: function () {
+                $("#tblQuyetDinhThueDat tbody .QuyetDinhThueDat-view").off('click').on('click', function (e) {
+                    var $y = $(this);
+                    var id = $y.attr('data-id');
+                    Get({
+                        url: localStorage.getItem("API_URL") + '/QuyetDinhThueDat/GetById',
+                        data: {
+                            idQuyetDinhThueDat: id
+                        },
+                        callback: function (res) {
+                            Get({
+                                url: '/QuyetDinhThueDat/PopupViewQuyetDinhThueDat',
+                                dataType: 'text',
+                                callback: function (popup) {
+                                    $('#modalViewQuyetDinhThueDat').html(popup);
+                                    $('#popupViewQuyetDinhThueDat').modal();
+                                    var data = [];
+                                    for (var i = 0; i < res.Data.DsQuyetDinhThueDatChiTiet.length; i++) {
+                                        var obj = {
+                                            TenDoanhNghiep : res.Data.TenDoanhNghiep,
+                                            SoQuyetDinhThueDat : res.Data.SoQuyetDinhThueDat,
+                                            NgayQuyetDinhThueDat : res.Data.NgayQuyetDinhThueDat,
+                                            SoQuyetDinhGiaoDat : res.Data.SoQuyetDinhGiaoDat,
+                                            ViTriThuaDat : res.Data.ViTriThuaDat,
+                                            DiaChiThuaDat : res.Data.DiaChiThuaDat,
+                                            TextHinhThucThue: res.Data.DsQuyetDinhThueDatChiTiet[i].TextHinhThucThue,
+                                            DienTich : res.Data.DsQuyetDinhThueDatChiTiet[i].DienTich,
+                                            MucDichSuDung : res.Data.DsQuyetDinhThueDatChiTiet[i].MucDichSuDung,
+                                            ThoiHanThue : res.Data.DsQuyetDinhThueDatChiTiet[i].ThoiHanThue,
+                                            TuNgayThue : res.Data.DsQuyetDinhThueDatChiTiet[i].TuNgayThue,
+                                            DenNgayThue : res.Data.DsQuyetDinhThueDatChiTiet[i].DenNgayThue,
+                                        };
+                                        data.push(obj);
+                                    }
+                                    $('#tblViewQuyetDinhThueDat').DataTable({
+                                        data: data,
+                                        dom: 'B',
+                                        buttons: [
+                                            'print'
+                                        ],
+                                        columns: [
+                                            {
+                                                data: "1",
+                                                "defaultContent": "1",
+                                            },
+                                            {
+                                                data: 'TenDoanhNghiep'
+                                            },
+                                            {
+                                                data: 'SoQuyetDinhThueDat'
+                                            },
+                                            {
+                                                data: 'NgayQuyetDinhThueDat'
+                                            },
+                                            {
+                                                data: 'SoQuyetDinhGiaoDat'
+                                            },
+                                            {
+                                                data: 'ViTriThuaDat',
+                                            },
+                                            {
+                                                data: 'DiaChiThuaDat',
+                                            },
+                                            {
+                                                data: 'TextHinhThucThue',
+                                            },
+                                            {
+                                                data: 'DienTich',
+                                            },
+                                            {
+                                                data: 'MucDichSuDung',
+                                            },
+                                            {
+                                                data: 'ThoiHanThue',
+                                            },
+                                            {
+                                                data: 'TuNgayThue',
+                                            },
+                                            {
+                                                data: 'DenNgayThue',
+                                            },
 
+                                        ]
+                                    });
+                                }
+                            });
+                        }
+                    });
+                });
                 $('#tblQuyetDinhThueDat tbody .QuyetDinhThueDat-edit').off('click').on('click', function (e) {
                     var id = $(this).attr('data-id');
                     Get({
@@ -257,7 +352,7 @@ QuyetDinhThueDatControl = {
                             }
                         }
                     });
-                }         
+                }
             });
         }
         $('#btnSelectFileQuyetDinhGiaoDat').click(function () {
