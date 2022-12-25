@@ -187,29 +187,44 @@ namespace QuanLyThueDat.Application.Service
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize).ToListAsync();
             var listItem = new List<QuyetDinhThueDatViewModel>();
-            foreach (var item in data)
+            foreach (var entity in data)
             {
-                var QuyetDinhThueDat = new QuyetDinhThueDatViewModel
+                var quyetDinhThueDat = new QuyetDinhThueDatViewModel
                 {
-                    IdQuyetDinhThueDat = item.IdQuyetDinhThueDat,
-                    IdDoanhNghiep = item.IdDoanhNghiep,
-                    TenDoanhNghiep = item.DoanhNghiep.TenDoanhNghiep,
-                    SoQuyetDinhThueDat = item.SoQuyetDinhThueDat,
-                    TenQuyetDinhThueDat = item.TenQuyetDinhThueDat,
-                    NgayQuyetDinhThueDat = item.NgayQuyetDinhThueDat != null ? item.NgayQuyetDinhThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
-                    SoQuyetDinhGiaoDat = item.SoQuyetDinhGiaoDat,
-                    TenQuyetDinhGiaoDat = item.TenQuyetDinhGiaoDat,
-                    NgayQuyetDinhGiaoDat = item.NgayQuyetDinhGiaoDat != null ? item.NgayQuyetDinhGiaoDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
-                    TongDienTich = item.TongDienTich.ToString("N", new CultureInfo("vi-VN")),
-                    ThoiHanThue = item.ThoiHanThue,
-                    TuNgayThue = item.TuNgayThue != null ? item.TuNgayThue.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
-                    DenNgayThue = item.DenNgayThue != null ? item.DenNgayThue.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
-                    MucDichSuDung = item.MucDichSuDung,
-                    HinhThucThue = item.HinhThucThue,
-                    ViTriThuaDat = item.ViTriThuaDat,
-                    DiaChiThuaDat = item.DiaChiThuaDat
+                    IdQuyetDinhThueDat = entity.IdQuyetDinhThueDat,
+                    IdDoanhNghiep = entity.IdDoanhNghiep,
+                    TenDoanhNghiep = entity.DoanhNghiep.TenDoanhNghiep,
+                    SoQuyetDinhThueDat = entity.SoQuyetDinhThueDat,
+                    TenQuyetDinhThueDat = entity.TenQuyetDinhThueDat,
+                    NgayQuyetDinhThueDat = entity.NgayQuyetDinhThueDat != null ? entity.NgayQuyetDinhThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
+                    SoQuyetDinhGiaoDat = entity.SoQuyetDinhGiaoDat,
+                    TenQuyetDinhGiaoDat = entity.TenQuyetDinhGiaoDat,
+                    NgayQuyetDinhGiaoDat = entity.NgayQuyetDinhGiaoDat != null ? entity.NgayQuyetDinhGiaoDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
+                    TongDienTich = entity.TongDienTich.ToString("N", new CultureInfo("vi-VN")),
+                    ThoiHanThue = entity.ThoiHanThue,
+                    TuNgayThue = entity.TuNgayThue != null ? entity.TuNgayThue.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
+                    DenNgayThue = entity.DenNgayThue != null ? entity.DenNgayThue.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
+                    MucDichSuDung = entity.MucDichSuDung,
+                    HinhThucThue = entity.HinhThucThue,
+                    ViTriThuaDat = entity.ViTriThuaDat,
+                    DiaChiThuaDat = entity.DiaChiThuaDat
                 };
-                listItem.Add(QuyetDinhThueDat);
+                var listFileViewModel = new List<FileTaiLieuViewModel>();
+                var listFile = _context.FileTaiLieu.Include(x => x.File).Where(x => x.IdLoaiTaiLieu == NhomLoaiTaiLieuConstant.NhomQuyetDinhThueDat && x.IdTaiLieu == entity.IdQuyetDinhThueDat && x.TrangThai != 4).ToList();
+                foreach (var item in listFile)
+                {
+                    var fileViewModel = new FileTaiLieuViewModel();
+                    fileViewModel.IdFileTaiLieu = item.IdFileTaiLieu;
+                    fileViewModel.IdFile = item.IdFile;
+                    fileViewModel.TenFile = item.File.TenFile;
+                    fileViewModel.LinkFile = item.File.LinkFile;
+                    fileViewModel.LoaiTaiLieu = item.LoaiTaiLieu;
+                    fileViewModel.IdLoaiTaiLieu = item.IdLoaiTaiLieu;
+                    fileViewModel.IdTaiLieu = item.IdTaiLieu;
+                    listFileViewModel.Add(fileViewModel);
+                }
+                quyetDinhThueDat.DsFileTaiLieu = listFileViewModel;
+                listItem.Add(quyetDinhThueDat);
             }
             var result = new PageViewModel<QuyetDinhThueDatViewModel>()
             {

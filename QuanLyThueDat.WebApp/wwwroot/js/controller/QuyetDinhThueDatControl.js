@@ -77,13 +77,25 @@ QuyetDinhThueDatControl = {
                         //"data": "thaotac",
                         "defaultContent": "",
                         render: function (data, type, row) {
+                            var fileQDThueDat = "";
+                            var fileQDGiaoDat = "";
+                            if (row.DsFileTaiLieu != null) {
+                                $.each(row.DsFileTaiLieu, function (i, item) {
+                                    if (item.LoaiTaiLieu == "QuyetDinhThueDat") {
+                                        fileQDThueDat = "<a href = '" + localStorage.getItem('API_URL').replace("api", "") + item.LinkFile + "' target='_blank'><i class = 'fas fa-file-pdf' title = 'File quyết định thuê đất'></i></a>";                                    }
+                                    if (item.LoaiTaiLieu == "QuyetDinhGiaoDat") {
+                                        fileQDGiaoDat = "<a href = '" + localStorage.getItem('API_URL').replace("api", "") + item.LinkFile + "' target='_blank'><i class = 'fas fa-file-pdf' style = 'color: gold' title = 'File quyết định giao đất'></i></a>";                                       }
+                                });
+                            }
                             if (opts == undefined) {
                                 var thaotac = "<div class='hstn-func' style='text-align: center;' data-type='" + JSON.stringify(row) + "'>" +
+                                    fileQDGiaoDat + "&nbsp" + fileQDThueDat + "&nbsp" +
                                     "<a href='javascript:;' class='QuyetDinhThueDat-view' data-id='" + row.IdQuyetDinhThueDat + "'><i class='fas fa-eye' title='Xem'></i></a> &nbsp" +
                                     "</div>";
                                 return thaotac;
                             } else {
                                 var thaotac = "<div class='hstn-func' style='text-align: center;' data-type='" + JSON.stringify(row) + "'>" +
+                                    fileQDGiaoDat + "&nbsp" + fileQDThueDat + "&nbsp" +
                                     "<a href='javascript:;' class='QuyetDinhThueDat-view' data-id='" + row.IdQuyetDinhThueDat + "'><i class='fas fa-eye' title='Xem'></i></a> &nbsp" +
                                     "<a href='javascript:;' class='QuyetDinhThueDat-edit' data-id='" + row.IdQuyetDinhThueDat + "'><i class='fas fa-edit' title='Sửa'></i></a> &nbsp" +
                                     "<a href='javascript:;' class='QuyetDinhThueDat-remove text-danger' data-id='" + row.IdQuyetDinhThueDat + "'><i class='fas fa-trash-alt' title='Xóa' ></i></a>" +
