@@ -144,7 +144,37 @@ QuyetDinhThueDatControl = {
                                         data: data,
                                         dom: 'B',
                                         buttons: [
-                                            'print'
+                                            {
+                                                extend: "print",
+                                                title: function () {
+                                                    var title = '<div class="row"><div class="col-sm-4" style="text-align:center"><h5>UBND TỈNH NGHỆ AN</h5></div></div>' +
+                                                        '<div class="row"><div class="col-sm-4" style="text-align:center"><h5>BAN QUẢN LÝ KKT ĐÔNG NAM NGHỆ AN</h5></div></div>' +
+                                                        '<div class="row"><div class="col-sm-12" style="text-align:center"><h5>BÁO CÁO CHI TIẾT QUYẾT ĐỊNH THUÊ ĐẤT</h5></div></div>';
+                                                    return title;
+                                                },
+                                                customize: function (win) {
+
+                                                    var last = null;
+                                                    var current = null;
+                                                    var bod = [];
+
+                                                    var css = '@page { size: landscape; }',
+                                                        head = win.document.head || win.document.getElementsByTagName('head')[0],
+                                                        style = win.document.createElement('style');
+
+                                                    style.type = 'text/css';
+                                                    style.media = 'print';
+
+                                                    if (style.styleSheet) {
+                                                        style.styleSheet.cssText = css;
+                                                    }
+                                                    else {
+                                                        style.appendChild(win.document.createTextNode(css));
+                                                    }
+
+                                                    head.appendChild(style);
+                                                }
+                                            },
                                         ],
                                         columns: [
                                             {

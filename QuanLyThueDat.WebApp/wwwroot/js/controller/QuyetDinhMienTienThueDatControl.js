@@ -110,7 +110,6 @@ QuyetDinhMienTienThueDatControl = {
                     var $y = $(this);
                     var id = $y.attr('data-id');
                     if (id != "0") {
-                        debugger;
                         var w = window.open("/ExportQuyetDinhMienTienThueDat?idQuyetDinhMienTienThueDat=" + id);
                         console.log(w);
                         w.print();
