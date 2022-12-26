@@ -195,6 +195,7 @@ HopDongThueDatControl = {
                                             }
                                         ]
                                     });
+                                    $('#popupViewHopDongThueDat .buttons-print').trigger('click');
                                 }
                             });
                         }
@@ -215,6 +216,8 @@ HopDongThueDatControl = {
                                     callback: function (popup) {
                                         $('#modalDetailHopDongThueDat').html(popup);
                                         $('#popupDetailHopDongThueDat').modal();
+                                        $('#popupDetailHopDongThueDat .modal-title').text("Chỉnh sửa hợp đồng thuê đất - " + opts.TenDoanhNghiep);
+
                                         FillFormData('#FormDetailHopDongThueDat', res.Data);
                                         var popup = $('#popupDetailHopDongThueDat');
                                         if (opts != undefined) {
@@ -347,6 +350,8 @@ HopDongThueDatControl = {
                 callback: function (res) {
                     $('#modalDetailHopDongThueDat').html(res);
                     $('#popupDetailHopDongThueDat').modal();
+                    $('#popupDetailHopDongThueDat .modal-title').text("Thêm mới hợp đồng thuê đất - " + opts.TenDoanhNghiep);
+
                     var popup = $('#popupDetailHopDongThueDat');
                     if (opts != undefined) {
                         popup.find('.ddDoanhNghiep').append('<option value="' + opts.IdDoanhNghiep + '">' + opts.TenDoanhNghiep + '</option>');
@@ -354,7 +359,7 @@ HopDongThueDatControl = {
                         self.LoadDanhSachDoanhNghiep();
                     }
                     self.RegisterEventsPopup();
-                    
+
                 }
             })
         });

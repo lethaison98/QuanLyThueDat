@@ -130,6 +130,8 @@ QuyetDinhMienTienThueDatControl = {
                                 callback: function (popup) {
                                     $('#modalViewQuyetDinhMienTienThueDat').html(popup);
                                     $('#popupViewQuyetDinhMienTienThueDat').modal();
+                                    $('#popupViewQuyetDinhMienTienThueDat .modal-title').text("Chỉnh sửa quyết định miễn tiền thuê đất - " + opts.TenDoanhNghiep);
+
                                     var data = [];
                                     var obj = {
                                         TenDoanhNghiep: res.Data.TenDoanhNghiep,
@@ -205,6 +207,8 @@ QuyetDinhMienTienThueDatControl = {
                                             }
                                         ]
                                     });
+                                    $('#popupViewQuyetDinhMienTienThueDat .buttons-print').trigger('click');
+
                                 }
                             });
                         }
@@ -355,6 +359,8 @@ QuyetDinhMienTienThueDatControl = {
                 callback: function (res) {
                     $('#modalDetailQuyetDinhMienTienThueDat').html(res);
                     $('#popupDetailQuyetDinhMienTienThueDat').modal();
+                    $('#popupDetailQuyetDinhMienTienThueDat .modal-title').text("Thêm mới quyết định miễn tiền thuê đất - " + opts.TenDoanhNghiep);
+
                     if (opts != undefined) {
                         $('#popupDetailQuyetDinhMienTienThueDat .ddDoanhNghiep').append('<option value="' + opts.IdDoanhNghiep + '">' + opts.TenDoanhNghiep + '</option>');
                     } else {

@@ -108,6 +108,7 @@ ThongBaoTienThueDatControl = {
                                     callback: function (popup) {
                                         $('#modalDetailThongBaoTienThueDat').html(popup);
                                         $('#popupDetailThongBaoTienThueDat').modal();
+                                        $('#popupDetailThongBaoTienThueDat .modal-title').text("Chỉnh sửa thông báo tiền thuê đất - " + opts.TenDoanhNghiep);
 
                                         FillFormData('#FormDetailThongBaoTienThueDat', res.Data);
                                         opts.LoaiThongBaoTienThueDat = res.Data.LoaiThongBaoTienThueDat;
@@ -213,6 +214,7 @@ ThongBaoTienThueDatControl = {
                 callback: function (res) {
                     $('#modalDetailThongBaoTienThueDat').html(res);
                     $('#popupDetailThongBaoTienThueDat').modal();
+                    $('#popupDetailThongBaoTienThueDat .modal-title').text("Thêm mới thông báo tiền thuê đất - " + opts.TenDoanhNghiep);
                     opts.LoaiThongBaoTienThueDat = "ThongBaoLanDau";
                     self.RegisterEventsPopup(opts);
                     self.LoadDanhSachQuyetDinhThueDat(opts);

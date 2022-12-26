@@ -220,6 +220,8 @@ QuyetDinhThueDatControl = {
 
                                         ]
                                     });
+                                    $('#popupViewQuyetDinhThueDat .buttons-print').trigger('click');
+
                                 }
                             });
                         }
@@ -240,6 +242,8 @@ QuyetDinhThueDatControl = {
                                     callback: function (popup) {
                                         $('#modalDetailQuyetDinhThueDat').html(popup);
                                         $('#popupDetailQuyetDinhThueDat').modal();
+                                        $('#popupDetailQuyetDinhThueDat .modal-title').text("Chỉnh sửa quyết định thuê đất - " + opts.TenDoanhNghiep);
+
                                         FillFormData('#FormDetailQuyetDinhThueDat', res.Data);
                                         if (opts != undefined) {
                                             $('#popupDetailQuyetDinhThueDat .ddDoanhNghiep').append('<option value="' + opts.IdDoanhNghiep + '">' + opts.TenDoanhNghiep + '</option>');
@@ -457,6 +461,8 @@ QuyetDinhThueDatControl = {
                 callback: function (res) {
                     $('#modalDetailQuyetDinhThueDat').html(res);
                     $('#popupDetailQuyetDinhThueDat').modal();
+                    $('#popupDetailQuyetDinhThueDat .modal-title').text("Thêm mới quyết định thuê đất - " + opts.TenDoanhNghiep);
+
                     if (opts != undefined) {
                         $('#popupDetailQuyetDinhThueDat .ddDoanhNghiep').append('<option value="' + opts.IdDoanhNghiep + '">' + opts.TenDoanhNghiep + '</option>');
                     } else {

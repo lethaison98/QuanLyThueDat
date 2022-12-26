@@ -86,6 +86,20 @@ ThongBaoDonGiaThueDatControl = {
                         //"data": "thaotac",
                         "defaultContent": "",
                         render: function (data, type, row) {
+                            if (opts == undefined) {
+                                var thaotac = "<div class='hstn-func' style='text-align: center;' data-type='" + JSON.stringify(row) + "'>" +
+                                    "<a href='javascript:;' class='ThongBaoDonGiaThueDat-export' data-id='" + row.IdThongBaoDonGiaThueDat + "'><i class='fas fa-file-word' title='Xuất thông báo' ></i></a> &nbsp" +
+                                    "</div>";
+                                return thaotac;
+                            } else {
+                                var thaotac = "<div class='hstn-func' style='text-align: center;' data-type='" + JSON.stringify(row) + "'>" +
+                                    "<a href='javascript:;' class='ThongBaoDonGiaThueDat-export' data-id='" + row.IdThongBaoDonGiaThueDat + "'><i class='fas fa-file-word' title='Xuất thông báo' ></i></a> &nbsp" +
+                                    "<a href='javascript:;' class='ThongBaoDonGiaThueDat-edit' data-id='" + row.IdThongBaoDonGiaThueDat + "'><i class='fas fa-edit' title='Chỉnh sửa'></i></a>" +
+                                    "<a href='javascript:;' class='ThongBaoDonGiaThueDat-remove text-danger' data-id='" + row.IdThongBaoDonGiaThueDat + "'><i class='fas fa-trash-alt' title='Xóa' ></i></a>" +
+                                    "</div>";
+                                return thaotac;
+                            }
+
                             var thaotac = "<div class='hstn-func' style='text-align: center;' data-type='" + JSON.stringify(row) + "'>" +
                                 "<a href='javascript:;' class='ThongBaoDonGiaThueDat-export' data-id='" + row.IdThongBaoDonGiaThueDat + "'><i class='fas fa-file-word' title='Xuất thông báo' ></i></a> &nbsp" +
                                 "<a href='javascript:;' class='ThongBaoDonGiaThueDat-edit' data-id='" + row.IdThongBaoDonGiaThueDat + "'><i class='fas fa-edit' title='Chỉnh sửa'></i></a>" +
@@ -119,6 +133,8 @@ ThongBaoDonGiaThueDatControl = {
                                     callback: function (popup) {
                                         $('#modalDetailThongBaoDonGiaThueDat').html(popup);
                                         $('#popupDetailThongBaoDonGiaThueDat').modal();
+                                        $('#popupDetailThongBaoDonGiaThueDat .modal-title').text("Chỉnh sửa thông báo đơn giá thuê đất - " + opts.TenDoanhNghiep);
+
                                         FillFormData('#FormDetailThongBaoDonGiaThueDat', res.Data);
                                         var popup = $('#popupDetailThongBaoDonGiaThueDat');
 
@@ -195,6 +211,8 @@ ThongBaoDonGiaThueDatControl = {
                 callback: function (res) {
                     $('#modalDetailThongBaoDonGiaThueDat').html(res);
                     $('#popupDetailThongBaoDonGiaThueDat').modal();
+                    $('#popupDetailThongBaoDonGiaThueDat .modal-title').text("Thêm mới thông báo đơn giá thuê đất - " + opts.TenDoanhNghiep);
+
                     var popup = $('#popupDetailThongBaoDonGiaThueDat');
                     if (opts != undefined) {
                         popup.find('.ddDoanhNghiep').append('<option value="' + opts.IdDoanhNghiep + '">' + opts.TenDoanhNghiep + '</option>');
