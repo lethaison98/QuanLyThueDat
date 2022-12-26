@@ -82,9 +82,9 @@ QuyetDinhThueDatControl = {
                             if (row.DsFileTaiLieu != null) {
                                 $.each(row.DsFileTaiLieu, function (i, item) {
                                     if (item.LoaiTaiLieu == "QuyetDinhThueDat") {
-                                        fileQDThueDat = "<a href = '" + localStorage.getItem('API_URL').replace("api", "") + item.LinkFile + "' target='_blank'><i class = 'fas fa-file-pdf' title = 'File quyết định thuê đất'></i></a>";                                    }
+                                        fileQDThueDat = "<a href = '" + localStorage.getItem('API_URL').replace("api", "") + item.LinkFile + "' target='_blank'><i class = 'fas fa-paperclip' title = 'File quyết định thuê đất'></i></a>";                                    }
                                     if (item.LoaiTaiLieu == "QuyetDinhGiaoDat") {
-                                        fileQDGiaoDat = "<a href = '" + localStorage.getItem('API_URL').replace("api", "") + item.LinkFile + "' target='_blank'><i class = 'fas fa-file-pdf' style = 'color: gold' title = 'File quyết định giao đất'></i></a>";                                       }
+                                        fileQDGiaoDat = "<a href = '" + localStorage.getItem('API_URL').replace("api", "") + item.LinkFile + "' target='_blank'><i class = 'fas fa-paperclip' style = 'color: gold' title = 'File quyết định giao đất'></i></a>";                                       }
                                 });
                             }
                             if (opts == undefined) {

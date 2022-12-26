@@ -97,7 +97,7 @@ namespace QuanLyThueDat.WebApp.Service
             }
             return result;
         }
-        public async Task<ApiResult<byte[]>> ExportQuyetDinhMienTienThueDat()
+        public async Task<ApiResult<byte[]>> ExportQuyetDinhMienTienThueDat(int? idQuyetDinhMienTienThueDat)
         {
             ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
             var pathFileTemplate = "";
@@ -114,12 +114,22 @@ namespace QuanLyThueDat.WebApp.Service
             var client = new HttpClient(handler);
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
             pathFileTemplate = "Assets/Template/MauBaoCaoQuyetDinhMienTienThueDat.xlsx";
-            response = await client.GetAsync("/api/QuyetDinhMienTienThueDat/GetAllPaging?idDoanhNghiep=&keyword=&pageIndex=1&pageSize=999999");
-            if (response.IsSuccessStatusCode)
+            if (idQuyetDinhMienTienThueDat == null)
             {
-                data = JsonConvert.DeserializeObject<ApiResult<PageViewModel<QuyetDinhMienTienThueDatViewModel>>>(await response.Content.ReadAsStringAsync()).Data.Items;
+                response = await client.GetAsync("/api/QuyetDinhMienTienThueDat/GetAllPaging?idDoanhNghiep=&keyword=&pageIndex=1&pageSize=999999");
+                if (response.IsSuccessStatusCode)
+                {
+                    data = JsonConvert.DeserializeObject<ApiResult<PageViewModel<QuyetDinhMienTienThueDatViewModel>>>(await response.Content.ReadAsStringAsync()).Data.Items;
+                }
             }
-
+            else
+            {
+                response = await client.GetAsync("/api/QuyetDinhMienTienThueDat/GetById?idQuyetDinhMienTienThueDat="+idQuyetDinhMienTienThueDat);
+                if (response.IsSuccessStatusCode)
+                {
+                    data.Add(JsonConvert.DeserializeObject<ApiResult<QuyetDinhMienTienThueDatViewModel>>(await response.Content.ReadAsStringAsync()).Data);
+                }
+            }
             var result = new ApiSuccessResult<byte[]>();
             var file = new FileInfo(pathFileTemplate);
             var p = new ExcelPackage(file);

@@ -59,9 +59,9 @@ namespace QuanLyThueDat.WebApp.Controllers
 
         }
         [Route("ExportQuyetDinhMienTienThueDat")]
-        public async Task<IActionResult> _ExportQuyetDinhMienTienThueDat()
+        public async Task<IActionResult> _ExportQuyetDinhMienTienThueDat(int? idQuyetDinhMienTienThueDat)
         {
-            var data = await _exportExcelClient.ExportQuyetDinhMienTienThueDat();
+            var data = await _exportExcelClient.ExportQuyetDinhMienTienThueDat(idQuyetDinhMienTienThueDat);
             if (data.IsSuccess)
             {
                 //var result = File(data.Data, "application/vnd.ms-word", loaiThongBao + ".doc");

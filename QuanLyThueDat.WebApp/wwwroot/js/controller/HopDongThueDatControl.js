@@ -65,6 +65,30 @@ HopDongThueDatControl = {
                         //"data": "thaotac",
                         "defaultContent": "",
                         render: function (data, type, row) {
+                            var file = "";
+                            if (row.DsFileTaiLieu != null) {
+                                $.each(row.DsFileTaiLieu, function (i, item) {
+                                    if (item.LoaiTaiLieu == "HopDongThueDat") {
+                                        file = "<a href = '" + localStorage.getItem('API_URL').replace("api", "") + item.LinkFile + "' target='_blank'><i class = 'fas fa-paperclip' title = 'File hợp đồng thuê đất'></i></a>";
+                                    }
+                                });
+                            }
+                            if (opts == undefined) {
+                                var thaotac = "<div class='hstn-func' style='text-align: center;' data-type='" + JSON.stringify(row) + "'>" +
+                                    file + "&nbsp" +
+                                    "<a href='javascript:;' class='HopDongThueDat-view' data-id='" + row.IdHopDongThueDat + "'><i class='fas fa-eye' title='Xem'></i></a> &nbsp" +
+                                    "</div>";
+                                return thaotac;
+                            } else {
+                                var thaotac = "<div class='hstn-func' style='text-align: center;' data-type='" + JSON.stringify(row) + "'>" +
+                                    file + "&nbsp" +
+                                    "<a href='javascript:;' class='HopDongThueDat-view' data-id='" + row.IdHopDongThueDat + "'><i class='fas fa-eye' title='Xem'></i></a> &nbsp" +
+                                    "<a href='javascript:;' class='HopDongThueDat-edit' data-id='" + row.IdHopDongThueDat + "'><i class='fas fa-edit' title='Sửa'></i></a>  &nbsp" +
+                                    "<a href='javascript:;' class='HopDongThueDat-remove text-danger' data-id='" + row.IdHopDongThueDat + "'><i class='fas fa-trash-alt' title='Xóa' ></i></a>" +
+                                    "</div>";
+                                return thaotac;
+                            }
+
                             var thaotac = "<div class='hstn-func' style='text-align: center;' data-type='" + JSON.stringify(row) + "'>" +
                                 "<a href='javascript:;' class='HopDongThueDat-edit' data-id='" + row.IdHopDongThueDat + "'><i class='fas fa-edit' title='Sửa'></i></a>" +
                                 "<a href='javascript:;' class='HopDongThueDat-remove text-danger' data-id='" + row.IdHopDongThueDat + "'><i class='fas fa-trash-alt' title='Xóa' ></i></a>" +
@@ -75,7 +99,77 @@ HopDongThueDatControl = {
                 ]
             },
             callback: function () {
+                $("#tblHopDongThueDat tbody .HopDongThueDat-view").off('click').on('click', function (e) {
+                    var $y = $(this);
+                    var id = $y.attr('data-id');
+                    Get({
+                        url: localStorage.getItem("API_URL") + '/HopDongThueDat/GetById',
+                        data: {
+                            idHopDongThueDat: id
+                        },
+                        callback: function (res) {
+                            Get({
+                                url: '/HopDongThueDat/PopupViewHopDongThueDat',
+                                dataType: 'text',
+                                callback: function (popup) {
+                                    $('#modalViewHopDongThueDat').html(popup);
+                                    $('#popupViewHopDongThueDat').modal();
+                                    var data = [];
+                                    var obj = {
+                                        TenDoanhNghiep: res.Data.TenDoanhNghiep,
+                                        SoHopDong: res.Data.SoHopDong,
+                                        NgayKyHopDong: res.Data.NgayKyHopDong,
+                                        NguoiKy: res.Data.NguoiKy,
+                                        CoQuanKy: res.Data.CoQuanKy,
+                                        ThoiHanHopDong: res.Data.ThoiHanHopDong,
+                                        NgayHieuLucHopDong: res.Data.NgayHieuLucHopDong,
+                                        NgayHetHieuLucHopDong: res.Data.NgayHetHieuLucHopDong,
+                                    };
+                                    data.push(obj);
 
+                                    console.log(data);
+                                    $('#tblViewHopDongThueDat').DataTable({
+                                        data: data,
+                                        dom: 'B',
+                                        buttons: [
+                                            'print'
+                                        ],
+                                        columns: [
+                                            {
+                                                data: "1",
+                                                "defaultContent": "1",
+                                            },
+                                            {
+                                                data: 'TenDoanhNghiep'
+                                            },
+                                            {
+                                                data: 'SoHopDong'
+                                            },
+                                            {
+                                                data: 'NgayKyHopDong'
+                                            },
+                                            {
+                                                data: 'NguoiKy'
+                                            },
+                                            {
+                                                data: 'CoQuanKy',
+                                            },
+                                            {
+                                                data: 'ThoiHanHopDong',
+                                            },
+                                            {
+                                                data: 'NgayHieuLucHopDong',
+                                            },
+                                            {
+                                                data: 'NgayHetHieuLucHopDong',
+                                            }
+                                        ]
+                                    });
+                                }
+                            });
+                        }
+                    });
+                });
                 $('#tblHopDongThueDat tbody .HopDongThueDat-edit').off('click').on('click', function (e) {
                     var id = $(this).attr('data-id');
                     Get({

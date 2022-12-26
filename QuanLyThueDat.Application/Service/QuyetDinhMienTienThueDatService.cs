@@ -150,24 +150,39 @@ namespace QuanLyThueDat.Application.Service
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize).ToListAsync();
             var listItem = new List<QuyetDinhMienTienThueDatViewModel>();
-            foreach (var item in data)
+            foreach (var entity in data)
             {
-                var QuyetDinhMienTienThueDat = new QuyetDinhMienTienThueDatViewModel
+                var quyetDinhMienTienThueDat = new QuyetDinhMienTienThueDatViewModel
                 {
-                    IdQuyetDinhMienTienThueDat = item.IdQuyetDinhMienTienThueDat,
-                    IdDoanhNghiep = item.IdDoanhNghiep,
-                    IdQuyetDinhThueDat = item.IdQuyetDinhThueDat,
-                    TenDoanhNghiep = item.DoanhNghiep.TenDoanhNghiep,
-                    MaSoThue = item.DoanhNghiep.MaSoThue,
-                    SoQuyetDinhMienTienThueDat = item.SoQuyetDinhMienTienThueDat,
-                    TenQuyetDinhMienTienThueDat = item.TenQuyetDinhMienTienThueDat,
-                    NgayQuyetDinhMienTienThueDat = item.NgayQuyetDinhMienTienThueDat != null ? item.NgayQuyetDinhMienTienThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
-                    DienTichMienTienThueDat = item.DienTichMienTienThueDat,
-                    ThoiHanMienTienThueDat = item.ThoiHanMienTienThueDat,
-                    NgayHieuLucMienTienThueDat = item.NgayHieuLucMienTienThueDat != null ? item.NgayHieuLucMienTienThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
-                    NgayHetHieuLucMienTienThueDat = item.NgayHetHieuLucMienTienThueDat != null ? item.NgayHetHieuLucMienTienThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
+                    IdQuyetDinhMienTienThueDat = entity.IdQuyetDinhMienTienThueDat,
+                    IdDoanhNghiep = entity.IdDoanhNghiep,
+                    IdQuyetDinhThueDat = entity.IdQuyetDinhThueDat,
+                    TenDoanhNghiep = entity.DoanhNghiep.TenDoanhNghiep,
+                    MaSoThue = entity.DoanhNghiep.MaSoThue,
+                    SoQuyetDinhMienTienThueDat = entity.SoQuyetDinhMienTienThueDat,
+                    TenQuyetDinhMienTienThueDat = entity.TenQuyetDinhMienTienThueDat,
+                    NgayQuyetDinhMienTienThueDat = entity.NgayQuyetDinhMienTienThueDat != null ? entity.NgayQuyetDinhMienTienThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
+                    DienTichMienTienThueDat = entity.DienTichMienTienThueDat,
+                    ThoiHanMienTienThueDat = entity.ThoiHanMienTienThueDat,
+                    NgayHieuLucMienTienThueDat = entity.NgayHieuLucMienTienThueDat != null ? entity.NgayHieuLucMienTienThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
+                    NgayHetHieuLucMienTienThueDat = entity.NgayHetHieuLucMienTienThueDat != null ? entity.NgayHetHieuLucMienTienThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                 };
-                listItem.Add(QuyetDinhMienTienThueDat);
+                var listFileViewModel = new List<FileTaiLieuViewModel>();
+                var listFile = _context.FileTaiLieu.Include(x => x.File).Where(x => x.IdLoaiTaiLieu == NhomLoaiTaiLieuConstant.NhomQuyetDinhMienTienThueDat && x.IdTaiLieu == entity.IdQuyetDinhMienTienThueDat && x.TrangThai != 4).ToList();
+                foreach (var item in listFile)
+                {
+                    var fileViewModel = new FileTaiLieuViewModel();
+                    fileViewModel.IdFileTaiLieu = item.IdFileTaiLieu;
+                    fileViewModel.IdFile = item.IdFile;
+                    fileViewModel.TenFile = item.File.TenFile;
+                    fileViewModel.LinkFile = item.File.LinkFile;
+                    fileViewModel.LoaiTaiLieu = item.LoaiTaiLieu;
+                    fileViewModel.IdLoaiTaiLieu = item.IdLoaiTaiLieu;
+                    fileViewModel.IdTaiLieu = item.IdTaiLieu;
+                    listFileViewModel.Add(fileViewModel);
+                }
+                quyetDinhMienTienThueDat.DsFileTaiLieu = listFileViewModel;
+                listItem.Add(quyetDinhMienTienThueDat);
             }
             var result = new PageViewModel<QuyetDinhMienTienThueDatViewModel>()
             {
@@ -190,6 +205,7 @@ namespace QuanLyThueDat.Application.Service
                     IdQuyetDinhMienTienThueDat = entity.IdQuyetDinhMienTienThueDat,
                     IdDoanhNghiep = entity.IdDoanhNghiep,
                     TenDoanhNghiep = entity.DoanhNghiep.TenDoanhNghiep,
+                    MaSoThue = entity.DoanhNghiep.MaSoThue,
                     SoQuyetDinhMienTienThueDat = entity.SoQuyetDinhMienTienThueDat,
                     TenQuyetDinhMienTienThueDat = entity.TenQuyetDinhMienTienThueDat,
                     NgayQuyetDinhMienTienThueDat = entity.NgayQuyetDinhMienTienThueDat != null ? entity.NgayQuyetDinhMienTienThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
