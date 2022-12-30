@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QuanLyThueDat.Data.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -49,6 +50,7 @@ namespace QuanLyThueDat.Application.Request
         public decimal SoTien { get; set; }
         public decimal SoTienPhaiNop { get; set; }
         public List<ThongBaoTienThueDatChiTietRequest> ThongBaoTienThueDatChiTiet { get; set; }
+        public List<FileTaiLieu> FileTaiLieu { get; set; }
     }
     public class ThongBaoTienThueDatChiTietRequest
     {

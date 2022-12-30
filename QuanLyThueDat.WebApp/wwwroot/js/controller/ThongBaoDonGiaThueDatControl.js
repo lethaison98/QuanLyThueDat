@@ -55,16 +55,16 @@ ThongBaoDonGiaThueDatControl = {
                         "data": "NgayThongBaoDonGiaThueDat",
                         "defaultContent": "",
                     },
-                    {
-                        "class": "name-control",
-                        "data": "DienTichPhaiNop",
-                        "defaultContent": "",
-                    },
-                    {
-                        "class": "name-control",
-                        "data": "DienTichKhongPhaiNop",
-                        "defaultContent": "",
-                    },
+                    //{
+                    //    "class": "name-control",
+                    //    "data": "DienTichPhaiNop",
+                    //    "defaultContent": "",
+                    //},
+                    //{
+                    //    "class": "name-control",
+                    //    "data": "DienTichKhongPhaiNop",
+                    //    "defaultContent": "",
+                    //},
                     {
                         "class": "name-control",
                         "data": "DonGia",
@@ -86,13 +86,23 @@ ThongBaoDonGiaThueDatControl = {
                         //"data": "thaotac",
                         "defaultContent": "",
                         render: function (data, type, row) {
+                            var file = "";
+                            if (row.DsFileTaiLieu != null) {
+                                $.each(row.DsFileTaiLieu, function (i, item) {
+                                    if (item.LoaiTaiLieu == "ThongBaoDonGiaThueDat") {
+                                        file = "<a href = '" + localStorage.getItem('API_URL').replace("api", "") + item.LinkFile + "' target='_blank'><i class = 'fas fa-paperclip' title = 'File thông báo đơn giá thuê đất'></i></a>";
+                                    }
+                                });
+                            }
                             if (opts == undefined) {
                                 var thaotac = "<div class='hstn-func' style='text-align: center;' data-type='" + JSON.stringify(row) + "'>" +
+                                    file + "&nbsp" +
                                     "<a href='javascript:;' class='ThongBaoDonGiaThueDat-export' data-id='" + row.IdThongBaoDonGiaThueDat + "'><i class='fas fa-file-word' title='Xuất thông báo' ></i></a> &nbsp" +
                                     "</div>";
                                 return thaotac;
                             } else {
                                 var thaotac = "<div class='hstn-func' style='text-align: center;' data-type='" + JSON.stringify(row) + "'>" +
+                                    file + "&nbsp" +
                                     "<a href='javascript:;' class='ThongBaoDonGiaThueDat-export' data-id='" + row.IdThongBaoDonGiaThueDat + "'><i class='fas fa-file-word' title='Xuất thông báo' ></i></a> &nbsp" +
                                     "<a href='javascript:;' class='ThongBaoDonGiaThueDat-edit' data-id='" + row.IdThongBaoDonGiaThueDat + "'><i class='fas fa-edit' title='Chỉnh sửa'></i></a>" +
                                     "<a href='javascript:;' class='ThongBaoDonGiaThueDat-remove text-danger' data-id='" + row.IdThongBaoDonGiaThueDat + "'><i class='fas fa-trash-alt' title='Xóa' ></i></a>" +
@@ -144,6 +154,23 @@ ThongBaoDonGiaThueDatControl = {
                                             $('#popupDetailThongBaoDonGiaThueDat .ddDoanhNghiep').append('<option value="' + res.Data.IdDoanhNghiep + '">' + res.Data.TenDoanhNghiep + '</option>');
                                         }
                                         self.RegisterEventsPopup();
+                                        if (res.Data.DsFileTaiLieu != null) {
+                                            $.each(res.Data.DsFileTaiLieu, function (i, item) {
+                                                if (item.LoaiTaiLieu == "ThongBaoDonGiaThueDat") {
+                                                    $('[data-name="FileThongBaoDonGiaThueDat"]').html('')
+                                                    $('[data-name="FileThongBaoDonGiaThueDat"]').append('<a href = "' + localStorage.getItem("API_URL").replace('api', '') + item.LinkFile + '" target="_blank">' + item.TenFile + '</a>&nbsp;<i class="fas fa-trash-alt btn-deleteFile" title="Xóa"></i>');
+                                                    $('[data-name="FileThongBaoDonGiaThueDat"]').attr('data-idFile', item.IdFile);
+                                                    $('[data-name="FileThongBaoDonGiaThueDat"]').attr('data-id', item.IdFileTaiLieu);
+                                                }
+                                            });
+                                        }
+                                        $('.btn-deleteFile').off('click').on('click', function () {
+                                            var $y = $(this);
+                                            $y.parent().removeAttr("data-idFile");
+                                            $y.parent().html('');
+
+                                        });
+
                                         $('#popupDetailThongBaoDonGiaThueDat .select2').attr("disabled", true);
 
                                     }
@@ -161,9 +188,9 @@ ThongBaoDonGiaThueDatControl = {
                         if (confirm("Xác nhận xóa?") == true) {
                             $.ajax({
                                 url: localStorage.getItem("API_URL") + "/ThongBaoDonGiaThueDat/Delete?idThongBaoDonGiaThueDat=" + $y.attr('data-id') + "&Type=1",
-                                //headers: {
-                                //    'Authorization': 'Bearer ' + localStorage.getItem("ACCESS_TOKEN")
-                                //},
+                                headers: {
+                                    'Authorization': 'Bearer ' + localStorage.getItem("ACCESS_TOKEN")
+                                },
                                 dataType: 'json',
                                 contentType: "application/json-patch+json",
                                 type: "Delete",
@@ -192,6 +219,47 @@ ThongBaoDonGiaThueDatControl = {
         $('.datetimepicker-input').datetimepicker({
             format: 'DD/MM/YYYY'
         });
+        $('#btnSelectFileThongBaoDonGiaThueDat').click(function () {
+            $('#fileThongBaoDonGiaThueDat').trigger("click");
+        });
+        if ($('#fileThongBaoDonGiaThueDat').length > 0) {
+            $('#fileThongBaoDonGiaThueDat')[0].value = "";
+            $('#fileThongBaoDonGiaThueDat').off('change').on('change', function (e) {
+                var file = $('#fileThongBaoDonGiaThueDat')[0].files.length > 0 ? $('#fileThongBaoDonGiaThueDat')[0].files[0] : null;
+                if (file != null) {
+                    var dataFile = new FormData();
+                    dataFile.append("IdDoanhNghiep", $(".ddDoanhNghiep option:selected").val());
+                    dataFile.append("File", file);
+                    $.ajax({
+                        url: localStorage.getItem("API_URL") + "/File/UploadFile",
+                        type: "POST",
+                        headers: {
+                            'Authorization': 'Bearer ' + localStorage.getItem("access_token")
+                        },
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        data: dataFile,
+                        success: function (res) {
+                            if (res.IsSuccess) {
+                                $('[data-name="FileThongBaoDonGiaThueDat"]').html('')
+                                $('[data-name="FileThongBaoDonGiaThueDat"]').append('<a href = "#">' + file.name + '</a>&nbsp;<i class="fas fa-trash-alt btn-deleteFile" title="Xóa"></i>');
+                                $('[data-name="FileThongBaoDonGiaThueDat"]').attr('data-idFile', res.Data);
+                                $('[data-name="FileThongBaoDonGiaThueDat"]').attr('data-id', 0);
+                                $('.btn-deleteFile').off('click').on('click', function () {
+                                    var $y = $(this);
+                                    $y.parent().removeAttr("data-idFile");
+                                    $y.parent().html('');
+
+                                });
+                            } else {
+                                alert("Upload không thành công");
+                            }
+                        }
+                    });
+                }
+            });
+        }
         $("#btnSaveThongBaoDonGiaThueDat").off('click').on('click', function () {
             self.InsertUpdate();
         });
@@ -243,6 +311,15 @@ ThongBaoDonGiaThueDatControl = {
         });
         var data = LoadFormData("#FormDetailThongBaoDonGiaThueDat");
         data.IdDoanhNghiep = popup.find(".ddDoanhNghiep option:selected").val();
+        var fileTaiLieu = [];
+        if ($('[data-name="FileThongBaoDonGiaThueDat"]').attr("data-idFile") != undefined) {
+            fileTaiLieu.push({
+                IdFileTaiLieu: $('[data-name="FileThongBaoDonGiaThueDat"]').attr("data-id"),
+                IdFile: $('[data-name="FileThongBaoDonGiaThueDat"]').attr("data-idFile"),
+                LoaiTaiLieu: "ThongBaoDonGiaThueDat"
+            });
+        }
+        data.FileTaiLieu = fileTaiLieu;
         Post({
             "url": localStorage.getItem("API_URL") + "/ThongBaoDonGiaThueDat/InsertUpdate",
             "data": data,

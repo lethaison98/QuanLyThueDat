@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using QuanLyThueDat.Application.Common.Constant;
 using QuanLyThueDat.Application.Interfaces;
 using QuanLyThueDat.Application.Request;
 using QuanLyThueDat.Application.ViewModel;
@@ -116,6 +117,23 @@ namespace QuanLyThueDat.Application.Service
             }
             entity.DsThongBaoTienThueDatChiTiet = listThongBaoTienThueDatChiTiet;
             _context.ThongBaoTienThueDat.Update(entity);
+            var listIdOldFile = rq.FileTaiLieu.Where(x => x.IdFileTaiLieu > 0).Select(x => x.IdFileTaiLieu);
+            var listRemoveFile = _context.FileTaiLieu.Where(x => x.IdTaiLieu == entity.IdThongBaoTienThueDat && x.IdLoaiTaiLieu == NhomLoaiTaiLieuConstant.NhomThongBaoTienThueDat && !listIdOldFile.Contains(x.IdFileTaiLieu));
+            foreach (var item in listRemoveFile)
+            {
+                item.TrangThai = 4;
+            }
+            _context.FileTaiLieu.UpdateRange(listRemoveFile);
+
+            var listNewFile = rq.FileTaiLieu.Where(x => x.IdFileTaiLieu == 0);
+            foreach (var item in listNewFile)
+            {
+                item.IdTaiLieu = entity.IdThongBaoTienThueDat;
+                item.IdLoaiTaiLieu = NhomLoaiTaiLieuConstant.NhomThongBaoTienThueDat;
+                item.TrangThai = 1;
+                item.NgayTao = DateTime.Now;
+            }
+            _context.FileTaiLieu.AddRange(listNewFile);
             await _context.SaveChangesAsync();
             result = entity.IdThongBaoTienThueDat;
             return new ApiSuccessResult<int>() { Data = result };
@@ -194,9 +212,12 @@ namespace QuanLyThueDat.Application.Service
                 if (!String.IsNullOrEmpty(entity.SoThongBaoDonGiaThueDat))
                 {
                     var tbDonGia = await _context.ThongBaoDonGiaThueDat.FirstOrDefaultAsync(x => x.SoThongBaoDonGiaThueDat == entity.SoThongBaoDonGiaThueDat);
-                    thoiHanDonGia = tbDonGia.ThoiHanDonGia + (tbDonGia.NgayHieuLucDonGiaThueDat != null ? " từ ngày " + tbDonGia.NgayHieuLucDonGiaThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "") + (tbDonGia.NgayHetHieuLucDonGiaThueDat != null ? " đến ngày " + tbDonGia.NgayHetHieuLucDonGiaThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "");
+                    if(tbDonGia!= null)
+                    {
+                        thoiHanDonGia = tbDonGia.ThoiHanDonGia + (tbDonGia.NgayHieuLucDonGiaThueDat != null ? " từ ngày " + tbDonGia.NgayHieuLucDonGiaThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "") + (tbDonGia.NgayHetHieuLucDonGiaThueDat != null ? " đến ngày " + tbDonGia.NgayHetHieuLucDonGiaThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "");
+                    }
                 }
-                var ThongBaoTienThueDat = new ThongBaoTienThueDatViewModel
+                var thongBaoTienThueDat = new ThongBaoTienThueDatViewModel
                 {
                     IdThongBaoTienThueDat = entity.IdThongBaoTienThueDat,
                     IdDoanhNghiep = entity.IdDoanhNghiep,
@@ -236,7 +257,22 @@ namespace QuanLyThueDat.Application.Service
                     TuNgayThue = entity.TuNgayThue != null ? entity.TuNgayThue.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                     TongDienTich = entity.TongDienTich.ToString("N", new CultureInfo("vi-VN")),
                 };
-                listItem.Add(ThongBaoTienThueDat);
+                var listFileViewModel = new List<FileTaiLieuViewModel>();
+                var listFile = _context.FileTaiLieu.Include(x => x.File).Where(x => x.IdLoaiTaiLieu == NhomLoaiTaiLieuConstant.NhomThongBaoTienThueDat && x.IdTaiLieu == entity.IdThongBaoTienThueDat && x.TrangThai != 4).ToList();
+                foreach (var item in listFile)
+                {
+                    var fileViewModel = new FileTaiLieuViewModel();
+                    fileViewModel.IdFileTaiLieu = item.IdFileTaiLieu;
+                    fileViewModel.IdFile = item.IdFile;
+                    fileViewModel.TenFile = item.File.TenFile;
+                    fileViewModel.LinkFile = item.File.LinkFile;
+                    fileViewModel.LoaiTaiLieu = item.LoaiTaiLieu;
+                    fileViewModel.IdLoaiTaiLieu = item.IdLoaiTaiLieu;
+                    fileViewModel.IdTaiLieu = item.IdTaiLieu;
+                    listFileViewModel.Add(fileViewModel);
+                }
+                thongBaoTienThueDat.DsFileTaiLieu = listFileViewModel;
+                listItem.Add(thongBaoTienThueDat);
             }
             var result = new PageViewModel<ThongBaoTienThueDatViewModel>()
             {
@@ -293,6 +329,21 @@ namespace QuanLyThueDat.Application.Service
                     TuNgayThue = entity.TuNgayThue != null ? entity.TuNgayThue.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                     TongDienTich = entity.TongDienTich.ToString("N", new CultureInfo("vi-VN")),
                 };
+                var listFileViewModel = new List<FileTaiLieuViewModel>();
+                var listFile = _context.FileTaiLieu.Include(x => x.File).Where(x => x.IdLoaiTaiLieu == NhomLoaiTaiLieuConstant.NhomThongBaoTienThueDat && x.IdTaiLieu == entity.IdThongBaoTienThueDat && x.TrangThai != 4).ToList();
+                foreach (var item in listFile)
+                {
+                    var fileViewModel = new FileTaiLieuViewModel();
+                    fileViewModel.IdFileTaiLieu = item.IdFileTaiLieu;
+                    fileViewModel.IdFile = item.IdFile;
+                    fileViewModel.TenFile = item.File.TenFile;
+                    fileViewModel.LinkFile = item.File.LinkFile;
+                    fileViewModel.LoaiTaiLieu = item.LoaiTaiLieu;
+                    fileViewModel.IdLoaiTaiLieu = item.IdLoaiTaiLieu;
+                    fileViewModel.IdTaiLieu = item.IdTaiLieu;
+                    listFileViewModel.Add(fileViewModel);
+                }
+                result.DsFileTaiLieu = listFileViewModel;
                 return new ApiSuccessResult<ThongBaoTienThueDatViewModel>() { Data = result };
 
             }

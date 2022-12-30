@@ -130,7 +130,6 @@ QuyetDinhMienTienThueDatControl = {
                                 callback: function (popup) {
                                     $('#modalViewQuyetDinhMienTienThueDat').html(popup);
                                     $('#popupViewQuyetDinhMienTienThueDat').modal();
-                                    $('#popupViewQuyetDinhMienTienThueDat .modal-title').text("Chỉnh sửa quyết định miễn tiền thuê đất - " + opts.TenDoanhNghiep);
 
                                     var data = [];
                                     var obj = {
@@ -229,6 +228,8 @@ QuyetDinhMienTienThueDatControl = {
                                     callback: function (popup) {
                                         $('#modalDetailQuyetDinhMienTienThueDat').html(popup);
                                         $('#popupDetailQuyetDinhMienTienThueDat').modal();
+                                        $('#popupViewQuyetDinhMienTienThueDat .modal-title').text("Chỉnh sửa quyết định miễn tiền thuê đất - " + opts.TenDoanhNghiep);
+
                                         FillFormData('#FormDetailQuyetDinhMienTienThueDat', res.Data);
                                         if (opts != undefined) {
                                             $('#popupDetailQuyetDinhMienTienThueDat .ddDoanhNghiep').append('<option value="' + opts.IdDoanhNghiep + '">' + opts.TenDoanhNghiep + '</option>');
@@ -270,9 +271,9 @@ QuyetDinhMienTienThueDatControl = {
                         if (confirm("Xác nhận xóa?") == true) {
                             $.ajax({
                                 url: localStorage.getItem("API_URL") + "/QuyetDinhMienTienThueDat/Delete?idQuyetDinhMienTienThueDat=" + $y.attr('data-id') + "&Type=1",
-                                //headers: {
-                                //    'Authorization': 'Bearer ' + localStorage.getItem("ACCESS_TOKEN")
-                                //},
+                                headers: {
+                                    'Authorization': 'Bearer ' + localStorage.getItem("ACCESS_TOKEN")
+                                },
                                 dataType: 'json',
                                 contentType: "application/json-patch+json",
                                 type: "Delete",
