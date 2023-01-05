@@ -82,7 +82,7 @@ QuyetDinhThueDatControl = {
                             if (row.DsFileTaiLieu != null) {
                                 $.each(row.DsFileTaiLieu, function (i, item) {
                                     if (item.LoaiTaiLieu == "QuyetDinhThueDat") {
-                                        fileQDThueDat = "<a href = '" + localStorage.getItem('API_URL').replace("api", "") + item.LinkFile + "' target='_blank'><i class = 'fas fa-paperclip' title = 'File quyết định thuê đất'></i></a>";                                    }
+                                        fileQDThueDat = "<a href = '" + localStorage.getItem('API_URL').replace("api", "") + item.LinkFile + "' target='_blank'><i class = 'fas fa-paperclip' title = 'File quyết định giao đất, cho thuê đất'></i></a>";                                    }
                                     if (item.LoaiTaiLieu == "QuyetDinhGiaoDat") {
                                         fileQDGiaoDat = "<a href = '" + localStorage.getItem('API_URL').replace("api", "") + item.LinkFile + "' target='_blank'><i class = 'fas fa-paperclip' style = 'color: gold' title = 'File quyết định giao đất'></i></a>";                                       }
                                 });
@@ -149,7 +149,7 @@ QuyetDinhThueDatControl = {
                                                 title: function () {
                                                     var title = '<div class="row"><div class="col-sm-4" style="text-align:center"><h5>UBND TỈNH NGHỆ AN</h5></div></div>' +
                                                         '<div class="row"><div class="col-sm-4" style="text-align:center"><h5>BAN QUẢN LÝ KKT ĐÔNG NAM NGHỆ AN</h5></div></div>' +
-                                                        '<div class="row"><div class="col-sm-12" style="text-align:center"><h5>BÁO CÁO CHI TIẾT QUYẾT ĐỊNH THUÊ ĐẤT</h5></div></div>';
+                                                        '<div class="row"><div class="col-sm-12" style="text-align:center"><h5>BÁO CÁO CHI TIẾT QUYẾT định giao đất, cho thuê đất</h5></div></div>';
                                                     return title;
                                                 },
                                                 customize: function (win) {
@@ -242,7 +242,7 @@ QuyetDinhThueDatControl = {
                                     callback: function (popup) {
                                         $('#modalDetailQuyetDinhThueDat').html(popup);
                                         $('#popupDetailQuyetDinhThueDat').modal();
-                                        $('#popupDetailQuyetDinhThueDat .modal-title').text("Chỉnh sửa quyết định thuê đất - " + opts.TenDoanhNghiep);
+                                        $('#popupDetailQuyetDinhThueDat .modal-title').text("Chỉnh sửa quyết định giao đất, cho thuê đất - " + opts.TenDoanhNghiep);
 
                                         FillFormData('#FormDetailQuyetDinhThueDat', res.Data);
                                         if (opts != undefined) {
@@ -461,7 +461,7 @@ QuyetDinhThueDatControl = {
                 callback: function (res) {
                     $('#modalDetailQuyetDinhThueDat').html(res);
                     $('#popupDetailQuyetDinhThueDat').modal();
-                    $('#popupDetailQuyetDinhThueDat .modal-title').text("Thêm mới quyết định thuê đất - " + opts.TenDoanhNghiep);
+                    $('#popupDetailQuyetDinhThueDat .modal-title').text("Thêm mới quyết định giao đất, cho thuê đất - " + opts.TenDoanhNghiep);
 
                     if (opts != undefined) {
                         $('#popupDetailQuyetDinhThueDat .ddDoanhNghiep').append('<option value="' + opts.IdDoanhNghiep + '">' + opts.TenDoanhNghiep + '</option>');
