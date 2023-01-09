@@ -1,0 +1,256 @@
+﻿
+<div id="modal-add-edit" class="modal modal-primary fade" style="display: none;" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Thêm sửa danh mục nhà đầu tư</h4>
+            </div>
+            <div class="box-body">
+                <div id="horizontal-form">
+                    <form role="form" id="frmMaintainance">
+                        <div class="box-body">
+                            <input type="hidden" id="hidInvestorId" name="Id" data-name="Id" />
+                            @*<input type="hidden" id="Id" name="Id" data-name="Id" />*@
+                            @*<h3 class="box-title">Thông tin công ty, tổ chức</h3>*@
+                            @*<div class="box-tools pull-right">
+                                    <div class="has-feedback">
+                                        <input type="text" id="txtSearch" class="form-control input-sm" placeholder="Mã số doanh nghiệp, CMND">
+                                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                                    </div>
+                                </div>*@
+                            <!-- /.box-tools -->
+                            @*<input type="hidden" id="hidProjectId" value="1" />*@
+                            <div id="divToChuc">
+                              @*  <div class="box-header with-border">
+                                    <h3 class="box-title">Doanh nghiệp, tổ chức</h3>
+                                </div>*@
+                                <div class="form-group">
+                                    <label class="control-label">Tên công ty</label>
+                                    <input id="InvestorName" name="InvestorName" data-name="InvestorName" class="form-control input-sm" required />
+                                    <div class="invalid-feedback">Dữ liệu bắt buộc!</div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Địa chỉ</label>
+                                    <input id="Address" name="Address" data-name="Address" class="form-control input-sm" required />
+                                    <div class="invalid-feedback">Dữ liệu bắt buộc!</div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label class="control-label">Loại giấy tờ</label>
+                                            <select id="TypeOfDocumentId" name="TypeOfDocumentId" data-name="TypeOfDocumentId" class="form-control input-sm" asp-items="@ViewBag.TypeOfDocument" style="width:100%" required>
+                                            </select>
+                                            <div class="invalid-feedback">Dữ liệu bắt buộc!</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label class="control-label">Mã số</label>
+                                            <input id="BusinessNumber" name="BusinessNumber" data-name="BusinessNumber" class="form-control input-sm" required />
+                                            <div class="invalid-feedback">Dữ liệu bắt buộc!</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label class="control-label">Ngày cấp</label>
+                                            <input type="text" id="DateNumber" name="DateNumber" data-name="DateNumber" class="form-control input-sm date-picker" data-date-format="dd/mm/yyyy" required />
+                                            <div class="invalid-feedback">Dữ liệu bắt buộc!</div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label class="control-label">Ngày hết hạn</label>
+                                            <input type="text" id="ExpirationDate" name="ExpirationDate" data-name="ExpirationDate" class="form-control input-sm date-picker" data-date-format="dd/mm/yyyy" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label class="control-label">Cơ quan cấp</label>
+                                            <input id="GrantingBy" name="GrantingBy" data-name="GrantingBy" class="form-control input-sm" required />
+                                            <div class="invalid-feedback">Dữ liệu bắt buộc!</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label class="control-label">Điện thoại</label>
+                                            <input id="PhoneNumber" name="PhoneNumber" data-name="PhoneNumber" class="form-control input-sm" required />
+                                            <div class="invalid-feedback">Dữ liệu bắt buộc!</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label class="control-label">Fax</label>
+                                            <input id="FaxNumber" name="FaxNumber" data-name="FaxNumber" class="form-control input-sm" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label class="control-label">Email</label>
+                                            <input id="Email" name="Email" data-name="Email" class="form-control input-sm" required />
+                                            <div class="invalid-feedback">Dữ liệu bắt buộc!</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+
+                                        <div class="form-group">
+                                            <label class="control-label">Website</label>
+                                            <input id="WebSite" name="WebSite" data-name="WebSite" class="form-control input-sm" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <div id="divCaNhan" class="box box-success">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Người đại diện</h3>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="control-label">Ông/bà</label>
+                                            <input id="Representative" name="Representative" data-name="Representative" class="form-control input-sm" required />
+                                            <div class="invalid-feedback">Dữ liệu bắt buộc!</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <label class="control-label">Giới tính</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <label class="control-label">Ngày sinh</label>
+                                            <input type="text" id="DateBirth" name="DateBirth" data-name="DateBirth" class="form-control input-sm date-picker" data-date-format="dd/mm/yyyy" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-lg-9">
+                                <div class="form-group">
+                                    <label class="control-label">Địa chỉ thường trú</label>
+                                    <input id="AddressPermanent" name="AddressPermanent" data-name="AddressPermanent" class="form-control input-sm" required />
+                                    <div class="invalid-feedback">Dữ liệu bắt buộc!</div>
+                                </div>
+                                 </div>
+                                  <div class="col-lg-3">
+                                       <label class="control-label">Dân tộc</label>
+                                        <select id="EthnicId" data-name="EthnicId" class="form-control" asp-items="@ViewBag.Ethnic"></select>                                    
+                                    </div>
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="control-label">Chứng minh nhân dân/Căn cước công dân/Hộ chiếu</label>
+                                            <select id="TypeOfDocumentId_1" data-name="TypeOfDocumentId_1" name="TypeOfDocumentId_1" class="form-control input-sm" asp-items="@ViewBag.TypeOfDocument1" style="width:100%" required></select>
+                                            <div class="invalid-feedback">Dữ liệu bắt buộc!</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <label class="control-label">Mã số</label>
+                                            <input id="CodePersonal" name="CodePersonal" data-name="CodePersonal" class="form-control input-sm" required />
+                                            <div class="invalid-feedback">Dữ liệu bắt buộc!</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <label class="control-label">Ngày cấp</label>
+                                            <input type="text" id="DateRange" data-name="DateRange" name="DateRange" class="form-control input-sm date-picker" data-date-format="dd/mm/yyyy" required />
+                                            <div class="invalid-feedback">Dữ liệu bắt buộc!</div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label class="control-label">Nơi cấp</label>
+                                            <input id="IssuedBy" name="IssuedBy" data-name="IssuedBy" class="form-control input-sm" required />
+                                            <div class="invalid-feedback">Dữ liệu bắt buộc!</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label class="control-label">Chức vụ</label>
+                                            <select id="PositionId" data-name="PositionId" class="form-control input-sm" asp-items="@ViewBag.Position" style="width:100%"></select>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label class="control-label">Quốc tịch</label>
+                                            <select id="CountryId" data-name="CountryId" class="form-control" asp-items="@ViewBag.Country" style="width:100%" required></select>
+                                            <div class="invalid-feedback">Dữ liệu bắt buộc!</div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                              
+
+
+                                <div class="form-group">
+                                    <label class="control-label">Chỗ ở hiện tại</label>
+                                    <input id="AddressCurrent" name="AddressCurrent" data-name="AddressCurrent" class="form-control input-sm" required />
+                                    <div class="invalid-feedback">Dữ liệu bắt buộc!</div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label class="control-label">Số điện thoại</label>
+                                            <input id="PhonePersonal" name="PhonePersonal" data-name="PhonePersonal" class="form-control input-sm" required />
+                                            <div class="invalid-feedback">Dữ liệu bắt buộc!</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label class="control-label">Fax</label>
+                                            <input id="FaxPersonal" name="FaxPersonal" data-name="FaxPersonal" class="form-control input-sm" />
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label class="control-label">Email</label>
+                                            <input id="EmailPersonal" name="EmailPersonal" data-name="EmailPersonal" class="form-control input-sm" />
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" id="btnCancel" data-dismiss="modal" class="btn btn-danger btn-sm pull-right">
+                                <i class="fal fa-times" style="margin-right:2px"></i><span>Hủy bỏ</span>
+                            </button>
+                            <button type="button" id="btnSave" class="btn btn-primary btn-sm pull-right" style="margin-right:5px">
+                                <i class="fas fa-save" style="margin-right:2px"></i><span>Lưu</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

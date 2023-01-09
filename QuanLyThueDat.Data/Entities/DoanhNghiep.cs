@@ -18,6 +18,7 @@ namespace QuanLyThueDat.Data.Entities
         public string MaSoThue { get; set; }
         public DateTime? NgayCap { get; set; }
         public string NoiCap { get; set; }
+        public string GhiChu { get; set; }
         public List<HopDongThueDat> DsHopDongThueDat { get; set; }
         public List<QuyetDinhDonGiaThueDat> DsQuyetDinhDonGiaThueDat { get; set; }
         public List<QuyetDinhGiaoDat> DsQuyetDinhGiaoDat { get; set; }
@@ -25,6 +26,7 @@ namespace QuanLyThueDat.Data.Entities
         public List<QuyetDinhThueDat> DsQuyetDinhThueDat { get; set; }
         public List<QuyetDinhMienTienThueDat> DsQuyetDinhMienTienThueDat { get; set; }
         public List<ThongBaoTienThueDat> DsThongBaoTienThueDat { get; set; }
+        public List<ThongBaoTienSuDungDat> DsThongBaoTienSuDungDat { get; set; }
         public List<ThongBaoDonGiaThueDat> DsThongBaoDonGiaThueDat { get; set; }
 
     }

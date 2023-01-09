@@ -100,6 +100,7 @@ builder.Services.AddScoped<IFileTaiLieuService, FileTaiLieuService>();
 builder.Services.AddScoped<IHopDongThueDatService, HopDongThueDatService>();
 builder.Services.AddScoped<IQuyetDinhThueDatService, QuyetDinhThueDatService>();
 builder.Services.AddScoped<IHopDongThueDatService, HopDongThueDatService>();
+builder.Services.AddScoped<IThongBaoTienSuDungDatService, ThongBaoTienSuDungDatService>();
 builder.Services.AddScoped<IThongBaoDonGiaThueDatService, ThongBaoDonGiaThueDatService>();
 builder.Services.AddScoped<IQuyetDinhMienTienThueDatService, QuyetDinhMienTienThueDatService>();
 builder.Services.AddScoped<IThongBaoTienThueDatService, ThongBaoTienThueDatService>();

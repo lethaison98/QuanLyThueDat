@@ -6,12 +6,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Doanh nghiệp</h1>
+                    <h1 class="m-0">Thông báo đơn giá thuê đất</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
-                        <li class="breadcrumb-item active">Doanh nghiệp</li>
+                        <li class="breadcrumb-item active">Thông báo đơn giá thuê đất</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -24,12 +24,12 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Tìm kiếm doanh nghiệp</h3>
+                        <h3 class="card-title">Tìm kiếm thông báo đơn giá thuê đất</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-6 col-md-6 col-lg-6 col-xl-8">
+                            <div class="col-9 col-md-9 col-lg-9 col-xl-9">
                                 <div class="ttls-cm">
                                     <div class="ttls-label">Từ khóa</div>
                                     <div class="ttls-content">
@@ -38,20 +38,16 @@
                                 </div>
                             </div>
 
-                            <div class="col-6 col-md-6 col-lg-6 col-xl-4">
+                            <div class="col-3 col-md-3 col-lg-3 col-xl-3">
                                 <div class="ttls-cm">
                                     <div class="ttls-label">&nbsp;</div>
                                     <div class="ttls-content">
-                                        <a class="btn btn-sm btn-primary waves-effect waves-light" id="btnSearchDoanhNghiep">
+                                        <a class="btn btn-sm btn-primary waves-effect waves-light" id="btnSearchThongBaoTienSuDungDat">
                                             <span>Tra cứu</span>
                                             <i class="fas fa-search"></i>
                                         </a>
-                                        <a class="btn btn-sm btn-success waves-effect waves-light" id="btnCreateDoanhNghiep">
+@*                                        <a class="btn btn-sm btn-success waves-effect waves-light" id="btnCreateThongBaoTienSuDungDat">
                                             <span>Tạo mới</span>
-                                            <i class="fas fa-plus"></i>
-                                        </a>
-@*                                        <a class="btn btn-sm btn-success waves-effect waves-light" id="btnThemMoiHangLoat">
-                                            <span>Nhập từ excel</span>
                                             <i class="fas fa-plus"></i>
                                         </a>*@
                                     </div>
@@ -65,17 +61,22 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Danh sách doanh nghiệp</h3>
+                        <h3 class="card-title">Danh sách thông báo đơn giá thuê đất</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <table id="tbl" class="table table-bordered table-hover table-striped" style="width: 100%">
+                        <table id="tblThongBaoTienSuDungDat" class="table table-bordered table-hover table-striped" style="width: 100%">
                             <thead>
                                 <tr>
-                                    <th style="width: 5%">STT</th>
+                                    <th>STT</th>
+                                    <th>Số thông báo</th>
                                     <th>Tên doanh nghiệp</th>
-                                    <th>Mã số thuế</th>
-                                    <th>Địa chỉ</th>
+                                    <th>Ngày thông báo</th>
+@*                                    <th>Diện tích phải nộp tiền (m<sup>2</sup>)</th>
+                                    <th>Diện tích không phải nộp tiền (m<sup>2</sup>)</th>*@
+                                    <th>Đơn giá</th>
+                                    <th>Ngày hiệu lực</th>
+                                    <th>Ngày hết hiệu lực</th>
                                     <th>Thao tác</th>
                                 </tr>
                             </thead>
@@ -92,29 +93,8 @@
         <!-- /.row -->
     </div>
 </section>
-<div id="modalDetailDoanhNghiep"></div>
-<div id="modalImportDoanhNghiep"></div>
-<div id="modalThongBaoDoanhNghiep"></div>
-<div id="modalDetailQuyetDinhThueDat"></div>
-<div id="modalViewQuyetDinhThueDat"></div>
-<div id="modalDetailQuyetDinhMienTienThueDat"></div>
-<div id="modalViewQuyetDinhMienTienThueDat"></div>
-<div id="modalDetailHopDongThueDat"></div>
-<div id="modalViewHopDongThueDat"></div>
 <div id="modalDetailThongBaoTienSuDungDat"></div>
-<div id="modalDetailThongBaoDonGiaThueDat"></div>
-<div id="modalDetailThongBaoTienThueDat"></div>
-<div id="modalDetailThongBaoTienThueDatDieuChinh"></div>
-
-
-@await Html.PartialAsync("Test.cshtml")
 @section Scripts{
 <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment-with-locales.min.js"></script>
-<script src="~/js/controller/DoanhNghiepControl.js"></script>
-<script src="~/js/controller/QuyetDinhThueDatControl.js"></script>
-<script src="~/js/controller/QuyetDinhMienTienThueDatControl.js"></script>
-<script src="~/js/controller/HopDongThueDatControl.js"></script>
 <script src="~/js/controller/ThongBaoTienSuDungDatControl.js"></script>
-<script src="~/js/controller/ThongBaoDonGiaThueDatControl.js"></script>
-<script src="~/js/controller/ThongBaoTienThueDatControl.js"></script>
 }
