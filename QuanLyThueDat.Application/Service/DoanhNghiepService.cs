@@ -59,6 +59,7 @@ namespace QuanLyThueDat.Application.Service
                     MaSoThue = rq.MaSoThue,
                     NgayCap = string.IsNullOrEmpty(rq.NgayCap) ? null : DateTime.Parse(rq.NgayCap, new CultureInfo("vi-VN")),
                     NoiCap = rq.NoiCap,
+                    GhiChu = rq.GhiChu
                 };
             }
             else
@@ -73,6 +74,7 @@ namespace QuanLyThueDat.Application.Service
                 entity.MaSoThue = rq.MaSoThue;
                 entity.NgayCap = string.IsNullOrEmpty(rq.NgayCap) ? null : DateTime.Parse(rq.NgayCap, new CultureInfo("vi-VN"));
                 entity.NoiCap = rq.NoiCap;
+                entity.GhiChu = rq.GhiChu;
             }
 
             _context.DoanhNghiep.Update(entity);
@@ -118,6 +120,7 @@ namespace QuanLyThueDat.Application.Service
                     MaSoThue = item.MaSoThue,
                     NgayCap = item.NgayCap != null ? item.NgayCap.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                     NoiCap = item.NoiCap,
+                    GhiChu = item.GhiChu
                 };
                 result.Add(doanhNghiep);
             }
@@ -150,6 +153,7 @@ namespace QuanLyThueDat.Application.Service
                     MaSoThue = item.MaSoThue,
                     NgayCap = item.NgayCap != null ? item.NgayCap.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                     NoiCap = item.NoiCap,
+                    GhiChu = item.GhiChu
                 };
                 listItem.Add(doanhNghiep);
             }
@@ -181,6 +185,7 @@ namespace QuanLyThueDat.Application.Service
                     MaSoThue = entity.MaSoThue,
                     NgayCap = entity.NgayCap != null ? entity.NgayCap.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                     NoiCap = entity.NoiCap,
+                    GhiChu = entity.GhiChu,
                 };
                 return new ApiSuccessResult<DoanhNghiepViewModel>() { Data = result };
 

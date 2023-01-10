@@ -18,5 +18,6 @@ namespace QuanLyThueDat.Application.Request
         public string MaSoThue { get; set; }
         public string NgayCap { get; set; }
         public string NoiCap { get; set; }
+        public string GhiChu { get; set; }
     }
 }

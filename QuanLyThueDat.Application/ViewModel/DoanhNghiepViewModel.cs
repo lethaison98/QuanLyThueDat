@@ -18,6 +18,7 @@ namespace QuanLyThueDat.Application.ViewModel
         public string MaSoThue { get; set; }
         public string NgayCap { get; set; }
         public string NoiCap { get; set; }
+        public string GhiChu { get; set; }
         public List<HopDongThueDatViewModel> DsHopDongThueDat { get; set; }
         public List<QuyetDinhDonGiaThueDatViewModel> DsQuyetDinhDonGiaThueDat { get; set; }
         public List<QuyetDinhGiaoDatViewModel> DsQuyetDinhGiaoDat { get; set; }
