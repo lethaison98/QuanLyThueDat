@@ -234,8 +234,10 @@ ThongBaoTienThueDatControl = {
         }
         popup.find("[data-name = 'LoaiThongBaoTienThueDat']").val(opts.LoaiThongBaoTienThueDat);
         popup.find('.ddDoanhNghiep').append('<option value="' + opts.IdDoanhNghiep + '">' + opts.TenDoanhNghiep + '</option>');
-
         $('.groupThongBaoDonGiaThueDat input').change(function () {
+            self.TinhToanCongThuc(opts);
+        });
+        $('.groupThongBaoDonGiaThueDat input').blur(function () {
             self.TinhToanCongThuc(opts);
         });
 
@@ -343,48 +345,35 @@ ThongBaoTienThueDatControl = {
             var popup = $('#popupDetailThongBaoTienThueDat');
             var form = '#FormDetailThongBaoTienThueDat';
         };
-        popup.find(".groupThongBaoDonGiaThueDat [data-name='DonGia']").change(function () {
-            if (popup.find("[data-name='TongDienTich']").val() != '') {
-                var tongDienTich = ConvertStringToDecimal(popup.find(".groupThongBaoDonGiaThueDat [data-name='TongDienTich']").val());
-                var donGia = ConvertStringToDecimal(popup.find("[data-name='DonGia']").val());
-                var tongSoTien = ConvertDecimalToString((donGia * tongDienTich).toFixed(0));
-                popup.find("[data-name='SoTien']").val(tongSoTien);
-            };
-        });
 
-        popup.find(".groupThongBaoDonGiaThueDat [data-name='TongDienTich']").change(function () {
-            if (popup.find("[data-name='DonGia']").val() != '') {
-                var donGia = ConvertStringToDecimal(popup.find("[data-name='DonGia']").val());
-                var tongDienTich = ConvertStringToDecimal(popup.find(".groupThongBaoDonGiaThueDat [data-name='TongDienTich']").val());
-                var tongSoTien = ConvertDecimalToString((donGia * tongDienTich).toFixed(0));
-                popup.find("[data-name='SoTien']").val(tongSoTien);
-            };
-        });
-        popup.find("[data-name='DienTichKhongPhaiNop']").change(function () {
-            if (popup.find("[data-name='DonGia']").val() != '') {
-                var donGia = ConvertStringToDecimal(popup.find("[data-name='DonGia']").val());
-                var tongDienTich = ConvertStringToDecimal(popup.find(".groupThongBaoDonGiaThueDat [data-name='TongDienTich']").val());
-                var dienTichKhongPhaiNop = ConvertStringToDecimal(popup.find("[data-name='DienTichKhongPhaiNop']").val());
-                var soTienMienGiam = ConvertDecimalToString((donGia * dienTichKhongPhaiNop).toFixed(0));
-                popup.find("[data-name='SoTienMienGiam']").val(soTienMienGiam);
-                var dienTichPhaiNop = ConvertDecimalToString((tongDienTich - dienTichKhongPhaiNop).toFixed(2).toString().replace(".", ","));
-                popup.find("[data-name='DienTichPhaiNop']").val(dienTichPhaiNop);
-            };
-            if (popup.find("[data-name='SoTien']").val() != '') {
-                var soTien = ConvertStringToDecimal(popup.find("[data-name='SoTien']").val());
-                var soTienMienGiam = ConvertStringToDecimal(popup.find("[data-name='SoTienMienGiam']").val());
-                var soTienPhaiNop = ConvertDecimalToString((soTien - soTienMienGiam).toFixed(0));
-                popup.find("[data-name='SoTienPhaiNop']").val(soTienPhaiNop);
-            };
-        });
-        popup.find("[data-name='SoTienMienGiam']").change(function () {
-            if (popup.find("[data-name='SoTien']").val() != '') {
-                var soTien = ConvertStringToDecimal(popup.find("[data-name='SoTien']").val());
-                var soTienMienGiam = ConvertStringToDecimal(popup.find("[data-name='SoTienMienGiam']").val());
-                var soTienPhaiNop = ConvertDecimalToString((soTien - soTienMienGiam).toFixed(0));
-                popup.find("[data-name='SoTienPhaiNop']").val(soTienPhaiNop);
-            };
-        });
+        var tongDienTich = 0;
+        var donGia = 0;
+        var dienTichKhongPhaiNop = 0;
+
+        if (popup.find(".groupThongBaoDonGiaThueDat [data-name='TongDienTich']").val() != '') {
+            tongDienTich = ConvertStringToDecimal(popup.find(".groupThongBaoDonGiaThueDat [data-name='TongDienTich']").val());
+            console.log(popup.find(".groupThongBaoDonGiaThueDat [data-name='TongDienTich']").val());
+        };
+        if (popup.find("[data-name='DonGia']").val() != '') {
+            donGia = ConvertStringToDecimal(popup.find("[data-name='DonGia']").val());
+        };
+        if (popup.find("[data-name='DienTichKhongPhaiNop']").val() != '') {
+            dienTichKhongPhaiNop = ConvertStringToDecimal(popup.find(".groupThongBaoDonGiaThueDat [data-name='DienTichKhongPhaiNop']").val());
+        };
+
+        var tongSoTien = donGia * tongDienTich;
+        popup.find("[data-name='SoTien']").val(ConvertDecimalToString(tongSoTien.toFixed(0)));
+
+        
+        var soTienMienGiam = donGia * dienTichKhongPhaiNop;
+        popup.find("[data-name='SoTienMienGiam']").val(ConvertDecimalToString(soTienMienGiam.toFixed(0)));
+
+        var dienTichPhaiNop = tongDienTich - dienTichKhongPhaiNop;
+        popup.find("[data-name='DienTichPhaiNop']").val(ConvertDecimalToString(dienTichPhaiNop.toFixed(2).toString().replace(".", ",")));
+
+        var soTienPhaiNop = tongSoTien - soTienMienGiam;
+        popup.find("[data-name='SoTienPhaiNop']").val(ConvertDecimalToString(soTienPhaiNop.toFixed(0)));
+
     },
     InsertUpdate: function (opts) {
         var self = this;
@@ -561,6 +550,9 @@ ThongBaoTienThueDatControl = {
                                 if (res.IsSuccess) {
                                     FillFormData(form, res.Data);
                                     $('.groupThongBaoDonGiaThueDat input').change(function () {
+                                        self.TinhToanCongThuc(opts);
+                                    });
+                                    $('.groupThongBaoDonGiaThueDat input').blur(function () {
                                         self.TinhToanCongThuc(opts);
                                     });
                                     setTimeout(function () { popup.find('.groupThongBaoDonGiaThueDat input').trigger('change') }, 500);

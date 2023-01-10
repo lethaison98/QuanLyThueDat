@@ -97,13 +97,13 @@ ThongBaoTienSuDungDatControl = {
                             if (opts == undefined) {
                                 var thaotac = "<div class='hstn-func' style='text-align: center;' data-type='" + JSON.stringify(row) + "'>" +
                                     file + "&nbsp" +
-                                    "<a href='javascript:;' class='ThongBaoTienSuDungDat-export' data-id='" + row.IdThongBaoTienSuDungDat + "'><i class='fas fa-file-word' title='Xuất thông báo' ></i></a> &nbsp" +
+                                    //"<a href='javascript:;' class='ThongBaoTienSuDungDat-export' data-id='" + row.IdThongBaoTienSuDungDat + "'><i class='fas fa-file-word' title='Xuất thông báo' ></i></a> &nbsp" +
                                     "</div>";
                                 return thaotac;
                             } else {
                                 var thaotac = "<div class='hstn-func' style='text-align: center;' data-type='" + JSON.stringify(row) + "'>" +
                                     file + "&nbsp" +
-                                    "<a href='javascript:;' class='ThongBaoTienSuDungDat-export' data-id='" + row.IdThongBaoTienSuDungDat + "'><i class='fas fa-file-word' title='Xuất thông báo' ></i></a> &nbsp" +
+                                    //"<a href='javascript:;' class='ThongBaoTienSuDungDat-export' data-id='" + row.IdThongBaoTienSuDungDat + "'><i class='fas fa-file-word' title='Xuất thông báo' ></i></a> &nbsp" +
                                     "<a href='javascript:;' class='ThongBaoTienSuDungDat-edit' data-id='" + row.IdThongBaoTienSuDungDat + "'><i class='fas fa-edit' title='Chỉnh sửa'></i></a>" +
                                     "<a href='javascript:;' class='ThongBaoTienSuDungDat-remove text-danger' data-id='" + row.IdThongBaoTienSuDungDat + "'><i class='fas fa-trash-alt' title='Xóa' ></i></a>" +
                                     "</div>";
@@ -111,7 +111,7 @@ ThongBaoTienSuDungDatControl = {
                             }
 
                             var thaotac = "<div class='hstn-func' style='text-align: center;' data-type='" + JSON.stringify(row) + "'>" +
-                                "<a href='javascript:;' class='ThongBaoTienSuDungDat-export' data-id='" + row.IdThongBaoTienSuDungDat + "'><i class='fas fa-file-word' title='Xuất thông báo' ></i></a> &nbsp" +
+                                //"<a href='javascript:;' class='ThongBaoTienSuDungDat-export' data-id='" + row.IdThongBaoTienSuDungDat + "'><i class='fas fa-file-word' title='Xuất thông báo' ></i></a> &nbsp" +
                                 "<a href='javascript:;' class='ThongBaoTienSuDungDat-edit' data-id='" + row.IdThongBaoTienSuDungDat + "'><i class='fas fa-edit' title='Chỉnh sửa'></i></a>" +
                                 "<a href='javascript:;' class='ThongBaoTienSuDungDat-remove text-danger' data-id='" + row.IdThongBaoTienSuDungDat + "'><i class='fas fa-trash-alt' title='Xóa' ></i></a>" +
                                 "</div>";
@@ -148,7 +148,7 @@ ThongBaoTienSuDungDatControl = {
                                         FillFormData('#FormDetailThongBaoTienSuDungDat', res.Data);
                                         var popup = $('#popupDetailThongBaoTienSuDungDat');
 
-                                        if (opts!= undefined) {
+                                        if (opts != undefined) {
                                             popup.find('.ddDoanhNghiep').append('<option value="' + opts.IdDoanhNghiep + '">' + opts.TenDoanhNghiep + '</option>');
                                         } else {
                                             $('#popupDetailThongBaoTienSuDungDat .ddDoanhNghiep').append('<option value="' + res.Data.IdDoanhNghiep + '">' + res.Data.TenDoanhNghiep + '</option>');
@@ -260,6 +260,12 @@ ThongBaoTienSuDungDatControl = {
                 }
             });
         }
+        $('.groupThongBaoTienSuDungDat input').change(function () {
+            self.TinhToanCongThuc();
+        });
+        $('.groupThongBaoTienSuDungDat input').blur(function () {
+            self.TinhToanCongThuc();
+        });
         $("#btnSaveThongBaoTienSuDungDat").off('click').on('click', function () {
             self.InsertUpdate();
         });
@@ -391,7 +397,33 @@ ThongBaoTienSuDungDatControl = {
             }
         });
     },
+    TinhToanCongThuc: function () {
+        var popup = $('#popupDetailThongBaoTienSuDungDat');
+        var tongDienTich = 0;
+        var donGia = 0;
+        var soTienMienGiam = 0;
+        var soTienBoiThuongGiaiPhongMatBang = 0
 
+        if (popup.find("[data-name='DienTichPhaiNop']").val() != '') {
+            tongDienTich = ConvertStringToDecimal(popup.find(".groupThongBaoTienSuDungDat [data-name='DienTichPhaiNop']").val());
+        };
+        if (popup.find("[data-name='DonGia']").val() != '') {
+            donGia = ConvertStringToDecimal(popup.find("[data-name='DonGia']").val());
+        };
+        if (popup.find("[data-name='SoTienMienGiam']").val() != '') {
+            soTienMienGiam = ConvertStringToDecimal(popup.find("[data-name='SoTienMienGiam']").val());
+        };
+        if (popup.find("[data-name='SoTienBoiThuongGiaiPhongMatBang']").val() != '') {
+            soTienBoiThuongGiaiPhongMatBang = ConvertStringToDecimal(popup.find("[data-name='SoTienBoiThuongGiaiPhongMatBang']").val());
+        };
+
+        soTien = donGia * tongDienTich;
+        popup.find("[data-name='SoTien']").val(ConvertDecimalToString(soTien.toFixed(0)));
+
+        soTienPhaiNop = soTien - soTienMienGiam - soTienBoiThuongGiaiPhongMatBang;
+        popup.find("[data-name='SoTienPhaiNop']").val(ConvertDecimalToString(soTienPhaiNop.toFixed(0)));
+
+    },
 }
 
 $(document).ready(function () {
