@@ -26,5 +26,11 @@ namespace QuanLyThueDat.WebApp.Controllers
         {
             return View();
         }
+
+        [Route("PopupDetailHopDongThueLaiDat")]
+        public ViewResult _PopupDetailHopDongThueLaiDat()
+        {
+            return View();
+        }
     }
 }

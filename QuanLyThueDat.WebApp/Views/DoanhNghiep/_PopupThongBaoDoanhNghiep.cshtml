@@ -38,11 +38,16 @@
                             <div class="tab-content" id="custom-tabs-four-tabContent">
                                 <div class="tab-pane fade show active" id="tabQuyetDinhThueDat" role="tabpanel" aria-labelledby="selectTabQuyetDinhThueDat">
                                     <div class="ttls-content d-flex mb-1" style="justify-content: space-between;">
-                                        <h5>DANH SÁCH QUYẾT ĐỊNH THUÊ ĐẤT</h5>
-                                        <a class="btn btn-sm btn-success waves-effect waves-light" id="btnCreateQuyetDinhThueDat">
-                                            <span>Tạo mới</span>
-                                            <i class="fas fa-plus"></i>
-                                        </a>
+                                        <h5>DANH SÁCH QUYẾT ĐỊNH GIAO ĐẤT, THUÊ ĐẤT, HỢP ĐỒNG THUÊ LẠI ĐẤT</h5>
+                                        <button type="button" class="btn btn-sm btn-success waves-effect waves-light dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                            Tạo mới
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a class="dropdown-item" href="#" id="btnCreateQuyetDinhThueDat">QĐ giao đất/cho thuê đất</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#" id="btnCreateHopDongThueLaiDat">Hợp đồng thuê lại đất</a>
+
+                                        </div>
                                     </div>
                                     <table id="tblQuyetDinhThueDat" class="table table-bordered table-hover table-striped" style="width: 100%">
                                         <thead>

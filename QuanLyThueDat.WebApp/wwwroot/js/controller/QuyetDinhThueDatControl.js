@@ -472,6 +472,25 @@ QuyetDinhThueDatControl = {
                 }
             })
         });
+        $('#btnCreateHopDongThueLaiDat').off('click').on('click', function () {
+            var $y = $(this);
+            Get({
+                url: '/QuyetDinhThueDat/PopupDetailHopDongThueLaiDat',
+                dataType: 'text',
+                callback: function (res) {
+                    $('#modalDetailHopDongThueLaiDat').html(res);
+                    $('#popupDetailHopDongThueLaiDat').modal();
+                    $('#popupDetailHopDongThueLaiDat .modal-title').text("Thêm mới hợp đồng thuê lại đất - " + opts.TenDoanhNghiep);
+
+                    if (opts != undefined) {
+                        $('#popupDetailHopDongThueLaiDat .ddDoanhNghiep').append('<option value="' + opts.IdDoanhNghiep + '">' + opts.TenDoanhNghiep + '</option>');
+                    } else {
+                        self.LoadDanhSachDoanhNghiep();
+                    }
+                    self.RegisterEventsPopup();
+                }
+            })
+        });
         $(document).on('keypress', function (e) {
             if (e.which == 13) {
                 $("#btnSearchQuyetDinhThueDat").trigger('click');
