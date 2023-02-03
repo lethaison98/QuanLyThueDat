@@ -18,6 +18,8 @@ namespace QuanLyThueDat.Application.ViewModel
         public string DiaChi { get; set; }
         public string MaSoThue { get; set; }
         public string CoQuanQuanLyThue { get; set; }
+        public string SoDienThoai { get; set; }
+        public string Email { get; set; }
 
         //Quyết định thuê đất
         public string SoQuyetDinhThueDat { get; set; }
@@ -53,6 +55,8 @@ namespace QuanLyThueDat.Application.ViewModel
         public string TextTenLanhDao { get; set; }
         public string TextChucVuLanhDao { get; set; }
         public string TextKyThayLanhDao { get; set; }
+        public string TextSoTienPhaiNop { get; set; }
+        public string TextTongDienTich { get; set; }
         public List<FileTaiLieuViewModel> DsFileTaiLieu { get; set; }
     }
 }

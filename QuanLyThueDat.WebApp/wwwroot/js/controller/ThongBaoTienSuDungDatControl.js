@@ -55,16 +55,11 @@ ThongBaoTienSuDungDatControl = {
                         "data": "NgayThongBaoTienSuDungDat",
                         "defaultContent": "",
                     },
-                    //{
-                    //    "class": "name-control",
-                    //    "data": "DienTichPhaiNop",
-                    //    "defaultContent": "",
-                    //},
-                    //{
-                    //    "class": "name-control",
-                    //    "data": "DienTichKhongPhaiNop",
-                    //    "defaultContent": "",
-                    //},
+                    {
+                        "class": "name-control",
+                        "data": "DienTichPhaiNop",
+                        "defaultContent": "",
+                    },
                     {
                         "class": "name-control",
                         "data": "DonGia",
@@ -72,12 +67,7 @@ ThongBaoTienSuDungDatControl = {
                     },
                     {
                         "class": "name-control",
-                        "data": "NgayHieuLucTienSuDungDat",
-                        "defaultContent": "",
-                    },
-                    {
-                        "class": "name-control",
-                        "data": "NgayHetHieuLucTienSuDungDat",
+                        "data": "SoTienPhaiNop",
                         "defaultContent": "",
                     },
                     {
@@ -103,7 +93,7 @@ ThongBaoTienSuDungDatControl = {
                             } else {
                                 var thaotac = "<div class='hstn-func' style='text-align: center;' data-type='" + JSON.stringify(row) + "'>" +
                                     file + "&nbsp" +
-                                    //"<a href='javascript:;' class='ThongBaoTienSuDungDat-export' data-id='" + row.IdThongBaoTienSuDungDat + "'><i class='fas fa-file-word' title='Xuất thông báo' ></i></a> &nbsp" +
+                                    "<a href='javascript:;' class='ThongBaoTienSuDungDat-export' data-id='" + row.IdThongBaoTienSuDungDat + "'><i class='fas fa-file-word' title='Xuất thông báo' ></i></a> &nbsp" +
                                     "<a href='javascript:;' class='ThongBaoTienSuDungDat-edit' data-id='" + row.IdThongBaoTienSuDungDat + "'><i class='fas fa-edit' title='Chỉnh sửa'></i></a>" +
                                     "<a href='javascript:;' class='ThongBaoTienSuDungDat-remove text-danger' data-id='" + row.IdThongBaoTienSuDungDat + "'><i class='fas fa-trash-alt' title='Xóa' ></i></a>" +
                                     "</div>";
@@ -111,7 +101,7 @@ ThongBaoTienSuDungDatControl = {
                             }
 
                             var thaotac = "<div class='hstn-func' style='text-align: center;' data-type='" + JSON.stringify(row) + "'>" +
-                                //"<a href='javascript:;' class='ThongBaoTienSuDungDat-export' data-id='" + row.IdThongBaoTienSuDungDat + "'><i class='fas fa-file-word' title='Xuất thông báo' ></i></a> &nbsp" +
+                                "<a href='javascript:;' class='ThongBaoTienSuDungDat-export' data-id='" + row.IdThongBaoTienSuDungDat + "'><i class='fas fa-file-word' title='Xuất thông báo' ></i></a> &nbsp" +
                                 "<a href='javascript:;' class='ThongBaoTienSuDungDat-edit' data-id='" + row.IdThongBaoTienSuDungDat + "'><i class='fas fa-edit' title='Chỉnh sửa'></i></a>" +
                                 "<a href='javascript:;' class='ThongBaoTienSuDungDat-remove text-danger' data-id='" + row.IdThongBaoTienSuDungDat + "'><i class='fas fa-trash-alt' title='Xóa' ></i></a>" +
                                 "</div>";
@@ -125,7 +115,7 @@ ThongBaoTienSuDungDatControl = {
                     var $y = $(this);
                     var id = $y.attr('data-id');
                     if (id != "0") {
-                        window.open("/CreateWordFile?idThongBao=" + id + "&loaiThongBao=ThongBaoTienSuDungDat", "_blank");
+                        window.open("/CreateWordFile?idThongBao=" + id + "&loaiThongBao=ThongBaoTienSuDungDatLanDau", "_blank");
                     }
                 });
                 $('#tblThongBaoTienSuDungDat tbody .ThongBaoTienSuDungDat-edit').off('click').on('click', function (e) {

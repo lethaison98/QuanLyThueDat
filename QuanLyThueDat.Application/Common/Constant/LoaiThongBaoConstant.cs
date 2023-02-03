@@ -10,5 +10,6 @@ namespace QuanLyThueDat.Application.Common.Constant
     {
         public const string ThongBaoDonGiaThueDat = "ThongBaoDonGiaThueDat";
         public const string ThongBaoTienThueDat = "ThongBaoTienThueDat";
+        public const string ThongBaoTienSuDungDatLanDau = "ThongBaoTienSuDungDatLanDau";
     }
 }

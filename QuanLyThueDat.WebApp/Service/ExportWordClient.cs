@@ -289,7 +289,7 @@ namespace QuanLyThueDat.WebApp.Service
                         {
                             data = JsonConvert.DeserializeObject<ApiSuccessResult<ThongBaoDonGiaThueDatViewModel>>(await response.Content.ReadAsStringAsync());
                         }
-
+                        data.Data.HinhThucThue = "Thuê đất trả tiền hằng năm";
                         if (String.IsNullOrEmpty(data.Data.TenThongBaoDonGiaThueDat))
                         {
                             data.Data.TenThongBaoDonGiaThueDat = "Về đơn giá thuê đất, thuê mặt nước";
@@ -348,6 +348,46 @@ namespace QuanLyThueDat.WebApp.Service
                         {
                             data.Data.TextLoaiThongBaoTienThueDat = typeof(LoaiThongBaoTienThueDatConstant).GetField(data.Data.LoaiThongBaoTienThueDat).GetValue(null).ToString();
                         }
+                        data.Data.TextSoTienPhaiNop = NumberToTextVN(data.Data.SoTienPhaiNop);
+                        data.Data.TextTongDienTich = NumberToTextVN(data.Data.TongDienTich);
+
+
+                        break;
+
+                    case LoaiThongBaoConstant.ThongBaoTienSuDungDatLanDau:
+                        pathFileTemplate = "Assets/Template/MauThongBaoTienSuDungDatLanDau.docx";
+                        response = await client.GetAsync("/api/ThongBaoTienSuDungDat/GetById?idThongBaoTienSuDungDat=" + idThongBao);
+                        if (response.IsSuccessStatusCode)
+                        {
+                            data = JsonConvert.DeserializeObject<ApiSuccessResult<ThongBaoTienSuDungDatViewModel>>(await response.Content.ReadAsStringAsync());
+                        }
+                        if (String.IsNullOrEmpty(data.Data.TenThongBaoTienSuDungDat))
+                        {
+                            data.Data.TenThongBaoTienSuDungDat = "Về tiền thuê đất, thuê mặt nước theo hình thức nộp hàng năm";
+                        }
+                        if (String.IsNullOrEmpty(data.Data.CoQuanQuanLyThue))
+                        {
+                            data.Data.CoQuanQuanLyThue = "Chi cục thuế Bắc Vinh";
+                        }
+                        if (!String.IsNullOrEmpty(data.Data.LanhDaoKyThongBaoTienSuDungDat))
+                        {
+                            var arr = data.Data.LanhDaoKyThongBaoTienSuDungDat.Split('-');
+                            data.Data.TextChucVuLanhDao = arr[0];
+                            data.Data.TextTenLanhDao = arr[1];
+                            if (data.Data.TextChucVuLanhDao != "TRƯỞNG BAN")
+                            {
+                                data.Data.TextKyThayLanhDao = "KT. TRƯỞNG BAN";
+                            }
+                        }
+                        else
+                        {
+                            data.Data.TextChucVuLanhDao = "TRƯỞNG BAN";
+                            data.Data.TextTenLanhDao = "LÊ TIẾN TRỊ";
+                        }
+                        //if (!String.IsNullOrEmpty(data.Data.LoaiThongBaoTienSuDungDat))
+                        //{
+                        //    data.Data.TextLoaiThongBaoTienThueDat = typeof(LoaiThongBaoTienThueDatConstant).GetField(data.Data.LoaiThongBaoTienThueDat).GetValue(null).ToString();
+                        //}
                         data.Data.TextSoTienPhaiNop = NumberToTextVN(data.Data.SoTienPhaiNop);
                         data.Data.TextTongDienTich = NumberToTextVN(data.Data.TongDienTich);
 

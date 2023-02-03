@@ -26,7 +26,7 @@ namespace QuanLyThueDat.Application.Request
         public string TuNgayThue { get; set; }
         public decimal TongDienTich { get; set; }
 
-        //Thông báo đơn giá thuê đất
+        //Thông báo Tien Su Dung Dat
         public string SoThongBaoTienSuDungDat { get; set; }
         public string TenThongBaoTienSuDungDat { get; set; }
         public string LanThongBaoTienSuDungDat { get; set; }
