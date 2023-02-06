@@ -483,8 +483,10 @@ ThongBaoTienThueDatControl = {
                 popup.find('.ddQuyetDinhThueDat').html('');
                 popup.find('.ddQuyetDinhThueDat').append('<option value= "" selected="true" style="display: none"></option>');
                 $.each(res.Data, function (i, item) {
-                    var name = item.SoQuyetDinhThueDat + " - " + item.TextHinhThucThue + " - Diện tích " + item.TongDienTich + "  (m<sup>2</sup>)"
-                    popup.find('.ddQuyetDinhThueDat').append('<option value=' + i + '>' + name + '</option>');
+                    if (item.HinhThucThue == "ThueDatTraTienHangNam" || item.HinhThucThue == "HopDongThueLaiDat") {
+                        var name = item.SoQuyetDinhThueDat + " - " + item.TextHinhThucThue + " - Diện tích " + item.TongDienTich + "  (m<sup>2</sup>)"
+                        popup.find('.ddQuyetDinhThueDat').append('<option value=' + i + '>' + name + '</option>');
+                    }
                 })
                 popup.find('.ddQuyetDinhThueDat').on('change', function () {
                     $('.groupQuyetDinhThueDat input').val("");

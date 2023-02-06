@@ -362,7 +362,7 @@ ThongBaoDonGiaThueDatControl = {
                 popup.find('.ddQuyetDinhThueDat').html('');
                 popup.find('.ddQuyetDinhThueDat').append('<option value= "" selected="true" style="display: none"></option>');
                 $.each(res.Data, function (i, item) {
-                    if (item.HinhThucThue == "ThueDatTraTienHangNam") {
+                    if (item.HinhThucThue == "ThueDatTraTienHangNam" || item.HinhThucThue == "HopDongThueLaiDat") {
                         var name = item.SoQuyetDinhThueDat + " - " + item.TextHinhThucThue + " - Diện tích " + item.TongDienTich + "  (m<sup>2</sup>)"
                         popup.find('.ddQuyetDinhThueDat').append('<option value=' + i + '>' + name + '</option>');
                     }

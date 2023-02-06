@@ -12,5 +12,6 @@ namespace QuanLyThueDat.Application.Common.Constant
         public const string ThueDatTraTienMotLan = "Thuê đất trả tiền một lần";
         public const string GiaoDatCoThuTien = "Giao đất có thu tiền";
         public const string GiaoDatKhongThuTien = "Giao đất không thu tiền";
+        public const string HopDongThueLaiDat = "Hợp đồng thuê lại đất"; 
     }
 }
