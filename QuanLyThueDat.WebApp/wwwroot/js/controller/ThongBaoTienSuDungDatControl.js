@@ -87,7 +87,7 @@ ThongBaoTienSuDungDatControl = {
                             if (opts == undefined) {
                                 var thaotac = "<div class='hstn-func' style='text-align: center;' data-type='" + JSON.stringify(row) + "'>" +
                                     file + "&nbsp" +
-                                    //"<a href='javascript:;' class='ThongBaoTienSuDungDat-export' data-id='" + row.IdThongBaoTienSuDungDat + "'><i class='fas fa-file-word' title='Xuất thông báo' ></i></a> &nbsp" +
+                                    "<a href='javascript:;' class='ThongBaoTienSuDungDat-export' data-id='" + row.IdThongBaoTienSuDungDat + "'><i class='fas fa-file-word' title='Xuất thông báo' ></i></a> &nbsp" +
                                     "</div>";
                                 return thaotac;
                             } else {

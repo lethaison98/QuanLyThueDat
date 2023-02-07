@@ -13,7 +13,7 @@ namespace QuanLyThueDat.Application.Interfaces
         public Task<ApiResult<int>> InsertUpdate(HopDongThueDatRequest rq);
         public Task<ApiResult<bool>> Delete(int idHopDong);
         public Task<ApiResult<HopDongThueDatViewModel>> GetById(int idHopDong);
-        public Task<ApiResult<List<HopDongThueDatViewModel>>> GetAll();
+        public Task<ApiResult<List<HopDongThueDatViewModel>>> GetAll(int? idDoanhNghiep);
         public Task<ApiResult<PageViewModel<HopDongThueDatViewModel>>> GetAllPaging(int? idDoanhNghiep, string keyword, int pageIndex, int pageSize);
         public Task<ApiResult<List<HopDongThueDatViewModel>>> CanhBaoHopDongSapHetHan();
     }

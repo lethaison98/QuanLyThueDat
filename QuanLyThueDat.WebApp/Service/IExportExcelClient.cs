@@ -6,6 +6,7 @@ namespace QuanLyThueDat.WebApp.Service
     {
         Task<ApiResult<byte[]>> ExportThongBaoTienThueDatHangNam(int namThongBao);
         Task<ApiResult<byte[]>> ExportQuyetDinhMienTienThueDat(int? idQuyetDinhMienTienThueDat);
+        Task<ApiResult<byte[]>> ExportBaoCaoDoanhNghiepThueDat();
 
     }
 }

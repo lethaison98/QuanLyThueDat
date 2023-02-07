@@ -291,6 +291,10 @@ namespace QuanLyThueDat.Application.Service
             {
                 query = query.Where(x => x.IdQuyetDinhThueDat == rq.IdQuyetDinhThueDat || x.IdQuyetDinhThueDat == null);
             }
+            if (rq.SoQuyetDinhThueDat != null)
+            {
+                query = query.Where(x => x.SoQuyetDinhThueDat == rq.SoQuyetDinhThueDat);
+            }
             var data = await query.OrderByDescending(x => x.NgayThongBaoDonGiaThueDat).ToListAsync();
             foreach (var item in data)
             {
@@ -306,6 +310,7 @@ namespace QuanLyThueDat.Application.Service
                     DienTichPhaiNop = item.DienTichPhaiNop.ToString("N", new CultureInfo("vi-VN")),
                     DonGia = item.DonGia.ToString("N0", new CultureInfo("vi-VN")),
                     NgayThongBaoDonGiaThueDat = item.NgayThongBaoDonGiaThueDat != null ? item.NgayThongBaoDonGiaThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
+                    ThoiHanDonGia = item.ThoiHanDonGia,
                     NgayHieuLucDonGiaThueDat = item.NgayHieuLucDonGiaThueDat != null ? item.NgayHieuLucDonGiaThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                     NgayHetHieuLucDonGiaThueDat = item.NgayHetHieuLucDonGiaThueDat != null ? item.NgayHetHieuLucDonGiaThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                 };

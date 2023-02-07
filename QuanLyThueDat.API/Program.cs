@@ -94,6 +94,7 @@ builder.Services.AddAuthentication(opt =>
 builder.Services.AddScoped<UserManager<AppUser>, UserManager<AppUser>>();
 builder.Services.AddTransient<SignInManager<AppUser>, SignInManager<AppUser>>();
 builder.Services.AddScoped<RoleManager<AppRole>, RoleManager<AppRole>>();
+builder.Services.AddScoped<IBaoCaoService, BaoCaoService>();
 builder.Services.AddScoped<IDoanhNghiepService, DoanhNghiepService>();
 builder.Services.AddScoped<IFileService, FileService>();
 builder.Services.AddScoped<IFileTaiLieuService, FileTaiLieuService>();

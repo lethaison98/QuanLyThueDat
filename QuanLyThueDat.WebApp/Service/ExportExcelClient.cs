@@ -5,6 +5,7 @@ using OfficeOpenXml.Style;
 using QuanLyThueDat.Application.Common.Constant;
 using QuanLyThueDat.Application.Interfaces;
 using QuanLyThueDat.Application.ViewModel;
+using QuanLyThueDat.Application.ViewModel.BaoCaoViewModel;
 using System.Globalization;
 using System.Reflection;
 using System.Text;
@@ -169,6 +170,87 @@ namespace QuanLyThueDat.WebApp.Service
                 ws.Cells[7, 1, i + 6, 8].Style.Border.Left.Style = ExcelBorderStyle.Thin;
                 ws.Cells[7, 1, i + 6, 8].Style.Border.Right.Style = ExcelBorderStyle.Thin;
                 ws.Cells[7, 1, i + 6, 8].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                ws.Cells.AutoFitColumns();
+                result.Data = p.GetAsByteArray();
+            }
+            return result;
+        }
+
+        public async Task<ApiResult<byte[]>> ExportBaoCaoDoanhNghiepThueDat()
+        {
+            ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
+            var pathFileTemplate = "";
+            var data = new List<BaoCaoDoanhNghiepThueDatViewModel>();
+            var response = new HttpResponseMessage();
+            var handler = new HttpClientHandler();
+            handler.ClientCertificateOptions = ClientCertificateOption.Manual;
+            handler.ServerCertificateCustomValidationCallback =
+                (httpRequestMessage, cert, cetChain, policyErrors) =>
+                {
+                    return true;
+                };
+
+            var client = new HttpClient(handler);
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            pathFileTemplate = "Assets/Template/MauBaoCaoDoanhNghiepThueDat.xlsx";
+            response = await client.GetAsync("/api/BaoCao/BaoCaoDoanhNghiepThueDat");
+            if (response.IsSuccessStatusCode)
+            {
+                data = JsonConvert.DeserializeObject<ApiResult<List<BaoCaoDoanhNghiepThueDatViewModel>>>(await response.Content.ReadAsStringAsync()).Data;
+            }
+
+            var result = new ApiSuccessResult<byte[]>();
+            var file = new FileInfo(pathFileTemplate);
+            var p = new ExcelPackage(file);
+            var wb = p.Workbook;
+            var ws = wb.Worksheets.FirstOrDefault();
+            p.Compression = CompressionLevel.Default;
+            if (ws != null)
+            {
+                ExcelWorksheetView wv = ws.View;
+                wv.ZoomScale = 100;
+                wv.RightToLeft = false;
+                ws.PrinterSettings.Orientation = eOrientation.Landscape;
+                ws.Cells.AutoFitColumns();
+                var i = 0;
+                //decimal tongSoTien = 0;
+                //decimal tongSoTienMienGiam = 0;
+                //decimal tongSoTienPhaiNop = 0;
+                foreach (var obj in data)
+                {
+                    i++;
+                    ws.Cells[6 + i, 1].Value = i.ToString();
+                    ws.Cells[6 + i, 2].Value = obj.DoanhNghiepViewModel.CoQuanQuanLyThue;
+                    ws.Cells[6 + i, 3].Value = obj.DoanhNghiepViewModel.TenDoanhNghiep;
+                    ws.Cells[6 + i, 4].Value = obj.DoanhNghiepViewModel.MaSoThue;
+                    ws.Cells[6 + i, 5].Value = obj.DoanhNghiepViewModel.DiaChi;
+                    ws.Cells[6 + i, 6].Value = obj.QuyetDinhThueDatViewModel.SoQuyetDinhGiaoDat;
+                    ws.Cells[6 + i, 7].Value = obj.QuyetDinhThueDatViewModel.NgayQuyetDinhGiaoDat;
+                    ws.Cells[6 + i, 8].Value = obj.QuyetDinhThueDatViewModel.SoQuyetDinhThueDat;
+                    ws.Cells[6 + i, 9].Value = obj.QuyetDinhThueDatViewModel.NgayQuyetDinhThueDat;
+                    ws.Cells[6 + i, 10].Value = obj.QuyetDinhThueDatViewModel.TongDienTich;
+                    ws.Cells[6 + i, 11].Value = obj.QuyetDinhThueDatViewModel.ThoiHanThue + " từ ngày "+ obj.QuyetDinhThueDatViewModel.TuNgayThue + " đến ngày "+ obj.QuyetDinhThueDatViewModel.DenNgayThue;
+                    ws.Cells[6 + i, 12].Value = obj.QuyetDinhThueDatViewModel.MucDichSuDung;
+                    ws.Cells[6 + i, 13].Value = obj.QuyetDinhThueDatViewModel.ViTriThuaDat;
+                    ws.Cells[6 + i, 14].Value = obj.QuyetDinhThueDatViewModel.DiaChiThuaDat;
+                    ws.Cells[6 + i, 15].Value = obj.HopDongThueDatViewModel.SoHopDong;
+                    ws.Cells[6 + i, 16].Value = obj.HopDongThueDatViewModel.NgayKyHopDong;
+                    ws.Cells[6 + i, 17].Value = obj.QuyetDinhThueDatViewModel.TongDienTich;
+                    ws.Cells[6 + i, 18].Value = obj.ThongBaoDonGiaThueDatViewModel.SoThongBaoDonGiaThueDat;
+                    ws.Cells[6 + i, 19].Value = obj.ThongBaoDonGiaThueDatViewModel.NgayThongBaoDonGiaThueDat;
+                    ws.Cells[6 + i, 20].Value = decimal.Parse(obj.ThongBaoDonGiaThueDatViewModel.DonGia, new CultureInfo("vi-VN"));
+                    ws.Cells[6 + i, 21].Value = obj.ThongBaoDonGiaThueDatViewModel.ThoiHanDonGia;
+                    ws.Cells[6 + i, 22].Value = obj.DoanhNghiepViewModel.GhiChu;
+                }
+                ws.Cells[7 + i, 9, 7 + i, 22].Style.Font.Bold = true;
+                //ws.Cells[7 + i, 9].Value = "Tổng cộng";
+                //ws.Cells[7 + i, 10].Value = tongSoTien;
+                //ws.Cells[7 + i, 11].Value = tongSoTienMienGiam;
+                //ws.Cells[7 + i, 12].Value = tongSoTienPhaiNop;
+                ws.Cells[7, 1, i + 7, 22].Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                ws.Cells[7, 1, i + 7, 22].Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                ws.Cells[7, 1, i + 7, 22].Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                ws.Cells[7, 1, i + 7, 22].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
                 ws.Cells.AutoFitColumns();
                 result.Data = p.GetAsByteArray();
             }

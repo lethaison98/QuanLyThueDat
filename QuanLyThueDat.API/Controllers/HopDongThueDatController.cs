@@ -18,9 +18,9 @@ namespace QuanLyThueDat.API.Controllers
         }
 
         [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(int? idDoanhNghiep)
         {
-            var result = await _HopDongThueDatService.GetAll();
+            var result = await _HopDongThueDatService.GetAll(idDoanhNghiep);
             return Ok(result);
         }
 

@@ -382,7 +382,8 @@ QuyetDinhMienTienThueDatControl = {
         });
 
         $("#btnXuatBaoCaoQuyetDinhMienTienThueDat").off('click').on('click', function (e) {
-            window.open("/ExportQuyetDinhMienTienThueDat");
+            window.open("/ExportBaoCaoDoanhNghiepThueDat");
+            //window.open("/ExportQuyetDinhMienTienThueDat");
         });
 
     },

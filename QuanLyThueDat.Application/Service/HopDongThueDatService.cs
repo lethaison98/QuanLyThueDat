@@ -98,10 +98,18 @@ namespace QuanLyThueDat.Application.Service
 
         }
 
-        public async Task<ApiResult<List<HopDongThueDatViewModel>>> GetAll()
+        public async Task<ApiResult<List<HopDongThueDatViewModel>>> GetAll(int? idDoanhNghiep)
         {
             var result = new List<HopDongThueDatViewModel>();
-            var data = await _context.HopDongThueDat.Include(x => x.DoanhNghiep).ToListAsync();
+            var data = new List<HopDongThueDat>();
+            if (idDoanhNghiep == null)
+            {
+                data = await _context.HopDongThueDat.Include(x => x.DoanhNghiep).ToListAsync();
+            }
+            else
+            {
+                data = await _context.HopDongThueDat.Include(x => x.DoanhNghiep).Where(x => x.IdDoanhNghiep == idDoanhNghiep).ToListAsync();
+            }
             foreach (var item in data)
             {
                 var HopDongThueDat = new HopDongThueDatViewModel
