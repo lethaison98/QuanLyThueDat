@@ -293,7 +293,7 @@ namespace QuanLyThueDat.Application.Service
             }
             if (rq.SoQuyetDinhThueDat != null)
             {
-                query = query.Where(x => x.SoQuyetDinhThueDat == rq.SoQuyetDinhThueDat);
+                query = query.Where(x => (x.SoQuyetDinhThueDat == rq.SoQuyetDinhThueDat && x.NgayQuyetDinhThueDat == DateTime.Parse(rq.NgayQuyetDinhThueDat, new CultureInfo("vi-VN"))));
             }
             var data = await query.OrderByDescending(x => x.NgayThongBaoDonGiaThueDat).ToListAsync();
             foreach (var item in data)

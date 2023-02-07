@@ -238,7 +238,7 @@ namespace QuanLyThueDat.WebApp.Service
                     ws.Cells[6 + i, 17].Value = obj.QuyetDinhThueDatViewModel.TongDienTich;
                     ws.Cells[6 + i, 18].Value = obj.ThongBaoDonGiaThueDatViewModel.SoThongBaoDonGiaThueDat;
                     ws.Cells[6 + i, 19].Value = obj.ThongBaoDonGiaThueDatViewModel.NgayThongBaoDonGiaThueDat;
-                    ws.Cells[6 + i, 20].Value = decimal.Parse(obj.ThongBaoDonGiaThueDatViewModel.DonGia, new CultureInfo("vi-VN"));
+                    ws.Cells[6 + i, 20].Value = obj.ThongBaoDonGiaThueDatViewModel.DonGia;
                     ws.Cells[6 + i, 21].Value = obj.ThongBaoDonGiaThueDatViewModel.ThoiHanDonGia;
                     ws.Cells[6 + i, 22].Value = obj.DoanhNghiepViewModel.GhiChu;
                 }

@@ -49,27 +49,46 @@ namespace QuanLyThueDat.Application.Service
         {
             var result = new List<BaoCaoDoanhNghiepThueDatViewModel>();
             var dsDoanhNghiep = await _DoanhNghiepService.GetAll();
-            if(dsDoanhNghiep.Data != null)
+            if(dsDoanhNghiep.Data.Count != 0)
             {
                 foreach (var doanhNghiep in dsDoanhNghiep.Data)
                 {
-                    var dsQuyetDinhThueDat = await _QuyetDinhThueDatService.GetAll(doanhNghiep.IdDoanhNghiep);
+                    var dsQuyetDinhThueDat = await _QuyetDinhThueDatService.GetListQuyetDinhThueDatChiTiet(doanhNghiep.IdDoanhNghiep);
                     var dsHopDong = await _HopDongThueDatService.GetAll(doanhNghiep.IdDoanhNghiep);
-                    if(dsQuyetDinhThueDat.Data != null)
+                    if(dsQuyetDinhThueDat.Data.Count != 0)
                     {
-                        foreach (var quyetDinhThueDat in dsQuyetDinhThueDat.Data)
+                        var dsQuyetDinhThueDatTraTienHangNam = dsQuyetDinhThueDat.Data.Where(x => x.HinhThucThue == "ThueDatTraTienHangNam");
+                        foreach (var quyetDinhThueDat in dsQuyetDinhThueDatTraTienHangNam)
                         {
-                            var rq = new ThongBaoDonGiaThueDatRequest();
-                            rq.SoQuyetDinhThueDat = quyetDinhThueDat.SoQuyetDinhThueDat;
-                            var dsThongBaoDonGiaThueDat = await _ThongBaoDonGiaThueDatService.GetAllByRequest(rq);
-                            if (dsThongBaoDonGiaThueDat.Data != null)
+                            if (!String.IsNullOrEmpty(quyetDinhThueDat.SoQuyetDinhThueDat))
                             {
-                                foreach (var thongBaoDonGia in dsThongBaoDonGiaThueDat.Data)
+                                var rq = new ThongBaoDonGiaThueDatRequest();
+                                rq.SoQuyetDinhThueDat = quyetDinhThueDat.SoQuyetDinhThueDat;
+                                rq.NgayQuyetDinhThueDat = quyetDinhThueDat.NgayQuyetDinhThueDat;
+                                var dsThongBaoDonGiaThueDat = await _ThongBaoDonGiaThueDatService.GetAllByRequest(rq);
+                                if (dsThongBaoDonGiaThueDat.Data.Count != 0)
+                                {
+                                    foreach (var thongBaoDonGia in dsThongBaoDonGiaThueDat.Data)
+                                    {
+                                        var item = new BaoCaoDoanhNghiepThueDatViewModel();
+                                        item.DoanhNghiepViewModel = doanhNghiep;
+                                        item.QuyetDinhThueDatViewModel = quyetDinhThueDat;
+                                        item.ThongBaoDonGiaThueDatViewModel = thongBaoDonGia;
+                                        foreach (var hopDong in dsHopDong.Data)
+                                        {
+                                            if (quyetDinhThueDat.IdQuyetDinhThueDat == hopDong.IdQuyetDinhThueDat)
+                                            {
+                                                item.HopDongThueDatViewModel = hopDong;
+                                            }
+                                        }
+                                        result.Add(item);
+                                    }
+                                }
+                                else
                                 {
                                     var item = new BaoCaoDoanhNghiepThueDatViewModel();
                                     item.DoanhNghiepViewModel = doanhNghiep;
                                     item.QuyetDinhThueDatViewModel = quyetDinhThueDat;
-                                    item.ThongBaoDonGiaThueDatViewModel = thongBaoDonGia;
                                     foreach (var hopDong in dsHopDong.Data)
                                     {
                                         if (quyetDinhThueDat.IdQuyetDinhThueDat == hopDong.IdQuyetDinhThueDat)
@@ -77,9 +96,9 @@ namespace QuanLyThueDat.Application.Service
                                             item.HopDongThueDatViewModel = hopDong;
                                         }
                                     }
-                                    result.Add(item);   
+                                    result.Add(item);
                                 }
-                            }
+                            }                        
                             else
                             {
                                 var item = new BaoCaoDoanhNghiepThueDatViewModel();
