@@ -315,7 +315,7 @@ namespace QuanLyThueDat.WebApp.Service
                         }
                         break;
                     case LoaiThongBaoConstant.ThongBaoTienThueDat:
-                        pathFileTemplate = "Assets/Template/MauThongBaoTienThueDat.docx";
+                        pathFileTemplate = "Assets/Template/MauThongBaoTienThueDat1.docx";
                         response = await client.GetAsync("/api/ThongBaoTienThueDat/GetById?idThongBaoTienThueDat=" + idThongBao);
                         if (response.IsSuccessStatusCode)
                         {
@@ -347,6 +347,28 @@ namespace QuanLyThueDat.WebApp.Service
                         if (!String.IsNullOrEmpty(data.Data.LoaiThongBaoTienThueDat))
                         {
                             data.Data.TextLoaiThongBaoTienThueDat = typeof(LoaiThongBaoTienThueDatConstant).GetField(data.Data.LoaiThongBaoTienThueDat).GetValue(null).ToString();
+                        }
+                        else
+                        {
+                            data.Data.TextLoaiThongBaoTienThueDat = "Thông báo lần.....";
+                        }
+
+                        if(data.Data.DsThongBaoTienThueDatChiTiet.Count > 0)
+                        {
+                            data.Data.TextDonGiaChiTiet = "";
+                            data.Data.TextSoTienPhaiNopChiTiet = "Trong đó: ";
+                            data.Data.TextCanCuThongBaoDonGia = "";
+                            foreach (var item in data.Data.DsThongBaoTienThueDatChiTiet)
+                            {
+                                data.Data.TextDonGiaChiTiet += "Đơn giá "+ item.DonGia + " đồng/m2/năm từ ngày " + item.TuNgayTinhTien + " đến ngày " + item.DenNgayTinhTien + ". ";
+                                data.Data.TextSoTienPhaiNopChiTiet += "Số tiền phải nộp từ ngày " + item.TuNgayTinhTien + " đến ngày " + item.DenNgayTinhTien + "là: "+ item.SoTienPhaiNop + " đồng. ";
+                                data.Data.TextCanCuThongBaoDonGia += "Căn cứ Thông báo số " + item.SoThongBaoDonGiaThueDat + " ngày " + item.NgayThongBaoDonGiaThueDat + " của Ban quản lý KKT Đông Nam về việc thông báo đơn giá thuê đất, thuê mặt nước. ";
+                            }
+                        }
+                        else
+                        {
+                            data.Data.TextDonGiaChiTiet = data.Data.DonGia+" đồng/m2/năm.";
+                            data.Data.TextCanCuThongBaoDonGia = "Căn cứ Thông báo số " + data.Data.SoThongBaoDonGiaThueDat + " ngày " + data.Data.NgayThongBaoDonGiaThueDat + " của Ban quản lý KKT Đông Nam về việc thông báo đơn giá thuê đất, thuê mặt nước.";
                         }
                         data.Data.TextSoTienPhaiNop = NumberToTextVN(data.Data.SoTienPhaiNop);
                         data.Data.TextTongDienTich = NumberToTextVN(data.Data.TongDienTich);

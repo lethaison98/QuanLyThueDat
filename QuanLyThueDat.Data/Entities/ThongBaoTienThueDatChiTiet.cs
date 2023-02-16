@@ -10,6 +10,7 @@ namespace QuanLyThueDat.Data.Entities
     {
         public int IdThongBaoTienThueDatChiTiet { get; set; }
         public int IdThongBaoTienThueDat { get; set; }
+        public int? IdThongBaoDonGiaThueDat { get; set; }
         public ThongBaoTienThueDat ThongBaoTienThueDat { get; set; }
         public int Nam { get; set; }
         public decimal DonGia { get; set; }

@@ -56,6 +56,7 @@ namespace QuanLyThueDat.Application.Request
     {
         public int IdThongBaoTienThueDatChiTiet { get; set; }
         public int IdThongBaoTienThueDat { get; set; }
+        public int IdThongBaoDonGiaThueDat { get; set; }
         public int Nam { get; set; }
         public decimal DonGia { get; set; }
         public decimal DienTichKhongPhaiNop { get; set; }

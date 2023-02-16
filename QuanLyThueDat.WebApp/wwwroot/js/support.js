@@ -480,6 +480,21 @@
     ConvertStringToDecimal = function (value) {
         return parseFloat(value.replaceAll('.', '').replaceAll(',', '.'))
     }
+
+    CalculateMonthBetweenDays = function  (date1, date2) {
+        var date1Array = date1.split("/");
+        var date2Array = date2.split("/");
+        var d1 = new Date(date1Array[2], date1Array[1] - 1, date1Array[0]);
+        var d2 = new Date(date2Array[2], date2Array[1] - 1, date2Array[0]);
+        var months;
+        months = (d2.getFullYear() - d1.getFullYear()) * 12;
+        months -= d1.getMonth();
+        months += d2.getMonth();
+        if (d2.getDate() - d1.getDate() >= 15) {
+            months++;
+        }
+        return months <= 0 ? 0 : months;
+    }
 });
 
 
