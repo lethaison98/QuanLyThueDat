@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using QuanLyThueDat.Application.Common.Constant;
 using QuanLyThueDat.Application.Interfaces;
 using QuanLyThueDat.Application.Request;
@@ -9,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,14 +19,17 @@ namespace QuanLyThueDat.Application.Service
     public class HopDongThueDatService : IHopDongThueDatService
     {
         private readonly QuanLyThueDatDbContext _context;
-
-        public HopDongThueDatService(QuanLyThueDatDbContext context)
+        public IHttpContextAccessor _accessor;
+        public HopDongThueDatService(QuanLyThueDatDbContext context, IHttpContextAccessor HttpContextAccessor)
         {
             _context = context;
+            _accessor = HttpContextAccessor;
         }
-
         public async Task<ApiResult<int>> InsertUpdate(HopDongThueDatRequest rq)
         {
+            var claimsIdentity = _accessor.HttpContext.User.Identity as ClaimsIdentity;
+            var tenUser = claimsIdentity.FindFirst("HoTen")?.Value;
+            var userId = claimsIdentity.FindFirst("UserId")?.Value;
             var result = 0;
             var entity = _context.HopDongThueDat.FirstOrDefault(x => x.IdHopDongThueDat == rq.IdHopDongThueDat);
             if (entity == null)
@@ -40,6 +45,9 @@ namespace QuanLyThueDat.Application.Service
                     NgayKyHopDong = string.IsNullOrEmpty(rq.NgayKyHopDong) ? null : DateTime.Parse(rq.NgayKyHopDong, new CultureInfo("vi-VN")),
                     NgayHieuLucHopDong = string.IsNullOrEmpty(rq.NgayHieuLucHopDong) ? null : DateTime.Parse(rq.NgayHieuLucHopDong, new CultureInfo("vi-VN")),
                     NgayHetHieuLucHopDong = string.IsNullOrEmpty(rq.NgayHetHieuLucHopDong) ? null : DateTime.Parse(rq.NgayHetHieuLucHopDong, new CultureInfo("vi-VN")),
+                    NgayTao = DateTime.Now,
+                    NguoiTao = tenUser,
+                    IdNguoiTao = userId
                 };
             }
             else
@@ -54,6 +62,9 @@ namespace QuanLyThueDat.Application.Service
                 entity.NgayKyHopDong = string.IsNullOrEmpty(rq.NgayKyHopDong) ? null : DateTime.Parse(rq.NgayKyHopDong, new CultureInfo("vi-VN"));
                 entity.NgayHieuLucHopDong = string.IsNullOrEmpty(rq.NgayHieuLucHopDong) ? null : DateTime.Parse(rq.NgayHieuLucHopDong, new CultureInfo("vi-VN"));
                 entity.NgayHetHieuLucHopDong = string.IsNullOrEmpty(rq.NgayHetHieuLucHopDong) ? null : DateTime.Parse(rq.NgayHetHieuLucHopDong, new CultureInfo("vi-VN"));
+                entity.NgayCapNhat = DateTime.Now;
+                entity.NguoiCapNhat = tenUser;
+                entity.IdNguoiCapNhat = userId;
             }
 
             _context.HopDongThueDat.Update(entity);

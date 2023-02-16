@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net.Http.Headers;
+using System.Security.Claims;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -20,14 +21,18 @@ namespace QuanLyThueDat.Application.Service
     public class FileService : IFileService
     {
         private readonly QuanLyThueDatDbContext _context;
-
-        public FileService(QuanLyThueDatDbContext context)
+        public IHttpContextAccessor _accessor;
+        public FileService(QuanLyThueDatDbContext context, IHttpContextAccessor HttpContextAccessor)
         {
             _context = context;
+            _accessor = HttpContextAccessor;
         }
 
         public async Task<ApiResult<int>> Insert(FileUploadRequest req)
         {
+            var claimsIdentity = _accessor.HttpContext.User.Identity as ClaimsIdentity;
+            var tenUser = claimsIdentity.FindFirst("HoTen")?.Value;
+            var userId = claimsIdentity.FindFirst("UserId")?.Value;
             var entity = new Files();
             var result = 0;
             if(req.IdDoanhNghiep != 0)
@@ -44,7 +49,9 @@ namespace QuanLyThueDat.Application.Service
                         {
                             LinkFile = filePath,
                             TenFile = fileName,
-                            NgayTao = DateTime.Now
+                            NgayTao = DateTime.Now,
+                            NguoiTao = tenUser,
+                            IdNguoiTao = userId
                         };
                     }
                     _context.Files.Update(entity);

@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net.Http.Headers;
+using System.Security.Claims;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -22,16 +23,21 @@ namespace QuanLyThueDat.Application.Service
         private readonly QuanLyThueDatDbContext _context;
         private readonly IFileService _fileService;
         private readonly IDoanhNghiepService _doanhNghiepService;
+        public IHttpContextAccessor _accessor;
 
-        public FileTaiLieuService(QuanLyThueDatDbContext context, IFileService fileService, IDoanhNghiepService doanhNghiepService)
+        public FileTaiLieuService(QuanLyThueDatDbContext context, IFileService fileService, IDoanhNghiepService doanhNghiepService, IHttpContextAccessor HttpContextAccessor)
         {
             _context = context;
             _fileService = fileService;
             _doanhNghiepService = doanhNghiepService;
+            _accessor = HttpContextAccessor;
         }
 
         public async Task<ApiResult<int>> Insert(int idFile, int idTaiLieu, string loaiTaiLieu)
         {
+            var claimsIdentity = _accessor.HttpContext.User.Identity as ClaimsIdentity;
+            var tenUser = claimsIdentity.FindFirst("HoTen")?.Value;
+            var userId = claimsIdentity.FindFirst("UserId")?.Value;
             var result = 0;
             var entity = new FileTaiLieu();
             entity = new FileTaiLieu
@@ -39,7 +45,9 @@ namespace QuanLyThueDat.Application.Service
                 IdFile = idFile,
                 IdTaiLieu = idTaiLieu,
                 LoaiTaiLieu = loaiTaiLieu,
-                NgayTao = DateTime.Now
+                NgayTao = DateTime.Now,
+                NguoiTao = tenUser,
+                IdNguoiTao = userId
             };
             _context.FileTaiLieu.Update(entity);
             await _context.SaveChangesAsync();
