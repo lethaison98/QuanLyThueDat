@@ -122,6 +122,10 @@ ThongBaoTienThueDatControl = {
                                         FillFormData('#FormDetailThongBaoTienThueDat', res.Data);
                                         opts.LoaiThongBaoTienThueDat = res.Data.LoaiThongBaoTienThueDat;
                                         self.RegisterEventsPopup(opts);
+                                        console.log(res);
+                                        if (res.Data.IdQuyetDinhThueDat != null) {
+                                            $('#popupDetailThongBaoTienThueDat .ddQuyetDinhThueDat').append('<option value="' + res.Data.IdQuyetDinhThueDat + '">' + res.Data.SoQuyetDinhThueDat + " - " + res.Data.NgayQuyetDinhThueDat + '</option>');
+                                        }
                                         if (res.Data.DsThongBaoTienThueDatChiTiet != null) {
                                             $.each(res.Data.DsThongBaoTienThueDatChiTiet, function (i, item) {
                                                 var $td = $("#tempChiTietThongBaoTienThueDat").html();
@@ -432,7 +436,6 @@ ThongBaoTienThueDatControl = {
         $(".groupThongBaoTienThueDat").find("[data-name='SoTien']").val(ConvertDecimalToString(tongSoTien.toFixed(0)));
         soTienMienGiam = ConvertStringToDecimal($(".groupThongBaoTienThueDat").find("[data-name='SoTienMienGiam']").val()) || 0;
         var dienTichPhaiNop = (tongDienTich - dienTichKhongPhaiNop) || 0;
-        console.log(dienTichPhaiNop); console.log(tongDienTich); console.log(dienTichKhongPhaiNop);
         $(".groupThongBaoTienThueDat").find("[data-name='DienTichPhaiNop']").val(ConvertDecimalToString(dienTichPhaiNop.toFixed(2).toString().replace(".", ",")));
 
         var soTienPhaiNop = tongSoTien - soTienMienGiam;
@@ -452,6 +455,8 @@ ThongBaoTienThueDatControl = {
                 var popup = $('#popupDetailThongBaoTienThueDatDieuChinh');
                 var data = LoadFormData("#FormDetailThongBaoTienThueDatDieuChinh");
                 data.IdDoanhNghiep = popup.find(".ddDoanhNghiep option:selected").val();
+                data.IdQuyetDinhThueDat = popup.find(".ddQuyetDinhThueDat option:selected").val();
+
                 var arrayRow = $("#tblChiTietThongBaoTienThueDatDieuChinh tbody tr");
                 var thongBaoChiTiet = [];
                 $.each(arrayRow, function (i, item) {
@@ -471,6 +476,7 @@ ThongBaoTienThueDatControl = {
                 var popup = $('#popupDetailThongBaoTienThueDat');
                 var data = LoadFormData("#FormDetailThongBaoTienThueDat");
                 data.IdDoanhNghiep = popup.find(".ddDoanhNghiep option:selected").val();
+                data.IdQuyetDinhThueDat = popup.find(".ddQuyetDinhThueDat option:selected").val();
                 var arrayRow = $("#tblChiTietThongBaoTienThueDat tbody tr");
                 var thongBaoChiTiet = [];
                 $.each(arrayRow, function (i, item) {
@@ -566,13 +572,14 @@ ThongBaoTienThueDatControl = {
                 $.each(res.Data, function (i, item) {
                     if (item.HinhThucThue == "ThueDatTraTienHangNam" || item.HinhThucThue == "HopDongThueLaiDat") {
                         var name = item.SoQuyetDinhThueDat + " - " + item.TextHinhThucThue + " - Diện tích " + item.TongDienTich + "  (m<sup>2</sup>)"
-                        popup.find('.ddQuyetDinhThueDat').append('<option value=' + i + '>' + name + '</option>');
+                        popup.find('.ddQuyetDinhThueDat').append('<option value=' + item.IdQuyetDinhThueDat + ' index= ' + i + '>' + name + '</option>');
+
                     }
                 })
                 popup.find('.ddQuyetDinhThueDat').on('change', function () {
                     $('.groupQuyetDinhThueDat input').val("");
                     if (popup.find(".ddQuyetDinhThueDat option:selected").val() != undefined && popup.find(".ddQuyetDinhThueDat option:selected").val() != "") {
-                        var qd = res.Data[popup.find(".ddQuyetDinhThueDat option:selected").val()];
+                        var qd = res.Data[popup.find(".ddQuyetDinhThueDat option:selected").attr("index")];
                         FillFormData(form, qd);
                         //    self.LoadDanhSachThongBaoDonGiaThueDat(opts);
                     } else {

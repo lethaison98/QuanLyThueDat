@@ -61,7 +61,7 @@ QuyetDinhThueDatControl = {
                     {
                         "class": "name-control",
                         "width": "30%",
-                        "data": "ViTriThuaDat",
+                        "data": "TenQuyetDinhThueDat",
                         "defaultContent": "",
                     },
                     {

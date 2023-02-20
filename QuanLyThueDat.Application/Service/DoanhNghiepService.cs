@@ -576,6 +576,8 @@ namespace QuanLyThueDat.Application.Service
                 try
                 {
                     var idDoanhNghiep = 0;
+                    var idQuyetDinhThueDat = 0;
+                    var idThongBaoDonGia = 0;
                     var checkDN = _context.DoanhNghiep.FirstOrDefault(x => x.MaSoThue == item.DoanhNghiepRequest.MaSoThue);
                     if (checkDN == null)
                     {
@@ -591,18 +593,22 @@ namespace QuanLyThueDat.Application.Service
                     {
                         item.QuyetDinhThueDatRequest.IdDoanhNghiep = idDoanhNghiep;
                         var quyetDinhThueDat = await _QuyetDinhThueDatService.InsertUpdate(item.QuyetDinhThueDatRequest);
+                        idQuyetDinhThueDat = quyetDinhThueDat.Data;
                         messageSuccess.Add(item.DoanhNghiepRequest.TenDoanhNghiep + " --- Thêm quyết định thuê đất thành công --- "+ quyetDinhThueDat.Data);
                     }
+
 
                     if (!string.IsNullOrEmpty(item.HopDongThueDatRequest.SoHopDong))
                     {
                         item.HopDongThueDatRequest.IdDoanhNghiep = idDoanhNghiep;
+                        item.HopDongThueDatRequest.IdQuyetDinhThueDat = idQuyetDinhThueDat;
                         var hopDongThueDat = await _HopDongThueDatService.InsertUpdate(item.HopDongThueDatRequest);
                         messageSuccess.Add(item.DoanhNghiepRequest.TenDoanhNghiep + " --- Thêm hợp đồng thành công --- "+ hopDongThueDat.Data);
                     }
                     if (!string.IsNullOrEmpty(item.QuyetDinhMienTienThueDatRequest.SoQuyetDinhMienTienThueDat))
                     {
                         item.QuyetDinhMienTienThueDatRequest.IdDoanhNghiep = idDoanhNghiep;
+                        item.QuyetDinhThueDatRequest.IdQuyetDinhThueDat = idQuyetDinhThueDat;
                         var quyetDinhMienTienThueDat = await _QuyetDinhMienTienThueDatService.InsertUpdate(item.QuyetDinhMienTienThueDatRequest);
                         messageSuccess.Add(item.DoanhNghiepRequest.TenDoanhNghiep + " --- Thêm quyết định miễn tiền thuê đất thành công --- "+ quyetDinhMienTienThueDat.Data);
                     }
@@ -610,7 +616,9 @@ namespace QuanLyThueDat.Application.Service
                     if (!string.IsNullOrEmpty(item.ThongBaoDonGiaThueDatRequest.SoThongBaoDonGiaThueDat))
                     {
                         item.ThongBaoDonGiaThueDatRequest.IdDoanhNghiep = idDoanhNghiep;
+                        item.ThongBaoDonGiaThueDatRequest.IdQuyetDinhThueDat = idQuyetDinhThueDat;
                         var tbDonGiaThueDat = await _ThongBaoDonGiaThueDatService.InsertUpdate(item.ThongBaoDonGiaThueDatRequest);
+                        idThongBaoDonGia = tbDonGiaThueDat.Data;
                         messageSuccess.Add(item.DoanhNghiepRequest.TenDoanhNghiep + " --- Thêm thông báo đơn giá thành công --- "+ tbDonGiaThueDat.Data);
                     }
                     if (!string.IsNullOrEmpty(item.ThongBaoTienThueDat2018Request.SoThongBaoTienThueDat))

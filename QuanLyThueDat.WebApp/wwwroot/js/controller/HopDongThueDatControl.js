@@ -225,6 +225,9 @@ HopDongThueDatControl = {
                                         } else {
                                             popup.find('.ddDoanhNghiep').append('<option value="' + res.Data.IdDoanhNghiep + '">' + res.Data.TenDoanhNghiep + '</option>');
                                         }
+                                        if (res.Data.IdQuyetDinhThueDat != null) {
+                                            popup.find('.ddDoanhNghiep').append('<option value="' + res.Data.IdQuyetDinhThueDat + '">' + res.Data.SoQuyetDinhThueDat + " - " + res.Data.NgayQuyetDinhThueDat + '</option>');
+                                        }
                                         self.RegisterEventsPopup();
                                         if (res.Data.DsFileTaiLieu != null) {
                                             $.each(res.Data.DsFileTaiLieu, function (i, item) {
