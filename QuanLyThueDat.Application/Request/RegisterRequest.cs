@@ -16,4 +16,10 @@ namespace QuanLyThueDat.Application.Request
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
     }
+    public class RoleRequest
+    {
+        public string Name { get; set; }
+        public string NormalizedName { get; set; }
+        public string MoTa { get; set; }
+    }
 }

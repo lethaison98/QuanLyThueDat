@@ -357,6 +357,7 @@
         window.localStorage.setItem('ACCESS_TOKEN', '@Context.Session.GetString("AccessToken")');
         window.localStorage.setItem('HoTen', '@Context.Session.GetString("HoTen")');
         window.localStorage.setItem('UserName', '@Context.Session.GetString("UserName")');
+        window.localStorage.setItem('Roles', '@Context.Session.GetString("Roles")');
 
         $('#Logout').off('click').on('click', function () {
             var result = confirm("Bạn chắc chắn muốn Đăng xuất hệ thống?");

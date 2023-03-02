@@ -1,4 +1,5 @@
 ﻿if (typeof (QuyetDinhMienTienThueDatControl) == "undefined") QuyetDinhMienTienThueDatControl = {};
+var checkRole = localStorage.getItem("Roles").includes("QuyetDinhMienTienThueDat");
 QuyetDinhMienTienThueDatControl = {
     Init: function () {
         QuyetDinhMienTienThueDatControl.RegisterEvents();
@@ -298,6 +299,16 @@ QuyetDinhMienTienThueDatControl = {
     },
     RegisterEventsPopup: function (opts) {
         var self = this;
+        setTimeout(function () {
+            if (!checkRole) {
+                $("#popupDetailQuyetDinhMienTienThueDat").find('input').attr("disabled", true);
+                $("#popupDetailQuyetDinhMienTienThueDat").find('select').attr("disabled", true);
+                $("#popupDetailQuyetDinhMienTienThueDat").find('.fa-trash-alt').hide();
+                $("#popupDetailQuyetDinhMienTienThueDat").find('.fa-folder').attr("disabled", true);
+                $("#popupDetailQuyetDinhMienTienThueDat").find('.btn-success').hide();
+                $("#popupDetailQuyetDinhMienTienThueDat").find('.btn-primary').hide();
+            }
+        }, 200)
         $('.select2').select2();
         $('.datetimepicker-input').datetimepicker({
             format: 'DD/MM/YYYY'

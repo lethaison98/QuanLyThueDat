@@ -56,6 +56,7 @@ namespace QuanLyThueDat.WebApp.Controllers
             HttpContext.Session.SetString("AccessToken", result.Data.Token);
             HttpContext.Session.SetString("UserName", result.Data.UserName);
             HttpContext.Session.SetString("HoTen", result.Data.HoTen);
+            HttpContext.Session.SetString("Roles", result.Data.Roles);
 
             return RedirectToAction("Index", "Home");
         }
@@ -84,6 +85,7 @@ namespace QuanLyThueDat.WebApp.Controllers
             HttpContext.Session.Remove("AccessToken");
             HttpContext.Session.Remove("HoTen");
             HttpContext.Session.Remove("UserName");
+            HttpContext.Session.Remove("Roles");
             return RedirectToAction("Login", "User");
         }
     }

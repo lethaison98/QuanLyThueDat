@@ -1,4 +1,5 @@
 ﻿if (typeof (ThongBaoTienThueDatControl) == "undefined") ThongBaoTienThueDatControl = {};
+var checkRole = localStorage.getItem("Roles").includes("ThongBaoTienThueDat");
 ThongBaoTienThueDatControl = {
     Init: function () {
         ThongBaoTienThueDatControl.RegisterEvents();
@@ -209,6 +210,16 @@ ThongBaoTienThueDatControl = {
     },
     RegisterEventsPopup: function (opts) {
         var self = this;
+        setTimeout(function () {
+            if (!checkRole) {
+                $("#popupDetailThongBaoTienThueDat").find('input').attr("disabled", true);
+                $("#popupDetailThongBaoTienThueDat").find('select').attr("disabled", true);
+                $("#popupDetailThongBaoTienThueDat").find('.fa-trash-alt').hide();
+                $("#popupDetailThongBaoTienThueDat").find('.fa-folder').attr("disabled", true);
+                $("#popupDetailThongBaoTienThueDat").find('.btn-success').hide();
+                $("#popupDetailThongBaoTienThueDat").find('.btn-primary').hide();
+            }
+        }, 200)
         var popup = $('#popupDetailThongBaoTienThueDat');
         $('.select2').select2();
         $('.datetimepicker-input').datetimepicker({

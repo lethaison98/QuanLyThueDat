@@ -1,4 +1,5 @@
 ﻿if (typeof (ThongBaoTienSuDungDatControl) == "undefined") ThongBaoTienSuDungDatControl = {};
+var checkRole = localStorage.getItem("Roles").includes("ThongBaoTienSuDungDat");
 ThongBaoTienSuDungDatControl = {
     Init: function () {
         ThongBaoTienSuDungDatControl.RegisterEvents();
@@ -205,6 +206,16 @@ ThongBaoTienSuDungDatControl = {
     },
     RegisterEventsPopup: function () {
         var self = this;
+        setTimeout(function () {
+            if (!checkRole) {
+                $("#popupDetailThongBaoTienSuDungDat").find('input').attr("disabled", true);
+                $("#popupDetailThongBaoTienSuDungDat").find('select').attr("disabled", true);
+                $("#popupDetailThongBaoTienSuDungDat").find('.fa-trash-alt').hide();
+                $("#popupDetailThongBaoTienSuDungDat").find('.fa-folder').attr("disabled", true);
+                $("#popupDetailThongBaoTienSuDungDat").find('.btn-success').hide();
+                $("#popupDetailThongBaoTienSuDungDat").find('.btn-primary').hide();
+            }
+        }, 200)
         $('.select2').select2();
         $('.datetimepicker-input').datetimepicker({
             format: 'DD/MM/YYYY'

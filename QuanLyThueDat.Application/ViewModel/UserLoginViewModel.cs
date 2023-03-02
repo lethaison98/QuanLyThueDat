@@ -11,5 +11,7 @@ namespace QuanLyThueDat.Application.ViewModel
         public string UserName { get; set; }
         public string HoTen { get; set; }
         public string Token { get; set; }
+        public string Roles { get; set; }
+        public string Claims { get; set; }
     }
 }

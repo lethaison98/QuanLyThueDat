@@ -1,4 +1,5 @@
 ﻿if (typeof (HopDongThueDatControl) == "undefined") HopDongThueDatControl = {};
+var checkRole = localStorage.getItem("Roles").includes("HopDongThueDat");
 HopDongThueDatControl = {
     Init: function () {
         HopDongThueDatControl.RegisterEvents();
@@ -290,6 +291,16 @@ HopDongThueDatControl = {
     },
     RegisterEventsPopup: function (opts) {
         var self = this;
+        setTimeout(function () {
+            if (!checkRole) {
+                $("#popupDetailHopDongThueDat").find('input').attr("disabled", true);
+                $("#popupDetailHopDongThueDat").find('select').attr("disabled", true);
+                $("#popupDetailHopDongThueDat").find('.fa-trash-alt').hide();
+                $("#popupDetailHopDongThueDat").find('.fa-folder').attr("disabled", true);
+                $("#popupDetailHopDongThueDat").find('.btn-success').hide();
+                $("#popupDetailHopDongThueDat").find('.btn-primary').hide();
+            }
+        }, 200)
         $('.select2').select2();
         $('.datetimepicker-input').datetimepicker({
             format: 'DD/MM/YYYY'

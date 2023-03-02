@@ -1,8 +1,8 @@
 ﻿if (typeof (QuyetDinhThueDatControl) == "undefined") QuyetDinhThueDatControl = {};
+var checkRole = localStorage.getItem("Roles").includes("QuyetDinhThueDat");
 QuyetDinhThueDatControl = {
     Init: function () {
         QuyetDinhThueDatControl.RegisterEvents();
-
     },
 
     LoadDatatable: function (opts) {
@@ -82,9 +82,11 @@ QuyetDinhThueDatControl = {
                             if (row.DsFileTaiLieu != null) {
                                 $.each(row.DsFileTaiLieu, function (i, item) {
                                     if (item.LoaiTaiLieu == "QuyetDinhThueDat") {
-                                        fileQDThueDat = "<a href = '" + localStorage.getItem('API_URL').replace("api", "") + item.LinkFile + "' target='_blank'><i class = 'fas fa-paperclip' title = 'File quyết định giao đất, cho thuê đất'></i></a>";                                    }
+                                        fileQDThueDat = "<a href = '" + localStorage.getItem('API_URL').replace("api", "") + item.LinkFile + "' target='_blank'><i class = 'fas fa-paperclip' title = 'File quyết định giao đất, cho thuê đất'></i></a>";
+                                    }
                                     if (item.LoaiTaiLieu == "QuyetDinhGiaoDat") {
-                                        fileQDGiaoDat = "<a href = '" + localStorage.getItem('API_URL').replace("api", "") + item.LinkFile + "' target='_blank'><i class = 'fas fa-paperclip' style = 'color: gold' title = 'File quyết định giao đất'></i></a>";                                       }
+                                        fileQDGiaoDat = "<a href = '" + localStorage.getItem('API_URL').replace("api", "") + item.LinkFile + "' target='_blank'><i class = 'fas fa-paperclip' style = 'color: gold' title = 'File quyết định giao đất'></i></a>";
+                                    }
                                 });
                             }
                             if (opts == undefined) {
@@ -125,18 +127,18 @@ QuyetDinhThueDatControl = {
                                     var data = [];
                                     for (var i = 0; i < res.Data.DsQuyetDinhThueDatChiTiet.length; i++) {
                                         var obj = {
-                                            TenDoanhNghiep : res.Data.TenDoanhNghiep,
-                                            SoQuyetDinhThueDat : res.Data.SoQuyetDinhThueDat,
-                                            NgayQuyetDinhThueDat : res.Data.NgayQuyetDinhThueDat,
-                                            SoQuyetDinhGiaoDat : res.Data.SoQuyetDinhGiaoDat,
-                                            ViTriThuaDat : res.Data.ViTriThuaDat,
-                                            DiaChiThuaDat : res.Data.DiaChiThuaDat,
+                                            TenDoanhNghiep: res.Data.TenDoanhNghiep,
+                                            SoQuyetDinhThueDat: res.Data.SoQuyetDinhThueDat,
+                                            NgayQuyetDinhThueDat: res.Data.NgayQuyetDinhThueDat,
+                                            SoQuyetDinhGiaoDat: res.Data.SoQuyetDinhGiaoDat,
+                                            ViTriThuaDat: res.Data.ViTriThuaDat,
+                                            DiaChiThuaDat: res.Data.DiaChiThuaDat,
                                             TextHinhThucThue: res.Data.DsQuyetDinhThueDatChiTiet[i].TextHinhThucThue,
-                                            DienTich : res.Data.DsQuyetDinhThueDatChiTiet[i].DienTich,
-                                            MucDichSuDung : res.Data.DsQuyetDinhThueDatChiTiet[i].MucDichSuDung,
-                                            ThoiHanThue : res.Data.DsQuyetDinhThueDatChiTiet[i].ThoiHanThue,
-                                            TuNgayThue : res.Data.DsQuyetDinhThueDatChiTiet[i].TuNgayThue,
-                                            DenNgayThue : res.Data.DsQuyetDinhThueDatChiTiet[i].DenNgayThue,
+                                            DienTich: res.Data.DsQuyetDinhThueDatChiTiet[i].DienTich,
+                                            MucDichSuDung: res.Data.DsQuyetDinhThueDatChiTiet[i].MucDichSuDung,
+                                            ThoiHanThue: res.Data.DsQuyetDinhThueDatChiTiet[i].ThoiHanThue,
+                                            TuNgayThue: res.Data.DsQuyetDinhThueDatChiTiet[i].TuNgayThue,
+                                            DenNgayThue: res.Data.DsQuyetDinhThueDatChiTiet[i].DenNgayThue,
                                         };
                                         data.push(obj);
                                     }
@@ -367,7 +369,7 @@ QuyetDinhThueDatControl = {
                                         }
                                     })
                                 }
-                                
+
                             }
                         }
                     });
@@ -409,6 +411,17 @@ QuyetDinhThueDatControl = {
     },
     RegisterEventsPopup: function (opts) {
         var self = this;
+        setTimeout(function () {
+            if (!checkRole) {
+                $("#popupDetailQuyetDinhThueDat").find('input').attr("disabled", true);
+                $("#popupDetailQuyetDinhThueDat").find('select').attr("disabled", true);
+                $("#popupDetailQuyetDinhThueDat").find('.fa-trash-alt').hide();
+                $("#popupDetailQuyetDinhThueDat").find('.fa-folder').attr("disabled", true);
+                $("#popupDetailQuyetDinhThueDat").find('.btn-success').hide();
+                $("#popupDetailQuyetDinhThueDat").find('.btn-primary').hide();
+            }
+        }, 200)
+
         $('.select2').select2();
         $('.datetimepicker-input').datetimepicker({
             format: 'DD/MM/YYYY'

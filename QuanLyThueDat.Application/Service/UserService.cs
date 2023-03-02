@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using QuanLyThueDat.Application.Interfaces;
@@ -21,14 +22,15 @@ namespace QuanLyThueDat.Application.Service
         private readonly SignInManager<AppUser> _signInManager;
         private readonly RoleManager<AppRole> _roleManager;
         private readonly IConfiguration _config;
-
+        public IHttpContextAccessor _accessor { get; set; }
         public UserService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager,
-            RoleManager<AppRole> roleManager, IConfiguration config)
+            RoleManager<AppRole> roleManager, IConfiguration config, IHttpContextAccessor HttpContextAccessor)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _config = config;
+            _accessor = HttpContextAccessor;
         }
 
         public async Task<ApiResult<UserLoginViewModel>> Authencate(LoginRequest request)
@@ -61,6 +63,7 @@ namespace QuanLyThueDat.Application.Service
             result.Token = new JwtSecurityTokenHandler().WriteToken(token);
             result.UserName = user.UserName;
             result.HoTen = user.HoTen;
+            result.Roles = string.Join(';', roles);
             return new ApiSuccessResult<UserLoginViewModel>(result);
         }
         public async Task<ApiResult<bool>> Register(RegisterRequest request)
@@ -90,6 +93,49 @@ namespace QuanLyThueDat.Application.Service
                 return new ApiSuccessResult<bool>();
             }
             return new ApiErrorResult<bool>("Đăng ký không thành công");
+        }
+        public async Task<ApiResult<bool>> InsertRole(RoleRequest rq)
+        {
+            var role = new AppRole()
+            {
+                Name = rq.Name,
+                NormalizedName = rq.NormalizedName,
+                MoTa = rq.MoTa,
+            };
+            var result = await _roleManager.CreateAsync(role);
+            if (result.Succeeded)
+            {
+                return new ApiSuccessResult<bool>();
+            }
+            return new ApiErrorResult<bool>("Cập nhật không thành công");
+        }
+        public async Task<ApiResult<bool>> InsertUser_Role(string userId, List<string> listRoleId)
+        {
+            var claimsIdentity = _accessor.HttpContext.User.Identity as ClaimsIdentity;
+            var user = await _userManager.FindByNameAsync(userId);
+            var result = await _userManager.AddToRolesAsync(user, listRoleId);
+            if (result.Succeeded)
+            {
+                return new ApiSuccessResult<bool>();
+            }
+            return new ApiErrorResult<bool>("Cập nhật không thành công");
+        }
+        public async Task<ApiResult<bool>> InsertRoleClaims(string roleId, List<Claim> listClaims)
+        {
+            try
+            {
+                var role = await _roleManager.FindByIdAsync(roleId);
+                foreach (var claim in listClaims)
+                {
+                    await _roleManager.AddClaimAsync(role, claim);
+                }
+
+                return new ApiSuccessResult<bool>();
+            }
+            catch (Exception ex)
+            {
+                return new ApiErrorResult<bool>("Cập nhật không thành công");
+            }
         }
     }
 }
