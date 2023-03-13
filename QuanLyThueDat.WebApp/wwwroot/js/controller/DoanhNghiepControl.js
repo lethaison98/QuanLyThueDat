@@ -284,11 +284,6 @@ DoanhNghiepControl = {
                 }
             })
         });
-        $("#btnXuatBaoCaoDoanhNghiepThueDat").off('click').on('click', function (e) {
-            window.open("/ExportBaoCaoDoanhNghiepThueDat");
-            //window.open("/ExportQuyetDinhMienTienThueDat");
-        });
-
     },
 
     RegisterEventsQuyetDinhThueDat: function (opts) {

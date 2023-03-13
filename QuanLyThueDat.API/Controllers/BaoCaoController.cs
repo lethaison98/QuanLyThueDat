@@ -23,5 +23,12 @@ namespace QuanLyThueDat.API.Controllers
             var result = await _baoCaoService.BaoCaoDoanhNghiepThueDat();
             return Ok(result);
         }
+        [HttpGet("BaoCaoTienThueDat")]
+        public async Task<IActionResult> BaoCaoTienThueDat(int? nam)
+        {
+            var result = await _baoCaoService.BaoCaoTienThueDat(nam);
+            return Ok(result);
+        }
+
     }
 }

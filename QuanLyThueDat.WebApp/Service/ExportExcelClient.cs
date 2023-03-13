@@ -40,10 +40,10 @@ namespace QuanLyThueDat.WebApp.Service
             var client = new HttpClient(handler);
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
             pathFileTemplate = "Assets/Template/MauBaoCaoThongBaoTienThueDat.xlsx";
-            response = await client.GetAsync("/api/ThongBaoTienThueDat/GetAllPaging?idDoanhNghiep=&nam=" + namThongBao+ "&keyword=&pageIndex=1&pageSize=999999");
+            response = await client.GetAsync("/api/BaoCao/BaoCaoTienThueDat?&nam=" + namThongBao);
             if (response.IsSuccessStatusCode)
             {
-                data = JsonConvert.DeserializeObject<ApiResult<PageViewModel<ThongBaoTienThueDatViewModel>>>(await response.Content.ReadAsStringAsync()).Data.Items;
+                data = JsonConvert.DeserializeObject<ApiResult<List<ThongBaoTienThueDatViewModel>>>(await response.Content.ReadAsStringAsync()).Data;
             }
 
             var result = new ApiSuccessResult<byte[]>();
@@ -93,6 +93,8 @@ namespace QuanLyThueDat.WebApp.Service
                 ws.Cells[7, 1, i + 7, 13].Style.Border.Left.Style = ExcelBorderStyle.Thin;
                 ws.Cells[7, 1, i + 7, 13].Style.Border.Right.Style = ExcelBorderStyle.Thin;
                 ws.Cells[7, 1, i + 7, 13].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                ws.Cells[7, 10, i + 7, 12].Style.Numberformat.Format = "#,##0.00";
+                ws.Cells[7, 7, i + 7, 7].Style.Numberformat.Format = "#,##0.00";
                 ws.Cells.AutoFitColumns();
                 result.Data = p.GetAsByteArray();
             }

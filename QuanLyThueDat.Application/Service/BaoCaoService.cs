@@ -57,14 +57,15 @@ namespace QuanLyThueDat.Application.Service
                     var dsHopDong = await _HopDongThueDatService.GetAll(doanhNghiep.IdDoanhNghiep);
                     if(dsQuyetDinhThueDat.Data.Count != 0)
                     {
-                        var dsQuyetDinhThueDatTraTienHangNam = dsQuyetDinhThueDat.Data.Where(x => x.HinhThucThue == "ThueDatTraTienHangNam");
+                        var dsQuyetDinhThueDatTraTienHangNam = dsQuyetDinhThueDat.Data.Where(x => x.HinhThucThue == "ThueDatTraTienHangNam" || x.HinhThucThue == "HopDongThueLaiDat");
                         foreach (var quyetDinhThueDat in dsQuyetDinhThueDatTraTienHangNam)
                         {
                             if (!String.IsNullOrEmpty(quyetDinhThueDat.SoQuyetDinhThueDat))
                             {
                                 var rq = new ThongBaoDonGiaThueDatRequest();
-                                rq.SoQuyetDinhThueDat = quyetDinhThueDat.SoQuyetDinhThueDat;
-                                rq.NgayQuyetDinhThueDat = quyetDinhThueDat.NgayQuyetDinhThueDat;
+                                rq.IdQuyetDinhThueDat = quyetDinhThueDat.IdQuyetDinhThueDat;
+                                //rq.SoQuyetDinhThueDat = quyetDinhThueDat.SoQuyetDinhThueDat;
+                                //rq.NgayQuyetDinhThueDat = quyetDinhThueDat.NgayQuyetDinhThueDat;
                                 var dsThongBaoDonGiaThueDat = await _ThongBaoDonGiaThueDatService.GetAllByRequest(rq);
                                 if (dsThongBaoDonGiaThueDat.Data.Count != 0)
                                 {
@@ -125,6 +126,101 @@ namespace QuanLyThueDat.Application.Service
                 }
             }
             return new ApiSuccessResult<List<BaoCaoDoanhNghiepThueDatViewModel>>() { Data = result };
+        }
+        public async Task<ApiResult<List<ThongBaoTienThueDatViewModel>>> BaoCaoTienThueDat(int? nam)
+        {
+            var query = from a in _context.ThongBaoTienThueDat.Include(x => x.DoanhNghiep).Include(x => x.DsThongBaoTienThueDatChiTiet)
+                        select a;
+            
+            if (nam != null && nam != 0)
+            {
+                query = query.Where(x => x.Nam == nam);
+            }
+            var data = await query.OrderByDescending(x => x.Nam).ThenBy(x => x.SoThongBaoTienThueDat).ToListAsync();
+            var result = new List<ThongBaoTienThueDatViewModel>();
+            foreach (var entity in data)
+            {
+                var thoiHanDonGia = "";
+                var soThongBaoDonGia = "";
+                var donGia = "";
+                if (!String.IsNullOrEmpty(entity.SoThongBaoDonGiaThueDat))
+                {
+                    var tbDonGia = await _context.ThongBaoDonGiaThueDat.FirstOrDefaultAsync(x => x.SoThongBaoDonGiaThueDat == entity.SoThongBaoDonGiaThueDat);
+                    if (tbDonGia != null)
+                    {
+                        thoiHanDonGia = tbDonGia.ThoiHanDonGia + (tbDonGia.NgayHieuLucDonGiaThueDat != null ? " từ ngày " + tbDonGia.NgayHieuLucDonGiaThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "") + (tbDonGia.NgayHetHieuLucDonGiaThueDat != null ? " đến ngày " + tbDonGia.NgayHetHieuLucDonGiaThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "");
+                        soThongBaoDonGia = tbDonGia.SoThongBaoDonGiaThueDat + " ngày " + tbDonGia.NgayThongBaoDonGiaThueDat?.ToString("N", new CultureInfo("vi-VN"));
+                        donGia = tbDonGia.DonGia.ToString("N0", new CultureInfo("vi-VN"));
+                    }
+                }
+                else
+                {
+                    if(entity.DsThongBaoTienThueDatChiTiet.Count > 0)
+                    {
+                        var tbDonGia = await _context.ThongBaoDonGiaThueDat.FirstOrDefaultAsync(x => x.IdThongBaoDonGiaThueDat == entity.DsThongBaoTienThueDatChiTiet.Last().IdThongBaoDonGiaThueDat);
+                        thoiHanDonGia = tbDonGia.ThoiHanDonGia + (tbDonGia.NgayHieuLucDonGiaThueDat != null ? " từ ngày " + tbDonGia.NgayHieuLucDonGiaThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "") + (tbDonGia.NgayHetHieuLucDonGiaThueDat != null ? " đến ngày " + tbDonGia.NgayHetHieuLucDonGiaThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "");
+                        soThongBaoDonGia = tbDonGia.SoThongBaoDonGiaThueDat + (tbDonGia.NgayThongBaoDonGiaThueDat != null ? " ngày " + tbDonGia.NgayThongBaoDonGiaThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "");
+                        donGia = tbDonGia.DonGia.ToString("N0", new CultureInfo("vi-VN"));
+                    }
+                }
+                var thongBaoTienThueDat = new ThongBaoTienThueDatViewModel
+                {
+                    IdThongBaoTienThueDat = entity.IdThongBaoTienThueDat,
+                    IdDoanhNghiep = entity.IdDoanhNghiep,
+                    IdQuyetDinhThueDat = entity.IdQuyetDinhThueDat,
+                    IdHopDongThueDat = entity.IdHopDongThueDat,
+                    IdQuyetDinhMienTienThueDat = entity.IdQuyetDinhMienTienThueDat,
+                    IdThongBaoDonGiaThueDat = entity.IdThongBaoDonGiaThueDat,
+                    TenDoanhNghiep = entity.DoanhNghiep.TenDoanhNghiep,
+                    MaSoThue = entity.DoanhNghiep.MaSoThue,
+                    CoQuanQuanLyThue = entity.DoanhNghiep.CoQuanQuanLyThue,
+                    DiaChi = entity.DoanhNghiep.DiaChi,
+                    SoDienThoai = entity.DoanhNghiep.SoDienThoai,
+                    Email = entity.DoanhNghiep.Email,
+                    LoaiThongBaoTienThueDat = entity.LoaiThongBaoTienThueDat,
+                    SoQuyetDinhThueDat = entity.SoQuyetDinhThueDat,
+                    TenQuyetDinhThueDat = entity.TenQuyetDinhThueDat,
+                    NgayQuyetDinhThueDat = entity.NgayQuyetDinhThueDat != null ? entity.NgayQuyetDinhThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
+                    MucDichSuDung = entity.MucDichSuDung,
+                    SoThongBaoTienThueDat = entity.SoThongBaoTienThueDat,
+                    LanhDaoKyThongBaoTienThueDat = entity.LanhDaoKyThongBaoTienThueDat,
+                    SoThongBaoDonGiaThueDat = soThongBaoDonGia,
+                    TenThongBaoDonGiaThueDat = entity.TenThongBaoDonGiaThueDat,
+                    NgayThongBaoDonGiaThueDat = entity.NgayThongBaoDonGiaThueDat != null ? entity.NgayThongBaoDonGiaThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
+                    ThoiHanDonGiaThueDat = thoiHanDonGia,
+                    ViTriThuaDat = entity.ViTriThuaDat,
+                    DienTichKhongPhaiNop = entity.DienTichKhongPhaiNop.ToString("N", new CultureInfo("vi-VN")),
+                    DienTichPhaiNop = entity.DienTichPhaiNop.ToString("N", new CultureInfo("vi-VN")),
+                    DonGia = donGia,
+                    NgayThongBaoTienThueDat = entity.NgayThongBaoTienThueDat != null ? entity.NgayThongBaoTienThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
+                    SoTien = entity.SoTien.ToString("N0", new CultureInfo("vi-VN")),
+                    SoTienMienGiam = entity.SoTienMienGiam.ToString("N0", new CultureInfo("vi-VN")),
+                    SoTienPhaiNop = entity.SoTienPhaiNop.ToString("N0", new CultureInfo("vi-VN")),
+                    Nam = entity.Nam,
+                    DiaChiThuaDat = entity.DiaChiThuaDat,
+                    ThoiHanThue = entity.ThoiHanThue,
+                    DenNgayThue = entity.DenNgayThue != null ? entity.DenNgayThue.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
+                    TuNgayThue = entity.TuNgayThue != null ? entity.TuNgayThue.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
+                    TongDienTich = entity.TongDienTich.ToString("N", new CultureInfo("vi-VN")),
+                };
+                var listFileViewModel = new List<FileTaiLieuViewModel>();
+                var listFile = _context.FileTaiLieu.Include(x => x.File).Where(x => x.IdLoaiTaiLieu == NhomLoaiTaiLieuConstant.NhomThongBaoTienThueDat && x.IdTaiLieu == entity.IdThongBaoTienThueDat && x.TrangThai != 4).ToList();
+                foreach (var item in listFile)
+                {
+                    var fileViewModel = new FileTaiLieuViewModel();
+                    fileViewModel.IdFileTaiLieu = item.IdFileTaiLieu;
+                    fileViewModel.IdFile = item.IdFile;
+                    fileViewModel.TenFile = item.File.TenFile;
+                    fileViewModel.LinkFile = item.File.LinkFile;
+                    fileViewModel.LoaiTaiLieu = item.LoaiTaiLieu;
+                    fileViewModel.IdLoaiTaiLieu = item.IdLoaiTaiLieu;
+                    fileViewModel.IdTaiLieu = item.IdTaiLieu;
+                    listFileViewModel.Add(fileViewModel);
+                }
+                thongBaoTienThueDat.DsFileTaiLieu = listFileViewModel;
+                result.Add(thongBaoTienThueDat);
+            }
+            return new ApiSuccessResult<List<ThongBaoTienThueDatViewModel>>() { Data = result };
         }
     }
 }
