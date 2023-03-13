@@ -23,6 +23,7 @@ namespace QuanLyThueDat.Application.Service
     {
         private readonly QuanLyThueDatDbContext _context;
         private readonly IQuyetDinhThueDatService _QuyetDinhThueDatService;
+        private readonly IThongBaoTienSuDungDatService _ThongBaoTienSuDungDatService;
         private readonly IHopDongThueDatService _HopDongThueDatService;
         private readonly IQuyetDinhMienTienThueDatService _QuyetDinhMienTienThueDatService;
         private readonly IThongBaoDonGiaThueDatService _ThongBaoDonGiaThueDatService;
@@ -35,10 +36,12 @@ namespace QuanLyThueDat.Application.Service
             IQuyetDinhMienTienThueDatService QuyetDinhMienTienThueDatService,
             IThongBaoDonGiaThueDatService ThongBaoDonGiaThueDatService,
             IThongBaoTienThueDatService ThongBaoTienThueDatService,
+            IThongBaoTienSuDungDatService ThongBaoTienSuDungDatService,
             IHttpContextAccessor HttpContextAccessor )
         {
             _context = context;
             _QuyetDinhThueDatService = QuyetDinhThueDatService;
+            _ThongBaoTienSuDungDatService = ThongBaoTienSuDungDatService;
             _HopDongThueDatService = HopDongThueDatService;
             _QuyetDinhMienTienThueDatService = QuyetDinhMienTienThueDatService;
             _ThongBaoDonGiaThueDatService = ThongBaoDonGiaThueDatService;
@@ -208,13 +211,13 @@ namespace QuanLyThueDat.Application.Service
                 return new ApiErrorResult<DoanhNghiepViewModel>("Không tìm thấy dữ liệu");
             }
         }
-        public async Task<ApiResult<List<string>>> ImportDoanhNghiep(IList<IFormFile> files)
+        public async Task<ApiResult<List<string>>> ImportDoanhNghiepTheoBieuLapBo(IList<IFormFile> files)
         {
             ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
             var result = new List<string>();
             var ok = 0;
             List<DoanhNghiepViewModel> users = new List<DoanhNghiepViewModel>();
-            var listSuccess = new List<ImportDoanhNghiepRequest>();
+            var listSuccess = new List<ImportDuLieuRequest>();
             var messageSuccess = new List<string>();
             var messageError = new List<string>();
             var messageException = new List<string>();
@@ -232,7 +235,7 @@ namespace QuanLyThueDat.Application.Service
                         var j = 2;
                         try
                         {
-                            var imp = new ImportDoanhNghiepRequest();
+                            var imp = new ImportDuLieuRequest();
                             //Doanh nghiệp
                             imp.DoanhNghiepRequest.TenDoanhNghiep = workSheet.Cells[i, j].Value == null ? "" : workSheet.Cells[i, j].Value.ToString();
                             imp.DoanhNghiepRequest.CoQuanQuanLyThue = "Chi cục thuế "+ workSheet.Name;
@@ -674,5 +677,794 @@ namespace QuanLyThueDat.Application.Service
             result.AddRange(messageException);
             return new ApiSuccessResult<List<string>>() { Data = result };
         }
+
+        public async Task<ApiResult<List<string>>> ImportDoanhNghiep(IList<IFormFile> files)
+        {
+            ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
+            var result = new List<string>();
+            var ok = 0;
+            List<DoanhNghiepViewModel> users = new List<DoanhNghiepViewModel>();
+            var listQuyetDinhThueDat = new List<ImportDuLieuRequest>();
+            var listQuyetDinhMienTienThueDat = new List<ImportDuLieuRequest>();
+            var listThongBaoTienSuDungDat = new List<ImportDuLieuRequest>();
+            var listHopDongThueDat = new List<ImportDuLieuRequest>();
+            var listThongBaoDonGiaThueDat = new List<ImportDuLieuRequest>();
+            var listThongBaoTienThueDat = new List<ImportDuLieuRequest>();
+            var messageSuccess = new List<string>();
+            var messageError = new List<string>();
+            var messageException = new List<string>();
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+            using (var stream = new MemoryStream())
+            {
+                files[0].CopyTo(stream);
+                using (var package = new ExcelPackage(stream))
+                {
+                    var currentSheet = package.Workbook.Worksheets;
+
+                    //Doanh nghiệp, quyết định thuê đất
+                    var wsQuyetDinhThueDat = currentSheet[0];
+                    var noOfRow = wsQuyetDinhThueDat.Dimension.End.Row;
+                    for (int i = 4; i <= wsQuyetDinhThueDat.Dimension.End.Row; i++)
+                    {
+                        var j = 2;
+                        try
+                        {
+                            var dulieu = new ImportDuLieuRequest();
+                            //Doanh nghiệp
+                            dulieu.DoanhNghiepRequest.TenDoanhNghiep = wsQuyetDinhThueDat.Cells[i, j].Value == null ? "" : wsQuyetDinhThueDat.Cells[i, j].Value.ToString();
+                            j++;
+                            dulieu.DoanhNghiepRequest.MaSoThue = wsQuyetDinhThueDat.Cells[i, j].Value == null ? "" : wsQuyetDinhThueDat.Cells[i, j].Value.ToString();
+                            j++;
+                            dulieu.DoanhNghiepRequest.CoQuanQuanLyThue = wsQuyetDinhThueDat.Cells[i, j].Value == null ? "" : wsQuyetDinhThueDat.Cells[i, j].Value.ToString();
+                            j++;
+                            dulieu.DoanhNghiepRequest.DiaChi = wsQuyetDinhThueDat.Cells[i, j].Value == null ? "" : wsQuyetDinhThueDat.Cells[i, j].Value.ToString();
+                            j++;
+                            dulieu.DoanhNghiepRequest.SoDienThoai = wsQuyetDinhThueDat.Cells[i, j].Value == null ? "" : wsQuyetDinhThueDat.Cells[i, j].Value.ToString();
+                            j++;
+                            dulieu.DoanhNghiepRequest.Email = wsQuyetDinhThueDat.Cells[i, j].Value == null ? "" : wsQuyetDinhThueDat.Cells[i, j].Value.ToString();
+                            j++;
+                            dulieu.DoanhNghiepRequest.GhiChu = wsQuyetDinhThueDat.Cells[i, j].Value == null ? "" : wsQuyetDinhThueDat.Cells[i, j].Value.ToString();
+                            j++;
+                            //Quyết định giao đất UBND tỉnh
+                            var quyetDinhThueDatChiTiet = new QuyetDinhThueDatChiTietRequest();
+                            var col9 = wsQuyetDinhThueDat.Cells[i, j].Value == null ? "" : wsQuyetDinhThueDat.Cells[i, j].Value.ToString();
+                            if (col9 != "")
+                            {
+                                var arr = col9.Split(new string[] { "ngày" }, StringSplitOptions.None);
+                                dulieu.QuyetDinhThueDatRequest.NgayQuyetDinhGiaoDat = arr[1].ToString().Trim();
+                                var soTB = arr[0].Trim().Split(' ');
+                                dulieu.QuyetDinhThueDatRequest.SoQuyetDinhGiaoDat = soTB[soTB.Length - 1].ToString().Trim();
+                            }
+                            else
+                            {
+                                dulieu.QuyetDinhThueDatRequest.NgayQuyetDinhGiaoDat = "";
+                                dulieu.QuyetDinhThueDatRequest.SoQuyetDinhGiaoDat = "";
+                            }
+                            j++;
+
+                            //Quyết định thuê đất
+                            var col10 = wsQuyetDinhThueDat.Cells[i, j].Value == null ? "" : wsQuyetDinhThueDat.Cells[i, j].Value.ToString();
+                            if (col10 != "")
+                            {
+                                var arr = col10.Split(new string[] { "ngày" }, StringSplitOptions.None);
+                                dulieu.QuyetDinhThueDatRequest.NgayQuyetDinhThueDat = Convert.ToDateTime(arr[1].ToString().Trim(), new CultureInfo("vi-VN")).ToString("dd/MM/yyyy"); 
+                                var soTB = arr[0].Trim().Split(' ');
+                                dulieu.QuyetDinhThueDatRequest.SoQuyetDinhThueDat = soTB[soTB.Length - 1].ToString().Trim();
+                            }
+                            else
+                            {
+                                dulieu.QuyetDinhThueDatRequest.SoQuyetDinhThueDat = "";
+                                dulieu.QuyetDinhThueDatRequest.NgayQuyetDinhThueDat = "";
+                            }
+                            j++;
+                            dulieu.QuyetDinhThueDatRequest.TenQuyetDinhThueDat = wsQuyetDinhThueDat.Cells[i, j].Value == null ? "" : wsQuyetDinhThueDat.Cells[i, j].Value.ToString();
+                            j++;
+                            var soThua = (wsQuyetDinhThueDat.Cells[i, j].Value == null ? "" : "Thửa số " + wsQuyetDinhThueDat.Cells[i, j].Value.ToString()) + " ,";
+                            j++;
+                            var soTo = (wsQuyetDinhThueDat.Cells[i, j].Value == null ? "" : " Tờ bản đồ số " + wsQuyetDinhThueDat.Cells[i, j].Value.ToString());
+                            dulieu.QuyetDinhThueDatRequest.ViTriThuaDat =  soThua +  soTo;
+                            j++;
+                            dulieu.QuyetDinhThueDatRequest.DiaChiThuaDat = wsQuyetDinhThueDat.Cells[i, j].Value == null ? "" : wsQuyetDinhThueDat.Cells[i, j].Value.ToString();
+                            j++;
+                           
+                            dulieu.QuyetDinhThueDatRequest.TongDienTich = wsQuyetDinhThueDat.Cells[i, j].Value == null ? 0 : Convert.ToDecimal(wsQuyetDinhThueDat.Cells[i, j].Value);
+                            j++;
+                            if (col10.Contains("TLĐ"))
+                            {
+                                quyetDinhThueDatChiTiet.HinhThucThue = "HopDongThueLaiDat";
+
+                            }
+                            else
+                            {
+                                quyetDinhThueDatChiTiet.HinhThucThue = "ThueDatTraTienHangNam";
+
+                            }
+                            j++;
+                            quyetDinhThueDatChiTiet.DienTich = wsQuyetDinhThueDat.Cells[i, j].Value == null ? 0 : Convert.ToDecimal(wsQuyetDinhThueDat.Cells[i, j].Value);
+                            j++;
+                            quyetDinhThueDatChiTiet.MucDichSuDung = wsQuyetDinhThueDat.Cells[i, j].Value == null ? "" : wsQuyetDinhThueDat.Cells[i, j].Value.ToString();
+                            j++;
+                            quyetDinhThueDatChiTiet.ThoiHanThue = wsQuyetDinhThueDat.Cells[i, j].Value == null ? "" : wsQuyetDinhThueDat.Cells[i, j].Value.ToString();
+                            j++;
+
+                            var col20 = wsQuyetDinhThueDat.Cells[i, j].Value;
+                            if (col20 != null)
+                            {
+                                var date = Convert.ToDateTime(col20, new CultureInfo("vi-VN"));
+                                quyetDinhThueDatChiTiet.TuNgayThue = date.ToString("dd/MM/yyyy");
+                            }
+                            else
+                            {
+                                quyetDinhThueDatChiTiet.TuNgayThue = "";
+                            }
+                            var col21 = wsQuyetDinhThueDat.Cells[i, j].Value;
+                            if (col21 != null)
+                            {
+                                var date = Convert.ToDateTime(col21, new CultureInfo("vi-VN"));
+                                quyetDinhThueDatChiTiet.DenNgayThue = date.ToString("dd/MM/yyyy");
+                            }
+                            else
+                            {
+                                quyetDinhThueDatChiTiet.DenNgayThue = "";
+                            }
+                            dulieu.QuyetDinhThueDatRequest.QuyetDinhThueDatChiTiet = new List<QuyetDinhThueDatChiTietRequest> { quyetDinhThueDatChiTiet };
+                            listQuyetDinhThueDat.Add(dulieu);
+                        }
+                        catch (Exception e)
+                        {
+                            messageError.Add("Lỗi tại sheet "+ wsQuyetDinhThueDat.Name +", dòng: " + i + " cột " + j);
+                            messageException.Add(e.Message);
+                            continue;
+                        }
+                    }
+
+                    //Sheet Quyết định miễn tiền thuê đất
+                    var wsQuyetDinhMienTienThueDat = currentSheet[1];
+                    for (int i = 4; i <= wsQuyetDinhMienTienThueDat.Dimension.End.Row; i++)
+                    {
+                        var j = 2;
+                        try
+                        {
+                            var dulieu = new ImportDuLieuRequest();
+                            //Doanh nghiệp
+                            dulieu.DoanhNghiepRequest.TenDoanhNghiep = wsQuyetDinhMienTienThueDat.Cells[i, j].Value == null ? "" : wsQuyetDinhMienTienThueDat.Cells[i, j].Value.ToString();
+                            j++;
+                            dulieu.DoanhNghiepRequest.MaSoThue = wsQuyetDinhMienTienThueDat.Cells[i, j].Value == null ? "" : wsQuyetDinhMienTienThueDat.Cells[i, j].Value.ToString();
+                            j++;
+
+                          //Quyết định thuê đất
+                            var col4 = wsQuyetDinhMienTienThueDat.Cells[i, j].Value == null ? "" : wsQuyetDinhMienTienThueDat.Cells[i, j].Value.ToString();
+                            if (col4 != "")
+                            {
+                                var arr = col4.Split(new string[] { "ngày" }, StringSplitOptions.None);
+                                dulieu.QuyetDinhThueDatRequest.NgayQuyetDinhThueDat = arr[1].ToString().Trim();
+                                var soTB = arr[0].Trim().Split(' ');
+                                dulieu.QuyetDinhThueDatRequest.SoQuyetDinhThueDat = soTB[soTB.Length - 1].ToString().Trim();
+                            }
+                            else
+                            {
+                                dulieu.QuyetDinhThueDatRequest.SoQuyetDinhThueDat = "";
+                                dulieu.QuyetDinhThueDatRequest.NgayQuyetDinhThueDat = "";
+                            }
+                            j++;
+
+                            //Quyết định miễn tiền thuê đất  
+                            var col5= wsQuyetDinhMienTienThueDat.Cells[i, j].Value == null ? "" : wsQuyetDinhMienTienThueDat.Cells[i, j].Value.ToString();
+                            if (col5 != "")
+                            {
+                                var arr = col5.Split(new string[] { "ngày" }, StringSplitOptions.None);
+                                dulieu.QuyetDinhMienTienThueDatRequest.NgayQuyetDinhMienTienThueDat = Convert.ToDateTime(arr[1].ToString().Trim(), new CultureInfo("vi-VN")).ToString("dd/MM/yyyy");
+                                var soTB = arr[0].Trim().Split(' ');
+                                dulieu.QuyetDinhMienTienThueDatRequest.SoQuyetDinhMienTienThueDat = soTB[soTB.Length - 1].ToString().Trim();
+                            }
+                            else
+                            {
+                                dulieu.QuyetDinhMienTienThueDatRequest.SoQuyetDinhMienTienThueDat = "";
+                                dulieu.QuyetDinhMienTienThueDatRequest.NgayQuyetDinhMienTienThueDat = "";
+                            }
+                            j++;
+                            dulieu.QuyetDinhMienTienThueDatRequest.TenQuyetDinhMienTienThueDat = wsQuyetDinhMienTienThueDat.Cells[i, j].Value == null ? "" : wsQuyetDinhMienTienThueDat.Cells[i, j].Value.ToString();
+                            j++;
+                            dulieu.QuyetDinhMienTienThueDatRequest.DienTichMienTienThueDat = wsQuyetDinhMienTienThueDat.Cells[i, j].Value == null ? 0 : Convert.ToDecimal(wsQuyetDinhMienTienThueDat.Cells[i, j].Value);
+                            j++;
+                            dulieu.QuyetDinhMienTienThueDatRequest.ThoiHanMienTienThueDat = wsQuyetDinhMienTienThueDat.Cells[i, j].Value == null ? "" : wsQuyetDinhMienTienThueDat.Cells[i, j].Value.ToString();
+                            j++;
+
+                            var col9 = wsQuyetDinhMienTienThueDat.Cells[i, j].Value;
+                            if (col9 != null)
+                            {
+                                var date = Convert.ToDateTime(col9, new CultureInfo("vi-VN"));
+                                dulieu.QuyetDinhMienTienThueDatRequest.NgayHieuLucMienTienThueDat = date.ToString("dd/MM/yyyy");
+                            }
+                            else
+                            {
+                                dulieu.QuyetDinhMienTienThueDatRequest.NgayHieuLucMienTienThueDat = "";
+                            }
+                            j++;
+                            var col10 = wsQuyetDinhMienTienThueDat.Cells[i, j].Value;
+                            if (col10 != null)
+                            {
+                                var date = Convert.ToDateTime(col10, new CultureInfo("vi-VN"));
+                                dulieu.QuyetDinhMienTienThueDatRequest.NgayHetHieuLucMienTienThueDat = date.ToString("dd/MM/yyyy");
+                            }
+                            else
+                            {
+                                dulieu.QuyetDinhMienTienThueDatRequest.NgayHetHieuLucMienTienThueDat = "";
+                            }
+                            listQuyetDinhMienTienThueDat.Add(dulieu);
+                        }
+                        catch (Exception e)
+                        {
+                            messageError.Add("Lỗi tại sheet " + wsQuyetDinhMienTienThueDat.Name + ", dòng: " + i + " cột " + j);
+                            messageException.Add(e.Message);
+                            continue;
+                        }
+                    }
+
+                    //Sheet Thông báo tiền sử dụng đất
+                    var wsThongBaoTienSuDungDat = currentSheet[2];
+                    for (int i = 4; i <= wsThongBaoTienSuDungDat.Dimension.End.Row; i++)
+                    {
+                        var j = 2;
+                        try
+                        {
+                            var dulieu = new ImportDuLieuRequest();
+                            //Doanh nghiệp
+                            dulieu.DoanhNghiepRequest.TenDoanhNghiep = wsThongBaoTienSuDungDat.Cells[i, j].Value == null ? "" : wsThongBaoTienSuDungDat.Cells[i, j].Value.ToString();
+                            j++;
+                            dulieu.DoanhNghiepRequest.MaSoThue = wsThongBaoTienSuDungDat.Cells[i, j].Value == null ? "" : wsThongBaoTienSuDungDat.Cells[i, j].Value.ToString();
+                            j++;
+
+                            //Quyết định thuê đất
+                            var col4 = wsThongBaoTienSuDungDat.Cells[i, j].Value == null ? "" : wsThongBaoTienSuDungDat.Cells[i, j].Value.ToString();
+                            if (col4 != "")
+                            {
+                                var arr = col4.Split(new string[] { "ngày" }, StringSplitOptions.None);
+                                dulieu.QuyetDinhThueDatRequest.NgayQuyetDinhThueDat = arr[1].ToString().Trim();
+                                var soTB = arr[0].Trim().Split(' ');
+                                dulieu.QuyetDinhThueDatRequest.SoQuyetDinhThueDat = soTB[soTB.Length - 1].ToString().Trim();
+                            }
+                            else
+                            {
+                                dulieu.QuyetDinhThueDatRequest.SoQuyetDinhThueDat = "";
+                                dulieu.QuyetDinhThueDatRequest.NgayQuyetDinhThueDat = "";
+                            }
+                            j++;
+
+                            //Thông báo tiền sử dụng đất  
+                            var col5 = wsThongBaoTienSuDungDat.Cells[i, j].Value == null ? "" : wsThongBaoTienSuDungDat.Cells[i, j].Value.ToString();
+                            if (col5 != "")
+                            {
+                                var arr = col5.Split(new string[] { "ngày" }, StringSplitOptions.None);
+                                dulieu.ThongBaoTienSuDungDatRequest.NgayThongBaoTienSuDungDat = Convert.ToDateTime(arr[1].ToString().Trim(), new CultureInfo("vi-VN")).ToString("dd/MM/yyyy");
+                                var soTB = arr[0].Trim().Split(' ');
+                                dulieu.ThongBaoTienSuDungDatRequest.SoThongBaoTienSuDungDat = soTB[soTB.Length - 1].ToString().Trim();
+                            }
+                            else
+                            {
+                                dulieu.ThongBaoTienSuDungDatRequest.SoThongBaoTienSuDungDat = "";
+                                dulieu.ThongBaoTienSuDungDatRequest.NgayThongBaoTienSuDungDat = "";
+                            }
+                            j++;
+                            dulieu.ThongBaoTienSuDungDatRequest.TenThongBaoTienSuDungDat = wsThongBaoTienSuDungDat.Cells[i, j].Value == null ? "" : wsThongBaoTienSuDungDat.Cells[i, j].Value.ToString();
+                            j++;
+                            dulieu.ThongBaoTienSuDungDatRequest.TongDienTich = wsThongBaoTienSuDungDat.Cells[i, j].Value == null ? 0 : Convert.ToDecimal(wsThongBaoTienSuDungDat.Cells[i, j].Value);
+                            j++;
+                            dulieu.ThongBaoTienSuDungDatRequest.DienTichKhongPhaiNop = wsThongBaoTienSuDungDat.Cells[i, j].Value == null ? 0 : Convert.ToDecimal(wsThongBaoTienSuDungDat.Cells[i, j].Value);
+                            j++;
+                            dulieu.ThongBaoTienSuDungDatRequest.DienTichPhaiNop = wsThongBaoTienSuDungDat.Cells[i, j].Value == null ? 0 : Convert.ToDecimal(wsThongBaoTienSuDungDat.Cells[i, j].Value);
+                            j++;
+                            dulieu.ThongBaoTienSuDungDatRequest.DonGia = wsThongBaoTienSuDungDat.Cells[i, j].Value == null ? 0 : Convert.ToDecimal(wsThongBaoTienSuDungDat.Cells[i, j].Value);
+                            j++;
+                            dulieu.ThongBaoTienSuDungDatRequest.TongDienTich = wsThongBaoTienSuDungDat.Cells[i, j].Value == null ? 0 : Convert.ToDecimal(wsThongBaoTienSuDungDat.Cells[i, j].Value);
+                            j++;
+                            dulieu.ThongBaoTienSuDungDatRequest.SoTienMienGiam = wsThongBaoTienSuDungDat.Cells[i, j].Value == null ? 0 : Convert.ToDecimal(wsThongBaoTienSuDungDat.Cells[i, j].Value);
+                            j++;
+                            dulieu.ThongBaoTienSuDungDatRequest.LyDoMienGiam = wsThongBaoTienSuDungDat.Cells[i, j].Value == null ? "" : wsThongBaoTienSuDungDat.Cells[i, j].Value.ToString();
+                            j++;
+                            dulieu.ThongBaoTienSuDungDatRequest.SoTienBoiThuongGiaiPhongMatBang = wsThongBaoTienSuDungDat.Cells[i, j].Value == null ? 0 : Convert.ToDecimal(wsThongBaoTienSuDungDat.Cells[i, j].Value);
+                            j++;
+                            dulieu.ThongBaoTienSuDungDatRequest.LyDoBoiThuongGiaiPhongMatBang = wsThongBaoTienSuDungDat.Cells[i, j].Value == null ? "" : wsThongBaoTienSuDungDat.Cells[i, j].Value.ToString();
+                            j++;
+                            dulieu.ThongBaoTienSuDungDatRequest.SoTienPhaiNop = wsThongBaoTienSuDungDat.Cells[i, j].Value == null ? 0 : Convert.ToDecimal(wsThongBaoTienSuDungDat.Cells[i, j].Value);
+                            j++;
+                            dulieu.ThongBaoTienSuDungDatRequest.LanhDaoKyThongBaoTienSuDungDat = wsThongBaoTienSuDungDat.Cells[i, j].Value == null ? "" : wsThongBaoTienSuDungDat.Cells[i, j].Value.ToString();
+                            listThongBaoTienSuDungDat.Add(dulieu);
+                        }
+                        catch (Exception e)
+                        {
+                            messageError.Add("Lỗi tại sheet " + wsThongBaoTienSuDungDat.Name + ", dòng: " + i + " cột " + j);
+                            messageException.Add(e.Message);
+                            continue;
+                        }
+                    }
+
+
+                    //Sheet HopDongThueDat
+                    var wsHopDongThueDat = currentSheet[3];
+                    for (int i = 4; i <= wsHopDongThueDat.Dimension.End.Row; i++)
+                    {
+                        var j = 2;
+                        try
+                        {
+                            var dulieu = new ImportDuLieuRequest();
+                            //Doanh nghiệp
+                            dulieu.DoanhNghiepRequest.TenDoanhNghiep = wsHopDongThueDat.Cells[i, j].Value == null ? "" : wsHopDongThueDat.Cells[i, j].Value.ToString();
+                            j++;
+                            dulieu.DoanhNghiepRequest.MaSoThue = wsHopDongThueDat.Cells[i, j].Value == null ? "" : wsHopDongThueDat.Cells[i, j].Value.ToString();
+                            j++;
+
+                            //Quyết định thuê đất
+                            var col4 = wsHopDongThueDat.Cells[i, j].Value == null ? "" : wsHopDongThueDat.Cells[i, j].Value.ToString();
+                            if (col4 != "")
+                            {
+                                var arr = col4.Split(new string[] { "ngày" }, StringSplitOptions.None);
+                                dulieu.QuyetDinhThueDatRequest.NgayQuyetDinhThueDat = arr[1].ToString().Trim();
+                                var soTB = arr[0].Trim().Split(' ');
+                                dulieu.QuyetDinhThueDatRequest.SoQuyetDinhThueDat = soTB[soTB.Length - 1].ToString().Trim();
+                            }
+                            else
+                            {
+                                dulieu.QuyetDinhThueDatRequest.SoQuyetDinhThueDat = "";
+                                dulieu.QuyetDinhThueDatRequest.NgayQuyetDinhThueDat = "";
+                            }
+                            j++;
+
+                            //Hợp đồng thuê đất  
+                            var col5 = wsHopDongThueDat.Cells[i, j].Value == null ? "" : wsHopDongThueDat.Cells[i, j].Value.ToString();
+                            if (col5 != "")
+                            {
+                                var arr = col5.Split(new string[] { "ngày" }, StringSplitOptions.None);
+                                dulieu.HopDongThueDatRequest.NgayKyHopDong = Convert.ToDateTime(arr[1].ToString().Trim(), new CultureInfo("vi-VN")).ToString("dd/MM/yyyy");
+                                var soTB = arr[0].Trim().Split(' ');
+                                dulieu.HopDongThueDatRequest.SoHopDong = soTB[soTB.Length - 1].ToString().Trim();
+                            }
+                            else
+                            {
+                                dulieu.HopDongThueDatRequest.SoHopDong = "";
+                                dulieu.HopDongThueDatRequest.NgayKyHopDong = "";
+                            }
+                            j++;
+                            var col6 = wsHopDongThueDat.Cells[i, j].Value;
+                            if (col6 != null)
+                            {
+                                var date = Convert.ToDateTime(col6, new CultureInfo("vi-VN"));
+                                dulieu.HopDongThueDatRequest.NgayHieuLucHopDong = date.ToString("dd/MM/yyyy");
+                            }
+                            j++;
+                            var col7 = wsHopDongThueDat.Cells[i, j].Value;
+                            if (col7 != null)
+                            {
+                                var date = Convert.ToDateTime(col7, new CultureInfo("vi-VN"));
+                                dulieu.HopDongThueDatRequest.NgayHetHieuLucHopDong = date.ToString("dd/MM/yyyy");
+                            }
+                            j++;
+                            dulieu.HopDongThueDatRequest.CoQuanKy = wsHopDongThueDat.Cells[i, j].Value == null ? "" : wsHopDongThueDat.Cells[i, j].Value.ToString();
+                            j++;
+                            dulieu.HopDongThueDatRequest.NguoiKy = wsHopDongThueDat.Cells[i, j].Value == null ? "" : wsHopDongThueDat.Cells[i, j].Value.ToString();
+                            listHopDongThueDat.Add(dulieu);
+                        }
+                        catch (Exception e)
+                        {
+                            messageError.Add("Lỗi tại sheet " + wsHopDongThueDat.Name + ", dòng: " + i + " cột " + j);
+                            messageException.Add(e.Message);
+                            continue;
+                        }
+                    }
+
+                    //Sheet Thông báo đơn giá thuê đất
+                    var wsThongBaoDonGiaThueDat = currentSheet[4];
+                    for (int i = 4; i <= wsThongBaoDonGiaThueDat.Dimension.End.Row; i++)
+                    {
+                        var j = 2;
+                        try
+                        {
+                            var dulieu = new ImportDuLieuRequest();
+                            //Doanh nghiệp
+                            dulieu.DoanhNghiepRequest.TenDoanhNghiep = wsThongBaoDonGiaThueDat.Cells[i, j].Value == null ? "" : wsThongBaoDonGiaThueDat.Cells[i, j].Value.ToString();
+                            j++;
+                            dulieu.DoanhNghiepRequest.MaSoThue = wsThongBaoDonGiaThueDat.Cells[i, j].Value == null ? "" : wsThongBaoDonGiaThueDat.Cells[i, j].Value.ToString();
+                            j++;
+
+                            //Quyết định thuê đất
+                            var col4 = wsThongBaoDonGiaThueDat.Cells[i, j].Value == null ? "" : wsThongBaoDonGiaThueDat.Cells[i, j].Value.ToString();
+                            if (col4 != "")
+                            {
+                                var arr = col4.Split(new string[] { "ngày" }, StringSplitOptions.None);
+                                dulieu.QuyetDinhThueDatRequest.NgayQuyetDinhThueDat = arr[1].ToString().Trim();
+                                var soTB = arr[0].Trim().Split(' ');
+                                dulieu.QuyetDinhThueDatRequest.SoQuyetDinhThueDat = soTB[soTB.Length - 1].ToString().Trim();
+                            }
+                            else
+                            {
+                                dulieu.QuyetDinhThueDatRequest.SoQuyetDinhThueDat = "";
+                                dulieu.QuyetDinhThueDatRequest.NgayQuyetDinhThueDat = "";
+                            }
+                            j++;
+
+                            //Thông báo đơn giá thuê đất  
+                            var col5 = wsThongBaoDonGiaThueDat.Cells[i, j].Value == null ? "" : wsThongBaoDonGiaThueDat.Cells[i, j].Value.ToString();
+                            if (col5 != "")
+                            {
+                                var arr = col5.Split(new string[] { "ngày" }, StringSplitOptions.None);
+                                dulieu.ThongBaoDonGiaThueDatRequest.NgayThongBaoDonGiaThueDat = Convert.ToDateTime(arr[1].ToString().Trim(), new CultureInfo("vi-VN")).ToString("dd/MM/yyyy");
+                                var soTB = arr[0].Trim().Split(' ');
+                                dulieu.ThongBaoDonGiaThueDatRequest.SoThongBaoDonGiaThueDat = soTB[soTB.Length - 1].ToString().Trim();
+                            }
+                            else
+                            {
+                                dulieu.ThongBaoDonGiaThueDatRequest.SoThongBaoDonGiaThueDat = "";
+                                dulieu.ThongBaoDonGiaThueDatRequest.NgayThongBaoDonGiaThueDat = "";
+                            }
+                            j++;
+                            dulieu.ThongBaoDonGiaThueDatRequest.TenThongBaoDonGiaThueDat = wsThongBaoDonGiaThueDat.Cells[i, j].Value == null ? "" : wsThongBaoDonGiaThueDat.Cells[i, j].Value.ToString();
+                            j++;
+                            dulieu.ThongBaoDonGiaThueDatRequest.DonGia = wsThongBaoDonGiaThueDat.Cells[i, j].Value == null ? 0 : Convert.ToDecimal(wsThongBaoDonGiaThueDat.Cells[i, j].Value);
+                            j++;
+                            dulieu.ThongBaoDonGiaThueDatRequest.ThoiHanDonGia = wsThongBaoDonGiaThueDat.Cells[i, j].Value == null ? "" : wsThongBaoDonGiaThueDat.Cells[i, j].Value.ToString();
+                            j++;
+
+                            var col9 = wsThongBaoDonGiaThueDat.Cells[i, j].Value;
+                            if (col9 != null)
+                            {
+                                var date = Convert.ToDateTime(col9, new CultureInfo("vi-VN"));
+                                dulieu.ThongBaoDonGiaThueDatRequest.NgayHieuLucDonGiaThueDat = date.ToString("dd/MM/yyyy");
+                            }
+                            j++;
+                            var col10 = wsThongBaoDonGiaThueDat.Cells[i, j].Value;
+                            if (col10 != null)
+                            {
+                                var date = Convert.ToDateTime(col10, new CultureInfo("vi-VN"));
+                                dulieu.ThongBaoDonGiaThueDatRequest.NgayHetHieuLucDonGiaThueDat = date.ToString("dd/MM/yyyy");
+                            }
+                            j++;
+
+                            dulieu.ThongBaoDonGiaThueDatRequest.DienTichKhongPhaiNop = wsThongBaoDonGiaThueDat.Cells[i, j].Value == null ? 0 : Convert.ToDecimal(wsThongBaoDonGiaThueDat.Cells[i, j].Value);
+                            j++;
+                            dulieu.ThongBaoDonGiaThueDatRequest.DienTichPhaiNop = wsThongBaoDonGiaThueDat.Cells[i, j].Value == null ? 0 : Convert.ToDecimal(wsThongBaoDonGiaThueDat.Cells[i, j].Value);
+                            j++;
+                            dulieu.ThongBaoDonGiaThueDatRequest.LanhDaoKyThongBaoDonGiaThueDat = wsThongBaoDonGiaThueDat.Cells[i, j].Value == null ? "" : wsThongBaoDonGiaThueDat.Cells[i, j].Value.ToString();
+                            listThongBaoDonGiaThueDat.Add(dulieu);
+                        }
+                        catch (Exception e)
+                        {
+                            messageError.Add("Lỗi tại sheet " + wsThongBaoDonGiaThueDat.Name + ", dòng: " + i + " cột " + j);
+                            messageException.Add(e.Message);
+                            continue;
+                        }
+                    }
+
+
+                    //Sheet Thông báo tiền thuê đất
+                    var wsThongBaoTienThueDat = currentSheet[5];
+                    for (int i = 4; i <= wsThongBaoTienThueDat.Dimension.End.Row; i++)
+                    {
+                        var j = 2;
+                        try
+                        {
+                            var dulieu = new ImportDuLieuRequest();
+                            //Doanh nghiệp
+                            dulieu.DoanhNghiepRequest.TenDoanhNghiep = wsThongBaoTienThueDat.Cells[i, j].Value == null ? "" : wsThongBaoTienThueDat.Cells[i, j].Value.ToString();
+                            j++;
+                            dulieu.DoanhNghiepRequest.MaSoThue = wsThongBaoTienThueDat.Cells[i, j].Value == null ? "" : wsThongBaoTienThueDat.Cells[i, j].Value.ToString();
+                            j++;
+
+                            //Quyết định thuê đất
+                            var col4 = wsThongBaoTienThueDat.Cells[i, j].Value == null ? "" : wsThongBaoTienThueDat.Cells[i, j].Value.ToString();
+                            if (col4 != "")
+                            {
+                                var arr = col4.Split(new string[] { "ngày" }, StringSplitOptions.None);
+                                dulieu.QuyetDinhThueDatRequest.NgayQuyetDinhThueDat = arr[1].ToString().Trim();
+                                var soTB = arr[0].Trim().Split(' ');
+                                dulieu.QuyetDinhThueDatRequest.SoQuyetDinhThueDat = soTB[soTB.Length - 1].ToString().Trim();
+                            }
+                            else
+                            {
+                                dulieu.QuyetDinhThueDatRequest.SoQuyetDinhThueDat = "";
+                                dulieu.QuyetDinhThueDatRequest.NgayQuyetDinhThueDat = "";
+                            }
+                            j++;
+                            dulieu.ThongBaoTienThueDatRequest.Nam = wsThongBaoTienThueDat.Cells[i, j].Value == null ? 0 : Int32.Parse(wsThongBaoTienThueDat.Cells[i, j].Value.ToString());
+                            j++;
+                            //Thông báo tiền thuê đất  
+                            var col6 = wsThongBaoTienThueDat.Cells[i, j].Value == null ? "" : wsThongBaoTienThueDat.Cells[i, j].Value.ToString();
+                            if (col6 != "")
+                            {
+                                var arr = col6.Split(new string[] { "ngày" }, StringSplitOptions.None);
+                                dulieu.ThongBaoTienThueDatRequest.NgayThongBaoTienThueDat = Convert.ToDateTime(arr[1].ToString().Trim(), new CultureInfo("vi-VN")).ToString("dd/MM/yyyy");
+                                var soTB = arr[0].Trim().Split(' ');
+                                dulieu.ThongBaoTienThueDatRequest.SoThongBaoTienThueDat = soTB[soTB.Length - 1].ToString().Trim();
+                            }
+                            else
+                            {
+                                dulieu.ThongBaoTienThueDatRequest.SoThongBaoTienThueDat = "";
+                                dulieu.ThongBaoTienThueDatRequest.NgayThongBaoTienThueDat = "";
+                            }
+                            j++;
+                            //dulieu.ThongBaoTienThueDatRequest.TenThongBaoTienThueDat = wsThongBaoTienThueDat.Cells[i, j].Value == null ? "" : wsThongBaoTienThueDat.Cells[i, j].Value.ToString();
+                            j++;
+                            dulieu.ThongBaoTienThueDatRequest.LoaiThongBaoTienThueDat = "ThongBaoTuNamThuHaiTroDi";
+                            j++;
+                            dulieu.ThongBaoTienThueDatRequest.TongDienTich = wsThongBaoTienThueDat.Cells[i, j].Value == null ? 0 : Convert.ToDecimal(wsThongBaoTienThueDat.Cells[i, j].Value);
+                            j++;
+                            dulieu.ThongBaoTienThueDatRequest.DienTichKhongPhaiNop = wsThongBaoTienThueDat.Cells[i, j].Value == null ? 0 : Convert.ToDecimal(wsThongBaoTienThueDat.Cells[i, j].Value);
+                            j++;
+                            dulieu.ThongBaoTienThueDatRequest.DienTichPhaiNop = wsThongBaoTienThueDat.Cells[i, j].Value == null ? 0 : Convert.ToDecimal(wsThongBaoTienThueDat.Cells[i, j].Value);
+                            j++;
+                            dulieu.ThongBaoTienThueDatRequest.SoTien = wsThongBaoTienThueDat.Cells[i, j].Value == null ? 0 : Convert.ToDecimal(wsThongBaoTienThueDat.Cells[i, j].Value);
+                            j++;
+                            dulieu.ThongBaoTienThueDatRequest.SoTienMienGiam = wsThongBaoTienThueDat.Cells[i, j].Value == null ? 0 : Convert.ToDecimal(wsThongBaoTienThueDat.Cells[i, j].Value);
+                            j++;
+                            dulieu.ThongBaoTienThueDatRequest.SoTienPhaiNop = wsThongBaoTienThueDat.Cells[i, j].Value == null ? 0 : Convert.ToDecimal(wsThongBaoTienThueDat.Cells[i, j].Value);
+                            j++;
+                            dulieu.ThongBaoTienThueDatRequest.LanhDaoKyThongBaoTienThueDat = wsThongBaoTienThueDat.Cells[i, j].Value == null ? "" : wsThongBaoTienThueDat.Cells[i, j].Value.ToString();
+                            j++;
+                            var col16 = wsThongBaoTienThueDat.Cells[i, j].Value == null ? "" : wsThongBaoTienThueDat.Cells[i, j].Value.ToString();
+                            var tbTienThueDatChiTiet = new ThongBaoTienThueDatChiTietRequest();
+                            tbTienThueDatChiTiet.Nam = dulieu.ThongBaoTienThueDatRequest.Nam;
+                            if (col16 != "")
+                            {
+                                var arr = col16.Split(new string[] { "ngày" }, StringSplitOptions.None);
+                                tbTienThueDatChiTiet.NgayThongBaoDonGiaThueDat = Convert.ToDateTime(arr[1].ToString().Trim(), new CultureInfo("vi-VN")).ToString("dd/MM/yyyy");
+                                var soTB = arr[0].Trim().Split(' ');
+                                tbTienThueDatChiTiet.SoThongBaoDonGiaThueDat = soTB[soTB.Length - 1].ToString().Trim();
+                            }
+                            else
+                            {
+                                tbTienThueDatChiTiet.SoThongBaoDonGiaThueDat = "";
+                                tbTienThueDatChiTiet.NgayThongBaoDonGiaThueDat = "";
+                            }
+                            j++;
+                            tbTienThueDatChiTiet.DonGia =  wsThongBaoTienThueDat.Cells[i, j].Value == null ? 0 : Convert.ToDecimal(wsThongBaoTienThueDat.Cells[i, j].Value);
+                            j++;
+                            tbTienThueDatChiTiet.DienTichPhaiNop = wsThongBaoTienThueDat.Cells[i, j].Value == null ? 0 : Convert.ToDecimal(wsThongBaoTienThueDat.Cells[i, j].Value);
+                            j++;
+                            tbTienThueDatChiTiet.SoTienPhaiNop = wsThongBaoTienThueDat.Cells[i, j].Value == null ? 0 : Convert.ToDecimal(wsThongBaoTienThueDat.Cells[i, j].Value);
+                            j++;
+                            var col20 = wsThongBaoTienThueDat.Cells[i, j].Value;
+                            if (col20 != null)
+                            {
+                                var date = Convert.ToDateTime(col20, new CultureInfo("vi-VN"));
+                                tbTienThueDatChiTiet.TuNgayTinhTien = date.ToString("dd/MM/yyyy");
+                            }
+                            else
+                            {
+                                tbTienThueDatChiTiet.TuNgayTinhTien = "01/01/" + tbTienThueDatChiTiet.Nam.ToString();
+                            }
+                            j++;
+                            var col21 = wsThongBaoTienThueDat.Cells[i, j].Value;
+                            if (col21 != null)
+                            {
+                                var date = Convert.ToDateTime(col21, new CultureInfo("vi-VN"));
+                                tbTienThueDatChiTiet.DenNgayTinhTien = date.ToString("dd/MM/yyyy");
+                            }
+                            else
+                            {
+                                tbTienThueDatChiTiet.DenNgayTinhTien = "31/12/" + tbTienThueDatChiTiet.Nam.ToString();
+                            }
+                            dulieu.ThongBaoTienThueDatRequest.ThongBaoTienThueDatChiTiet = new List<ThongBaoTienThueDatChiTietRequest>{tbTienThueDatChiTiet};
+                            listThongBaoTienThueDat.Add(dulieu);
+                        }
+                        catch (Exception e)
+                        {
+                            messageError.Add("Lỗi tại sheet " + wsThongBaoTienThueDat.Name + ", dòng: " + i + " cột " + j);
+                            messageException.Add(e.Message);
+                            continue;
+                        }
+                    }
+                }
+            }
+
+            // Lưu vào DB
+            foreach (var item in listQuyetDinhThueDat)
+            {
+                try
+                {
+                    var idDoanhNghiep = 0;
+                    var idQuyetDinhThueDat = 0;
+                    var checkDN = _context.DoanhNghiep.FirstOrDefault(x => x.MaSoThue == item.DoanhNghiepRequest.MaSoThue);
+                    if (checkDN == null)
+                    {
+                        var saveDoanhNghiep = await InsertUpdate(item.DoanhNghiepRequest);
+                        idDoanhNghiep = saveDoanhNghiep.Data;
+                        messageSuccess.Add(item.DoanhNghiepRequest.TenDoanhNghiep + " --- Thêm doanh nghiệp thành công --- " + idDoanhNghiep);
+                    }
+                    else
+                    {
+                        idDoanhNghiep = checkDN.IdDoanhNghiep;
+                    }
+                    if (!string.IsNullOrEmpty(item.QuyetDinhThueDatRequest.SoQuyetDinhThueDat))
+                    {
+                        item.QuyetDinhThueDatRequest.IdDoanhNghiep = idDoanhNghiep;
+                        var quyetDinhThueDat = await _QuyetDinhThueDatService.InsertUpdate(item.QuyetDinhThueDatRequest);
+                        idQuyetDinhThueDat = quyetDinhThueDat.Data;
+                        messageSuccess.Add(item.DoanhNghiepRequest.TenDoanhNghiep + " --- Thêm quyết định thuê đất thành công --- " + quyetDinhThueDat.Data);
+                    }
+                    ok++;
+                }
+                catch (Exception e)
+                {
+                    messageError.Add(item.DoanhNghiepRequest.TenDoanhNghiep + " lỗi khi lưu vào DB");
+                    messageException.Add(e.Message);
+                }
+
+            }
+            foreach (var item in listQuyetDinhMienTienThueDat)
+            {
+                try
+                {
+                    var checkDN = _context.DoanhNghiep.FirstOrDefault(x => x.MaSoThue == item.DoanhNghiepRequest.MaSoThue);
+                    var checkQdTD = _context.QuyetDinhThueDat.FirstOrDefault(x => x.SoQuyetDinhThueDat == item.QuyetDinhThueDatRequest.SoQuyetDinhThueDat && x.NgayQuyetDinhThueDat == Convert.ToDateTime(item.QuyetDinhThueDatRequest.NgayQuyetDinhThueDat, new CultureInfo("vi-VN")));
+                    if (checkDN != null && checkQdTD != null)
+                    {
+                        if (!string.IsNullOrEmpty(item.QuyetDinhMienTienThueDatRequest.SoQuyetDinhMienTienThueDat))
+                        {
+                            item.QuyetDinhMienTienThueDatRequest.IdDoanhNghiep = checkDN.IdDoanhNghiep;
+                            item.QuyetDinhMienTienThueDatRequest.IdQuyetDinhThueDat = checkQdTD.IdQuyetDinhThueDat;
+                            var quyetDinhMienTienThueDat = await _QuyetDinhMienTienThueDatService.InsertUpdate(item.QuyetDinhMienTienThueDatRequest);
+                            messageSuccess.Add(item.DoanhNghiepRequest.TenDoanhNghiep + " --- Thêm quyết định miễn tiền thuê đất thành công --- " + quyetDinhMienTienThueDat.Data);
+                            ok++;
+                        }
+                        else
+                        {
+                            messageError.Add(item.DoanhNghiepRequest.TenDoanhNghiep + " lỗi khi lưu số QĐ miễn tiền thuê đất vào DB");
+                        }
+                    }
+                    else
+                    {
+                        messageError.Add(item.DoanhNghiepRequest.TenDoanhNghiep + " lỗi không tìm thấy doanh nghiệp/QĐ khi lưu QĐ miễn tiền thuê đất vào DB");
+                    }
+                }
+                catch (Exception e)
+                {
+                    messageError.Add(item.DoanhNghiepRequest.TenDoanhNghiep + " lỗi khi lưu QĐ miễn tiền thuê đất vào DB");
+                    messageException.Add(e.Message);
+                }
+
+            }
+            foreach (var item in listThongBaoTienSuDungDat)
+            {
+                try
+                {
+                    var checkDN = _context.DoanhNghiep.FirstOrDefault(x => x.MaSoThue == item.DoanhNghiepRequest.MaSoThue);
+                    var checkQdTD = _context.QuyetDinhThueDat.FirstOrDefault(x => x.SoQuyetDinhThueDat == item.QuyetDinhThueDatRequest.SoQuyetDinhThueDat && x.NgayQuyetDinhThueDat == Convert.ToDateTime(item.QuyetDinhThueDatRequest.NgayQuyetDinhThueDat, new CultureInfo("vi-VN")));
+                    if (checkDN != null && checkQdTD != null)
+                    {
+                        if (!string.IsNullOrEmpty(item.ThongBaoTienSuDungDatRequest.SoThongBaoTienSuDungDat))
+                        {
+                            item.ThongBaoTienSuDungDatRequest.IdDoanhNghiep = checkDN.IdDoanhNghiep;
+                            item.ThongBaoTienSuDungDatRequest.IdQuyetDinhThueDat = checkQdTD.IdQuyetDinhThueDat;
+                            var tbTienSuDungDat = await _ThongBaoTienSuDungDatService.InsertUpdate(item.ThongBaoTienSuDungDatRequest);
+                            messageSuccess.Add(item.DoanhNghiepRequest.TenDoanhNghiep + " --- Thêm thông báo tiền sử dụng đất thành công --- " + tbTienSuDungDat.Data);
+                            ok++;
+                        }
+                        else
+                        {
+                            messageError.Add(item.DoanhNghiepRequest.TenDoanhNghiep + " lỗi khi lưu số TB tiền sử dụng đất vào DB");
+                        }
+                    }
+                    else
+                    {
+                        messageError.Add(item.DoanhNghiepRequest.TenDoanhNghiep + " lỗi không tìm thấy doanh nghiệp/QĐ khi lưu TB tiền sử dụng đất vào DB");
+                    }
+
+                }
+                catch (Exception e)
+                {
+                    messageError.Add(item.DoanhNghiepRequest.TenDoanhNghiep + " lỗi khi lưu Tb tiền sử dụng đất vào DB");
+                    messageException.Add(e.Message);
+                }
+
+            }
+
+            foreach (var item in listHopDongThueDat)
+            {
+                try
+                {
+                    var checkDN = _context.DoanhNghiep.FirstOrDefault(x => x.MaSoThue == item.DoanhNghiepRequest.MaSoThue);
+                    var checkQdTD = _context.QuyetDinhThueDat.FirstOrDefault(x => x.SoQuyetDinhThueDat == item.QuyetDinhThueDatRequest.SoQuyetDinhThueDat && x.NgayQuyetDinhThueDat == Convert.ToDateTime(item.QuyetDinhThueDatRequest.NgayQuyetDinhThueDat, new CultureInfo("vi-VN")));
+                    if (checkDN != null && checkQdTD != null)
+                    {
+                        if (!string.IsNullOrEmpty(item.HopDongThueDatRequest.SoHopDong) && !item.HopDongThueDatRequest.SoHopDong.Contains("TLĐ"))
+                        {
+                            item.HopDongThueDatRequest.IdDoanhNghiep = checkDN.IdDoanhNghiep;
+                            item.HopDongThueDatRequest.IdQuyetDinhThueDat = checkQdTD.IdQuyetDinhThueDat;
+                            var hopDongThueDat = await _HopDongThueDatService.InsertUpdate(item.HopDongThueDatRequest);
+                            messageSuccess.Add(item.DoanhNghiepRequest.TenDoanhNghiep + " --- Thêm hợp đồng thuê đất thành công --- " + hopDongThueDat.Data);
+                        }
+                        else
+                        {
+                            messageError.Add(item.DoanhNghiepRequest.TenDoanhNghiep + " lỗi khi lưu số hợp đồng vào DB");
+                        }
+                    }
+                    else
+                    {
+                        messageError.Add(item.DoanhNghiepRequest.TenDoanhNghiep + " lỗi không tìm thấy doanh nghiệp/QĐ khi lưu hợp đồng vào DB");
+                    }
+                    ok++;
+                }
+                catch (Exception e)
+                {
+                    messageError.Add(item.DoanhNghiepRequest.TenDoanhNghiep + " lỗi khi lưu hợp đồng vào DB");
+                    messageException.Add(e.Message);
+                }
+
+            }
+            foreach (var item in listThongBaoDonGiaThueDat)
+            {
+                try
+                {
+                    var checkDN = _context.DoanhNghiep.FirstOrDefault(x => x.MaSoThue == item.DoanhNghiepRequest.MaSoThue);
+                    var checkQdTD = _context.QuyetDinhThueDat.FirstOrDefault(x => x.SoQuyetDinhThueDat == item.QuyetDinhThueDatRequest.SoQuyetDinhThueDat && x.NgayQuyetDinhThueDat == Convert.ToDateTime(item.QuyetDinhThueDatRequest.NgayQuyetDinhThueDat, new CultureInfo("vi-VN")));
+                    if (checkDN != null && checkQdTD != null)
+                    {
+                        if (!string.IsNullOrEmpty(item.ThongBaoDonGiaThueDatRequest.SoThongBaoDonGiaThueDat))
+                        {
+                            item.ThongBaoDonGiaThueDatRequest.IdDoanhNghiep = checkDN.IdDoanhNghiep;
+                            item.ThongBaoDonGiaThueDatRequest.IdQuyetDinhThueDat = checkQdTD.IdQuyetDinhThueDat;
+                            var tbDonGiaThueDat = await _ThongBaoDonGiaThueDatService.InsertUpdate(item.ThongBaoDonGiaThueDatRequest);
+                            messageSuccess.Add(item.DoanhNghiepRequest.TenDoanhNghiep + " --- Thêm thông báo đơn giá đất thành công --- " + tbDonGiaThueDat.Data);
+                            ok++;
+                        }
+                        else
+                        {
+                            messageError.Add(item.DoanhNghiepRequest.TenDoanhNghiep + " lỗi khi lưu số thông báo đơn giá vào DB");
+                        }
+                    }
+                    else
+                    {
+                        messageError.Add(item.DoanhNghiepRequest.TenDoanhNghiep + " lỗi không tìm thấy doanh nghiệp/QĐ khi lưu thông báo đơn giá vào DB");
+                    }
+
+                }
+                catch (Exception e)
+                {
+                    messageError.Add(item.DoanhNghiepRequest.TenDoanhNghiep + " lỗi khi lưu thông báo đơn giá thuê đất vào DB");
+                    messageException.Add(e.Message);
+                }
+            }
+            foreach (var item in listThongBaoTienThueDat)
+            {
+                try
+                {
+                    var checkDN = _context.DoanhNghiep.FirstOrDefault(x => x.MaSoThue == item.DoanhNghiepRequest.MaSoThue);
+                    var checkQdTD = _context.QuyetDinhThueDat.FirstOrDefault(x => x.SoQuyetDinhThueDat == item.QuyetDinhThueDatRequest.SoQuyetDinhThueDat && x.NgayQuyetDinhThueDat == Convert.ToDateTime(item.QuyetDinhThueDatRequest.NgayQuyetDinhThueDat, new CultureInfo("vi-VN")));
+                    if (checkDN != null && checkQdTD != null)
+                    {
+                        if (!string.IsNullOrEmpty(item.ThongBaoTienThueDatRequest.SoThongBaoTienThueDat))
+                        {
+                            item.ThongBaoTienThueDatRequest.IdDoanhNghiep = checkDN.IdDoanhNghiep;
+                            item.ThongBaoTienThueDatRequest.IdQuyetDinhThueDat = checkQdTD.IdQuyetDinhThueDat;
+                            var tbTienThueDat = await _ThongBaoTienThueDatService.InsertUpdate(item.ThongBaoTienThueDatRequest);
+                            messageSuccess.Add(item.DoanhNghiepRequest.TenDoanhNghiep + " --- Thêm thông báo tiền thuê đất thành công --- " + tbTienThueDat.Data);
+                            ok++;
+                        }
+                        else
+                        {
+                            messageError.Add(item.DoanhNghiepRequest.TenDoanhNghiep + " lỗi khi lưu số thông báo tiền thuê đất vào DB");
+                        }
+                    }
+                    else
+                    {
+                        messageError.Add(item.DoanhNghiepRequest.TenDoanhNghiep + " lỗi không tìm thấy doanh nghiệp/QĐ khi lưu thông báo tiền thuê đất vào DB");
+                    }
+
+                }
+                catch (Exception e)
+                {
+                    messageError.Add(item.DoanhNghiepRequest.TenDoanhNghiep + " lỗi khi lưu thông báo tiền thuê đất vào DB");
+                    messageException.Add(e.Message);
+                }
+            }
+            result.Add(ok + " Doanh nghiệp được nhập hoàn chỉnh");
+            result.Add("========== DANH SÁCH THÀNH CÔNG ==========");
+            result.AddRange(messageSuccess);
+            result.Add("========== DANH SÁCH LỖI ==========");
+            result.AddRange(messageError);
+            result.Add("========== DANH SÁCH EXCEPTION ==========");
+            result.AddRange(messageException);
+            return new ApiSuccessResult<List<string>>() { Data = result };
+        }
+
     }
 }

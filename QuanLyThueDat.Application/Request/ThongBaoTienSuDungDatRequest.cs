@@ -45,6 +45,6 @@ namespace QuanLyThueDat.Application.Request
         public string NgayHetHieuLucTienSuDungDat { get; set; }
         public string HinhThucThue { get; set; }
         public string LanhDaoKyThongBaoTienSuDungDat { get; set; }
-        public List<FileTaiLieu> FileTaiLieu { get; set; }
+        public List<FileTaiLieu> FileTaiLieu { get; set; } = new List<FileTaiLieu>();
     }
 }

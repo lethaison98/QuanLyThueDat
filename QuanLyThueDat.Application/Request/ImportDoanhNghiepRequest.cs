@@ -6,13 +6,15 @@ using System.Threading.Tasks;
 
 namespace QuanLyThueDat.Application.Request
 {
-    public class ImportDoanhNghiepRequest
+    public class ImportDuLieuRequest
     {
         public DoanhNghiepRequest DoanhNghiepRequest { get; private set; } = new DoanhNghiepRequest();
         public QuyetDinhThueDatRequest QuyetDinhThueDatRequest { get; set; } = new QuyetDinhThueDatRequest();
+        public ThongBaoTienSuDungDatRequest ThongBaoTienSuDungDatRequest { get; set; } = new ThongBaoTienSuDungDatRequest();
         public HopDongThueDatRequest HopDongThueDatRequest { get; set; } = new HopDongThueDatRequest();
         public QuyetDinhMienTienThueDatRequest QuyetDinhMienTienThueDatRequest { get; set; } = new QuyetDinhMienTienThueDatRequest();
         public ThongBaoDonGiaThueDatRequest ThongBaoDonGiaThueDatRequest { get; set; } = new ThongBaoDonGiaThueDatRequest();
+        public ThongBaoTienThueDatRequest ThongBaoTienThueDatRequest { get; set; } = new ThongBaoTienThueDatRequest();
         public ThongBaoTienThueDatRequest ThongBaoTienThueDat2018Request { get; set; } = new ThongBaoTienThueDatRequest();
         public ThongBaoTienThueDatRequest ThongBaoTienThueDat2019Request { get; set; } = new ThongBaoTienThueDatRequest();
         public ThongBaoTienThueDatRequest ThongBaoTienThueDat2020Request { get; set; } = new ThongBaoTienThueDatRequest();

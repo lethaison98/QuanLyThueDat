@@ -20,10 +20,12 @@ namespace QuanLyThueDat.Application.Service
     {
         private readonly QuanLyThueDatDbContext _context;
         public IHttpContextAccessor _accessor;
-        public ThongBaoTienThueDatService(QuanLyThueDatDbContext context, IHttpContextAccessor HttpContextAccessor)
+        public IThongBaoDonGiaThueDatService _thongBaoDonGiaThueDatService;
+        public ThongBaoTienThueDatService(QuanLyThueDatDbContext context, IThongBaoDonGiaThueDatService thongBaoDonGiaThueDatService, IHttpContextAccessor HttpContextAccessor)
         {
             _context = context;
             _accessor = HttpContextAccessor;
+            _thongBaoDonGiaThueDatService = thongBaoDonGiaThueDatService;
         }
 
         public async Task<ApiResult<int>> InsertUpdate(ThongBaoTienThueDatRequest rq)
@@ -33,6 +35,20 @@ namespace QuanLyThueDat.Application.Service
             var userId = claimsIdentity.FindFirst("UserId")?.Value;
             var result = 0;
             var entity = _context.ThongBaoTienThueDat.Include(x => x.DsThongBaoTienThueDatChiTiet).FirstOrDefault(x => x.IdThongBaoTienThueDat == rq.IdThongBaoTienThueDat);
+            var quyetDinhThueDatChiTiet = _context.QuyetDinhThueDatChiTiet.FirstOrDefault(x => x.IdQuyetDinhThueDat == rq.IdQuyetDinhThueDat && (x.HinhThucThue == "ThueDatTraTienHangNam" || x.HinhThucThue == "HopDongThueLaiDat"));
+            if (quyetDinhThueDatChiTiet != null)
+            {
+                rq.SoQuyetDinhThueDat = quyetDinhThueDatChiTiet.QuyetDinhThueDat.SoQuyetDinhThueDat;
+                rq.TenQuyetDinhThueDat = quyetDinhThueDatChiTiet.QuyetDinhThueDat.TenQuyetDinhThueDat;
+                rq.NgayQuyetDinhThueDat = quyetDinhThueDatChiTiet.QuyetDinhThueDat.NgayQuyetDinhThueDat != null ? quyetDinhThueDatChiTiet.QuyetDinhThueDat.NgayQuyetDinhThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "";
+                rq.ViTriThuaDat = quyetDinhThueDatChiTiet.QuyetDinhThueDat.ViTriThuaDat;
+                rq.DiaChiThuaDat = quyetDinhThueDatChiTiet.QuyetDinhThueDat.DiaChiThuaDat;
+                rq.MucDichSuDung = quyetDinhThueDatChiTiet.MucDichSuDung;
+                rq.TongDienTich = quyetDinhThueDatChiTiet.DienTich;
+                rq.ThoiHanThue = quyetDinhThueDatChiTiet.ThoiHanThue;
+                rq.TuNgayThue = quyetDinhThueDatChiTiet.TuNgayThue != null ? quyetDinhThueDatChiTiet.TuNgayThue.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "";
+                rq.DenNgayThue = quyetDinhThueDatChiTiet.DenNgayThue != null ? quyetDinhThueDatChiTiet.DenNgayThue.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "";
+            }
             if (entity == null)
             {
                 entity = new ThongBaoTienThueDat()
@@ -115,8 +131,18 @@ namespace QuanLyThueDat.Application.Service
                 {
                     var ct = new ThongBaoTienThueDatChiTiet();
                     ct.IdThongBaoTienThueDat = item.IdThongBaoTienThueDat;
-                    ct.IdThongBaoTienThueDatChiTiet = item.IdThongBaoTienThueDatChiTiet;
-                    ct.IdThongBaoDonGiaThueDat = item.IdThongBaoDonGiaThueDat;
+                    if(item.IdThongBaoDonGiaThueDat == 0 && !string.IsNullOrEmpty(item.SoThongBaoDonGiaThueDat) && !string.IsNullOrEmpty(item.NgayThongBaoDonGiaThueDat))
+                    {
+                        var tbDonGia = _context.ThongBaoDonGiaThueDat.FirstOrDefault(x=> x.SoThongBaoDonGiaThueDat == item.SoThongBaoDonGiaThueDat &&  x.NgayThongBaoDonGiaThueDat == Convert.ToDateTime(item.NgayThongBaoDonGiaThueDat, new CultureInfo("vi-VN")));
+                        if(tbDonGia != null)
+                        {
+                            ct.IdThongBaoDonGiaThueDat = tbDonGia.IdThongBaoDonGiaThueDat;
+                        }
+                    }
+                    else
+                    {
+                        ct.IdThongBaoDonGiaThueDat = item.IdThongBaoDonGiaThueDat;
+                    }
                     ct.Nam = item.Nam; ;
                     ct.DonGia = item.DonGia;
                     ct.DienTichPhaiNop = item.DienTichPhaiNop;

@@ -32,6 +32,21 @@ namespace QuanLyThueDat.Application.Service
             var userId = claimsIdentity.FindFirst("UserId")?.Value;
             var result = 0;
             var entity = _context.ThongBaoDonGiaThueDat.FirstOrDefault(x => x.IdThongBaoDonGiaThueDat == rq.IdThongBaoDonGiaThueDat);
+            var quyetDinhThueDatChiTiet = _context.QuyetDinhThueDatChiTiet.FirstOrDefault(x=> x.IdQuyetDinhThueDat == rq.IdQuyetDinhThueDat && (x.HinhThucThue == "ThueDatTraTienHangNam" || x.HinhThucThue == "HopDongThueLaiDat"));
+            if(quyetDinhThueDatChiTiet != null)
+            {
+                rq.SoQuyetDinhThueDat = quyetDinhThueDatChiTiet.QuyetDinhThueDat.SoQuyetDinhThueDat;
+                rq.TenQuyetDinhThueDat = quyetDinhThueDatChiTiet.QuyetDinhThueDat.TenQuyetDinhThueDat;
+                rq.NgayQuyetDinhThueDat = quyetDinhThueDatChiTiet.QuyetDinhThueDat.NgayQuyetDinhThueDat != null ? quyetDinhThueDatChiTiet.QuyetDinhThueDat.NgayQuyetDinhThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "";
+                rq.ViTriThuaDat = quyetDinhThueDatChiTiet.QuyetDinhThueDat.ViTriThuaDat;
+                rq.DiaChiThuaDat = quyetDinhThueDatChiTiet.QuyetDinhThueDat.DiaChiThuaDat;
+                rq.MucDichSuDung = quyetDinhThueDatChiTiet.MucDichSuDung;
+                rq.TongDienTich = quyetDinhThueDatChiTiet.DienTich;
+                rq.ThoiHanThue = quyetDinhThueDatChiTiet.ThoiHanThue;
+                rq.TuNgayThue = quyetDinhThueDatChiTiet.TuNgayThue != null ? quyetDinhThueDatChiTiet.TuNgayThue.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "";
+                rq.DenNgayThue = quyetDinhThueDatChiTiet.DenNgayThue != null ? quyetDinhThueDatChiTiet.DenNgayThue.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "";
+                rq.HinhThucThue = "ThueDatTraTienHangNam";
+            }
             if (entity == null)
             {
                 entity = new ThongBaoDonGiaThueDat()

@@ -50,13 +50,15 @@ namespace QuanLyThueDat.Application.Request
         public decimal SoTien { get; set; }
         public decimal SoTienPhaiNop { get; set; }
         public List<ThongBaoTienThueDatChiTietRequest> ThongBaoTienThueDatChiTiet { get; set; }
-        public List<FileTaiLieu> FileTaiLieu { get; set; }
+        public List<FileTaiLieu> FileTaiLieu { get; set; } = new List<FileTaiLieu>();
     }
     public class ThongBaoTienThueDatChiTietRequest
     {
         public int IdThongBaoTienThueDatChiTiet { get; set; }
         public int IdThongBaoTienThueDat { get; set; }
         public int IdThongBaoDonGiaThueDat { get; set; }
+        public string SoThongBaoDonGiaThueDat { get; set; }
+        public string NgayThongBaoDonGiaThueDat { get; set; }
         public int Nam { get; set; }
         public decimal DonGia { get; set; }
         public decimal DienTichKhongPhaiNop { get; set; }

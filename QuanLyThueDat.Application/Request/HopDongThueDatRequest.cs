@@ -19,6 +19,6 @@ namespace QuanLyThueDat.Application.Request
         public string CoQuanKy { get; set; }
         public string NgayHieuLucHopDong { get; set; }
         public string NgayHetHieuLucHopDong { get; set; }
-        public List<FileTaiLieu> FileTaiLieu { get; set; }
+        public List<FileTaiLieu> FileTaiLieu { get; set; } = new List<FileTaiLieu>();
     }
 }
