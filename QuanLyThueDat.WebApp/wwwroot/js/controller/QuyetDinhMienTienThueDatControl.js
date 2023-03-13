@@ -1,5 +1,4 @@
 ﻿if (typeof (QuyetDinhMienTienThueDatControl) == "undefined") QuyetDinhMienTienThueDatControl = {};
-var checkRole = localStorage.getItem("Roles").includes("QuyetDinhMienTienThueDat");
 QuyetDinhMienTienThueDatControl = {
     Init: function () {
         QuyetDinhMienTienThueDatControl.RegisterEvents();
@@ -300,6 +299,7 @@ QuyetDinhMienTienThueDatControl = {
     RegisterEventsPopup: function (opts) {
         var self = this;
         setTimeout(function () {
+            var checkRole = localStorage.getItem("Roles").includes("QuyetDinhMienTienThueDat");
             if (!checkRole) {
                 $("#popupDetailQuyetDinhMienTienThueDat").find('input').attr("disabled", true);
                 $("#popupDetailQuyetDinhMienTienThueDat").find('select').attr("disabled", true);

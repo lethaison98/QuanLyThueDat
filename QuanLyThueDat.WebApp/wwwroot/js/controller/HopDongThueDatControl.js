@@ -1,5 +1,4 @@
 ﻿if (typeof (HopDongThueDatControl) == "undefined") HopDongThueDatControl = {};
-var checkRole = localStorage.getItem("Roles").includes("HopDongThueDat");
 HopDongThueDatControl = {
     Init: function () {
         HopDongThueDatControl.RegisterEvents();
@@ -292,6 +291,7 @@ HopDongThueDatControl = {
     RegisterEventsPopup: function (opts) {
         var self = this;
         setTimeout(function () {
+            var checkRole = localStorage.getItem("Roles").includes("HopDongThueDat");
             if (!checkRole) {
                 $("#popupDetailHopDongThueDat").find('input').attr("disabled", true);
                 $("#popupDetailHopDongThueDat").find('select').attr("disabled", true);

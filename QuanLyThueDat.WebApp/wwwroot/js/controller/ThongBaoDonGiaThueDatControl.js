@@ -1,5 +1,4 @@
 ﻿if (typeof (ThongBaoDonGiaThueDatControl) == "undefined") ThongBaoDonGiaThueDatControl = {};
-var checkRole = localStorage.getItem("Roles").includes("ThongBaoDonGiaThueDat");
 ThongBaoDonGiaThueDatControl = {
     Init: function () {
         ThongBaoDonGiaThueDatControl.RegisterEvents();
@@ -221,6 +220,7 @@ ThongBaoDonGiaThueDatControl = {
     RegisterEventsPopup: function () {
         var self = this;
         setTimeout(function () {
+            var checkRole = localStorage.getItem("Roles").includes("ThongBaoDonGiaThueDat");
             if (!checkRole) {
                 $("#popupDetailThongBaoDonGiaThueDat").find('input').attr("disabled", true);
                 $("#popupDetailThongBaoDonGiaThueDat").find('select').attr("disabled", true);

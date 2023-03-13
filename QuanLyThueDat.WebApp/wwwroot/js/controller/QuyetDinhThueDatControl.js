@@ -1,5 +1,4 @@
 ﻿if (typeof (QuyetDinhThueDatControl) == "undefined") QuyetDinhThueDatControl = {};
-var checkRole = localStorage.getItem("Roles").includes("QuyetDinhThueDat");
 QuyetDinhThueDatControl = {
     Init: function () {
         QuyetDinhThueDatControl.RegisterEvents();
@@ -412,7 +411,10 @@ QuyetDinhThueDatControl = {
     RegisterEventsPopup: function (opts) {
         var self = this;
         setTimeout(function () {
+            var checkRole = localStorage.getItem("Roles").includes("QuyetDinhThueDat");
+            console.log(checkRole)
             if (!checkRole) {
+                debugger;
                 $("#popupDetailQuyetDinhThueDat").find('input').attr("disabled", true);
                 $("#popupDetailQuyetDinhThueDat").find('select').attr("disabled", true);
                 $("#popupDetailQuyetDinhThueDat").find('.fa-trash-alt').hide();
