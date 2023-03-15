@@ -49,13 +49,38 @@ QuyetDinhThueDatControl = {
                         "class": "name-control",
                         "width": "10%",
                         "data": "SoQuyetDinhGiaoDat",
-                        "defaultContent": ""
+                        "defaultContent": "",
+                        render: function (data, type, row) {
+                            var fileQDGiaoDat = "";
+                            if (row.DsFileTaiLieu != null) {
+                                $.each(row.DsFileTaiLieu, function (i, item) {
+                                    if (item.LoaiTaiLieu == "QuyetDinhGiaoDat") {
+                                        fileQDGiaoDat = "<a href = '" + localStorage.getItem('API_URL').replace("api", "") + item.LinkFile + "' target='_blank'><i class = 'fas fa-paperclip' style = 'color: gold' title = 'File quyết định giao đất'></i></a>";
+                                    }
+                                });
+                            }
+                            var thaotac = data + "&nbsp" + fileQDGiaoDat;
+                            return thaotac;
+                        }
+
                     },
                     {
                         "class": "name-control",
                         "width": "10%",
                         "data": "SoQuyetDinhThueDat",
-                        "defaultContent": ""
+                        "defaultContent": "",
+                        render: function (data, type, row) {
+                            var fileQDThueDat = "";
+                            if (row.DsFileTaiLieu != null) {
+                                $.each(row.DsFileTaiLieu, function (i, item) {
+                                    if (item.LoaiTaiLieu == "QuyetDinhThueDat") {
+                                        fileQDThueDat = "<a href = '" + localStorage.getItem('API_URL').replace("api", "") + item.LinkFile + "' target='_blank'><i class = 'fas fa-paperclip' title = 'File quyết định thuê đất, hợp đồng thuê lại đất'></i></a>";
+                                    }
+                                });
+                            }
+                            var thaotac = data +"&nbsp"+ fileQDThueDat;
+                            return thaotac;
+                        }
                     },
                     {
                         "class": "name-control",
@@ -76,27 +101,13 @@ QuyetDinhThueDatControl = {
                         //"data": "thaotac",
                         "defaultContent": "",
                         render: function (data, type, row) {
-                            var fileQDThueDat = "";
-                            var fileQDGiaoDat = "";
-                            if (row.DsFileTaiLieu != null) {
-                                $.each(row.DsFileTaiLieu, function (i, item) {
-                                    if (item.LoaiTaiLieu == "QuyetDinhThueDat") {
-                                        fileQDThueDat = "<a href = '" + localStorage.getItem('API_URL').replace("api", "") + item.LinkFile + "' target='_blank'><i class = 'fas fa-paperclip' title = 'File quyết định giao đất, cho thuê đất'></i></a>";
-                                    }
-                                    if (item.LoaiTaiLieu == "QuyetDinhGiaoDat") {
-                                        fileQDGiaoDat = "<a href = '" + localStorage.getItem('API_URL').replace("api", "") + item.LinkFile + "' target='_blank'><i class = 'fas fa-paperclip' style = 'color: gold' title = 'File quyết định giao đất'></i></a>";
-                                    }
-                                });
-                            }
                             if (opts == undefined) {
                                 var thaotac = "<div class='hstn-func' style='text-align: center;' data-type='" + JSON.stringify(row) + "'>" +
-                                    fileQDGiaoDat + "&nbsp" + fileQDThueDat + "&nbsp" +
                                     "<a href='javascript:;' class='QuyetDinhThueDat-view' data-id='" + row.IdQuyetDinhThueDat + "'><i class='fas fa-eye' title='Xem'></i></a> &nbsp" +
                                     "</div>";
                                 return thaotac;
                             } else {
                                 var thaotac = "<div class='hstn-func' style='text-align: center;' data-type='" + JSON.stringify(row) + "'>" +
-                                    fileQDGiaoDat + "&nbsp" + fileQDThueDat + "&nbsp" +
                                     "<a href='javascript:;' class='QuyetDinhThueDat-view' data-id='" + row.IdQuyetDinhThueDat + "'><i class='fas fa-eye' title='Xem'></i></a> &nbsp" +
                                     "<a href='javascript:;' class='QuyetDinhThueDat-edit' data-id='" + row.IdQuyetDinhThueDat + "'><i class='fas fa-edit' title='Sửa'></i></a> &nbsp" +
                                     "<a href='javascript:;' class='QuyetDinhThueDat-remove text-danger' data-id='" + row.IdQuyetDinhThueDat + "'><i class='fas fa-trash-alt' title='Xóa' ></i></a>" +

@@ -48,7 +48,19 @@ QuyetDinhMienTienThueDatControl = {
                     {
                         "class": "name-control",
                         "data": "SoQuyetDinhMienTienThueDat",
-                        "defaultContent": ""
+                        "defaultContent": "",
+                        render: function (data, type, row) {
+                            var file = "";
+                            if (row.DsFileTaiLieu != null) {
+                                $.each(row.DsFileTaiLieu, function (i, item) {
+                                    if (item.LoaiTaiLieu == "QuyetDinhMienTienThueDat") {
+                                        file = "<a href = '" + localStorage.getItem('API_URL').replace("api", "") + item.LinkFile + "' target='_blank'><i class = 'fas fa-paperclip' title = 'File quyết định miễn tiền thuê đất'></i></a>";
+                                    }
+                                });
+                            }
+                            var thaotac = data + "&nbsp" + file;
+                            return thaotac;
+                        }
                     },
 
                     {

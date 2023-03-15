@@ -44,7 +44,19 @@ ThongBaoTienThueDatControl = {
                     {
                         "class": "name-control",
                         "data": "SoThongBaoTienThueDat",
-                        "defaultContent": ""
+                        "defaultContent": "",
+                        render: function (data, type, row) {
+                            var file = "";
+                            if (row.DsFileTaiLieu != null) {
+                                $.each(row.DsFileTaiLieu, function (i, item) {
+                                    if (item.LoaiTaiLieu == "ThongBaoTienThueDat") {
+                                        file = "<a href = '" + localStorage.getItem('API_URL').replace("api", "") + item.LinkFile + "' target='_blank'><i class = 'fas fa-paperclip' title = 'File thông báo tiền thuê đất'></i></a>";
+                                    }
+                                });
+                            }
+                            var thaotac = data + "&nbsp" + file;
+                            return thaotac;
+                        }
                     },
                     {
                         "class": "name-control",

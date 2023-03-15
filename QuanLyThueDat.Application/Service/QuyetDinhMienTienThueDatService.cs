@@ -69,6 +69,7 @@ namespace QuanLyThueDat.Application.Service
             }
 
             _context.QuyetDinhMienTienThueDat.Update(entity);
+            await _context.SaveChangesAsync();
             var listIdOldFile = rq.FileTaiLieu.Where(x => x.IdFileTaiLieu > 0).Select(x => x.IdFileTaiLieu);
             var listRemoveFile = _context.FileTaiLieu.Where(x => x.IdTaiLieu == entity.IdQuyetDinhMienTienThueDat && x.IdLoaiTaiLieu == NhomLoaiTaiLieuConstant.NhomQuyetDinhMienTienThueDat && !listIdOldFile.Contains(x.IdFileTaiLieu));
             foreach (var item in listRemoveFile)

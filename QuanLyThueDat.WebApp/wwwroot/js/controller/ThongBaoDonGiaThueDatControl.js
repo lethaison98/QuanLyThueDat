@@ -43,7 +43,19 @@ ThongBaoDonGiaThueDatControl = {
                     {
                         "class": "name-control",
                         "data": "SoThongBaoDonGiaThueDat",
-                        "defaultContent": ""
+                        "defaultContent": "",
+                        render: function (data, type, row) {
+                            var file = "";
+                            if (row.DsFileTaiLieu != null) {
+                                $.each(row.DsFileTaiLieu, function (i, item) {
+                                    if (item.LoaiTaiLieu == "ThongBaoDonGiaThueDat") {
+                                        file = "<a href = '" + localStorage.getItem('API_URL').replace("api", "") + item.LinkFile + "' target='_blank'><i class = 'fas fa-paperclip' title = 'File thông báo đơn giá thuê đất'></i></a>";
+                                    }
+                                });
+                            }
+                            var thaotac = data + "&nbsp" + file;
+                            return thaotac;
+                        }
                     },
                     {
                         "class": "name-control",
@@ -86,36 +98,19 @@ ThongBaoDonGiaThueDatControl = {
                         //"data": "thaotac",
                         "defaultContent": "",
                         render: function (data, type, row) {
-                            var file = "";
-                            if (row.DsFileTaiLieu != null) {
-                                $.each(row.DsFileTaiLieu, function (i, item) {
-                                    if (item.LoaiTaiLieu == "ThongBaoDonGiaThueDat") {
-                                        file = "<a href = '" + localStorage.getItem('API_URL').replace("api", "") + item.LinkFile + "' target='_blank'><i class = 'fas fa-paperclip' title = 'File thông báo đơn giá thuê đất'></i></a>";
-                                    }
-                                });
-                            }
                             if (opts == undefined) {
                                 var thaotac = "<div class='hstn-func' style='text-align: center;' data-type='" + JSON.stringify(row) + "'>" +
-                                    file + "&nbsp" +
                                     "<a href='javascript:;' class='ThongBaoDonGiaThueDat-export' data-id='" + row.IdThongBaoDonGiaThueDat + "'><i class='fas fa-file-word' title='Xuất thông báo' ></i></a> &nbsp" +
                                     "</div>";
                                 return thaotac;
                             } else {
                                 var thaotac = "<div class='hstn-func' style='text-align: center;' data-type='" + JSON.stringify(row) + "'>" +
-                                    file + "&nbsp" +
                                     "<a href='javascript:;' class='ThongBaoDonGiaThueDat-export' data-id='" + row.IdThongBaoDonGiaThueDat + "'><i class='fas fa-file-word' title='Xuất thông báo' ></i></a> &nbsp" +
                                     "<a href='javascript:;' class='ThongBaoDonGiaThueDat-edit' data-id='" + row.IdThongBaoDonGiaThueDat + "'><i class='fas fa-edit' title='Chỉnh sửa'></i></a>" +
                                     "<a href='javascript:;' class='ThongBaoDonGiaThueDat-remove text-danger' data-id='" + row.IdThongBaoDonGiaThueDat + "'><i class='fas fa-trash-alt' title='Xóa' ></i></a>" +
                                     "</div>";
                                 return thaotac;
                             }
-
-                            var thaotac = "<div class='hstn-func' style='text-align: center;' data-type='" + JSON.stringify(row) + "'>" +
-                                "<a href='javascript:;' class='ThongBaoDonGiaThueDat-export' data-id='" + row.IdThongBaoDonGiaThueDat + "'><i class='fas fa-file-word' title='Xuất thông báo' ></i></a> &nbsp" +
-                                "<a href='javascript:;' class='ThongBaoDonGiaThueDat-edit' data-id='" + row.IdThongBaoDonGiaThueDat + "'><i class='fas fa-edit' title='Chỉnh sửa'></i></a>" +
-                                "<a href='javascript:;' class='ThongBaoDonGiaThueDat-remove text-danger' data-id='" + row.IdThongBaoDonGiaThueDat + "'><i class='fas fa-trash-alt' title='Xóa' ></i></a>" +
-                                "</div>";
-                            return thaotac;
                         }
                     }
                 ]
@@ -154,7 +149,7 @@ ThongBaoDonGiaThueDatControl = {
                                             $('#popupDetailThongBaoDonGiaThueDat .ddDoanhNghiep').append('<option value="' + res.Data.IdDoanhNghiep + '">' + res.Data.TenDoanhNghiep + '</option>');
                                         }
                                         if (res.Data.IdQuyetDinhThueDat != null) {
-                                            $('#popupDetailThongBaoDonGiaThueDat .ddQuyetDinhThueDat').append('<option value="' + res.Data.IdQuyetDinhThueDat + '">' + res.Data.SoQuyetDinhThueDat +" - " + res.Data.NgayQuyetDinhThueDat + '</option>');
+                                            $('#popupDetailThongBaoDonGiaThueDat .ddQuyetDinhThueDat').append('<option value="' + res.Data.IdQuyetDinhThueDat + '">' + res.Data.SoQuyetDinhThueDat + " - " + res.Data.NgayQuyetDinhThueDat + '</option>');
                                         }
 
                                         self.RegisterEventsPopup();

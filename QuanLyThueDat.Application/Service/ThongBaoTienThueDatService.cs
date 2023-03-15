@@ -35,7 +35,7 @@ namespace QuanLyThueDat.Application.Service
             var userId = claimsIdentity.FindFirst("UserId")?.Value;
             var result = 0;
             var entity = _context.ThongBaoTienThueDat.Include(x => x.DsThongBaoTienThueDatChiTiet).FirstOrDefault(x => x.IdThongBaoTienThueDat == rq.IdThongBaoTienThueDat);
-            var quyetDinhThueDatChiTiet = _context.QuyetDinhThueDatChiTiet.FirstOrDefault(x => x.IdQuyetDinhThueDat == rq.IdQuyetDinhThueDat && (x.HinhThucThue == "ThueDatTraTienHangNam" || x.HinhThucThue == "HopDongThueLaiDat"));
+            var quyetDinhThueDatChiTiet = _context.QuyetDinhThueDatChiTiet.Include(x=> x.QuyetDinhThueDat).FirstOrDefault(x => x.IdQuyetDinhThueDat == rq.IdQuyetDinhThueDat && (x.HinhThucThue == "ThueDatTraTienHangNam" || x.HinhThucThue == "HopDongThueLaiDat"));
             if (quyetDinhThueDatChiTiet != null)
             {
                 rq.SoQuyetDinhThueDat = quyetDinhThueDatChiTiet.QuyetDinhThueDat.SoQuyetDinhThueDat;
@@ -157,6 +157,7 @@ namespace QuanLyThueDat.Application.Service
             }
             entity.DsThongBaoTienThueDatChiTiet = listThongBaoTienThueDatChiTiet;
             _context.ThongBaoTienThueDat.Update(entity);
+            await _context.SaveChangesAsync();
             var listIdOldFile = rq.FileTaiLieu.Where(x => x.IdFileTaiLieu > 0).Select(x => x.IdFileTaiLieu);
             var listRemoveFile = _context.FileTaiLieu.Where(x => x.IdTaiLieu == entity.IdThongBaoTienThueDat && x.IdLoaiTaiLieu == NhomLoaiTaiLieuConstant.NhomThongBaoTienThueDat && !listIdOldFile.Contains(x.IdFileTaiLieu));
             foreach (var item in listRemoveFile)

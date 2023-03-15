@@ -45,7 +45,21 @@ HopDongThueDatControl = {
                         "class": "name-control",
                         "width": "20%",
                         "data": "SoHopDong",
-                        "defaultContent": ""
+                        "defaultContent": "",
+                        render: function (data, type, row) {
+                            var file = "";
+                            if (row.DsFileTaiLieu != null) {
+                                $.each(row.DsFileTaiLieu, function (i, item) {
+                                    if (item.LoaiTaiLieu == "HopDongThueDat") {
+                                        file = "<a href = '" + localStorage.getItem('API_URL').replace("api", "") + item.LinkFile + "' target='_blank'><i class = 'fas fa-paperclip' title = 'File hợp đồng thuê đất'></i></a>";
+                                    }
+                                });
+                            }
+                            var thaotac = data + "&nbsp" + file;
+                            return thaotac;
+
+                        }
+
                     },
                     {
                         "class": "name-control",
@@ -65,35 +79,19 @@ HopDongThueDatControl = {
                         //"data": "thaotac",
                         "defaultContent": "",
                         render: function (data, type, row) {
-                            var file = "";
-                            if (row.DsFileTaiLieu != null) {
-                                $.each(row.DsFileTaiLieu, function (i, item) {
-                                    if (item.LoaiTaiLieu == "HopDongThueDat") {
-                                        file = "<a href = '" + localStorage.getItem('API_URL').replace("api", "") + item.LinkFile + "' target='_blank'><i class = 'fas fa-paperclip' title = 'File hợp đồng thuê đất'></i></a>";
-                                    }
-                                });
-                            }
                             if (opts == undefined) {
                                 var thaotac = "<div class='hstn-func' style='text-align: center;' data-type='" + JSON.stringify(row) + "'>" +
-                                    file + "&nbsp" +
                                     "<a href='javascript:;' class='HopDongThueDat-view' data-id='" + row.IdHopDongThueDat + "'><i class='fas fa-eye' title='Xem'></i></a> &nbsp" +
                                     "</div>";
                                 return thaotac;
                             } else {
                                 var thaotac = "<div class='hstn-func' style='text-align: center;' data-type='" + JSON.stringify(row) + "'>" +
-                                    file + "&nbsp" +
                                     "<a href='javascript:;' class='HopDongThueDat-view' data-id='" + row.IdHopDongThueDat + "'><i class='fas fa-eye' title='Xem'></i></a> &nbsp" +
                                     "<a href='javascript:;' class='HopDongThueDat-edit' data-id='" + row.IdHopDongThueDat + "'><i class='fas fa-edit' title='Sửa'></i></a>  &nbsp" +
                                     "<a href='javascript:;' class='HopDongThueDat-remove text-danger' data-id='" + row.IdHopDongThueDat + "'><i class='fas fa-trash-alt' title='Xóa' ></i></a>" +
                                     "</div>";
                                 return thaotac;
                             }
-
-                            var thaotac = "<div class='hstn-func' style='text-align: center;' data-type='" + JSON.stringify(row) + "'>" +
-                                "<a href='javascript:;' class='HopDongThueDat-edit' data-id='" + row.IdHopDongThueDat + "'><i class='fas fa-edit' title='Sửa'></i></a>" +
-                                "<a href='javascript:;' class='HopDongThueDat-remove text-danger' data-id='" + row.IdHopDongThueDat + "'><i class='fas fa-trash-alt' title='Xóa' ></i></a>" +
-                                "</div>";
-                            return thaotac;
                         }
                     }
                 ]
