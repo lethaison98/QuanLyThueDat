@@ -405,8 +405,15 @@ HopDongThueDatControl = {
             "url": localStorage.getItem("API_URL") + "/HopDongThueDat/InsertUpdate",
             "data": data,
             callback: function (res) {
-                self.table.ajax.reload();
-                $('#btnCloseHopDongThueDat').trigger('click');
+                if (res.IsSuccess) {
+                    toastr.success('Thực hiện thành công', 'Thông báo')
+                    self.table.ajax.reload();
+                    $('#btnCloseHopDongThueDat').trigger('click');
+                }
+                else {
+                    toastr.error(res.Message, 'Có lỗi xảy ra')
+                }
+
             }
         });
     },

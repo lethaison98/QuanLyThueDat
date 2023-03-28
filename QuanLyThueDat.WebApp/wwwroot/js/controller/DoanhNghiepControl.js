@@ -170,11 +170,11 @@ DoanhNghiepControl = {
                                 type: "Delete",
                                 success: function (res) {
                                     if (res.IsSuccess) {
-                                        alert("Thành công");
+                                        toastr.success('Thực hiện thành công', 'Thông báo')
                                         self.table.ajax.reload();
                                     }
                                     else {
-                                        alert("Không thành công")
+                                        toastr.error(res.Message, 'Có lỗi xảy ra')
                                     }
                                 }
                             });
@@ -196,8 +196,14 @@ DoanhNghiepControl = {
             "url": localStorage.getItem("API_URL") + "/DoanhNghiep/InsertUpdate",
             "data": data,
             callback: function (res) {
-                self.table.ajax.reload();
-                $('#btnCloseDoanhNghiep').trigger('click');
+                if (res.IsSuccess) {
+                    toastr.success('Thực hiện thành công', 'Thông báo')
+                    self.table.ajax.reload();
+                    $('#btnCloseDoanhNghiep').trigger('click');
+                }
+                else {
+                    toastr.error(res.Message, 'Có lỗi xảy ra')
+                }
             }
         });
     },

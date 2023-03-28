@@ -370,6 +370,9 @@ QuyetDinhMienTienThueDatControl = {
         $("#btnSaveQuyetDinhMienTienThueDat").off('click').on('click', function () {
             self.InsertUpdate();
         });
+        $(".number").change(function () {
+            $(this).val(ConvertDecimalToString($(this).val()));
+        });
     },
 
     RegisterEvents: function (opts) {
@@ -411,7 +414,9 @@ QuyetDinhMienTienThueDatControl = {
     },
     InsertUpdate: function () {
         var self = this;
-        var self = this;
+        $(".number").each(function () {
+            $(this).val(ConvertStringToDecimal($(this).val()));
+        });
         var data = LoadFormData("#FormDetailQuyetDinhMienTienThueDat");
         data.IdDoanhNghiep = $(".ddDoanhNghiep option:selected").val();
         var fileTaiLieu = [];
@@ -427,8 +432,14 @@ QuyetDinhMienTienThueDatControl = {
             "url": localStorage.getItem("API_URL") + "/QuyetDinhMienTienThueDat/InsertUpdate",
             "data": data,
             callback: function (res) {
-                self.table.ajax.reload();
-                $('#btnCloseQuyetDinhMienTienThueDat').trigger('click');
+                if (res.IsSuccess) {
+                    toastr.success('Thực hiện thành công', 'Thông báo')
+                    self.table.ajax.reload();
+                    $('#btnCloseQuyetDinhMienTienThueDat').trigger('click');
+                }
+                else {
+                    toastr.error(res.Message, 'Có lỗi xảy ra')
+                }
             }
         });
     },

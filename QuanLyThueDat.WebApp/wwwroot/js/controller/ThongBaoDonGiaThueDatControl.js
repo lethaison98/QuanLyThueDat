@@ -336,8 +336,15 @@ ThongBaoDonGiaThueDatControl = {
             "url": localStorage.getItem("API_URL") + "/ThongBaoDonGiaThueDat/InsertUpdate",
             "data": data,
             callback: function (res) {
-                self.table.ajax.reload();
-                $('#btnCloseThongBaoDonGiaThueDat').trigger('click');
+                if (res.IsSuccess) {
+                    toastr.success('Thực hiện thành công', 'Thông báo')
+                    self.table.ajax.reload();
+                    $('#btnCloseThongBaoDonGiaThueDat').trigger('click');
+                }
+                else {
+                    toastr.error(res.Message, 'Có lỗi xảy ra')
+                }
+
             }
         });
     },

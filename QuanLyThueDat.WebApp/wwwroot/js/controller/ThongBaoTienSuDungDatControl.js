@@ -344,8 +344,15 @@ ThongBaoTienSuDungDatControl = {
             "url": localStorage.getItem("API_URL") + "/ThongBaoTienSuDungDat/InsertUpdate",
             "data": data,
             callback: function (res) {
-                self.table.ajax.reload();
-                $('#btnCloseThongBaoTienSuDungDat').trigger('click');
+                if (res.IsSuccess) {
+                    toastr.success('Thực hiện thành công', 'Thông báo')
+                    self.table.ajax.reload();
+                    $('#btnCloseThongBaoTienSuDungDat').trigger('click');
+                }
+                else {
+                    toastr.error(res.Message, 'Có lỗi xảy ra')
+                }
+
             }
         });
     },

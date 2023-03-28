@@ -258,6 +258,20 @@ namespace QuanLyThueDat.Application.Service
                         thoiHanDonGia = tbDonGia.ThoiHanDonGia + (tbDonGia.NgayHieuLucDonGiaThueDat != null ? " từ ngày " + tbDonGia.NgayHieuLucDonGiaThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "") + (tbDonGia.NgayHetHieuLucDonGiaThueDat != null ? " đến ngày " + tbDonGia.NgayHetHieuLucDonGiaThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "");
                     }
                 }
+                var quyetDinhThueDatChiTiet = _context.QuyetDinhThueDatChiTiet.Include(x => x.QuyetDinhThueDat).FirstOrDefault(x => x.IdQuyetDinhThueDat == entity.IdQuyetDinhThueDat && (x.HinhThucThue == "ThueDatTraTienHangNam" || x.HinhThucThue == "HopDongThueLaiDat"));
+                if (quyetDinhThueDatChiTiet != null)
+                {
+                    entity.SoQuyetDinhThueDat = quyetDinhThueDatChiTiet.QuyetDinhThueDat.SoQuyetDinhThueDat;
+                    entity.TenQuyetDinhThueDat = quyetDinhThueDatChiTiet.QuyetDinhThueDat.TenQuyetDinhThueDat;
+                    entity.NgayQuyetDinhThueDat = quyetDinhThueDatChiTiet.QuyetDinhThueDat.NgayQuyetDinhThueDat;
+                    entity.ViTriThuaDat = quyetDinhThueDatChiTiet.QuyetDinhThueDat.ViTriThuaDat;
+                    entity.DiaChiThuaDat = quyetDinhThueDatChiTiet.QuyetDinhThueDat.DiaChiThuaDat;
+                    entity.MucDichSuDung = quyetDinhThueDatChiTiet.MucDichSuDung;
+                    entity.TongDienTich = quyetDinhThueDatChiTiet.DienTich;
+                    entity.ThoiHanThue = quyetDinhThueDatChiTiet.ThoiHanThue;
+                    entity.TuNgayThue = quyetDinhThueDatChiTiet.TuNgayThue;
+                    entity.DenNgayThue = quyetDinhThueDatChiTiet.DenNgayThue;
+                }
                 var thongBaoTienThueDat = new ThongBaoTienThueDatViewModel
                 {
                     IdThongBaoTienThueDat = entity.IdThongBaoTienThueDat,
@@ -331,6 +345,20 @@ namespace QuanLyThueDat.Application.Service
             var entity = await _context.ThongBaoTienThueDat.Include(x => x.DoanhNghiep).Include(x => x.DsThongBaoTienThueDatChiTiet).FirstOrDefaultAsync(x => x.IdThongBaoTienThueDat == idThongBaoTienThueDat);
             if (entity != null)
             {
+                var quyetDinhThueDatChiTiet = _context.QuyetDinhThueDatChiTiet.Include(x => x.QuyetDinhThueDat).FirstOrDefault(x => x.IdQuyetDinhThueDat == entity.IdQuyetDinhThueDat && (x.HinhThucThue == "ThueDatTraTienHangNam" || x.HinhThucThue == "HopDongThueLaiDat"));
+                if (quyetDinhThueDatChiTiet != null)
+                {
+                    entity.SoQuyetDinhThueDat = quyetDinhThueDatChiTiet.QuyetDinhThueDat.SoQuyetDinhThueDat;
+                    entity.TenQuyetDinhThueDat = quyetDinhThueDatChiTiet.QuyetDinhThueDat.TenQuyetDinhThueDat;
+                    entity.NgayQuyetDinhThueDat = quyetDinhThueDatChiTiet.QuyetDinhThueDat.NgayQuyetDinhThueDat;
+                    entity.ViTriThuaDat = quyetDinhThueDatChiTiet.QuyetDinhThueDat.ViTriThuaDat;
+                    entity.DiaChiThuaDat = quyetDinhThueDatChiTiet.QuyetDinhThueDat.DiaChiThuaDat;
+                    entity.MucDichSuDung = quyetDinhThueDatChiTiet.MucDichSuDung;
+                    entity.TongDienTich = quyetDinhThueDatChiTiet.DienTich;
+                    entity.ThoiHanThue = quyetDinhThueDatChiTiet.ThoiHanThue;
+                    entity.TuNgayThue = quyetDinhThueDatChiTiet.TuNgayThue;
+                    entity.DenNgayThue = quyetDinhThueDatChiTiet.DenNgayThue;
+                }
                 result = new ThongBaoTienThueDatViewModel
                 {
                     IdThongBaoTienThueDat = entity.IdThongBaoTienThueDat,

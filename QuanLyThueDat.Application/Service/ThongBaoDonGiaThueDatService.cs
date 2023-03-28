@@ -249,6 +249,21 @@ namespace QuanLyThueDat.Application.Service
             var entity = await _context.ThongBaoDonGiaThueDat.Include(x => x.DoanhNghiep).FirstOrDefaultAsync(x => x.IdThongBaoDonGiaThueDat == idThongBaoDonGiaThueDat);
             if (entity != null)
             {
+                var quyetDinhThueDatChiTiet = _context.QuyetDinhThueDatChiTiet.Include(x => x.QuyetDinhThueDat).FirstOrDefault(x => x.IdQuyetDinhThueDat == entity.IdQuyetDinhThueDat && (x.HinhThucThue == "ThueDatTraTienHangNam" || x.HinhThucThue == "HopDongThueLaiDat"));
+                if (quyetDinhThueDatChiTiet != null)
+                {
+                    entity.SoQuyetDinhThueDat = quyetDinhThueDatChiTiet.QuyetDinhThueDat.SoQuyetDinhThueDat;
+                    entity.TenQuyetDinhThueDat = quyetDinhThueDatChiTiet.QuyetDinhThueDat.TenQuyetDinhThueDat;
+                    entity.NgayQuyetDinhThueDat = quyetDinhThueDatChiTiet.QuyetDinhThueDat.NgayQuyetDinhThueDat;
+                    entity.ViTriThuaDat = quyetDinhThueDatChiTiet.QuyetDinhThueDat.ViTriThuaDat;
+                    entity.DiaChiThuaDat = quyetDinhThueDatChiTiet.QuyetDinhThueDat.DiaChiThuaDat;
+                    entity.MucDichSuDung = quyetDinhThueDatChiTiet.MucDichSuDung;
+                    entity.TongDienTich = quyetDinhThueDatChiTiet.DienTich;
+                    entity.ThoiHanThue = quyetDinhThueDatChiTiet.ThoiHanThue;
+                    entity.TuNgayThue = quyetDinhThueDatChiTiet.TuNgayThue;
+                    entity.DenNgayThue = quyetDinhThueDatChiTiet.DenNgayThue;
+                    entity.HinhThucThue = "ThueDatTraTienHangNam";
+                }
                 result = new ThongBaoDonGiaThueDatViewModel
                 {
                     IdThongBaoDonGiaThueDat = entity.IdThongBaoDonGiaThueDat,

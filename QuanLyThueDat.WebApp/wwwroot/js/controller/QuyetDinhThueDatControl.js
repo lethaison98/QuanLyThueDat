@@ -59,7 +59,7 @@ QuyetDinhThueDatControl = {
                                     }
                                 });
                             }
-                            var thaotac = data + "&nbsp" + fileQDGiaoDat;
+                            var thaotac = data||"" + "&nbsp" + fileQDGiaoDat;
                             return thaotac;
                         }
 
@@ -250,7 +250,7 @@ QuyetDinhThueDatControl = {
                         },
                         callback: function (res) {
                             if (res.IsSuccess) {
-                                if (res.Data.DsQuyetDinhThueDatChiTiet[0].HinhThucThue != "HopDongThueLaiDat") {
+                                if (res.Data.DsQuyetDinhThueDatChiTiet.length == 0 || res.Data.DsQuyetDinhThueDatChiTiet[0].HinhThucThue != "HopDongThueLaiDat") {
                                     Get({
                                         url: '/QuyetDinhThueDat/PopupDetailQuyetDinhThueDat',
                                         dataType: 'text',
@@ -656,8 +656,15 @@ QuyetDinhThueDatControl = {
             "url": localStorage.getItem("API_URL") + "/QuyetDinhThueDat/InsertUpdate",
             "data": data,
             callback: function (res) {
-                self.table.ajax.reload();
-                $('#btnCloseQuyetDinhThueDat').trigger('click');
+                if (res.IsSuccess) {
+                    toastr.success('Thực hiện thành công', 'Thông báo')
+                    self.table.ajax.reload();
+                    $('#btnCloseQuyetDinhThueDat').trigger('click');
+                }
+                else {
+                    toastr.error(res.Message, 'Có lỗi xảy ra')
+                }
+
             }
         });
     },
