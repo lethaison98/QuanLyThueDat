@@ -27,7 +27,13 @@ namespace QuanLyThueDat.API.Controllers
             var result = await _userService.Authencate(request);
             return Ok(result);
         }
-
+        [HttpPost("InsertUpdate")]
+        [AllowAnonymous]
+        public async Task<IActionResult> InsertUpdate(UserRequest request)
+        {
+            var result = await _userService.InsertUpdate(request);
+            return Ok(result);
+        }
 
         [HttpPost("Register")]
         [AllowAnonymous]
@@ -85,6 +91,19 @@ namespace QuanLyThueDat.API.Controllers
             {
                 return BadRequest(result);
             }
+            return Ok(result);
+        }
+        [HttpGet("GetAllPaging")]
+        public async Task<IActionResult> GetAllPaging(string keyword = "", int pageNumber = 1, int pageSize = 10)
+        {
+            var result = await _userService.GetAllPaging(keyword, pageNumber, pageSize);
+            return Ok(result);
+        }
+
+        [HttpGet("GetById")]
+        public async Task<IActionResult> GetById(string idTaiKhoan)
+        {
+            var result = await _userService.GetById(new Guid(idTaiKhoan));
             return Ok(result);
         }
     }

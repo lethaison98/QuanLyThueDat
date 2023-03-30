@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using QuanLyThueDat.Application.Interfaces;
 using QuanLyThueDat.Application.Request;
 using QuanLyThueDat.Application.ViewModel;
+using QuanLyThueDat.Data.EF;
 using QuanLyThueDat.Data.Entities;
 using System;
 using System.Collections.Generic;
@@ -18,21 +19,89 @@ namespace QuanLyThueDat.Application.Service
 {
     public class UserService : IUserService
     {
+        private readonly QuanLyThueDatDbContext _context;
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly RoleManager<AppRole> _roleManager;
         private readonly IConfiguration _config;
         public IHttpContextAccessor _accessor { get; set; }
-        public UserService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager,
+        public UserService(QuanLyThueDatDbContext context, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager,
             RoleManager<AppRole> roleManager, IConfiguration config, IHttpContextAccessor HttpContextAccessor)
         {
+            _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _config = config;
             _accessor = HttpContextAccessor;
         }
+        public async Task<ApiResult<bool>> InsertUpdate(UserRequest request)
+        {
+            if(request.UserId == new Guid())
+            {
+                var usercheck = _userManager.FindByNameAsync(request.UserName).Result;
+                if (usercheck != null)
+                {
+                    return new ApiErrorResult<bool>("Tài khoản đã tồn tại");
+                }
+                if (await _userManager.FindByEmailAsync(request.Email) != null)
+                {
+                    return new ApiErrorResult<bool>("Email đã tồn tại");
+                }
+                var user = new AppUser()
+                {
+                    Email = request.Email,
+                    HoTen = request.HoTen,
+                    NgaySinh = DateTime.Now,
+                    UserName = request.UserName,
+                    PhoneNumber = request.PhoneNumber
+                };
+                var result = await _userManager.CreateAsync(user, request.Password);
+                if (result.Succeeded)
+                {
+                    var u = await _userManager.FindByNameAsync(request.UserName);
+                    await _userManager.AddToRolesAsync(u, request.DsRole);
+                    return new ApiSuccessResult<bool>();
+                }
+            }
+            else
+            {
+                var users = await _userManager.FindByIdAsync(request.UserId.ToString());
+                if(users.UserName != request.UserName)
+                {
+                    var usercheck = _userManager.FindByNameAsync(request.UserName).Result;
+                    if (usercheck != null)
+                    {
+                        return new ApiErrorResult<bool>("Tài khoản đã tồn tại");
+                    }
+                }
+                if(users.Email != request.Email)
+                {
+                    var usercheck = await _userManager.FindByEmailAsync(request.Email);
+                    if (usercheck != null)
+                    {
+                        return new ApiErrorResult<bool>("Email đã tồn tại");
+                    }
+                }
 
+                users.Email = request.Email;
+                users.HoTen = request.HoTen;
+                users.NgaySinh = DateTime.Now;
+                users.UserName = request.UserName;
+                users.PhoneNumber = request.PhoneNumber;
+                var result = await _userManager.UpdateAsync(users);
+                if (result.Succeeded)
+                {
+                    var currentRoles = await _userManager.GetRolesAsync(users);
+                    var u = await _userManager.FindByNameAsync(request.UserName);
+                    await _userManager.RemoveFromRolesAsync(users, currentRoles);
+                    await _userManager.AddToRolesAsync(u, request.DsRole);
+                    return new ApiSuccessResult<bool>();
+                }
+            }
+
+            return new ApiErrorResult<bool>("Đăng ký không thành công");
+        }
         public async Task<ApiResult<UserLoginViewModel>> Authencate(LoginRequest request)
         {
             var user = await _userManager.FindByNameAsync(request.Username);
@@ -135,6 +204,68 @@ namespace QuanLyThueDat.Application.Service
             catch (Exception ex)
             {
                 return new ApiErrorResult<bool>("Cập nhật không thành công");
+            }
+        }
+        public async Task<ApiResult<PageViewModel<UserViewModel>>> GetAllPaging(string keyword, int pageIndex, int pageSize)
+        {
+            var query = from a in _context.AppUser
+                        select a ;
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                query = query.Where(x => (x.HoTen.ToLower().Contains(keyword.ToLower())) || (x.UserName.ToLower().Contains(keyword.ToLower())));
+            }
+
+            var data = query.OrderByDescending(x => x.UserName)
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize).ToList();
+            var listItem = new List<UserViewModel>();
+            foreach (var entity in data)
+            {
+                var user = new UserViewModel
+                {
+                    UserId = entity.Id,
+                    HoTen = entity.HoTen,   
+                    DonVi = entity.DonVi,
+                    UserName = entity.UserName, 
+                    PhoneNumber = entity.PhoneNumber,
+                    Email = entity.Email,
+                };
+                var listRole = await _userManager.GetRolesAsync(entity);
+                user.DsRole = listRole.ToList();          
+                listItem.Add(user);
+            }
+            var result = new PageViewModel<UserViewModel>()
+            {
+                Items = listItem,
+                PageIndex = pageIndex,
+                TotalRecord = query.Count(),
+                PageSize = pageSize
+            };
+            return new ApiSuccessResult<PageViewModel<UserViewModel>>() { Data = result };
+        }
+        public async Task<ApiResult<UserViewModel>> GetById(Guid idTaiKhoan)
+        {
+            var result = new UserViewModel();
+            var entity = _context.AppUser.FirstOrDefault(x => x.Id == idTaiKhoan);
+            if (entity != null)
+            {
+                result = new UserViewModel
+                {
+                    UserId = entity.Id,
+                    HoTen = entity.HoTen,
+                    DonVi = entity.DonVi,
+                    UserName = entity.UserName,
+                    PhoneNumber = entity.PhoneNumber,
+                    Email = entity.Email,
+                };
+                var listRole = await _userManager.GetRolesAsync(entity);
+                result.DsRole = listRole.ToList();
+                return new ApiSuccessResult<UserViewModel>() { Data = result };
+
+            }
+            else
+            {
+                return new ApiErrorResult<UserViewModel>("Không tìm thấy dữ liệu");
             }
         }
     }

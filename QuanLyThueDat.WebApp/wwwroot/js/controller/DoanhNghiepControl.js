@@ -2,7 +2,6 @@
 DoanhNghiepControl = {
     Init: function () {
         DoanhNghiepControl.RegisterEvents();
-
     },
 
     LoadDatatable: function (opts) {
@@ -30,7 +29,9 @@ DoanhNghiepControl = {
                         "data": "RN",
                         "defaultContent": "1",
                         render: function (data, type, row, meta) {
-                            return meta.row + 1;
+                            var tables = $('#tbl').DataTable();
+                            var info = tables.page.info();
+                            return info.start + meta.row + 1;
                         }
                     },
                     {
@@ -198,7 +199,7 @@ DoanhNghiepControl = {
             callback: function (res) {
                 if (res.IsSuccess) {
                     toastr.success('Thực hiện thành công', 'Thông báo')
-                    self.table.ajax.reload();
+                    self.table.ajax.reload(null, false)
                     $('#btnCloseDoanhNghiep').trigger('click');
                 }
                 else {

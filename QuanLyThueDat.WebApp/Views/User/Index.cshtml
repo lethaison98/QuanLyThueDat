@@ -1,5 +1,97 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section>
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Quản lý tài khoản</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+                        <li class="breadcrumb-item active">Quản lý tài khoản</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+</section>
+<section>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Tìm kiếm Tài khoản</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-9 col-md-9 col-lg-9 col-xl-9">
+                                <div class="ttls-cm">
+                                    <div class="ttls-label">Từ khóa</div>
+                                    <div class="ttls-content">
+                                        <input type="text" id="txtKEY_WORD" placeholder="Nhập từ khóa tìm kiếm..." class="form-control" data-name="Keyword" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-3 col-md-3 col-lg-3 col-xl-3">
+                                <div class="ttls-cm">
+                                    <div class="ttls-label">&nbsp;</div>
+                                    <div class="ttls-content">
+                                        <a class="btn btn-sm btn-primary waves-effect waves-light" id="btnSearchTaiKhoan">
+                                            <span>Tra cứu</span>
+                                            <i class="fas fa-search"></i>
+                                        </a>
+<button class="btn btn-primary btn-sm ladda-button" id="btn-create" type="button" style="margin-right:5px" data-style="expand-right">
+                                        <span class="ladda-label"><i class="fa fa-plus" style="margin-right:2px"></i>Thêm mới</span>
+                                    <span class="ladda-spinner"></span><div class="ladda-progress" style="width: 0px;"></div></button>@*                                        <a class="btn btn-sm btn-success waves-effect waves-light" id="btnCreateTaiKhoan">
+                                            <span>Tạo mới</span>
+                                            <i class="fas fa-plus"></i>
+                                        </a>*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Danh sách Tài khoản</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="tblTaiKhoan" class="table table-bordered table-hover table-striped" style="width: 100%">
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Họ tên</th>
+                                    <th>Tài khoản</th>
+                                    <th>Quyền</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+</section>
+@await Html.PartialAsync("FormEditTaiKhoan")
+@section Scripts{
+<script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment-with-locales.min.js"></script>
+<script src="~/js/controller/TaiKhoanControl.js"></script>
 }

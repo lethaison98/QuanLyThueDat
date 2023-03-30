@@ -12,9 +12,13 @@ namespace QuanLyThueDat.Application.Interfaces
     public  interface IUserService
     {
         public Task<ApiResult<UserLoginViewModel>> Authencate(LoginRequest request);
+        public Task<ApiResult<bool>> InsertUpdate(UserRequest request);
         public Task<ApiResult<bool>> Register(RegisterRequest request);
         public Task<ApiResult<bool>> InsertRole(RoleRequest request);
         public Task<ApiResult<bool>> InsertRoleClaims(string roleId, List<Claim> listClaims);
         public Task<ApiResult<bool>> InsertUser_Role(string userId, List<string> listRoles);
+        public Task<ApiResult<PageViewModel<UserViewModel>>> GetAllPaging(string keyword, int pageIndex, int pageSize);
+        public Task<ApiResult<UserViewModel>> GetById(Guid idTaiKhoan);
+
     }
 }

@@ -22,7 +22,11 @@ namespace QuanLyThueDat.WebApp.Controllers
             _userApiClient = userApiClient;
             _configuration = configuration;
         }
-
+        [HttpGet]
+        public IActionResult Index()
+        {
+            return View();
+        }
         [HttpGet]
         public IActionResult Login()
         {

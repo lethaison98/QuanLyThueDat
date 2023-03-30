@@ -37,7 +37,9 @@ QuyetDinhThueDatControl = {
                         "data": "RN",
                         "defaultContent": "1",
                         render: function (data, type, row, meta) {
-                            return meta.row + 1;
+                            var tables = $('#tblQuyetDinhThueDat').DataTable();
+                            var info = tables.page.info();
+                            return info.start + meta.row + 1;
                         }
                     },
                     {
