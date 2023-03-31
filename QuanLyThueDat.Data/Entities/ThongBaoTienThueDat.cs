@@ -12,6 +12,7 @@ namespace QuanLyThueDat.Data.Entities
         public int IdDoanhNghiep { get; set; }
         public DoanhNghiep DoanhNghiep { get; set; }
         public int? IdQuyetDinhThueDat { get; set; }
+        public int? IdQuyetDinhThueDatChiTiet { get; set; }
         public int? IdHopDongThueDat { get; set; }
         public int? IdQuyetDinhMienTienThueDat { get; set; }
         public int? IdThongBaoDonGiaThueDat { get; set; }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QuanLyThueDat.Data.EF;
 
@@ -11,9 +12,10 @@ using QuanLyThueDat.Data.EF;
 namespace QuanLyThueDat.Data.Migrations
 {
     [DbContext(typeof(QuanLyThueDatDbContext))]
-    partial class QuanLyThueDatDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230330101649_Initial10")]
+    partial class Initial10
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
