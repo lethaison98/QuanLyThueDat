@@ -230,7 +230,8 @@ HopDongThueDatControl = {
                                             popup.find('.ddDoanhNghiep').append('<option value="' + res.Data.IdDoanhNghiep + '">' + res.Data.TenDoanhNghiep + '</option>');
                                         }
                                         if (res.Data.IdQuyetDinhThueDat != null) {
-                                            popup.find('.ddDoanhNghiep').append('<option value="' + res.Data.IdQuyetDinhThueDat + '">' + res.Data.SoQuyetDinhThueDat + " - " + res.Data.NgayQuyetDinhThueDat + '</option>');
+                                            console.log(111);
+                                            $('#popupDetailHopDongThueDat .ddQuyetDinhThueDat').append('<option value="' + res.Data.IdQuyetDinhThueDat + '">' + res.Data.SoQuyetDinhThueDat +'</option>');
                                         }
                                         setTimeout(function () {
                                             var checkRole = res.Data.QuyenDuLieu.AllowEdit;
@@ -376,6 +377,7 @@ HopDongThueDatControl = {
                     } else {
                         self.LoadDanhSachDoanhNghiep();
                     }
+                    self.LoadDanhSachQuyetDinhThueDat();
                     self.RegisterEventsPopup();
 
                 }
@@ -397,6 +399,7 @@ HopDongThueDatControl = {
         var self = this;
         var data = LoadFormData("#FormDetailHopDongThueDat");
         data.IdDoanhNghiep = $(".ddDoanhNghiep option:selected").val();
+        data.IdQuyetDinhThueDat = $(".ddQuyetDinhThueDat option:selected").val();
         var fileTaiLieu = [];
         if ($('[data-name="FileHopDongThueDat"]').attr("data-idFile") != undefined) {
             fileTaiLieu.push({
@@ -436,7 +439,33 @@ HopDongThueDatControl = {
             }
         });
     },
+    LoadDanhSachQuyetDinhThueDat: function () {
+        var popup = $('#popupDetailHopDongThueDat')
+        Get({
+            url: localStorage.getItem("API_URL") + "/QuyetDinhThueDat/GetListQuyetDinhThueDatChiTiet",
+            data: {
+                idDoanhNghiep: popup.find(".ddDoanhNghiep option:selected").val()
+            },
+            showLoading: true,
+            callback: function (res) {
+                popup.find('.ddQuyetDinhThueDat').html('');
+                popup.find('.ddQuyetDinhThueDat').append('<option value= "" selected="true" style="display: none"></option>');
+                $.each(res.Data, function (i, item) {
+                    if (item.HinhThucThue == "ThueDatTraTienHangNam" || item.HinhThucThue == "HopDongThueLaiDat") {
+                        var name = item.SoQuyetDinhThueDat + " - " + item.TextHinhThucThue + " - Diện tích " + item.TongDienTich + "  (m<sup>2</sup>)"
+                        popup.find('.ddQuyetDinhThueDat').append('<option value=' + item.IdQuyetDinhThueDat + ' index= ' + i + '>' + name + '</option>');
+                    }
 
+                })
+                popup.find('.ddQuyetDinhThueDat').on('change', function () {
+                    if (popup.find(".ddQuyetDinhThueDat option:selected").val() != undefined) {
+                        var qd = res.Data[popup.find(".ddQuyetDinhThueDat option:selected").attr("index")];
+                    }
+                });
+                popup.find('.ddQuyetDinhThueDat').trigger('change');
+            }
+        });
+    },
 }
 
 $(document).ready(function () {

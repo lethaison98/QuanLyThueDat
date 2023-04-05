@@ -232,6 +232,8 @@ namespace QuanLyThueDat.Application.Service
                 };
                 if (entity.IdQuyetDinhThueDat != null)
                 {
+                    var quyetDinhThueDat = await _quyetDinhThueDatService.GetById(entity.IdQuyetDinhThueDat.Value);
+                    result.SoQuyetDinhThueDat = quyetDinhThueDat.Data.SoQuyetDinhThueDat + " - ngày " + quyetDinhThueDat.Data.NgayQuyetDinhThueDat;
                     result.QuyenDuLieu = _quyetDinhThueDatService.CheckQuyenDuLieu(entity.IdQuyetDinhThueDat.Value);
                 }
                 var listFileViewModel = new List<FileTaiLieuViewModel>();

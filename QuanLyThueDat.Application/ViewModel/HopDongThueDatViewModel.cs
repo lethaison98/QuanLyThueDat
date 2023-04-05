@@ -12,6 +12,7 @@ namespace QuanLyThueDat.Application.ViewModel
         public int IdDoanhNghiep { get; set; }
         public string TenDoanhNghiep { get; set; }
         public int? IdQuyetDinhThueDat { get; set; }
+        public string SoQuyetDinhThueDat { get; set; }
         public string SoHopDong { get; set; }
         public string TenHopDong { get; set; }
         public string NgayKyHopDong { get; set; }

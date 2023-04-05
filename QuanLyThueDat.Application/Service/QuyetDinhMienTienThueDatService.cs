@@ -40,7 +40,7 @@ namespace QuanLyThueDat.Application.Service
                 entity = new QuyetDinhMienTienThueDat()
                 {
                     IdQuyetDinhMienTienThueDat = rq.IdQuyetDinhMienTienThueDat,
-                    IdQuyetDinhThueDat = rq.IdQuyetDinhMienTienThueDat,
+                    IdQuyetDinhThueDat = rq.IdQuyetDinhThueDat,
                     IdDoanhNghiep = rq.IdDoanhNghiep,
                     SoQuyetDinhMienTienThueDat = rq.SoQuyetDinhMienTienThueDat,
                     TenQuyetDinhMienTienThueDat = rq.TenQuyetDinhMienTienThueDat,
@@ -223,6 +223,7 @@ namespace QuanLyThueDat.Application.Service
                     IdQuyetDinhMienTienThueDat = entity.IdQuyetDinhMienTienThueDat,
                     IdDoanhNghiep = entity.IdDoanhNghiep,
                     TenDoanhNghiep = entity.DoanhNghiep.TenDoanhNghiep,
+                    IdQuyetDinhThueDat = entity.IdQuyetDinhThueDat,
                     MaSoThue = entity.DoanhNghiep.MaSoThue,
                     SoQuyetDinhMienTienThueDat = entity.SoQuyetDinhMienTienThueDat,
                     TenQuyetDinhMienTienThueDat = entity.TenQuyetDinhMienTienThueDat,
@@ -235,7 +236,9 @@ namespace QuanLyThueDat.Application.Service
                 };
                 if (entity.IdQuyetDinhThueDat != null)
                 {
+                    var quyetDinhThueDat = await _quyetDinhThueDatService.GetById(entity.IdQuyetDinhThueDat.Value);
                     result.QuyenDuLieu = _quyetDinhThueDatService.CheckQuyenDuLieu(entity.IdQuyetDinhThueDat.Value);
+                    result.SoQuyetDinhThueDat = quyetDinhThueDat.Data.SoQuyetDinhThueDat + " - ngày " + quyetDinhThueDat.Data.NgayQuyetDinhThueDat;
                 }
                 var listFileViewModel = new List<FileTaiLieuViewModel>();
                 var listFile = _context.FileTaiLieu.Include(x => x.File).Where(x => x.IdLoaiTaiLieu == NhomLoaiTaiLieuConstant.NhomQuyetDinhMienTienThueDat && x.IdTaiLieu == entity.IdQuyetDinhMienTienThueDat && x.TrangThai != 4).ToList();
