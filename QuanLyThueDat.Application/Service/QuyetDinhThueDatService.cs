@@ -103,16 +103,16 @@ namespace QuanLyThueDat.Application.Service
             entity.DsQuyetDinhThueDatChiTiet = listQuyetDinhThueDatChiTiet;
             _context.QuyetDinhThueDat.Update(entity);
             await _context.SaveChangesAsync();
-            var listIdOldFile = rq.FileTaiLieu.Where(x => x.IdFileTaiLieu > 0).Select(x=> x.IdFileTaiLieu);
+            var listIdOldFile = rq.FileTaiLieu.Where(x => x.IdFileTaiLieu > 0).Select(x => x.IdFileTaiLieu);
             var listRemoveFile = _context.FileTaiLieu.Where(x => x.IdTaiLieu == entity.IdQuyetDinhThueDat && x.IdLoaiTaiLieu == NhomLoaiTaiLieuConstant.NhomQuyetDinhThueDat && !listIdOldFile.Contains(x.IdFileTaiLieu));
-            foreach(var item in listRemoveFile)
+            foreach (var item in listRemoveFile)
             {
                 item.TrangThai = 4;
             }
             _context.FileTaiLieu.UpdateRange(listRemoveFile);
 
             var listNewFile = rq.FileTaiLieu.Where(x => x.IdFileTaiLieu == 0);
-            foreach(var item in listNewFile)
+            foreach (var item in listNewFile)
             {
                 item.IdTaiLieu = entity.IdQuyetDinhThueDat;
                 item.IdLoaiTaiLieu = NhomLoaiTaiLieuConstant.NhomQuyetDinhThueDat;
@@ -177,7 +177,9 @@ namespace QuanLyThueDat.Application.Service
                     MucDichSuDung = item.MucDichSuDung,
                     HinhThucThue = item.HinhThucThue,
                     ViTriThuaDat = item.ViTriThuaDat,
-                    DiaChiThuaDat = item.DiaChiThuaDat
+                    DiaChiThuaDat = item.DiaChiThuaDat,
+                    IdQuanHuyen = item.IdQuanHuyen,
+                    IdPhuongXa = item.IdPhuongXa
                 };
                 result.Add(QuyetDinhThueDat);
             }
@@ -190,7 +192,7 @@ namespace QuanLyThueDat.Application.Service
                         select a;
             if (!string.IsNullOrEmpty(keyword))
             {
-                query = query.Where(x => x.TenQuyetDinhThueDat.ToLower().Contains(keyword.ToLower()) || x.DoanhNghiep.MaSoThue.ToLower().Contains(keyword.ToLower())|| x.DoanhNghiep.TenDoanhNghiep.ToLower().Contains(keyword.ToLower()));
+                query = query.Where(x => x.TenQuyetDinhThueDat.ToLower().Contains(keyword.ToLower()) || x.DoanhNghiep.MaSoThue.ToLower().Contains(keyword.ToLower()) || x.DoanhNghiep.TenDoanhNghiep.ToLower().Contains(keyword.ToLower()));
             }
             if (idDoanhNghiep != null)
             {
@@ -222,6 +224,7 @@ namespace QuanLyThueDat.Application.Service
                     ViTriThuaDat = entity.ViTriThuaDat,
                     DiaChiThuaDat = entity.DiaChiThuaDat
                 };
+                quyetDinhThueDat.QuyenDuLieu = CheckQuyenDuLieu(quyetDinhThueDat.IdQuyetDinhThueDat);
                 var listFileViewModel = new List<FileTaiLieuViewModel>();
                 var listFile = _context.FileTaiLieu.Include(x => x.File).Where(x => x.IdLoaiTaiLieu == NhomLoaiTaiLieuConstant.NhomQuyetDinhThueDat && x.IdTaiLieu == entity.IdQuyetDinhThueDat && x.TrangThai != 4).ToList();
                 foreach (var item in listFile)
@@ -275,6 +278,7 @@ namespace QuanLyThueDat.Application.Service
                     //MucDichSuDung = entity.MucDichSuDung,
                     //HinhThucThue = entity.HinhThucThue,
                 };
+                result.QuyenDuLieu = CheckQuyenDuLieu(idQuyetDinhThueDat);
                 if (entity.DsQuyetDinhThueDatChiTiet != null)
                 {
                     var listct = new List<QuyetDinhThueDatChiTietViewModel>();
@@ -295,7 +299,7 @@ namespace QuanLyThueDat.Application.Service
                     result.DsQuyetDinhThueDatChiTiet = listct;
                     var listFileViewModel = new List<FileTaiLieuViewModel>();
                     var listFile = _context.FileTaiLieu.Include(x => x.File).Where(x => x.IdLoaiTaiLieu == NhomLoaiTaiLieuConstant.NhomQuyetDinhThueDat && x.IdTaiLieu == entity.IdQuyetDinhThueDat && x.TrangThai != 4).ToList();
-                    foreach(var item in listFile)
+                    foreach (var item in listFile)
                     {
                         var fileViewModel = new FileTaiLieuViewModel();
                         fileViewModel.IdFileTaiLieu = item.IdFileTaiLieu;
@@ -308,7 +312,7 @@ namespace QuanLyThueDat.Application.Service
                         listFileViewModel.Add(fileViewModel);
                     }
                     result.DsFileTaiLieu = listFileViewModel;
-                    
+
                 }
                 return new ApiSuccessResult<QuyetDinhThueDatViewModel>() { Data = result };
 
@@ -323,11 +327,11 @@ namespace QuanLyThueDat.Application.Service
             var result = new List<QuyetDinhThueDatViewModel>();
             var data = new List<QuyetDinhThueDat>();
 
-            data = await _context.QuyetDinhThueDat.Include(x => x.DoanhNghiep).Include(x=> x.DsQuyetDinhThueDatChiTiet).Where(x => x.IdDoanhNghiep == idDoanhNghiep).ToListAsync();
-            
+            data = await _context.QuyetDinhThueDat.Include(x => x.DoanhNghiep).Include(x => x.DsQuyetDinhThueDatChiTiet).Where(x => x.IdDoanhNghiep == idDoanhNghiep).ToListAsync();
+
             foreach (var item in data)
             {
-                if(item.DsQuyetDinhThueDatChiTiet.Count == 0)
+                if (item.DsQuyetDinhThueDatChiTiet.Count == 0)
                 {
                     var QuyetDinhThueDat = new QuyetDinhThueDatViewModel
                     {
@@ -353,7 +357,7 @@ namespace QuanLyThueDat.Application.Service
                 }
                 else
                 {
-                    foreach(var ct in item.DsQuyetDinhThueDatChiTiet)
+                    foreach (var ct in item.DsQuyetDinhThueDatChiTiet)
                     {
                         var QuyetDinhThueDat = new QuyetDinhThueDatViewModel
                         {
@@ -361,7 +365,7 @@ namespace QuanLyThueDat.Application.Service
                             IdDoanhNghiep = item.IdDoanhNghiep,
                             TenDoanhNghiep = item.DoanhNghiep.TenDoanhNghiep,
                             SoQuyetDinhThueDat = item.SoQuyetDinhThueDat,
-                            TenQuyetDinhThueDat = item.TenQuyetDinhThueDat ,
+                            TenQuyetDinhThueDat = item.TenQuyetDinhThueDat,
                             NgayQuyetDinhThueDat = item.NgayQuyetDinhThueDat != null ? item.NgayQuyetDinhThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                             SoQuyetDinhGiaoDat = item.SoQuyetDinhGiaoDat,
                             TenQuyetDinhGiaoDat = item.TenQuyetDinhGiaoDat,
@@ -378,9 +382,51 @@ namespace QuanLyThueDat.Application.Service
                         };
                         result.Add(QuyetDinhThueDat);
                     }
-                }         
+                }
             }
             return new ApiSuccessResult<List<QuyetDinhThueDatViewModel>>() { Data = result };
+        }
+        public async Task<ApiResult<List<QuyetDinhThueDatTheoQuanHuyenViewModel>>> GetDsQuyetDinhThueDatTheoQuanHuyen()
+        {
+            var result = new List<QuyetDinhThueDatTheoQuanHuyenViewModel>();
+            var listQH = (from qd in _context.QuyetDinhThueDat
+                          join qh in _context.QuanHuyen on qd.IdQuanHuyen equals qh.IdQuanHuyen
+                          select new QuyetDinhThueDatTheoQuanHuyenViewModel
+                          {
+                              IdQuanHuyen = qd.IdQuanHuyen,
+                              TenQuanHuyen = qh.TenQuanHuyen,
+                              DsQuyetDinhThueDat = new List<QuyetDinhThueDatViewModel>()
+                          }).Distinct().ToList();
+            var listQdThueDat = await GetAll(null);
+            if (listQdThueDat.IsSuccess && listQdThueDat.Data.Count > 0)
+            {
+                foreach (var qh in listQH)
+                {
+                    foreach (var qdThueDat in listQdThueDat.Data)
+                    {
+                        if (qh.IdQuanHuyen == qdThueDat.IdQuanHuyen)
+                        {
+                            qh.DsQuyetDinhThueDat.Add(qdThueDat);
+                        }
+                    }
+                }
+            }
+            result = listQH;
+            return new ApiSuccessResult<List<QuyetDinhThueDatTheoQuanHuyenViewModel>>() { Data = result };
+        }
+
+        public QuyenDuLieuViewModel CheckQuyenDuLieu(int idQuyetDinhThueDat)
+        {
+            var result = new QuyenDuLieuViewModel();
+            var claimsIdentity = _accessor.HttpContext.User.Identity as ClaimsIdentity;
+            var userId = claimsIdentity.FindFirst("UserId")?.Value;
+            var check = _context.CanBo_QuyetDinhThueDat.Where(x => x.IdCanBoQuanLy == userId && x.IdQuyetDinhThueDat == idQuyetDinhThueDat);
+            if (check.Any())
+            {
+                result.AllowEdit = true;
+                result.AllowEdit = true;
+            }
+            return result;
         }
     }
 }

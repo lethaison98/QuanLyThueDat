@@ -98,6 +98,10 @@ ThongBaoTienSuDungDatControl = {
                                     }
                                 });
                             }
+                            var show = "";
+                            if (!row.QuyenDuLieu.AllowEdit) {
+                                show = "style = 'display:none'";
+                            }
                             if (opts == undefined) {
                                 var thaotac = "<div class='hstn-func' style='text-align: center;' data-type='" + JSON.stringify(row) + "'>" +
                                     file + "&nbsp" +
@@ -109,17 +113,10 @@ ThongBaoTienSuDungDatControl = {
                                     file + "&nbsp" +
                                     "<a href='javascript:;' class='ThongBaoTienSuDungDat-export' data-id='" + row.IdThongBaoTienSuDungDat + "'><i class='fas fa-file-word' title='Xuất thông báo' ></i></a> &nbsp" +
                                     "<a href='javascript:;' class='ThongBaoTienSuDungDat-edit' data-id='" + row.IdThongBaoTienSuDungDat + "'><i class='fas fa-edit' title='Chỉnh sửa'></i></a>" +
-                                    "<a href='javascript:;' class='ThongBaoTienSuDungDat-remove text-danger' data-id='" + row.IdThongBaoTienSuDungDat + "'><i class='fas fa-trash-alt' title='Xóa' ></i></a>" +
+                                    "<a href='javascript:;' class='ThongBaoTienSuDungDat-remove text-danger' "+show+ "data-id='" + row.IdThongBaoTienSuDungDat + "'><i class='fas fa-trash-alt' title='Xóa' ></i></a>" +
                                     "</div>";
                                 return thaotac;
                             }
-
-                            var thaotac = "<div class='hstn-func' style='text-align: center;' data-type='" + JSON.stringify(row) + "'>" +
-                                "<a href='javascript:;' class='ThongBaoTienSuDungDat-export' data-id='" + row.IdThongBaoTienSuDungDat + "'><i class='fas fa-file-word' title='Xuất thông báo' ></i></a> &nbsp" +
-                                "<a href='javascript:;' class='ThongBaoTienSuDungDat-edit' data-id='" + row.IdThongBaoTienSuDungDat + "'><i class='fas fa-edit' title='Chỉnh sửa'></i></a>" +
-                                "<a href='javascript:;' class='ThongBaoTienSuDungDat-remove text-danger' data-id='" + row.IdThongBaoTienSuDungDat + "'><i class='fas fa-trash-alt' title='Xóa' ></i></a>" +
-                                "</div>";
-                            return thaotac;
                         }
                     }
                 ]
@@ -157,7 +154,18 @@ ThongBaoTienSuDungDatControl = {
                                         } else {
                                             $('#popupDetailThongBaoTienSuDungDat .ddDoanhNghiep').append('<option value="' + res.Data.IdDoanhNghiep + '">' + res.Data.TenDoanhNghiep + '</option>');
                                         }
-                                        self.RegisterEventsPopup();
+                                        setTimeout(function () {
+                                            var checkRole = res.Data.QuyenDuLieu.AllowEdit;
+                                            if (!checkRole) {
+                                                $("#popupDetailThongBaoTienSuDungDat").find('input').attr("disabled", true);
+                                                $("#popupDetailThongBaoTienSuDungDat").find('select').attr("disabled", true);
+                                                $("#popupDetailThongBaoTienSuDungDat").find('.fa-trash-alt').hide();
+                                                $("#popupDetailThongBaoTienSuDungDat").find('.fa-folder').attr("disabled", true);
+                                                $("#popupDetailThongBaoTienSuDungDat").find('.btn-success').hide();
+                                                $("#popupDetailThongBaoTienSuDungDat").find('.btn-primary').hide();                                            } else {
+                                                self.RegisterEventsPopup();
+                                            }
+                                        }, 200)
                                         if (res.Data.DsFileTaiLieu != null) {
                                             $.each(res.Data.DsFileTaiLieu, function (i, item) {
                                                 if (item.LoaiTaiLieu == "ThongBaoTienSuDungDat") {
@@ -219,17 +227,6 @@ ThongBaoTienSuDungDatControl = {
     },
     RegisterEventsPopup: function () {
         var self = this;
-        setTimeout(function () {
-            var checkRole = localStorage.getItem("Roles").includes("ThongBaoTienSuDungDat");
-            if (!checkRole) {
-                $("#popupDetailThongBaoTienSuDungDat").find('input').attr("disabled", true);
-                $("#popupDetailThongBaoTienSuDungDat").find('select').attr("disabled", true);
-                $("#popupDetailThongBaoTienSuDungDat").find('.fa-trash-alt').hide();
-                $("#popupDetailThongBaoTienSuDungDat").find('.fa-folder').attr("disabled", true);
-                $("#popupDetailThongBaoTienSuDungDat").find('.btn-success').hide();
-                $("#popupDetailThongBaoTienSuDungDat").find('.btn-primary').hide();
-            }
-        }, 200)
         $('.select2').select2();
         $('.datetimepicker-input').datetimepicker({
             format: 'DD/MM/YYYY'
@@ -293,7 +290,6 @@ ThongBaoTienSuDungDatControl = {
         var self = this;
         self.LoadDatatable(opts);
         $('#btnCreateThongBaoTienSuDungDat').off('click').on('click', function () {
-            console.log(1111);
             var $y = $(this);
             Get({
                 url: '/ThongBaoTienSuDungDat/PopupDetailThongBaoTienSuDungDat',

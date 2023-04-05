@@ -81,6 +81,10 @@ HopDongThueDatControl = {
                         //"data": "thaotac",
                         "defaultContent": "",
                         render: function (data, type, row) {
+                            var show = "";
+                            if (!row.QuyenDuLieu.AllowEdit) {
+                                show = "style = 'display:none'";
+                            }
                             if (opts == undefined) {
                                 var thaotac = "<div class='hstn-func' style='text-align: center;' data-type='" + JSON.stringify(row) + "'>" +
                                     "<a href='javascript:;' class='HopDongThueDat-view' data-id='" + row.IdHopDongThueDat + "'><i class='fas fa-eye' title='Xem'></i></a> &nbsp" +
@@ -90,7 +94,7 @@ HopDongThueDatControl = {
                                 var thaotac = "<div class='hstn-func' style='text-align: center;' data-type='" + JSON.stringify(row) + "'>" +
                                     "<a href='javascript:;' class='HopDongThueDat-view' data-id='" + row.IdHopDongThueDat + "'><i class='fas fa-eye' title='Xem'></i></a> &nbsp" +
                                     "<a href='javascript:;' class='HopDongThueDat-edit' data-id='" + row.IdHopDongThueDat + "'><i class='fas fa-edit' title='Sửa'></i></a>  &nbsp" +
-                                    "<a href='javascript:;' class='HopDongThueDat-remove text-danger' data-id='" + row.IdHopDongThueDat + "'><i class='fas fa-trash-alt' title='Xóa' ></i></a>" +
+                                    "<a href='javascript:;' class='HopDongThueDat-remove text-danger'"+show+" data-id='" + row.IdHopDongThueDat + "'><i class='fas fa-trash-alt' title='Xóa' ></i></a>" +
                                     "</div>";
                                 return thaotac;
                             }
@@ -228,7 +232,18 @@ HopDongThueDatControl = {
                                         if (res.Data.IdQuyetDinhThueDat != null) {
                                             popup.find('.ddDoanhNghiep').append('<option value="' + res.Data.IdQuyetDinhThueDat + '">' + res.Data.SoQuyetDinhThueDat + " - " + res.Data.NgayQuyetDinhThueDat + '</option>');
                                         }
-                                        self.RegisterEventsPopup();
+                                        setTimeout(function () {
+                                            var checkRole = res.Data.QuyenDuLieu.AllowEdit;
+                                            if (!checkRole) {
+                                                $("#popupDetailHopDongThueDat").find('input').attr("disabled", true);
+                                                $("#popupDetailHopDongThueDat").find('select').attr("disabled", true);
+                                                $("#popupDetailHopDongThueDat").find('.fa-trash-alt').hide();
+                                                $("#popupDetailHopDongThueDat").find('.fa-folder').attr("disabled", true);
+                                                $("#popupDetailHopDongThueDat").find('.btn-success').hide();
+                                                $("#popupDetailHopDongThueDat").find('.btn-primary').hide();                                            } else {
+                                                self.RegisterEventsPopup();
+                                            }
+                                        }, 200)
                                         if (res.Data.DsFileTaiLieu != null) {
                                             $.each(res.Data.DsFileTaiLieu, function (i, item) {
                                                 if (item.LoaiTaiLieu == "HopDongThueDat") {
@@ -290,17 +305,6 @@ HopDongThueDatControl = {
     },
     RegisterEventsPopup: function (opts) {
         var self = this;
-        setTimeout(function () {
-            var checkRole = localStorage.getItem("Roles").includes("HopDongThueDat");
-            if (!checkRole) {
-                $("#popupDetailHopDongThueDat").find('input').attr("disabled", true);
-                $("#popupDetailHopDongThueDat").find('select').attr("disabled", true);
-                $("#popupDetailHopDongThueDat").find('.fa-trash-alt').hide();
-                $("#popupDetailHopDongThueDat").find('.fa-folder').attr("disabled", true);
-                $("#popupDetailHopDongThueDat").find('.btn-success').hide();
-                $("#popupDetailHopDongThueDat").find('.btn-primary').hide();
-            }
-        }, 200)
         $('.select2').select2();
         $('.datetimepicker-input').datetimepicker({
             format: 'DD/MM/YYYY'

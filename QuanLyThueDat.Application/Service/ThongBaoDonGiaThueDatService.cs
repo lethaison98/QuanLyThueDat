@@ -20,10 +20,14 @@ namespace QuanLyThueDat.Application.Service
     {
         private readonly QuanLyThueDatDbContext _context;
         public IHttpContextAccessor _accessor;
-        public ThongBaoDonGiaThueDatService(QuanLyThueDatDbContext context, IHttpContextAccessor HttpContextAccessor)
+        private readonly IQuyetDinhThueDatService _quyetDinhThueDatService;
+
+        public ThongBaoDonGiaThueDatService(QuanLyThueDatDbContext context, IHttpContextAccessor HttpContextAccessor, IQuyetDinhThueDatService QuyetDinhThueDatService)
         {
             _context = context;
             _accessor = HttpContextAccessor;
+            _quyetDinhThueDatService = QuyetDinhThueDatService;
+
         }
         public async Task<ApiResult<int>> InsertUpdate(ThongBaoDonGiaThueDatRequest rq)
         {
@@ -216,6 +220,10 @@ namespace QuanLyThueDat.Application.Service
                     NgayHieuLucDonGiaThueDat = entity.NgayHieuLucDonGiaThueDat != null ? entity.NgayHieuLucDonGiaThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                     NgayHetHieuLucDonGiaThueDat = entity.NgayHetHieuLucDonGiaThueDat != null ? entity.NgayHetHieuLucDonGiaThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                 };
+                if (entity.IdQuyetDinhThueDat != null)
+                {
+                    thongBaoDonGiaThueDat.QuyenDuLieu = _quyetDinhThueDatService.CheckQuyenDuLieu(entity.IdQuyetDinhThueDat.Value);
+                }
                 var listFileViewModel = new List<FileTaiLieuViewModel>();
                 var listFile = _context.FileTaiLieu.Include(x => x.File).Where(x => x.IdLoaiTaiLieu == NhomLoaiTaiLieuConstant.NhomThongBaoDonGiaThueDat && x.IdTaiLieu == entity.IdThongBaoDonGiaThueDat && x.TrangThai != 4).ToList();
                 foreach (var item in listFile)
@@ -296,6 +304,10 @@ namespace QuanLyThueDat.Application.Service
                     HinhThucThue = entity.HinhThucThue,
                     LanhDaoKyThongBaoDonGiaThueDat = entity.LanhDaoKyThongBaoDonGiaThueDat
                 };
+                if(entity.IdQuyetDinhThueDat != null)
+                {
+                    result.QuyenDuLieu = _quyetDinhThueDatService.CheckQuyenDuLieu(entity.IdQuyetDinhThueDat.Value);
+                }
                 var listFileViewModel = new List<FileTaiLieuViewModel>();
                 var listFile = _context.FileTaiLieu.Include(x => x.File).Where(x => x.IdLoaiTaiLieu == NhomLoaiTaiLieuConstant.NhomThongBaoDonGiaThueDat && x.IdTaiLieu == entity.IdThongBaoDonGiaThueDat && x.TrangThai != 4).ToList();
                 foreach (var item in listFile)

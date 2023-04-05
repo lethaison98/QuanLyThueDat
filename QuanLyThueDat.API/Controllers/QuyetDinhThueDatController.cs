@@ -53,5 +53,11 @@ namespace QuanLyThueDat.API.Controllers
             var result = await _QuyetDinhThueDatService.GetById(idQuyetDinhThueDat);
             return Ok(result);
         }
+        [HttpGet("GetDsQuyetDinhThueDatTheoQuanHuyen")]
+        public async Task<IActionResult> GetDsQuyetDinhThueDatTheoQuanHuyen()
+        {
+            var result = await _QuyetDinhThueDatService.GetDsQuyetDinhThueDatTheoQuanHuyen();
+            return Ok(result);
+        }
     }
 }

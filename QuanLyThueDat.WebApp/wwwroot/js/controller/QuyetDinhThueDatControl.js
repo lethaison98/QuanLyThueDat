@@ -109,10 +109,14 @@ QuyetDinhThueDatControl = {
                                     "</div>";
                                 return thaotac;
                             } else {
+                                var show = "";
+                                if (!row.QuyenDuLieu.AllowEdit) {
+                                    show = "style = 'display:none'";
+                                }
                                 var thaotac = "<div class='hstn-func' style='text-align: center;' data-type='" + JSON.stringify(row) + "'>" +
                                     "<a href='javascript:;' class='QuyetDinhThueDat-view' data-id='" + row.IdQuyetDinhThueDat + "'><i class='fas fa-eye' title='Xem'></i></a> &nbsp" +
                                     "<a href='javascript:;' class='QuyetDinhThueDat-edit' data-id='" + row.IdQuyetDinhThueDat + "'><i class='fas fa-edit' title='Sửa'></i></a> &nbsp" +
-                                    "<a href='javascript:;' class='QuyetDinhThueDat-remove text-danger' data-id='" + row.IdQuyetDinhThueDat + "'><i class='fas fa-trash-alt' title='Xóa' ></i></a>" +
+                                    "<a href='javascript:;' class='QuyetDinhThueDat-remove text-danger'" + show+" data-id='" + row.IdQuyetDinhThueDat + "'><i class='fas fa-trash-alt' title='Xóa' ></i></a>" +
                                     "</div>";
                                 return thaotac;
                             }
@@ -267,7 +271,21 @@ QuyetDinhThueDatControl = {
                                             } else {
                                                 $('#popupDetailQuyetDinhThueDat .ddDoanhNghiep').append('<option value="' + res.Data.IdDoanhNghiep + '">' + res.Data.TenDoanhNghiep + '</option>');
                                             }
-                                            self.RegisterEventsPopup();
+
+                                            setTimeout(function () {
+                                                var checkRole = res.Data.QuyenDuLieu.AllowEdit;
+                                                if (!checkRole) {
+                                                    $("#popupDetailQuyetDinhThueDat").find('input').attr("disabled", true);
+                                                    $("#popupDetailQuyetDinhThueDat").find('select').attr("disabled", true);
+                                                    $("#popupDetailQuyetDinhThueDat").find('.fa-trash-alt').hide();
+                                                    $("#popupDetailQuyetDinhThueDat").find('.fa-folder').attr("disabled", true);
+                                                    $("#popupDetailQuyetDinhThueDat").find('.btn-success').hide();
+                                                    $("#popupDetailQuyetDinhThueDat").find('.btn-primary').hide();
+                                                } else {
+                                                    self.RegisterEventsPopup();
+                                                }
+                                            }, 200)
+
                                             if (res.Data.DsQuyetDinhThueDatChiTiet != null) {
                                                 $.each(res.Data.DsQuyetDinhThueDatChiTiet, function (i, item) {
                                                     var $td = $("#tempChiTietQuyetDinhThueDat").html();
@@ -331,7 +349,20 @@ QuyetDinhThueDatControl = {
                                             } else {
                                                 $('#popupDetailHopDongThueLaiDat .ddDoanhNghiep').append('<option value="' + res.Data.IdDoanhNghiep + '">' + res.Data.TenDoanhNghiep + '</option>');
                                             }
-                                            self.RegisterEventsPopup();
+
+                                            setTimeout(function () {
+                                                var checkRole = res.Data.QuyenDuLieu.AllowEdit;
+                                                if (!checkRole) {
+                                                    $("#popupDetailQuyetDinhThueDat").find('input').attr("disabled", true);
+                                                    $("#popupDetailQuyetDinhThueDat").find('select').attr("disabled", true);
+                                                    $("#popupDetailQuyetDinhThueDat").find('.fa-trash-alt').hide();
+                                                    $("#popupDetailQuyetDinhThueDat").find('.fa-folder').attr("disabled", true);
+                                                    $("#popupDetailQuyetDinhThueDat").find('.btn-success').hide();
+                                                    $("#popupDetailQuyetDinhThueDat").find('.btn-primary').hide();
+                                                } else {
+                                                    self.RegisterEventsPopup();
+                                                }
+                                            }, 200)
                                             if (res.Data.DsQuyetDinhThueDatChiTiet != null) {
                                                 $.each(res.Data.DsQuyetDinhThueDatChiTiet, function (i, item) {
                                                     var $td = $("#tempChiTietQuyetDinhThueDat").html();
@@ -423,20 +454,6 @@ QuyetDinhThueDatControl = {
     },
     RegisterEventsPopup: function (opts) {
         var self = this;
-        setTimeout(function () {
-            var checkRole = localStorage.getItem("Roles").includes("QuyetDinhThueDat");
-            console.log(checkRole)
-            if (!checkRole) {
-                debugger;
-                $("#popupDetailQuyetDinhThueDat").find('input').attr("disabled", true);
-                $("#popupDetailQuyetDinhThueDat").find('select').attr("disabled", true);
-                $("#popupDetailQuyetDinhThueDat").find('.fa-trash-alt').hide();
-                $("#popupDetailQuyetDinhThueDat").find('.fa-folder').attr("disabled", true);
-                $("#popupDetailQuyetDinhThueDat").find('.btn-success').hide();
-                $("#popupDetailQuyetDinhThueDat").find('.btn-primary').hide();
-            }
-        }, 200)
-
         $('.select2').select2();
         $('.datetimepicker-input').datetimepicker({
             format: 'DD/MM/YYYY'

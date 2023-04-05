@@ -21,5 +21,6 @@ namespace QuanLyThueDat.Application.ViewModel
         public string NgayHieuLucHopDong { get; set; }
         public string NgayHetHieuLucHopDong { get; set; }
         public List<FileTaiLieuViewModel> DsFileTaiLieu { get; set; }
+        public QuyenDuLieuViewModel QuyenDuLieu { get; set; } = new QuyenDuLieuViewModel();
     }
 }

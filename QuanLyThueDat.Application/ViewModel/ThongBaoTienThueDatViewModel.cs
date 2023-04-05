@@ -65,6 +65,7 @@ namespace QuanLyThueDat.Application.ViewModel
 
         public List<ThongBaoTienThueDatChiTietViewModel> DsThongBaoTienThueDatChiTiet { get; set; }
         public List<FileTaiLieuViewModel> DsFileTaiLieu { get; set; }
+        public QuyenDuLieuViewModel QuyenDuLieu { get; set; } = new QuyenDuLieuViewModel();
     }
 
     public class ThongBaoTienThueDatChiTietViewModel

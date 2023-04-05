@@ -268,5 +268,55 @@ namespace QuanLyThueDat.Application.Service
                 return new ApiErrorResult<UserViewModel>("Không tìm thấy dữ liệu");
             }
         }
+        public async Task<ApiResult<List<UserViewModel>>> GetDsChuyenVienPhuTrachKV()
+        {
+            var result = new List<UserViewModel>();
+            var listQH = (from user in _context.AppUser
+                          join userRole in _context.UserRoles on user.Id equals userRole.UserId
+                          join role in _context.AppRole on userRole.RoleId equals role.Id
+                          where role.Name == "CHUYENVIENPHUTRACHKV"
+                          select new UserViewModel
+                          {
+                              UserId = user.Id,
+                              UserName = user.UserName,
+                              HoTen = user.HoTen,
+                          }).Distinct().ToList();
+            result = listQH;
+            return new ApiSuccessResult<List<UserViewModel>>() { Data = result };
+        }
+        public async Task<ApiResult<bool>> PhanQuyenChuyenVienPhuTrachKV(PhanQuyenCanBoRequest rq)
+        {
+            try
+            {
+                foreach (var id in rq.IdCanBo)
+                {
+                    var canBo = await _userManager.FindByIdAsync(id);
+                    if (canBo != null)
+                    {
+                        var listOld = _context.CanBo_QuyetDinhThueDat.Where(x => x.IdCanBoQuanLy == id);
+                        _context.CanBo_QuyetDinhThueDat.RemoveRange(listOld);
+                        var listNew = new List<CanBo_QuyetDinhThueDat>();
+                        foreach (var qd in rq.IdQuyetDinhThueDat)
+                        {
+                            var cb_qd = new CanBo_QuyetDinhThueDat
+                            {
+                                IdCanBoQuanLy = id,
+                                IdQuyetDinhThueDat = qd,
+                                CanBo = canBo.HoTen
+                            };
+                            listNew.Add(cb_qd);
+                        }
+                        _context.CanBo_QuyetDinhThueDat.AddRange(listNew);
+                        await _context.SaveChangesAsync();
+                    }
+                }
+                return new ApiSuccessResult<bool>();
+            }catch (Exception ex)
+            {
+                return new ApiErrorResult<bool>("Cập nhật không thành công");
+
+            }
+
+        }
     }
 }

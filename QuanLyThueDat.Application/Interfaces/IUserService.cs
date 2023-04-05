@@ -19,6 +19,8 @@ namespace QuanLyThueDat.Application.Interfaces
         public Task<ApiResult<bool>> InsertUser_Role(string userId, List<string> listRoles);
         public Task<ApiResult<PageViewModel<UserViewModel>>> GetAllPaging(string keyword, int pageIndex, int pageSize);
         public Task<ApiResult<UserViewModel>> GetById(Guid idTaiKhoan);
+        public Task<ApiResult<List<UserViewModel>>> GetDsChuyenVienPhuTrachKV();
+        public Task<ApiResult<bool>> PhanQuyenChuyenVienPhuTrachKV(PhanQuyenCanBoRequest rq);
 
     }
 }

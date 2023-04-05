@@ -89,6 +89,10 @@ ThongBaoTienThueDatControl = {
                                     }
                                 });
                             }
+                            var show = "";
+                            if (!row.QuyenDuLieu.AllowEdit) {
+                                show = "style = 'display:none'";
+                            }
                             if (opts == undefined) {
                                 var thaotac = "<div class='hstn-func' style='text-align: center;' data-type='" + JSON.stringify(row) + "'>" +
                                     file + "&nbsp" +
@@ -99,7 +103,7 @@ ThongBaoTienThueDatControl = {
                                     file + "&nbsp" +
                                     "<a href='javascript:;' class='ThongBaoTienThueDat-export' data-id='" + row.IdThongBaoTienThueDat + "'><i class='fas fa-file-word' title='Xuất thông báo' ></i></a> &nbsp" +
                                     "<a href='javascript:;' class='ThongBaoTienThueDat-edit' data-id='" + row.IdThongBaoTienThueDat + "'><i class='fas fa-edit' title='Chỉnh sửa'></i></a> &nbsp" +
-                                    "<a href='javascript:;' class='ThongBaoTienThueDat-remove text-danger' data-id='" + row.IdThongBaoTienThueDat + "'><i class='fas fa-trash-alt' title='Xóa' ></i></a>" +
+                                    "<a href='javascript:;' class='ThongBaoTienThueDat-remove text-danger' "+show+"data-id='" + row.IdThongBaoTienThueDat + "'><i class='fas fa-trash-alt' title='Xóa' ></i></a>" +
                                     "</div>";
                                 return thaotac;
                             }
@@ -135,8 +139,19 @@ ThongBaoTienThueDatControl = {
                                         $('#popupDetailThongBaoTienThueDat .modal-title').text("Chỉnh sửa thông báo tiền thuê đất - " + opts.TenDoanhNghiep);
                                         FillFormData('#FormDetailThongBaoTienThueDat', res.Data);
                                         opts.LoaiThongBaoTienThueDat = res.Data.LoaiThongBaoTienThueDat;
-                                        self.RegisterEventsPopup(opts);
-                                        console.log(res);
+                                        setTimeout(function () {
+                                            var checkRole = res.Data.QuyenDuLieu.AllowEdit;
+                                            if (!checkRole) {
+                                                $("#popupDetailThongBaoTienThueDat").find('input').attr("disabled", true);
+                                                $("#popupDetailThongBaoTienThueDat").find('select').attr("disabled", true);
+                                                $("#popupDetailThongBaoTienThueDat").find('.fa-trash-alt').hide();
+                                                $("#popupDetailThongBaoTienThueDat").find('.fa-folder').attr("disabled", true);
+                                                $("#popupDetailThongBaoTienThueDat").find('.btn-success').hide();
+                                                $("#popupDetailThongBaoTienThueDat").find('.btn-primary').hide();
+                                            } else {
+                                                self.RegisterEventsPopup();
+                                            }
+                                        }, 200);
                                         if (res.Data.IdQuyetDinhThueDat != null) {
                                             $('#popupDetailThongBaoTienThueDat .ddQuyetDinhThueDat').append('<option value="' + res.Data.IdQuyetDinhThueDat + '">' + res.Data.SoQuyetDinhThueDat + " - " + res.Data.NgayQuyetDinhThueDat + '</option>');
                                         }
@@ -223,17 +238,6 @@ ThongBaoTienThueDatControl = {
     },
     RegisterEventsPopup: function (opts) {
         var self = this;
-        setTimeout(function () {
-            var checkRole = localStorage.getItem("Roles").includes("ThongBaoTienThueDat");
-            if (!checkRole) {
-                $("#popupDetailThongBaoTienThueDat").find('input').attr("disabled", true);
-                $("#popupDetailThongBaoTienThueDat").find('select').attr("disabled", true);
-                $("#popupDetailThongBaoTienThueDat").find('.fa-trash-alt').hide();
-                $("#popupDetailThongBaoTienThueDat").find('.fa-folder').attr("disabled", true);
-                $("#popupDetailThongBaoTienThueDat").find('.btn-success').hide();
-                $("#popupDetailThongBaoTienThueDat").find('.btn-primary').hide();
-            }
-        }, 200)
         var popup = $('#popupDetailThongBaoTienThueDat');
         $('.select2').select2();
         $('.datetimepicker-input').datetimepicker({

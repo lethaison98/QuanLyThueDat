@@ -31,6 +31,8 @@
 
 	<ItemGroup>
 	  <None Include="wwwroot\dist\img\background-login.jpeg" />
+	  <None Include="wwwroot\lib\treeview\dx.all.js" />
+	  <None Include="wwwroot\lib\treeview\sample.js" />
 	</ItemGroup>
 
 	<ItemGroup>

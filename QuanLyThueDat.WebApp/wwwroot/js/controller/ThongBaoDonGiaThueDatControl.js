@@ -100,6 +100,10 @@ ThongBaoDonGiaThueDatControl = {
                         //"data": "thaotac",
                         "defaultContent": "",
                         render: function (data, type, row) {
+                            var show = "";
+                            if (!row.QuyenDuLieu.AllowEdit) {
+                                show = "style = 'display:none'";
+                            }
                             if (opts == undefined) {
                                 var thaotac = "<div class='hstn-func' style='text-align: center;' data-type='" + JSON.stringify(row) + "'>" +
                                     "<a href='javascript:;' class='ThongBaoDonGiaThueDat-export' data-id='" + row.IdThongBaoDonGiaThueDat + "'><i class='fas fa-file-word' title='Xuất thông báo' ></i></a> &nbsp" +
@@ -109,7 +113,7 @@ ThongBaoDonGiaThueDatControl = {
                                 var thaotac = "<div class='hstn-func' style='text-align: center;' data-type='" + JSON.stringify(row) + "'>" +
                                     "<a href='javascript:;' class='ThongBaoDonGiaThueDat-export' data-id='" + row.IdThongBaoDonGiaThueDat + "'><i class='fas fa-file-word' title='Xuất thông báo' ></i></a> &nbsp" +
                                     "<a href='javascript:;' class='ThongBaoDonGiaThueDat-edit' data-id='" + row.IdThongBaoDonGiaThueDat + "'><i class='fas fa-edit' title='Chỉnh sửa'></i></a>" +
-                                    "<a href='javascript:;' class='ThongBaoDonGiaThueDat-remove text-danger' data-id='" + row.IdThongBaoDonGiaThueDat + "'><i class='fas fa-trash-alt' title='Xóa' ></i></a>" +
+                                    "<a href='javascript:;' class='ThongBaoDonGiaThueDat-remove text-danger' "+show+" data-id='" + row.IdThongBaoDonGiaThueDat + "'><i class='fas fa-trash-alt' title='Xóa' ></i></a>" +
                                     "</div>";
                                 return thaotac;
                             }
@@ -154,7 +158,18 @@ ThongBaoDonGiaThueDatControl = {
                                             $('#popupDetailThongBaoDonGiaThueDat .ddQuyetDinhThueDat').append('<option value="' + res.Data.IdQuyetDinhThueDat + '">' + res.Data.SoQuyetDinhThueDat + " - " + res.Data.NgayQuyetDinhThueDat + '</option>');
                                         }
 
-                                        self.RegisterEventsPopup();
+                                        setTimeout(function () {
+                                            var checkRole = res.Data.QuyenDuLieu.AllowEdit;
+                                            if (!checkRole) {
+                                                $("#popupDetailThongBaoDonGiaThueDat").find('input').attr("disabled", true);
+                                                $("#popupDetailThongBaoDonGiaThueDat").find('select').attr("disabled", true);
+                                                $("#popupDetailThongBaoDonGiaThueDat").find('.fa-trash-alt').hide();
+                                                $("#popupDetailThongBaoDonGiaThueDat").find('.fa-folder').attr("disabled", true);
+                                                $("#popupDetailThongBaoDonGiaThueDat").find('.btn-success').hide();
+                                                $("#popupDetailThongBaoDonGiaThueDat").find('.btn-primary').hide();                                            } else {
+                                                self.RegisterEventsPopup();
+                                            }
+                                        }, 200)
                                         if (res.Data.DsFileTaiLieu != null) {
                                             $.each(res.Data.DsFileTaiLieu, function (i, item) {
                                                 if (item.LoaiTaiLieu == "ThongBaoDonGiaThueDat") {
@@ -216,17 +231,6 @@ ThongBaoDonGiaThueDatControl = {
     },
     RegisterEventsPopup: function () {
         var self = this;
-        setTimeout(function () {
-            var checkRole = localStorage.getItem("Roles").includes("ThongBaoDonGiaThueDat");
-            if (!checkRole) {
-                $("#popupDetailThongBaoDonGiaThueDat").find('input').attr("disabled", true);
-                $("#popupDetailThongBaoDonGiaThueDat").find('select').attr("disabled", true);
-                $("#popupDetailThongBaoDonGiaThueDat").find('.fa-trash-alt').hide();
-                $("#popupDetailThongBaoDonGiaThueDat").find('.fa-folder').attr("disabled", true);
-                $("#popupDetailThongBaoDonGiaThueDat").find('.btn-success').hide();
-                $("#popupDetailThongBaoDonGiaThueDat").find('.btn-primary').hide();
-            }
-        }, 200)
         $('.select2').select2();
         $('.datetimepicker-input').datetimepicker({
             format: 'DD/MM/YYYY'

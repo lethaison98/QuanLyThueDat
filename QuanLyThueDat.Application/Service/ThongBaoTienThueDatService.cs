@@ -21,11 +21,14 @@ namespace QuanLyThueDat.Application.Service
         private readonly QuanLyThueDatDbContext _context;
         public IHttpContextAccessor _accessor;
         public IThongBaoDonGiaThueDatService _thongBaoDonGiaThueDatService;
-        public ThongBaoTienThueDatService(QuanLyThueDatDbContext context, IThongBaoDonGiaThueDatService thongBaoDonGiaThueDatService, IHttpContextAccessor HttpContextAccessor)
+        private readonly IQuyetDinhThueDatService _quyetDinhThueDatService;
+        public ThongBaoTienThueDatService(QuanLyThueDatDbContext context, IThongBaoDonGiaThueDatService thongBaoDonGiaThueDatService, IHttpContextAccessor HttpContextAccessor, IQuyetDinhThueDatService QuyetDinhThueDatService)
         {
             _context = context;
             _accessor = HttpContextAccessor;
             _thongBaoDonGiaThueDatService = thongBaoDonGiaThueDatService;
+            _quyetDinhThueDatService = QuyetDinhThueDatService;
+
         }
 
         public async Task<ApiResult<int>> InsertUpdate(ThongBaoTienThueDatRequest rq)
@@ -312,6 +315,10 @@ namespace QuanLyThueDat.Application.Service
                     TuNgayThue = entity.TuNgayThue != null ? entity.TuNgayThue.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                     TongDienTich = entity.TongDienTich.ToString("N", new CultureInfo("vi-VN")),
                 };
+                if (entity.IdQuyetDinhThueDat != null)
+                {
+                    thongBaoTienThueDat.QuyenDuLieu = _quyetDinhThueDatService.CheckQuyenDuLieu(entity.IdQuyetDinhThueDat.Value);
+                }
                 var listFileViewModel = new List<FileTaiLieuViewModel>();
                 var listFile = _context.FileTaiLieu.Include(x => x.File).Where(x => x.IdLoaiTaiLieu == NhomLoaiTaiLieuConstant.NhomThongBaoTienThueDat && x.IdTaiLieu == entity.IdThongBaoTienThueDat && x.TrangThai != 4).ToList();
                 foreach (var item in listFile)
@@ -398,6 +405,10 @@ namespace QuanLyThueDat.Application.Service
                     TuNgayThue = entity.TuNgayThue != null ? entity.TuNgayThue.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                     TongDienTich = entity.TongDienTich.ToString("N", new CultureInfo("vi-VN")),
                 };
+                if (entity.IdQuyetDinhThueDat != null)
+                {
+                    result.QuyenDuLieu = _quyetDinhThueDatService.CheckQuyenDuLieu(entity.IdQuyetDinhThueDat.Value);
+                }
                 if (entity.DsThongBaoTienThueDatChiTiet != null)
                 {
                     var listct = new List<ThongBaoTienThueDatChiTietViewModel>();

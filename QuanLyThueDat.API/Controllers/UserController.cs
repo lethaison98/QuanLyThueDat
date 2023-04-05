@@ -79,20 +79,6 @@ namespace QuanLyThueDat.API.Controllers
             }
             return Ok(result);
         }
-        [HttpPost("InsertUser_Role")]
-        [Authorize]
-        public async Task<IActionResult> InsertUser_Role(List<string> listRoles)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var result = await _userService.InsertUser_Role("admin", listRoles);
-            if (!result.IsSuccess)
-            {
-                return BadRequest(result);
-            }
-            return Ok(result);
-        }
         [HttpGet("GetAllPaging")]
         public async Task<IActionResult> GetAllPaging(string keyword = "", int pageNumber = 1, int pageSize = 10)
         {
@@ -104,6 +90,18 @@ namespace QuanLyThueDat.API.Controllers
         public async Task<IActionResult> GetById(string idTaiKhoan)
         {
             var result = await _userService.GetById(new Guid(idTaiKhoan));
+            return Ok(result);
+        }
+        [HttpGet("GetDsChuyenVienPhuTrachKV")]
+        public async Task<IActionResult> GetDsChuyenVienPhuTrachKV()
+        {
+            var result = await _userService.GetDsChuyenVienPhuTrachKV();
+            return Ok(result);
+        }
+        [HttpPost("PhanQuyenChuyenVienPhuTrachKV")]
+        public async Task<IActionResult> PhanQuyenChuyenVienPhuTrachKV(PhanQuyenCanBoRequest rq)
+        {
+            var result = await _userService.PhanQuyenChuyenVienPhuTrachKV(rq);
             return Ok(result);
         }
     }

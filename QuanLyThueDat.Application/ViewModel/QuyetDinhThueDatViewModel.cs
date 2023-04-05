@@ -27,8 +27,11 @@ namespace QuanLyThueDat.Application.ViewModel
         public string TextHinhThucThue { get; set; }
         public string ViTriThuaDat { get; set; }
         public string DiaChiThuaDat { get; set; }
+        public int IdQuanHuyen { get; set; }
+        public int IdPhuongXa { get; set; }
         public List<QuyetDinhThueDatChiTietViewModel> DsQuyetDinhThueDatChiTiet { get; set; }
         public List<FileTaiLieuViewModel> DsFileTaiLieu { get; set; }
+        public QuyenDuLieuViewModel QuyenDuLieu { get; set; } = new QuyenDuLieuViewModel();
 
     }
     public class QuyetDinhThueDatChiTietViewModel

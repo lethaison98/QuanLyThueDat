@@ -105,13 +105,16 @@ QuyetDinhMienTienThueDatControl = {
                                     "</div>";
                                 return thaotac;
                             } else {
-                                console.log(222);
+                                var show = "";
+                                if (!row.QuyenDuLieu.AllowEdit) {
+                                    show = "style = 'display:none'";
+                                }
                                 var thaotac = "<div class='hstn-func' style='text-align: center;' data-type='" + JSON.stringify(row) + "'>" +
                                     file + "&nbsp" +
                                     "<a href='javascript:;' class='QuyetDinhMienTienThueDat-view' data-id='" + row.IdQuyetDinhMienTienThueDat + "'><i class='fas fa-eye' title='Xem'></i></a> &nbsp" +
                                     "<a href='javascript:;' class='QuyetDinhMienTienThueDat-export' data-id='" + row.IdQuyetDinhMienTienThueDat + "'><i class='fas fa-file-excel' title='Xuất thông báo' ></i></a> &nbsp" +
                                     "<a href='javascript:;' class='QuyetDinhMienTienThueDat-edit' data-id='" + row.IdQuyetDinhMienTienThueDat + "'><i class='fas fa-edit' title='Sửa'></i></a>  &nbsp" +
-                                    "<a href='javascript:;' class='QuyetDinhMienTienThueDat-remove text-danger' data-id='" + row.IdQuyetDinhMienTienThueDat + "'><i class='fas fa-trash-alt' title='Xóa' ></i></a>" +
+                                    "<a href='javascript:;' class='QuyetDinhMienTienThueDat-remove text-danger'" + show +" data-id='" + row.IdQuyetDinhMienTienThueDat + "'><i class='fas fa-trash-alt' title='Xóa' ></i></a>" +
                                     "</div>";
                                 return thaotac;
                             }
@@ -266,10 +269,18 @@ QuyetDinhMienTienThueDatControl = {
                                                 $y.parent().html('');
                                             });
                                         }
-                                        self.RegisterEventsPopup();
-                                        //$("#btnTraCuu").on('click', function () {
-                                        //    $('#modal-add-edit').modal('show');
-                                        //});
+                                        setTimeout(function () {
+                                            var checkRole = res.Data.QuyenDuLieu.AllowEdit;
+                                            if (!checkRole) {
+                                                $("#popupDetailQuyetDinhMienTienThueDat").find('input').attr("disabled", true);
+                                                $("#popupDetailQuyetDinhMienTienThueDat").find('select').attr("disabled", true);
+                                                $("#popupDetailQuyetDinhMienTienThueDat").find('.fa-trash-alt').hide();
+                                                $("#popupDetailQuyetDinhMienTienThueDat").find('.fa-folder').attr("disabled", true);
+                                                $("#popupDetailQuyetDinhMienTienThueDat").find('.btn-success').hide();
+                                                $("#popupDetailQuyetDinhMienTienThueDat").find('.btn-primary').hide();                                            } else {
+                                                self.RegisterEventsPopup();
+                                            }
+                                        }, 200)
                                     }
                                 })
                             }
@@ -312,17 +323,6 @@ QuyetDinhMienTienThueDatControl = {
     },
     RegisterEventsPopup: function (opts) {
         var self = this;
-        setTimeout(function () {
-            var checkRole = localStorage.getItem("Roles").includes("QuyetDinhMienTienThueDat");
-            if (!checkRole) {
-                $("#popupDetailQuyetDinhMienTienThueDat").find('input').attr("disabled", true);
-                $("#popupDetailQuyetDinhMienTienThueDat").find('select').attr("disabled", true);
-                $("#popupDetailQuyetDinhMienTienThueDat").find('.fa-trash-alt').hide();
-                $("#popupDetailQuyetDinhMienTienThueDat").find('.fa-folder').attr("disabled", true);
-                $("#popupDetailQuyetDinhMienTienThueDat").find('.btn-success').hide();
-                $("#popupDetailQuyetDinhMienTienThueDat").find('.btn-primary').hide();
-            }
-        }, 200)
         $('.select2').select2();
         $('.datetimepicker-input').datetimepicker({
             format: 'DD/MM/YYYY'
