@@ -3,11 +3,7 @@ if (typeof (PhanQuyenCanBoControl) == "undefined") PhanQuyenCanBoControl = {};
 PhanQuyenCanBoControl = {
     Init: function () {
         PhanQuyenCanBoControl.RegisterEvents();
-        console.log(1234);
     },
-
-
-
     RegisterEvents: function (opts) {
         var self = this;
         self.LoadDanhSachQuyetDinhThueDat();
@@ -23,6 +19,17 @@ PhanQuyenCanBoControl = {
         $("#btn-save").on('click', function () {
             self.InsertUpdate();
         });
+        setTimeout(function () {
+            $('input:checkbox[name=canbo]').change(function () {
+                var treeView = $("#treeview2").dxTreeView('instance');
+                var unSelect = treeView.unselectAll();
+                if ($(this).is(':checked')) {
+                    $('input:checkbox[name=canbo]').not(this).prop('checked', false);
+                    console.log($(this).val());
+                    self.LoadDanhSachQuyetDinhThueDatTheoChuyenVienPhuTrachKV($(this).val());
+                } 
+            });
+        }, 500)
     },
     LoadDanhSachChuyenVienPhuTrachKV: function () {
         Get({
@@ -52,15 +59,34 @@ PhanQuyenCanBoControl = {
                     $.each(res.Data, function (i, item) {
                         var qdThueDat = [];
                         $.each(item.DsQuyetDinhThueDat, function (i, qd) {
-                            qdThueDat.push({ id: qd.IdQuyetDinhThueDat, text: qd.SoQuyetDinhThueDat + " ngày " + qd.NgayQuyetDinhThueDat + " - "+ qd.TenDoanhNghiep})
+                            qdThueDat.push({ id: qd.IdQuyetDinhThueDat, text: qd.TenDoanhNghiep + " - " +qd.SoQuyetDinhThueDat + " ngày " + qd.NgayQuyetDinhThueDat + " - "+ qd.DiaChiThuaDat})
                         });
                         quanHuyen.push({ id: -1*item.IdQuanHuyen, text: item.TenQuanHuyen, items: qdThueDat, expanded: true});
                     });
-                    console.log(quanHuyen);
                     var treeview = $("#treeview2");
                     var selected = $("#dsQuyetDinhThueDat");
                     CreateTreeView(quanHuyen, treeview, selected);
                     $(".dx-texteditor-input").addClass("ml-3");
+
+                }
+            }
+        });
+    },
+    LoadDanhSachQuyetDinhThueDatTheoChuyenVienPhuTrachKV: function (userId) {
+        Get({
+            url: localStorage.getItem("API_URL") + "/User/LayDanhSachQuyetDinhThueDatTheoChuyenVienPhuTrachKV",
+            data: {
+                idCanBo: userId
+            },
+            callback: function (res) {
+                if (res.IsSuccess) {
+                    $.each(res.Data, function (i, item) {
+                        var treeView = $("#treeview2").dxTreeView('instance');
+                        var itemToSelect = treeView.element().find('.dx-treeview-node').find('[data-item-id="' + item.IdQuyetDinhThueDat + '"]');
+                        treeView.selectItem(itemToSelect);
+                    });
+                    
+
 
                 }
             }
@@ -74,14 +100,18 @@ PhanQuyenCanBoControl = {
             dsIdCanBo.push($(this).val());
         });
         data.IdCanBo = dsIdCanBo;
-        data.IdQuyetDinhThueDat = $('#dsQuyetDinhThueDat').attr('data-id').split(',');
+        var idQuyetDinhThueDat = $('#dsQuyetDinhThueDat').attr('data-id').split(',');
+        if (idQuyetDinhThueDat != "") {
+            data.IdQuyetDinhThueDat = idQuyetDinhThueDat;
+        } else {
+            data.IdQuyetDinhThueDat = [];
+
+        }
         Post({
             "url": localStorage.getItem("API_URL") + "/User/PhanQuyenChuyenVienPhuTrachKV",
             "data": data,
             callback: function (res) {
                 if (res.IsSuccess) {
-                    self.table.ajax.reload();
-                    $('#btnClose').trigger('click');
                     toastr.success('Thực hiện thành công', 'Thông báo');
                 }
             }

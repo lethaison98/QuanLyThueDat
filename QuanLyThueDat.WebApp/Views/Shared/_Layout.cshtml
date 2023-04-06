@@ -164,7 +164,7 @@
                         <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image" style="border-radius: 50%; width: 30px; height: 30px;">
                     </a>
                     <div class="dropdown-menu dropdown-menu-md dropdown-menu-right">
-                        <b class="dropdown-item dropdown-header">Quản trị viên</b>
+                        <b class="dropdown-item dropdown-header">@Context.Session.GetString("HoTen")</b>
 
                         <div class="dropdown-divider"></div>
                         <a href="#" class="dropdown-item dropdown-footer" id="Logout">Đăng xuất</a>
@@ -280,7 +280,7 @@
 
                             </ul>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item roleCHUYENVIENCHUYENQUAN" style="display:none">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
@@ -295,7 +295,12 @@
                                         <p>Quản lý tài khoản</p>
                                     </a>
                                 </li>
-
+                                <li class="nav-item">
+                                    <a href="./PhanQuyenCanBo" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Phân quyền</p>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                     </ul>
@@ -376,6 +381,7 @@
     <!-- AdminLTE App -->
     <script src="dist/js/adminlte.js"></script>
     <script src="js/support.js"></script>
+    <script src="js/site.js"></script>
     <script src="~/lib/treeview/sample.js"></script>
 
     <script src="lib/treeview/dx.all.js"></script>

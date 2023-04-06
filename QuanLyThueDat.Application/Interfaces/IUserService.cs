@@ -21,6 +21,7 @@ namespace QuanLyThueDat.Application.Interfaces
         public Task<ApiResult<UserViewModel>> GetById(Guid idTaiKhoan);
         public Task<ApiResult<List<UserViewModel>>> GetDsChuyenVienPhuTrachKV();
         public Task<ApiResult<bool>> PhanQuyenChuyenVienPhuTrachKV(PhanQuyenCanBoRequest rq);
+        public Task<ApiResult<List<QuyetDinhThueDatViewModel>>> LayDanhSachQuyetDinhThueDatTheoChuyenVienPhuTrachKV(string idCanBo);
 
     }
 }

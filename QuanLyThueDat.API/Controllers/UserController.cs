@@ -98,6 +98,13 @@ namespace QuanLyThueDat.API.Controllers
             var result = await _userService.GetDsChuyenVienPhuTrachKV();
             return Ok(result);
         }
+        [HttpGet("LayDanhSachQuyetDinhThueDatTheoChuyenVienPhuTrachKV")]
+        public async Task<IActionResult> LayDanhSachQuyetDinhThueDatTheoChuyenVienPhuTrachKV(string idCanBo)
+        {
+            var result = await _userService.LayDanhSachQuyetDinhThueDatTheoChuyenVienPhuTrachKV(idCanBo);
+            return Ok(result);
+        }
+
         [HttpPost("PhanQuyenChuyenVienPhuTrachKV")]
         public async Task<IActionResult> PhanQuyenChuyenVienPhuTrachKV(PhanQuyenCanBoRequest rq)
         {

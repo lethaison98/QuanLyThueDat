@@ -154,7 +154,7 @@ TaiKhoanControl = {
         $("#btn-create").on('click', function () {
             $('#modal-add-edit input:checkbox[name=role]').prop('checked', false);
             $('#modal-add-edit input:text').val('');
-            $('#Id').val("00000000-0000-0000-0000-000000000000");
+            $('#UserId').val("00000000-0000-0000-0000-000000000000");
             $('#modal-add-edit').modal('show');
             self.RegisterEventsPopup();
         });
@@ -180,6 +180,8 @@ TaiKhoanControl = {
                     self.table.ajax.reload();
                     $('#btnClose').trigger('click');
                     toastr.success('Thực hiện thành công', 'Thông báo');
+                } else {
+                    toastr.error('Không thành công', res.Message)
                 }
             }
         });

@@ -9,6 +9,7 @@ using QuanLyThueDat.Data.EF;
 using QuanLyThueDat.Data.Entities;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -44,7 +45,7 @@ namespace QuanLyThueDat.Application.Service
                 {
                     return new ApiErrorResult<bool>("Tài khoản đã tồn tại");
                 }
-                if (await _userManager.FindByEmailAsync(request.Email) != null)
+                if (!String.IsNullOrEmpty(request.Email) && await _userManager.FindByEmailAsync(request.Email) != null)
                 {
                     return new ApiErrorResult<bool>("Email đã tồn tại");
                 }
@@ -75,7 +76,7 @@ namespace QuanLyThueDat.Application.Service
                         return new ApiErrorResult<bool>("Tài khoản đã tồn tại");
                     }
                 }
-                if(users.Email != request.Email)
+                if(!String.IsNullOrEmpty(request.Email) && users.Email != request.Email)
                 {
                     var usercheck = await _userManager.FindByEmailAsync(request.Email);
                     if (usercheck != null)
@@ -314,6 +315,34 @@ namespace QuanLyThueDat.Application.Service
             }catch (Exception ex)
             {
                 return new ApiErrorResult<bool>("Cập nhật không thành công");
+
+            }
+
+        }
+        public async Task<ApiResult<List<QuyetDinhThueDatViewModel>>> LayDanhSachQuyetDinhThueDatTheoChuyenVienPhuTrachKV(string idCanBo)
+        {
+            try
+            {
+                var result = new List<QuyetDinhThueDatViewModel>();
+                if (1 != 0)
+                {
+                    result = (from cb in _context.AppUser
+                                  join cb_qd in _context.CanBo_QuyetDinhThueDat on cb.Id.ToString() equals cb_qd.IdCanBoQuanLy
+                                  join qd in _context.QuyetDinhThueDat on cb_qd.IdQuyetDinhThueDat equals qd.IdQuyetDinhThueDat
+                                  where cb.Id.ToString() == idCanBo
+                                  select new QuyetDinhThueDatViewModel
+                                  {
+                                      IdQuyetDinhThueDat = qd.IdQuyetDinhThueDat,
+                                      TenDoanhNghiep = qd.DoanhNghiep.TenDoanhNghiep,
+                                      SoQuyetDinhThueDat = qd.SoQuyetDinhThueDat,
+                                      NgayQuyetDinhThueDat = qd.NgayQuyetDinhThueDat != null ? qd.NgayQuyetDinhThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
+                                  }).Distinct().ToList();
+                }
+                return new ApiSuccessResult<List<QuyetDinhThueDatViewModel>>() { Data = result };
+            }
+            catch (Exception ex)
+            {
+                return new ApiErrorResult<List<QuyetDinhThueDatViewModel>>(ex.Message);
 
             }
 
