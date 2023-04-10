@@ -222,5 +222,11 @@ namespace QuanLyThueDat.Application.Service
             }
             return new ApiSuccessResult<List<ThongBaoTienThueDatViewModel>>() { Data = result };
         }
+        public async Task<ApiResult<List<ImportDuLieuRequest>>> BaoCaoBieuLapBo()
+        {
+            var result = new List<ImportDuLieuRequest>();
+            
+            return new ApiSuccessResult<List<ImportDuLieuRequest>>() { Data = result };
+        }
     }
 }

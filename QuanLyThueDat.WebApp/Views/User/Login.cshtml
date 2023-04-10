@@ -30,7 +30,7 @@
             </div>
             <div class="card-body">
                 <p class="login-box-msg">Đăng nhập hệ thống</p>
-
+                @Html.ValidationSummary(false, "", new { @class = "text-danger" })
                 <form asp-action="Login" asp-controller="User" method="post">
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" asp-for="Username" placeholder="Tài khoản">

@@ -272,6 +272,7 @@ namespace QuanLyThueDat.Application.Service
                     TongDienTich = entity.TongDienTich.ToString("N", new CultureInfo("vi-VN")),
                     ViTriThuaDat = entity.ViTriThuaDat,
                     DiaChiThuaDat = entity.DiaChiThuaDat,
+                    IdQuanHuyen = entity.IdQuanHuyen,
                     //ThoiHanThue = entity.ThoiHanThue,
                     //TuNgayThue = entity.TuNgayThue != null ? entity.TuNgayThue.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                     //DenNgayThue = entity.DenNgayThue != null ? entity.DenNgayThue.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",

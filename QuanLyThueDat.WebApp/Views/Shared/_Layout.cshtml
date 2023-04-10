@@ -165,7 +165,8 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-md dropdown-menu-right">
                         <b class="dropdown-item dropdown-header">@Context.Session.GetString("HoTen")</b>
-
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item dropdown-footer" id="ChangePass">Đổi mật khẩu</a>
                         <div class="dropdown-divider"></div>
                         <a href="#" class="dropdown-item dropdown-footer" id="Logout">Đăng xuất</a>
                     </div>
@@ -323,6 +324,7 @@
             <!-- /.control-sidebar -->
         </div>
     </div>
+    @await Html.PartialAsync("_PopupDoiMatKhau")
     <footer class="main-footer">
         <strong>Ban quản lý khu kinh tế Đông Nam</strong>
 

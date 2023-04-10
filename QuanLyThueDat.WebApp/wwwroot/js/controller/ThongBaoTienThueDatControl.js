@@ -149,7 +149,7 @@ ThongBaoTienThueDatControl = {
                                                 $("#popupDetailThongBaoTienThueDat").find('.btn-success').hide();
                                                 $("#popupDetailThongBaoTienThueDat").find('.btn-primary').hide();
                                             } else {
-                                                self.RegisterEventsPopup();
+                                                self.RegisterEventsPopup(opts);
                                             }
                                         }, 200);
                                         if (res.Data.IdQuyetDinhThueDat != null) {

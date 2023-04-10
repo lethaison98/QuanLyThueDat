@@ -32,4 +32,9 @@ namespace QuanLyThueDat.Application.Request
         public string PhoneNumber { get; set; }
         public List<String>DsRole { get; set; }
     }
+    public class ChangePasswordRequest
+    {
+        public string OldPassword { get; set; }
+        public string NewPassword { get; set; } 
+    }
 }

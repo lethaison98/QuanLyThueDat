@@ -111,6 +111,14 @@ namespace QuanLyThueDat.API.Controllers
             var result = await _userService.PhanQuyenChuyenVienPhuTrachKV(rq);
             return Ok(result);
         }
+        
+        [HttpPost("ChangePassByUser")]
+        public async Task<IActionResult> ChangePassByUser(ChangePasswordRequest rq)
+        {
+            var result = await _userService.ChangePassByUser(rq);
+            return Ok(result);
+        }
+
     }
 }
 

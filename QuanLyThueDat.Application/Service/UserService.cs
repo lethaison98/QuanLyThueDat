@@ -324,7 +324,8 @@ namespace QuanLyThueDat.Application.Service
             try
             {
                 var result = new List<QuyetDinhThueDatViewModel>();
-                if (1 != 0)
+                var user = await _userManager.FindByIdAsync(idCanBo);
+                if (user != null)
                 {
                     result = (from cb in _context.AppUser
                                   join cb_qd in _context.CanBo_QuyetDinhThueDat on cb.Id.ToString() equals cb_qd.IdCanBoQuanLy
@@ -343,6 +344,35 @@ namespace QuanLyThueDat.Application.Service
             catch (Exception ex)
             {
                 return new ApiErrorResult<List<QuyetDinhThueDatViewModel>>(ex.Message);
+
+            }
+
+        }
+        public async Task<ApiResult<bool>> ChangePassByUser(ChangePasswordRequest request)
+        {
+            try
+            {
+                var claimsIdentity = _accessor.HttpContext.User.Identity as ClaimsIdentity;
+                var userId = claimsIdentity.FindFirst("UserId")?.Value;
+                var user = await _userManager.FindByIdAsync(userId);
+                var x = new object();
+                if (request.NewPassword != null && request.OldPassword != null)
+                {
+                    var changePasswordResult = await _userManager.ChangePasswordAsync(user, request.OldPassword, request.NewPassword);
+                    if (changePasswordResult.Succeeded)
+                    {
+                        await _userManager.UpdateAsync(user);
+                        return new ApiSuccessResult<bool>() { };
+                    }
+                    else
+                    {
+                        return new ApiErrorResult<bool>(changePasswordResult.Errors.First().Description) { };
+                    }
+                }
+                return new ApiErrorResult<bool>();
+            }catch (Exception ex)
+            {
+                return new ApiErrorResult<bool>(ex.Message);
 
             }
 

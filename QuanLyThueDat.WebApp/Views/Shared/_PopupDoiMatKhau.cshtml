@@ -1,0 +1,33 @@
+﻿
+<div id="modal-change-pass" class="modal modal-primary fade" style="display: none;" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Đổi mật khẩu</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body" style="min-height:auto">
+                <div class="row col-sm-12" id="FormDetailTaiKhoan">
+
+                    <div class="form-group col-md-12">
+                        <h5>Mật khẩu cũ</h5>
+                        <input type="text" class="form-control" data-name="OldPassword" required>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <h5>Mật khẩu mới</h5>
+                        <input type="text" class="form-control" data-name="NewPassword" required placeholder="Ít nhất 1 chữ hoa, 1 chữ thường, số và 1 ký tự đặc biệt">
+                    </div>
+                    <div class="form-group col-md-12">
+                        <h5>Nhập lại mật khẩu</h5>
+                        <input type="text" class="form-control" data-name="ReNewPassword" required>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btnSaveTaiKhoan">Lưu</button>
+                <button type="button" class="btn btn-danger" id="btnClose" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
