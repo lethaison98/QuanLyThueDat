@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using QuanLyThueDat.Application.Common.Constant;
 using QuanLyThueDat.Application.Interfaces;
@@ -21,10 +22,13 @@ namespace QuanLyThueDat.Application.Service
     {
         private readonly QuanLyThueDatDbContext _context;
         public IHttpContextAccessor _accessor;
-        public QuyetDinhThueDatService(QuanLyThueDatDbContext context, IHttpContextAccessor HttpContextAccessor)
+        private readonly UserManager<AppUser> _userManager;
+
+        public QuyetDinhThueDatService(QuanLyThueDatDbContext context, IHttpContextAccessor HttpContextAccessor, UserManager<AppUser> userManager)
         {
             _context = context;
             _accessor = HttpContextAccessor;
+            _userManager = userManager;
         }
         public async Task<ApiResult<int>> InsertUpdate(QuyetDinhThueDatRequest rq)
         {
@@ -51,7 +55,8 @@ namespace QuanLyThueDat.Application.Service
                     DiaChiThuaDat = rq.DiaChiThuaDat,
                     NgayTao = DateTime.Now,
                     NguoiTao = tenUser,
-                    IdNguoiTao = userId
+                    IdNguoiTao = userId,
+                    IdQuanHuyen = rq.IdQuanHuyen,
                     //ThoiHanThue = rq.ThoiHanThue,
                     //TuNgayThue = string.IsNullOrEmpty(rq.TuNgayThue) ? null : DateTime.Parse(rq.TuNgayThue, new CultureInfo("vi-VN")),
                     //DenNgayThue = string.IsNullOrEmpty(rq.DenNgayThue) ? null : DateTime.Parse(rq.DenNgayThue, new CultureInfo("vi-VN")),
@@ -76,6 +81,7 @@ namespace QuanLyThueDat.Application.Service
                 entity.NgayCapNhat = DateTime.Now;
                 entity.NguoiCapNhat = tenUser;
                 entity.IdNguoiCapNhat = userId;
+                entity.IdQuanHuyen = rq.IdQuanHuyen;
                 //entity.ThoiHanThue = rq.ThoiHanThue;
                 //entity.TuNgayThue = string.IsNullOrEmpty(rq.TuNgayThue) ? null : DateTime.Parse(rq.TuNgayThue, new CultureInfo("vi-VN"));
                 //entity.DenNgayThue = string.IsNullOrEmpty(rq.DenNgayThue) ? null : DateTime.Parse(rq.DenNgayThue, new CultureInfo("vi-VN"));
@@ -421,12 +427,23 @@ namespace QuanLyThueDat.Application.Service
             var result = new QuyenDuLieuViewModel();
             var claimsIdentity = _accessor.HttpContext.User.Identity as ClaimsIdentity;
             var userId = claimsIdentity.FindFirst("UserId")?.Value;
-            var check = _context.CanBo_QuyetDinhThueDat.Where(x => x.IdCanBoQuanLy == userId && x.IdQuyetDinhThueDat == idQuyetDinhThueDat);
-            if (check.Any())
+            var user = _userManager.FindByIdAsync(userId).Result;
+            var roles = _userManager.GetRolesAsync(user).Result;
+            if(roles.Contains("CHUYENVIENCHUYENQUAN"))
             {
                 result.AllowEdit = true;
-                result.AllowEdit = true;
+                result.AllowDelete = true;
             }
+            else
+            {
+                var check = _context.CanBo_QuyetDinhThueDat.Where(x => x.IdCanBoQuanLy == userId && x.IdQuyetDinhThueDat == idQuyetDinhThueDat);
+                if (check.Any())
+                {
+                    result.AllowEdit = true;
+                    result.AllowDelete = true;
+                }
+            }     
+
             return result;
         }
     }
