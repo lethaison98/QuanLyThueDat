@@ -47,6 +47,7 @@ namespace QuanLyThueDat.Application.ViewModel
         public string TextTenLanhDao { get; set; }
         public string TextChucVuLanhDao { get; set; }
         public string TextKyThayLanhDao { get; set; }
+        public string GhiChu { get; set; }
         public List<FileTaiLieuViewModel> DsFileTaiLieu { get; set; }
         public QuyenDuLieuViewModel QuyenDuLieu { get; set; } = new QuyenDuLieuViewModel();
     }

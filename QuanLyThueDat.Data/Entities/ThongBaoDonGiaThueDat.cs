@@ -40,6 +40,6 @@ namespace QuanLyThueDat.Data.Entities
         public DateTime? NgayHetHieuLucDonGiaThueDat { get; set; }
         public string HinhThucThue { get; set; }
         public string LanhDaoKyThongBaoDonGiaThueDat { get; set; }
-
+        public string GhiChu { get; set; }
     }
 }

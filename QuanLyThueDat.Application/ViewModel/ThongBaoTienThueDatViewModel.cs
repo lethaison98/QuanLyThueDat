@@ -62,7 +62,7 @@ namespace QuanLyThueDat.Application.ViewModel
         public string TextDonGiaChiTiet { get; set; }
         public string TextSoTienPhaiNopChiTiet { get; set; }
         public string TextCanCuThongBaoDonGia { get; set; }
-
+        public string GhiChu { get; set; }
         public List<ThongBaoTienThueDatChiTietViewModel> DsThongBaoTienThueDatChiTiet { get; set; }
         public List<FileTaiLieuViewModel> DsFileTaiLieu { get; set; }
         public QuyenDuLieuViewModel QuyenDuLieu { get; set; } = new QuyenDuLieuViewModel();

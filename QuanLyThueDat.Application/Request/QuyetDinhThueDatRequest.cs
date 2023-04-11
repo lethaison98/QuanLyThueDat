@@ -28,6 +28,9 @@ namespace QuanLyThueDat.Application.Request
         public int IdQuanHuyen { get; set; }
         public List<QuyetDinhThueDatChiTietRequest> QuyetDinhThueDatChiTiet { get; set; } 
         public List<FileTaiLieu> FileTaiLieu { get; set; } = new List<FileTaiLieu>();
+        public string SoQuyetDinhThueDatDieuChinh { get; set; }
+        public string SoQuyetDinhGiaoDatDieuChinh { get; set; }
+        public string GhiChu { get; set; }
     }
     public class QuyetDinhThueDatChiTietRequest
     {
@@ -39,5 +42,6 @@ namespace QuanLyThueDat.Application.Request
         public string DenNgayThue { get; set; }
         public string TuNgayThue { get; set; }
         public string MucDichSuDung { get; set; }
+        public string GhiChu { get; set; }
     }
 }

@@ -49,6 +49,7 @@ namespace QuanLyThueDat.Application.Request
         public decimal DienTichPhaiNop { get; set; }
         public decimal SoTien { get; set; }
         public decimal SoTienPhaiNop { get; set; }
+        public string GhiChu { get; set; }
         public List<ThongBaoTienThueDatChiTietRequest> ThongBaoTienThueDatChiTiet { get; set; }
         public List<FileTaiLieu> FileTaiLieu { get; set; } = new List<FileTaiLieu>();
     }

@@ -28,5 +28,8 @@ namespace QuanLyThueDat.Data.Entities
         public int IdQuanHuyen { get; set; }
         public int IdPhuongXa { get; set; }
         public List<QuyetDinhThueDatChiTiet> DsQuyetDinhThueDatChiTiet { get; set; }
+        public string SoQuyetDinhThueDatDieuChinh { get; set; }
+        public string SoQuyetDinhGiaoDatDieuChinh { get; set; }
+        public string GhiChu { get; set; }
     }
 }

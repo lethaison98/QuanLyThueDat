@@ -19,5 +19,7 @@ namespace QuanLyThueDat.Data.Entities
         public string ThoiHanMienTienThueDat { get; set; }
         public DateTime? NgayHieuLucMienTienThueDat { get; set; }
         public DateTime? NgayHetHieuLucMienTienThueDat { get; set; }
+        public string SoQuyetDinhMienTienThueDatDieuChinh { get; set; }
+        public string GhiChu { get; set; }
     }
 }
