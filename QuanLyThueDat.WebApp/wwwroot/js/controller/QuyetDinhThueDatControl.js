@@ -61,7 +61,7 @@ QuyetDinhThueDatControl = {
                                     }
                                 });
                             }
-                            var thaotac = data||"" + "&nbsp" + fileQDGiaoDat;
+                            var thaotac = (data||"") + "&nbsp" + fileQDGiaoDat;
                             return thaotac;
                         }
 
@@ -155,6 +155,7 @@ QuyetDinhThueDatControl = {
                                             ThoiHanThue: res.Data.DsQuyetDinhThueDatChiTiet[i].ThoiHanThue,
                                             TuNgayThue: res.Data.DsQuyetDinhThueDatChiTiet[i].TuNgayThue,
                                             DenNgayThue: res.Data.DsQuyetDinhThueDatChiTiet[i].DenNgayThue,
+                                            GhiChu: res.Data.DsQuyetDinhThueDatChiTiet[i].GhiChu,
                                         };
                                         data.push(obj);
                                     }
@@ -298,6 +299,7 @@ QuyetDinhThueDatControl = {
                                                     $("#tblChiTietQuyetDinhThueDat tbody tr").eq(i).find('[data-name="DenNgayThue"]').val(item.DenNgayThue);
                                                     $("#tblChiTietQuyetDinhThueDat tbody tr").eq(i).find('[data-name="HinhThucThue"]').val(item.HinhThucThue);
                                                     $("#tblChiTietQuyetDinhThueDat tbody tr").eq(i).find('[data-name="DienTich"]').val(item.DienTich);
+                                                    $("#tblChiTietQuyetDinhThueDat tbody tr").eq(i).find('[data-name="GhiChuChiTiet"]').val(item.GhiChu);
 
 
                                                     $(".tr-remove").off('click').on('click', function () {
@@ -649,7 +651,9 @@ QuyetDinhThueDatControl = {
                     DienTich: $(item).find('[data-name="DienTich"]').val(),
                     ThoiHanThue: $(item).find('[data-name="ThoiHanThue"]').val(),
                     TuNgayThue: $(item).find('[data-name="TuNgayThue"]').val(),
-                    DenNgayThue: $(item).find('[data-name="DenNgayThue"]').val()
+                    DenNgayThue: $(item).find('[data-name="DenNgayThue"]').val(),
+                    GhiChu: $(item).find('[data-name="GhiChuChiTiet"]').val(),
+                    
                 });
             }
         });

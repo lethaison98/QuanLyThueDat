@@ -57,6 +57,9 @@ namespace QuanLyThueDat.Application.Service
                     NguoiTao = tenUser,
                     IdNguoiTao = userId,
                     IdQuanHuyen = rq.IdQuanHuyen,
+                    SoQuyetDinhGiaoDatDieuChinh = rq.SoQuyetDinhGiaoDatDieuChinh,
+                    SoQuyetDinhThueDatDieuChinh = rq.SoQuyetDinhThueDatDieuChinh,
+                    GhiChu = rq.GhiChu,
                     //ThoiHanThue = rq.ThoiHanThue,
                     //TuNgayThue = string.IsNullOrEmpty(rq.TuNgayThue) ? null : DateTime.Parse(rq.TuNgayThue, new CultureInfo("vi-VN")),
                     //DenNgayThue = string.IsNullOrEmpty(rq.DenNgayThue) ? null : DateTime.Parse(rq.DenNgayThue, new CultureInfo("vi-VN")),
@@ -82,6 +85,9 @@ namespace QuanLyThueDat.Application.Service
                 entity.NguoiCapNhat = tenUser;
                 entity.IdNguoiCapNhat = userId;
                 entity.IdQuanHuyen = rq.IdQuanHuyen;
+                entity.SoQuyetDinhGiaoDatDieuChinh = rq.SoQuyetDinhGiaoDatDieuChinh;
+                entity.SoQuyetDinhThueDatDieuChinh = rq.SoQuyetDinhThueDatDieuChinh;
+                entity.GhiChu = rq.GhiChu;
                 //entity.ThoiHanThue = rq.ThoiHanThue;
                 //entity.TuNgayThue = string.IsNullOrEmpty(rq.TuNgayThue) ? null : DateTime.Parse(rq.TuNgayThue, new CultureInfo("vi-VN"));
                 //entity.DenNgayThue = string.IsNullOrEmpty(rq.DenNgayThue) ? null : DateTime.Parse(rq.DenNgayThue, new CultureInfo("vi-VN"));
@@ -103,6 +109,7 @@ namespace QuanLyThueDat.Application.Service
                     ct.ThoiHanThue = item.ThoiHanThue;
                     ct.TuNgayThue = string.IsNullOrEmpty(item.TuNgayThue) ? null : DateTime.Parse(item.TuNgayThue, new CultureInfo("vi-VN"));
                     ct.DenNgayThue = string.IsNullOrEmpty(item.DenNgayThue) ? null : DateTime.Parse(item.DenNgayThue, new CultureInfo("vi-VN"));
+                    ct.GhiChu = item.GhiChu;
                     listQuyetDinhThueDatChiTiet.Add(ct);
                 }
             }
@@ -185,7 +192,10 @@ namespace QuanLyThueDat.Application.Service
                     ViTriThuaDat = item.ViTriThuaDat,
                     DiaChiThuaDat = item.DiaChiThuaDat,
                     IdQuanHuyen = item.IdQuanHuyen,
-                    IdPhuongXa = item.IdPhuongXa
+                    IdPhuongXa = item.IdPhuongXa,
+                    SoQuyetDinhGiaoDatDieuChinh = item.SoQuyetDinhGiaoDatDieuChinh,
+                    SoQuyetDinhThueDatDieuChinh = item.SoQuyetDinhThueDatDieuChinh,
+                    GhiChu = item.GhiChu,
                 };
                 result.Add(QuyetDinhThueDat);
             }
@@ -198,13 +208,13 @@ namespace QuanLyThueDat.Application.Service
                         select a;
             if (!string.IsNullOrEmpty(keyword))
             {
-                query = query.Where(x => x.TenQuyetDinhThueDat.ToLower().Contains(keyword.ToLower()) || x.DoanhNghiep.MaSoThue.ToLower().Contains(keyword.ToLower()) || x.DoanhNghiep.TenDoanhNghiep.ToLower().Contains(keyword.ToLower()));
+                query = query.Where(x => x.TenQuyetDinhThueDat.ToLower().Contains(keyword.ToLower()) || x.SoQuyetDinhThueDat.ToLower().Contains(keyword.ToLower()) || x.DoanhNghiep.MaSoThue.ToLower().Contains(keyword.ToLower()) || x.DoanhNghiep.TenDoanhNghiep.ToLower().Contains(keyword.ToLower()));
             }
             if (idDoanhNghiep != null)
             {
                 query = query.Where(x => x.IdDoanhNghiep == idDoanhNghiep);
             }
-            var data = await query.OrderByDescending(x => x.TenQuyetDinhThueDat)
+            var data = await query.OrderByDescending(x => x.NgayQuyetDinhThueDat)
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize).ToListAsync();
             var listItem = new List<QuyetDinhThueDatViewModel>();
@@ -228,7 +238,10 @@ namespace QuanLyThueDat.Application.Service
                     MucDichSuDung = entity.MucDichSuDung,
                     HinhThucThue = entity.HinhThucThue,
                     ViTriThuaDat = entity.ViTriThuaDat,
-                    DiaChiThuaDat = entity.DiaChiThuaDat
+                    DiaChiThuaDat = entity.DiaChiThuaDat,
+                    SoQuyetDinhGiaoDatDieuChinh = entity.SoQuyetDinhGiaoDatDieuChinh,
+                    SoQuyetDinhThueDatDieuChinh = entity.SoQuyetDinhThueDatDieuChinh,
+                    GhiChu = entity.GhiChu,
                 };
                 quyetDinhThueDat.QuyenDuLieu = CheckQuyenDuLieu(quyetDinhThueDat.IdQuyetDinhThueDat);
                 var listFileViewModel = new List<FileTaiLieuViewModel>();
@@ -279,6 +292,9 @@ namespace QuanLyThueDat.Application.Service
                     ViTriThuaDat = entity.ViTriThuaDat,
                     DiaChiThuaDat = entity.DiaChiThuaDat,
                     IdQuanHuyen = entity.IdQuanHuyen,
+                    SoQuyetDinhGiaoDatDieuChinh = entity.SoQuyetDinhGiaoDatDieuChinh,
+                    SoQuyetDinhThueDatDieuChinh = entity.SoQuyetDinhThueDatDieuChinh,
+                    GhiChu = entity.GhiChu,
                     //ThoiHanThue = entity.ThoiHanThue,
                     //TuNgayThue = entity.TuNgayThue != null ? entity.TuNgayThue.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                     //DenNgayThue = entity.DenNgayThue != null ? entity.DenNgayThue.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
@@ -301,6 +317,7 @@ namespace QuanLyThueDat.Application.Service
                         ctVM.DienTich = item.DienTich.ToString("N", new CultureInfo("vi-VN"));
                         ctVM.TuNgayThue = item.TuNgayThue != null ? item.TuNgayThue.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "";
                         ctVM.DenNgayThue = item.DenNgayThue != null ? item.DenNgayThue.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "";
+                        ctVM.GhiChu = item.GhiChu;
                         listct.Add(ctVM);
                     }
                     result.DsQuyetDinhThueDatChiTiet = listct;
@@ -358,7 +375,10 @@ namespace QuanLyThueDat.Application.Service
                         MucDichSuDung = item.MucDichSuDung,
                         HinhThucThue = item.HinhThucThue,
                         ViTriThuaDat = item.ViTriThuaDat,
-                        DiaChiThuaDat = item.DiaChiThuaDat
+                        DiaChiThuaDat = item.DiaChiThuaDat,
+                        SoQuyetDinhGiaoDatDieuChinh = item.SoQuyetDinhGiaoDatDieuChinh,
+                        SoQuyetDinhThueDatDieuChinh = item.SoQuyetDinhThueDatDieuChinh,
+                        GhiChu = item.GhiChu,
                     };
                     result.Add(QuyetDinhThueDat);
                 }
@@ -386,6 +406,7 @@ namespace QuanLyThueDat.Application.Service
                             MucDichSuDung = ct.MucDichSuDung,
                             HinhThucThue = ct.HinhThucThue,
                             TextHinhThucThue = typeof(LoaiQuyetDinhThueDatConstant).GetField(ct.HinhThucThue).GetValue(null).ToString(),
+                            GhiChu = ct.GhiChu
                         };
                         result.Add(QuyetDinhThueDat);
                     }

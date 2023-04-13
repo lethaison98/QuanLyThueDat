@@ -81,7 +81,8 @@ namespace QuanLyThueDat.Application.Service
                     LanhDaoKyThongBaoDonGiaThueDat = rq.LanhDaoKyThongBaoDonGiaThueDat,
                     NgayTao = DateTime.Now,
                     NguoiTao = tenUser,
-                    IdNguoiTao = userId
+                    IdNguoiTao = userId,
+                    GhiChu = rq.GhiChu,
 
                 };
             }
@@ -115,6 +116,8 @@ namespace QuanLyThueDat.Application.Service
                 entity.NgayCapNhat = DateTime.Now;
                 entity.NguoiCapNhat = tenUser;
                 entity.IdNguoiCapNhat = userId;
+                entity.GhiChu = rq.GhiChu;
+
             }
 
             _context.ThongBaoDonGiaThueDat.Update(entity);
@@ -180,6 +183,7 @@ namespace QuanLyThueDat.Application.Service
                     NgayThongBaoDonGiaThueDat = item.NgayThongBaoDonGiaThueDat != null ? item.NgayThongBaoDonGiaThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                     NgayHieuLucDonGiaThueDat = item.NgayHieuLucDonGiaThueDat != null ? item.NgayHieuLucDonGiaThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                     NgayHetHieuLucDonGiaThueDat = item.NgayHetHieuLucDonGiaThueDat != null ? item.NgayHetHieuLucDonGiaThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
+                    GhiChu = item.GhiChu,
                 };
                 result.Add(ThongBaoDonGiaThueDat);
             }
@@ -219,6 +223,7 @@ namespace QuanLyThueDat.Application.Service
                     NgayThongBaoDonGiaThueDat = entity.NgayThongBaoDonGiaThueDat != null ? entity.NgayThongBaoDonGiaThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                     NgayHieuLucDonGiaThueDat = entity.NgayHieuLucDonGiaThueDat != null ? entity.NgayHieuLucDonGiaThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                     NgayHetHieuLucDonGiaThueDat = entity.NgayHetHieuLucDonGiaThueDat != null ? entity.NgayHetHieuLucDonGiaThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
+                    GhiChu = entity.GhiChu,
                 };
                 if (entity.IdQuyetDinhThueDat != null)
                 {
@@ -302,7 +307,8 @@ namespace QuanLyThueDat.Application.Service
                     NgayHieuLucDonGiaThueDat = entity.NgayHieuLucDonGiaThueDat != null ? entity.NgayHieuLucDonGiaThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                     NgayHetHieuLucDonGiaThueDat = entity.NgayHetHieuLucDonGiaThueDat != null ? entity.NgayHetHieuLucDonGiaThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                     HinhThucThue = entity.HinhThucThue,
-                    LanhDaoKyThongBaoDonGiaThueDat = entity.LanhDaoKyThongBaoDonGiaThueDat
+                    LanhDaoKyThongBaoDonGiaThueDat = entity.LanhDaoKyThongBaoDonGiaThueDat,
+                    GhiChu = entity.GhiChu,
                 };
                 if(entity.IdQuyetDinhThueDat != null)
                 {
@@ -367,6 +373,7 @@ namespace QuanLyThueDat.Application.Service
                     ThoiHanDonGia = item.ThoiHanDonGia,
                     NgayHieuLucDonGiaThueDat = item.NgayHieuLucDonGiaThueDat != null ? item.NgayHieuLucDonGiaThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                     NgayHetHieuLucDonGiaThueDat = item.NgayHetHieuLucDonGiaThueDat != null ? item.NgayHetHieuLucDonGiaThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
+                    GhiChu = item.GhiChu,
                 };
                 result.Add(ThongBaoDonGiaThueDat);
             }

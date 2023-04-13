@@ -51,7 +51,9 @@ namespace QuanLyThueDat.Application.Service
                     NgayHetHieuLucMienTienThueDat = string.IsNullOrEmpty(rq.NgayHetHieuLucMienTienThueDat) ? null : DateTime.Parse(rq.NgayHetHieuLucMienTienThueDat, new CultureInfo("vi-VN")),
                     NgayTao = DateTime.Now,
                     NguoiTao = tenUser,
-                    IdNguoiTao = userId
+                    IdNguoiTao = userId,
+                    SoQuyetDinhMienTienThueDatDieuChinh = rq.SoQuyetDinhMienTienThueDatDieuChinh,
+                    GhiChu = rq.GhiChu,
                 };
             }
             else
@@ -69,6 +71,8 @@ namespace QuanLyThueDat.Application.Service
                 entity.NgayCapNhat = DateTime.Now;
                 entity.NguoiCapNhat = tenUser;
                 entity.IdNguoiCapNhat = userId;
+                entity.SoQuyetDinhMienTienThueDatDieuChinh = rq.SoQuyetDinhMienTienThueDatDieuChinh;
+                entity.GhiChu = rq.GhiChu;
             }
 
             _context.QuyetDinhMienTienThueDat.Update(entity);
@@ -142,7 +146,9 @@ namespace QuanLyThueDat.Application.Service
                     ThoiHanMienTienThueDat = item.ThoiHanMienTienThueDat,
                     NgayHieuLucMienTienThueDat = item.NgayHieuLucMienTienThueDat != null ? item.NgayHieuLucMienTienThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                     NgayHetHieuLucMienTienThueDat = item.NgayHetHieuLucMienTienThueDat != null ? item.NgayHetHieuLucMienTienThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
-                };
+                    SoQuyetDinhMienTienThueDatDieuChinh = item.SoQuyetDinhMienTienThueDatDieuChinh,
+                    GhiChu = item.GhiChu,
+            };
                 result.Add(QuyetDinhMienTienThueDat);
             }
             return new ApiSuccessResult<List<QuyetDinhMienTienThueDatViewModel>>() { Data = result };
@@ -180,6 +186,8 @@ namespace QuanLyThueDat.Application.Service
                     ThoiHanMienTienThueDat = entity.ThoiHanMienTienThueDat,
                     NgayHieuLucMienTienThueDat = entity.NgayHieuLucMienTienThueDat != null ? entity.NgayHieuLucMienTienThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                     NgayHetHieuLucMienTienThueDat = entity.NgayHetHieuLucMienTienThueDat != null ? entity.NgayHetHieuLucMienTienThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
+                    SoQuyetDinhMienTienThueDatDieuChinh = entity.SoQuyetDinhMienTienThueDatDieuChinh,
+                    GhiChu = entity.GhiChu,
                 };
                 if (entity.IdQuyetDinhThueDat != null)
                 {
@@ -232,7 +240,8 @@ namespace QuanLyThueDat.Application.Service
                     ThoiHanMienTienThueDat = entity.ThoiHanMienTienThueDat,
                     NgayHieuLucMienTienThueDat = entity.NgayHieuLucMienTienThueDat != null ? entity.NgayHieuLucMienTienThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                     NgayHetHieuLucMienTienThueDat = entity.NgayHetHieuLucMienTienThueDat != null ? entity.NgayHetHieuLucMienTienThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
-
+                    SoQuyetDinhMienTienThueDatDieuChinh = entity.SoQuyetDinhMienTienThueDatDieuChinh,
+                    GhiChu = entity.GhiChu,
                 };
                 if (entity.IdQuyetDinhThueDat != null)
                 {
@@ -288,6 +297,8 @@ namespace QuanLyThueDat.Application.Service
                     ThoiHanMienTienThueDat = soNgayConLai.ToString(),
                     NgayHieuLucMienTienThueDat = item.NgayHieuLucMienTienThueDat != null ? item.NgayHieuLucMienTienThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                     NgayHetHieuLucMienTienThueDat = item.NgayHetHieuLucMienTienThueDat != null ? item.NgayHetHieuLucMienTienThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
+                    SoQuyetDinhMienTienThueDatDieuChinh = item.SoQuyetDinhMienTienThueDatDieuChinh,
+                    GhiChu = item.GhiChu,
                 };
                 result.Add(ThongBaoDonGiaThueDat);
             }

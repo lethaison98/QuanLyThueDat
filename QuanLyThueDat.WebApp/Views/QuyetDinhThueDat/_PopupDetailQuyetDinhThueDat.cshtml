@@ -45,12 +45,20 @@
 
                     </div>
                     <div class="form-group col-md-6">
-                        <h5>Tên quyết định giao đất (UBND tỉnh)</h5>
+                        <h5>Trích yếu quyết định giao đất (UBND tỉnh)</h5>
                         <input type="text" class="form-control" data-name="TenQuyetDinhGiaoDat" required>
                     </div>
                     <div class="form-group col-md-6">
-                        <h5>Tên quyết định giao đất, cho thuê đất</h5>
+                        <h5>Trích yếu quyết định giao đất, cho thuê đất</h5>
                         <input type="text" class="form-control" data-name="TenQuyetDinhThueDat" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <h5>Số, ngày quyết định giao đất (UBND tỉnh) điều chỉnh</h5>
+                        <input type="text" class="form-control" data-name="SoQuyetDinhGiaoDatDieuChinh" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <h5>Số, ngày quyết định thuê đất điều chỉnh</h5>
+                        <input type="text" class="form-control" data-name="SoQuyetDinhThueDatDieuChinh" required>
                     </div>
                     <div class="form-group col-md-6">
                         <h5>Vị trí trên bản đồ</h5>
@@ -93,6 +101,10 @@
                         </select>
                     </div>
                     <div class="form-group col-md-6">
+                        <h5>Ghi chú</h5>
+                        <input type="text" class="form-control" data-name="GhiChu" required>
+                    </div>
+                    <div class="form-group col-md-6">
                         <h5>Tổng diện tích (m<sup>2</sup>)</h5>
                         <input type="text" class="form-control number" data-name="TongDienTich" required>
                     </div>
@@ -104,23 +116,26 @@
                                     <th style="display:none">
                                         IdValue_tdda
                                     </th>
-                                    <th style="width:22%">
+                                    <th style="width:20%">
                                         Loại quyết định
                                     </th>
                                     <th style="width:10%">
                                         Diện tích
                                     </th>
-                                    <th style="width:24%">
+                                    <th style="width:20%">
                                         Mục đích sử dụng
                                     </th>
                                     <th style="width:15%">
                                         Thời hạn
                                     </th>
-                                    <th style="width:12%">
+                                    <th style="width:10%">
                                         Từ ngày
                                     </th>
-                                    <th style="width:12%">
+                                    <th style="width:10%">
                                         Đến ngày
+                                    </th>
+                                    <th style="width:10%">
+                                        Ghi chú
                                     </th>
                                     <th style="width:5%">
                                         Xóa
@@ -145,7 +160,7 @@
             <table style="display:none">
                 <tbody id="tempChiTietQuyetDinhThueDat">
                     <tr>
-                        <td style="width:22%">
+                        <td style="width:20%">
                             <input type="hidden" class="form-control" data-name="IdQuyetDinhThueDatChiTiet" value="0">
                             <select class="form-control px-0" style="width: 100%;" data-name="HinhThucThue">
                                 <option value="ThueDatTraTienHangNam">Thuê đất trả tiền hàng năm</option>
@@ -157,17 +172,20 @@
                         <td style="width:10%">
                             <input type="text" class="form-control number px-1" data-name="DienTich" required>
                         </td>
-                        <td style="width:24%">
+                        <td style="width:20%">
                             <input type="text" class="form-control px-1" data-name="MucDichSuDung" required>
                         </td>
                         <td style="width:15%">
                             <input type="text" class="form-control px-1" data-name="ThoiHanThue" required>
                         </td>
-                        <td style="width:12%">
+                        <td style="width:10%">
                             <input type="text" class="form-control px-1" data-name="TuNgayThue" placeholder="dd/mm/yyyy" required>
                         </td>
-                        <td style="width:12%">
+                        <td style="width:10%">
                             <input type="text" class="form-control px-1" data-name="DenNgayThue" placeholder="dd/mm/yyyy" required>
+                        </td>
+                        <td style="width:10%">
+                            <input type="text" class="form-control px-1" data-name="GhiChuChiTiet" required>
                         </td>
                         <td style="width:5%">
                             <a href="javascript:;" class="tr-remove text-danger"><i class="fas fa-trash-alt" title="Xóa"></i></a>
