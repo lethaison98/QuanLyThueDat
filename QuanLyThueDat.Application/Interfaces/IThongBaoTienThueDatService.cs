@@ -16,5 +16,7 @@ namespace QuanLyThueDat.Application.Interfaces
         public Task<ApiResult<List<ThongBaoTienThueDatViewModel>>> GetAll();
         public Task<ApiResult<PageViewModel<ThongBaoTienThueDatViewModel>>> GetAllPaging(int? idDoanhNghiep, int? nam, string keyword, int pageIndex, int pageSize);
         public Task<ApiResult<List<ThongBaoTienThueDatViewModel>>> GetAllByNam(int nam);
+        public Task<ApiResult<List<ThongBaoTienThueDatViewModel>>> GetAllByRequest(ThongBaoTienThueDatRequest rq);
+
     }
 }

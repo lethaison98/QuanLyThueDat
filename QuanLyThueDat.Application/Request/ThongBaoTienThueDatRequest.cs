@@ -58,6 +58,7 @@ namespace QuanLyThueDat.Application.Request
         public int IdThongBaoTienThueDatChiTiet { get; set; }
         public int IdThongBaoTienThueDat { get; set; }
         public int IdThongBaoDonGiaThueDat { get; set; }
+        public int IdThongBaoTienThueDatGoc { get; set; }
         public string SoThongBaoDonGiaThueDat { get; set; }
         public string NgayThongBaoDonGiaThueDat { get; set; }
         public int Nam { get; set; }

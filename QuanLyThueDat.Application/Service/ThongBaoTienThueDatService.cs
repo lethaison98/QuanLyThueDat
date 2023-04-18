@@ -130,6 +130,7 @@ namespace QuanLyThueDat.Application.Service
                 entity.GhiChu = rq.GhiChu;
             }
             var listThongBaoTienThueDatChiTiet = new List<ThongBaoTienThueDatChiTiet>();
+
             if (rq.ThongBaoTienThueDatChiTiet != null)
             {
                 foreach (var item in rq.ThongBaoTienThueDatChiTiet)
@@ -148,6 +149,13 @@ namespace QuanLyThueDat.Application.Service
                     {
                         ct.IdThongBaoDonGiaThueDat = item.IdThongBaoDonGiaThueDat;
                     }
+                    if (rq.LoaiThongBaoTienThueDat == "ThongBaoDieuChinh" && item.IdThongBaoTienThueDatGoc > 0)
+                    {
+                        ct.IdThongBaoTienThueDatGoc = item.IdThongBaoTienThueDatGoc;
+                        var tbGoc = _context.ThongBaoTienThueDat.FirstOrDefault(x => x.IdThongBaoTienThueDat == item.IdThongBaoTienThueDatGoc);
+                        tbGoc.BiDieuChinh = 1;
+                        tbGoc.GhiChu += ("Đã ra thông báo điều chỉnh số " + rq.SoThongBaoTienThueDat + " ngày " + rq.NgayThongBaoTienThueDat); 
+                    }
                     ct.Nam = item.Nam; ;
                     ct.DonGia = item.DonGia;
                     ct.DienTichPhaiNop = item.DienTichPhaiNop;
@@ -157,6 +165,7 @@ namespace QuanLyThueDat.Application.Service
                     ct.SoTienPhaiNop = item.SoTienPhaiNop;
                     ct.TuNgayTinhTien = string.IsNullOrEmpty(item.TuNgayTinhTien) ? null : DateTime.Parse(item.TuNgayTinhTien, new CultureInfo("vi-VN"));
                     ct.DenNgayTinhTien = string.IsNullOrEmpty(item.DenNgayTinhTien) ? null : DateTime.Parse(item.DenNgayTinhTien, new CultureInfo("vi-VN"));
+                    ct.GhiChu = item.GhiChu;
                     listThongBaoTienThueDatChiTiet.Add(ct);
                 }
             }
@@ -409,7 +418,9 @@ namespace QuanLyThueDat.Application.Service
                     TuNgayThue = entity.TuNgayThue != null ? entity.TuNgayThue.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                     TongDienTich = entity.TongDienTich.ToString("N", new CultureInfo("vi-VN")),
                     GhiChu = entity.GhiChu,
+                    BiDieuChinh = entity.BiDieuChinh
                 };
+                result = CheckThongBaoDaDieuChinh(result);
                 if (entity.IdQuyetDinhThueDat != null)
                 {
                     result.QuyenDuLieu = _quyetDinhThueDatService.CheckQuyenDuLieu(entity.IdQuyetDinhThueDat.Value);
@@ -417,28 +428,53 @@ namespace QuanLyThueDat.Application.Service
                 if (entity.DsThongBaoTienThueDatChiTiet != null)
                 {
                     var listct = new List<ThongBaoTienThueDatChiTietViewModel>();
-                    foreach (var item in entity.DsThongBaoTienThueDatChiTiet)
+                    if(entity.LoaiThongBaoTienThueDat == "ThongBaoDieuChinh")
                     {
-                        var tbDonGia = await _context.ThongBaoDonGiaThueDat.FirstOrDefaultAsync(x=> x.IdThongBaoDonGiaThueDat == item.IdThongBaoDonGiaThueDat);
-                        var ctVM = new ThongBaoTienThueDatChiTietViewModel();
-                        ctVM.IdThongBaoTienThueDat = item.IdThongBaoTienThueDat;
-                        ctVM.IdThongBaoTienThueDatChiTiet = item.IdThongBaoTienThueDatChiTiet;
-                        ctVM.IdThongBaoDonGiaThueDat = item.IdThongBaoDonGiaThueDat;
-                        ctVM.Nam = item.Nam;
-                        ctVM.DonGia = item.DonGia.ToString("N0", new CultureInfo("vi-VN"));
-                        ctVM.SoThongBaoDonGiaThueDat = tbDonGia.SoThongBaoDonGiaThueDat;
-                        ctVM.NgayThongBaoDonGiaThueDat = tbDonGia.NgayThongBaoDonGiaThueDat != null ? tbDonGia.NgayThongBaoDonGiaThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "";
-                        ctVM.DienTichKhongPhaiNop = item.DienTichKhongPhaiNop.ToString("N", new CultureInfo("vi-VN"));
-                        ctVM.DienTichPhaiNop = item.DienTichPhaiNop.ToString("N", new CultureInfo("vi-VN"));
-                        ctVM.SoTien = item.SoTien.ToString("N0", new CultureInfo("vi-VN"));
-                        ctVM.SoTienMienGiam = item.SoTienMienGiam.ToString("N0", new CultureInfo("vi-VN"));
-                        ctVM.SoTienPhaiNop = item.SoTienPhaiNop.ToString("N0", new CultureInfo("vi-VN"));
-                        ctVM.TuNgayTinhTien = item.TuNgayTinhTien != null ? item.TuNgayTinhTien.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "";
-                        ctVM.DenNgayTinhTien = item.DenNgayTinhTien != null ? item.DenNgayTinhTien.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "";
-                        ctVM.GhiChu = item.GhiChu;
-                        listct.Add(ctVM);
+                        foreach (var item in entity.DsThongBaoTienThueDatChiTiet)
+                        {
+                            var tbTienThueDat = await _context.ThongBaoTienThueDat.FirstOrDefaultAsync(x => x.IdThongBaoTienThueDat == item.IdThongBaoTienThueDatGoc);
+                            var ctVM = new ThongBaoTienThueDatChiTietViewModel();
+                            ctVM.IdThongBaoTienThueDat = item.IdThongBaoTienThueDat;
+                            ctVM.IdThongBaoTienThueDatChiTiet = item.IdThongBaoTienThueDatChiTiet;
+                            ctVM.IdThongBaoDonGiaThueDat = item.IdThongBaoDonGiaThueDat;
+                            ctVM.IdThongBaoTienThueDatGoc = item.IdThongBaoTienThueDatGoc;
+                            ctVM.Nam = tbTienThueDat.Nam;
+                            ctVM.SoTien = item.SoTien.ToString("N0", new CultureInfo("vi-VN"));
+                            ctVM.SoTienMienGiam = item.SoTienMienGiam.ToString("N0", new CultureInfo("vi-VN"));
+                            ctVM.SoTienPhaiNop = item.SoTienPhaiNop.ToString("N0", new CultureInfo("vi-VN"));
+                            ctVM.TuNgayTinhTien = item.TuNgayTinhTien != null ? item.TuNgayTinhTien.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "";
+                            ctVM.DenNgayTinhTien = item.DenNgayTinhTien != null ? item.DenNgayTinhTien.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "";
+                            ctVM.GhiChu = item.GhiChu;
+                            listct.Add(ctVM);
+                        }
+                        result.DsThongBaoTienThueDatChiTiet = listct;
                     }
-                    result.DsThongBaoTienThueDatChiTiet = listct;
+                    else
+                    {
+                        foreach (var item in entity.DsThongBaoTienThueDatChiTiet)
+                        {
+                            var tbDonGia = await _context.ThongBaoDonGiaThueDat.FirstOrDefaultAsync(x => x.IdThongBaoDonGiaThueDat == item.IdThongBaoDonGiaThueDat);
+                            var ctVM = new ThongBaoTienThueDatChiTietViewModel();
+                            ctVM.IdThongBaoTienThueDat = item.IdThongBaoTienThueDat;
+                            ctVM.IdThongBaoTienThueDatChiTiet = item.IdThongBaoTienThueDatChiTiet;
+                            ctVM.IdThongBaoDonGiaThueDat = item.IdThongBaoDonGiaThueDat;
+                            ctVM.Nam = item.Nam;
+                            ctVM.DonGia = item.DonGia.ToString("N0", new CultureInfo("vi-VN"));
+                            ctVM.SoThongBaoDonGiaThueDat = tbDonGia.SoThongBaoDonGiaThueDat;
+                            ctVM.NgayThongBaoDonGiaThueDat = tbDonGia.NgayThongBaoDonGiaThueDat != null ? tbDonGia.NgayThongBaoDonGiaThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "";
+                            ctVM.DienTichKhongPhaiNop = item.DienTichKhongPhaiNop.ToString("N", new CultureInfo("vi-VN"));
+                            ctVM.DienTichPhaiNop = item.DienTichPhaiNop.ToString("N", new CultureInfo("vi-VN"));
+                            ctVM.SoTien = item.SoTien.ToString("N0", new CultureInfo("vi-VN"));
+                            ctVM.SoTienMienGiam = item.SoTienMienGiam.ToString("N0", new CultureInfo("vi-VN"));
+                            ctVM.SoTienPhaiNop = item.SoTienPhaiNop.ToString("N0", new CultureInfo("vi-VN"));
+                            ctVM.TuNgayTinhTien = item.TuNgayTinhTien != null ? item.TuNgayTinhTien.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "";
+                            ctVM.DenNgayTinhTien = item.DenNgayTinhTien != null ? item.DenNgayTinhTien.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "";
+                            ctVM.GhiChu = item.GhiChu;
+                            listct.Add(ctVM);
+                        }
+                        result.DsThongBaoTienThueDatChiTiet = listct;
+                    }
+
                 }
                 var listFileViewModel = new List<FileTaiLieuViewModel>();
                 var listFile = _context.FileTaiLieu.Include(x => x.File).Where(x => x.IdLoaiTaiLieu == NhomLoaiTaiLieuConstant.NhomThongBaoTienThueDat && x.IdTaiLieu == entity.IdThongBaoTienThueDat && x.TrangThai != 4).ToList();
@@ -520,6 +556,90 @@ namespace QuanLyThueDat.Application.Service
                 result.Add(ThongBaoTienThueDat);
             }
             return new ApiSuccessResult<List<ThongBaoTienThueDatViewModel>>() { Data = result };
+        }
+
+        public async Task<ApiResult<List<ThongBaoTienThueDatViewModel>>> GetAllByRequest(ThongBaoTienThueDatRequest rq)
+        {
+            var result = new List<ThongBaoTienThueDatViewModel>();
+            var query = from a in _context.ThongBaoTienThueDat.Include(x => x.DoanhNghiep).Where(x=> x.BiDieuChinh == 0)
+                        select a;
+            if (rq.IdDoanhNghiep != 0)
+            {
+                query = query.Where(x => x.IdDoanhNghiep == rq.IdDoanhNghiep);
+            }
+            if (rq.IdQuyetDinhThueDat != 0)
+            {
+                query = query.Where(x => x.IdQuyetDinhThueDat == rq.IdQuyetDinhThueDat || x.IdQuyetDinhThueDat == null);
+            }
+            if (rq.SoQuyetDinhThueDat != null)
+            {
+                query = query.Where(x => (x.SoQuyetDinhThueDat == rq.SoQuyetDinhThueDat && x.NgayQuyetDinhThueDat == DateTime.Parse(rq.NgayQuyetDinhThueDat, new CultureInfo("vi-VN"))));
+            }
+            var data = await query.OrderByDescending(x => x.NgayThongBaoTienThueDat).ToListAsync();
+            foreach (var entity in data)
+            {
+                var thoiHanDonGia = "";
+                if (!String.IsNullOrEmpty(entity.SoThongBaoDonGiaThueDat))
+                {
+                    var tbDonGia = await _context.ThongBaoDonGiaThueDat.FirstOrDefaultAsync(x => x.SoThongBaoDonGiaThueDat == entity.SoThongBaoDonGiaThueDat);
+                    thoiHanDonGia = tbDonGia.ThoiHanDonGia + (tbDonGia.NgayHieuLucDonGiaThueDat != null ? " từ ngày " + tbDonGia.NgayHieuLucDonGiaThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "") + (tbDonGia.NgayHetHieuLucDonGiaThueDat != null ? " đến ngày " + tbDonGia.NgayHetHieuLucDonGiaThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "");
+                }
+                var ThongBaoTienThueDat = new ThongBaoTienThueDatViewModel
+                {
+                    IdThongBaoTienThueDat = entity.IdThongBaoTienThueDat,
+                    IdDoanhNghiep = entity.IdDoanhNghiep,
+                    IdQuyetDinhThueDat = entity.IdQuyetDinhThueDat,
+                    IdHopDongThueDat = entity.IdHopDongThueDat,
+                    IdQuyetDinhMienTienThueDat = entity.IdQuyetDinhMienTienThueDat,
+                    IdThongBaoDonGiaThueDat = entity.IdThongBaoDonGiaThueDat,
+                    TenDoanhNghiep = entity.DoanhNghiep.TenDoanhNghiep,
+                    MaSoThue = entity.DoanhNghiep.MaSoThue,
+                    CoQuanQuanLyThue = entity.DoanhNghiep.CoQuanQuanLyThue,
+                    DiaChi = entity.DoanhNghiep.DiaChi,
+                    SoDienThoai = entity.DoanhNghiep.SoDienThoai,
+                    Email = entity.DoanhNghiep.Email,
+                    LoaiThongBaoTienThueDat = entity.LoaiThongBaoTienThueDat,
+                    SoQuyetDinhThueDat = entity.SoQuyetDinhThueDat,
+                    TenQuyetDinhThueDat = entity.TenQuyetDinhThueDat,
+                    NgayQuyetDinhThueDat = entity.NgayQuyetDinhThueDat != null ? entity.NgayQuyetDinhThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
+                    MucDichSuDung = entity.MucDichSuDung,
+                    SoThongBaoTienThueDat = entity.SoThongBaoTienThueDat,
+                    LanhDaoKyThongBaoTienThueDat = entity.LanhDaoKyThongBaoTienThueDat,
+                    SoThongBaoDonGiaThueDat = entity.SoThongBaoDonGiaThueDat,
+                    TenThongBaoDonGiaThueDat = entity.TenThongBaoDonGiaThueDat,
+                    NgayThongBaoDonGiaThueDat = entity.NgayThongBaoDonGiaThueDat != null ? entity.NgayThongBaoDonGiaThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
+                    ThoiHanDonGiaThueDat = thoiHanDonGia,
+                    ViTriThuaDat = entity.ViTriThuaDat,
+                    DienTichKhongPhaiNop = entity.DienTichKhongPhaiNop.ToString("N", new CultureInfo("vi-VN")),
+                    DienTichPhaiNop = entity.DienTichPhaiNop.ToString("N", new CultureInfo("vi-VN")),
+                    DonGia = entity.DonGia.ToString("N0", new CultureInfo("vi-VN")),
+                    NgayThongBaoTienThueDat = entity.NgayThongBaoTienThueDat != null ? entity.NgayThongBaoTienThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
+                    SoTien = entity.SoTien.ToString("N0", new CultureInfo("vi-VN")),
+                    SoTienMienGiam = entity.SoTienMienGiam.ToString("N0", new CultureInfo("vi-VN")),
+                    SoTienPhaiNop = entity.SoTienPhaiNop.ToString("N0", new CultureInfo("vi-VN")),
+                    Nam = entity.Nam,
+                    DiaChiThuaDat = entity.DiaChiThuaDat,
+                    ThoiHanThue = entity.ThoiHanThue,
+                    DenNgayThue = entity.DenNgayThue != null ? entity.DenNgayThue.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
+                    TuNgayThue = entity.TuNgayThue != null ? entity.TuNgayThue.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
+                    TongDienTich = entity.TongDienTich.ToString("N", new CultureInfo("vi-VN")),
+                    GhiChu = entity.GhiChu,
+                };
+                result.Add(ThongBaoTienThueDat);
+            }
+            return new ApiSuccessResult<List<ThongBaoTienThueDatViewModel>>() { Data = result };
+        }
+
+        public ThongBaoTienThueDatViewModel CheckThongBaoDaDieuChinh(ThongBaoTienThueDatViewModel Vm)
+        {
+            if(Vm.BiDieuChinh == 1)
+            {
+                Vm.SoTienPhaiNop = 0.ToString();
+                Vm.SoTienMienGiam = 0.ToString();
+                Vm.SoTien = 0.ToString();
+                Vm.GhiChu += " Đã ra thông báo điều chỉnh ";
+            }
+            return Vm;
         }
     }
 }

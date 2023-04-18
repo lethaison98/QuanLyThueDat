@@ -49,5 +49,6 @@ namespace QuanLyThueDat.Data.Entities
         public decimal SoTienPhaiNop { get; set; }
         public List<ThongBaoTienThueDatChiTiet> DsThongBaoTienThueDatChiTiet { get; set; }
         public string GhiChu { get; set; }
+        public int BiDieuChinh { get; set; }
     }
 }

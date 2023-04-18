@@ -53,5 +53,11 @@ namespace QuanLyThueDat.API.Controllers
             var result = await _ThongBaoTienThueDatService.GetAllByNam(nam);
             return Ok(result);
         }
+        [HttpPost("GetAllByRequest")]
+        public async Task<IActionResult> GetAllByRequest(ThongBaoTienThueDatRequest request)
+        {
+            var result = await _ThongBaoTienThueDatService.GetAllByRequest(request);
+            return Ok(result);
+        }
     }
 }
