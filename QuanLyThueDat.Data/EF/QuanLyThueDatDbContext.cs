@@ -42,6 +42,7 @@ namespace QuanLyThueDat.Data.EF
             modelBuilder.ApplyConfiguration(new ThongBaoDonGiaThueDatConfiguration());
             modelBuilder.ApplyConfiguration(new ThongBaoTienThueDatConfiguration());
             modelBuilder.ApplyConfiguration(new ThongBaoTienThueDatChiTietConfiguration());
+            modelBuilder.ApplyConfiguration(new ThongBaoGhiThuGhiChiConfiguration());
             modelBuilder.ApplyConfiguration(new PhuongXaConfiguration());
             modelBuilder.ApplyConfiguration(new QuanHuyenConfiguration());
             modelBuilder.ApplyConfiguration(new CanBo_QuyetDinhThueDatConfiguration());
@@ -65,6 +66,7 @@ namespace QuanLyThueDat.Data.EF
         public DbSet<ThongBaoDonGiaThueDat> ThongBaoDonGiaThueDat { get; set; }
         public DbSet<ThongBaoTienThueDat> ThongBaoTienThueDat { get; set; }
         public DbSet<ThongBaoTienThueDatChiTiet> ThongBaoTienThueDatChiTiet { get; set; }
+        public DbSet<ThongBaoGhiThuGhiChi> ThongBaoGhiThuGhiChi { get; set; }
         public DbSet<PhuongXa> PhuongXa { get; set; }
         public DbSet<QuanHuyen> QuanHuyen { get; set; }
         public DbSet<CanBo_QuyetDinhThueDat> CanBo_QuyetDinhThueDat { get; set; }

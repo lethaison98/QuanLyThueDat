@@ -1,0 +1,108 @@
+﻿@{
+    Layout = null;
+}
+<div class="modal fade" id="popupDetailThongBaoGhiThuGhiChi" data-backdrop="static" role="dialog">
+    <div class="modal-dialog modal-xl">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Thêm mới thông báo ghi thu ghi chi</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body" style="min-height:600px">
+                <div class="col-sm-12" id="FormDetailThongBaoGhiThuGhiChi">
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <h5>Quyết định thuê đất</h5>
+                            <select class="form-control select2 ddQuyetDinhThueDat" style="width: 100%;">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <input type="hidden" class="form-control" data-name="IdThongBaoGhiThuGhiChi" value="0">
+                            <div class="d-flex">
+                                <h5>Số thông báo <a href="#" style="color: gold" class="fa fa-folder" id="btnSelectFileThongBaoGhiThuGhiChi"></a> &nbsp;</h5>
+                                <input type="file" id="fileThongBaoGhiThuGhiChi" multiple="" style="display: none;">
+                                <div class="fileDinhKem" data-name="FileThongBaoGhiThuGhiChi" data-id="0">
+                                </div>
+                            </div>
+                            <input type="text" class="form-control" data-name="SoThongBaoGhiThuGhiChi" required>
+                        </div>
+                        <div class="form-group col-md-6" style="display:none">
+                            <h5>Doanh nghiệp</h5>
+                            <select class="form-control select2 ddDoanhNghiep" style="width: 100%;">
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <h5>Ngày thông báo</h5>
+                            <input type="text" class="form-control datetimepicker-input" data-toggle="datetimepicker" data-name="NgayThongBaoGhiThuGhiChi">
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <h5>Số tiền ghi thu</h5>
+                            <input type="text" class="form-control number" data-name="SoTienGhiThu" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <h5>Số tiền ghi chi</h5>
+                            <input type="text" class="form-control number" data-name="SoTienGhiChi" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <h5>Nội dung ghi thu</h5>
+                            <textarea rows="4" type="text" class="form-control " data-name="NoiDungGhiThu"></textarea>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <h5>Nội dung ghi chi</h5>
+                            <textarea rows="4" type="text" class="form-control " data-name="NoiDungGhiChi"></textarea>
+                        </div>
+                    </div>
+                    @*                    <div class="row">
+                        <div class="form-group col-md-6">
+                        <div class="card groupQuyetDinhThueDat" style="width: 100%">
+                        <div class="card-header">
+                        <h2 class="card-title">Ghi thu</h2>
+                        </div>
+                        <div class="card-body">
+                        <div class="row">
+                        <h5>Số tiền ghi thu</h5>
+                        <input type="text" class="form-control" data-name="SoQuyetDinhThueDat" required>
+                        </div>
+                        <div class="row">
+                        <h5>Nội dung ghi thu</h5>
+                        <textarea type="text" class="form-control" data-name="SoQuyetDinhThueDat" required></textarea>
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                        <div class="card groupQuyetDinhThueDat" style="width: 100%">
+                        <div class="card-header">
+                        <h2 class="card-title">Ghi chi</h2>
+                        </div>
+                        <div class="card-body">
+                        <div class="row">
+                        <h5>Số tiền ghi chi</h5>
+                        <input type="text" class="form-control" data-name="SoQuyetDinhThueDat" required>
+                        </div>
+                        <div class="row">
+                        <h5>Nội dung ghi chi</h5>
+                        <textarea type="text" class="form-control" data-name="SoQuyetDinhThueDat" required></textarea>
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+                        </div>*@
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btnSaveThongBaoGhiThuGhiChi">Lưu</button>
+                <button type="button" class="btn btn-danger" id="btnCloseThongBaoGhiThuGhiChi" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>

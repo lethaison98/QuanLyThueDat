@@ -21,6 +21,7 @@ namespace QuanLyThueDat.Application.Request
         public string NgayHetHieuLucHopDong { get; set; }
         public string SoHopDongDieuChinh { get; set; }
         public string GhiChu { get; set; }
+        public decimal DienTich { get; set; }
         public List<FileTaiLieu> FileTaiLieu { get; set; } = new List<FileTaiLieu>();
     }
 }

@@ -45,6 +45,7 @@ namespace QuanLyThueDat.Application.Service
                     TenHopDong = rq.TenHopDong,
                     CoQuanKy = rq.CoQuanKy,
                     NguoiKy = rq.NguoiKy,
+                    DienTich = rq.DienTich,
                     NgayKyHopDong = string.IsNullOrEmpty(rq.NgayKyHopDong) ? null : DateTime.Parse(rq.NgayKyHopDong, new CultureInfo("vi-VN")),
                     NgayHieuLucHopDong = string.IsNullOrEmpty(rq.NgayHieuLucHopDong) ? null : DateTime.Parse(rq.NgayHieuLucHopDong, new CultureInfo("vi-VN")),
                     NgayHetHieuLucHopDong = string.IsNullOrEmpty(rq.NgayHetHieuLucHopDong) ? null : DateTime.Parse(rq.NgayHetHieuLucHopDong, new CultureInfo("vi-VN")),
@@ -72,6 +73,7 @@ namespace QuanLyThueDat.Application.Service
                 entity.IdNguoiCapNhat = userId;
                 entity.SoHopDongDieuChinh = rq.SoHopDongDieuChinh;
                 entity.GhiChu = rq.GhiChu;
+                entity.DienTich = rq.DienTich;
             }
 
             _context.HopDongThueDat.Update(entity);
@@ -146,6 +148,8 @@ namespace QuanLyThueDat.Application.Service
                     NgayHetHieuLucHopDong = item.NgayHetHieuLucHopDong != null ? item.NgayHetHieuLucHopDong.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                     SoHopDongDieuChinh = item.SoHopDongDieuChinh,
                     GhiChu = item.GhiChu,
+                    DienTich = item.DienTich.ToString("N", new CultureInfo("vi-VN")),
+
                 };
                 result.Add(HopDongThueDat);
             }
@@ -186,6 +190,8 @@ namespace QuanLyThueDat.Application.Service
                     NgayHetHieuLucHopDong = entity.NgayHetHieuLucHopDong != null ? entity.NgayHetHieuLucHopDong.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                     SoHopDongDieuChinh = entity.SoHopDongDieuChinh,
                     GhiChu = entity.GhiChu,
+                    DienTich = entity.DienTich.ToString("N", new CultureInfo("vi-VN")),
+
                 };
                 if (entity.IdQuyetDinhThueDat != null)
                 {
@@ -239,6 +245,8 @@ namespace QuanLyThueDat.Application.Service
                     NgayHetHieuLucHopDong = entity.NgayHetHieuLucHopDong != null ? entity.NgayHetHieuLucHopDong.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                     SoHopDongDieuChinh = entity.SoHopDongDieuChinh,
                     GhiChu = entity.GhiChu,
+                    DienTich = entity.DienTich.ToString("N", new CultureInfo("vi-VN")),
+
                 };
                 if (entity.IdQuyetDinhThueDat != null)
                 {

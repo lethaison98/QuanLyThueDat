@@ -113,7 +113,7 @@ ThongBaoDonGiaThueDatControl = {
                                 var thaotac = "<div class='hstn-func' style='text-align: center;' data-type='" + JSON.stringify(row) + "'>" +
                                     "<a href='javascript:;' class='ThongBaoDonGiaThueDat-export' data-id='" + row.IdThongBaoDonGiaThueDat + "'><i class='fas fa-file-word' title='Xuất thông báo' ></i></a> &nbsp" +
                                     "<a href='javascript:;' class='ThongBaoDonGiaThueDat-edit' data-id='" + row.IdThongBaoDonGiaThueDat + "'><i class='fas fa-edit' title='Chỉnh sửa'></i></a>" +
-                                    "<a href='javascript:;' class='ThongBaoDonGiaThueDat-remove text-danger' "+show+" data-id='" + row.IdThongBaoDonGiaThueDat + "'><i class='fas fa-trash-alt' title='Xóa' ></i></a>" +
+                                    "<a href='javascript:;' class='ThongBaoDonGiaThueDat-remove text-danger' " + show + " data-id='" + row.IdThongBaoDonGiaThueDat + "'><i class='fas fa-trash-alt' title='Xóa' ></i></a>" +
                                     "</div>";
                                 return thaotac;
                             }
@@ -166,7 +166,8 @@ ThongBaoDonGiaThueDatControl = {
                                                 $("#popupDetailThongBaoDonGiaThueDat").find('.fa-trash-alt').hide();
                                                 $("#popupDetailThongBaoDonGiaThueDat").find('.fa-folder').attr("disabled", true);
                                                 $("#popupDetailThongBaoDonGiaThueDat").find('.btn-success').hide();
-                                                $("#popupDetailThongBaoDonGiaThueDat").find('.btn-primary').hide();                                            } else {
+                                                $("#popupDetailThongBaoDonGiaThueDat").find('.btn-primary').hide();
+                                            } else {
                                                 self.RegisterEventsPopup();
                                             }
                                         }, 200)
@@ -387,11 +388,8 @@ ThongBaoDonGiaThueDatControl = {
                 popup.find('.ddQuyetDinhThueDat').html('');
                 popup.find('.ddQuyetDinhThueDat').append('<option value= "" selected="true" style="display: none"></option>');
                 $.each(res.Data, function (i, item) {
-                    if (item.HinhThucThue == "ThueDatTraTienHangNam" || item.HinhThucThue == "HopDongThueLaiDat") {
-                        var name = item.SoQuyetDinhThueDat + " - " + item.TextHinhThucThue + " - Diện tích " + item.TongDienTich + "  (m<sup>2</sup>)"
-                        popup.find('.ddQuyetDinhThueDat').append('<option value=' + item.IdQuyetDinhThueDat + ' index= ' + i + '>' + name + '</option>');
-                    }
-
+                    var name = item.SoQuyetDinhThueDat + " - " + item.TextHinhThucThue + " - Diện tích " + item.TongDienTich + "  (m<sup>2</sup>)"
+                    popup.find('.ddQuyetDinhThueDat').append('<option value=' + item.IdQuyetDinhThueDat + ' index= ' + i + '>' + name + '</option>');
                 })
                 popup.find('.ddQuyetDinhThueDat').on('change', function () {
                     $('.groupQuyetDinhThueDat input').val("");

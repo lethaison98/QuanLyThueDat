@@ -23,6 +23,7 @@ namespace QuanLyThueDat.Application.ViewModel
         public string NgayHetHieuLucHopDong { get; set; }
         public string SoHopDongDieuChinh { get; set; }
         public string GhiChu { get; set; }
+        public string DienTich { get; set; }
         public List<FileTaiLieuViewModel> DsFileTaiLieu { get; set; }
         public QuyenDuLieuViewModel QuyenDuLieu { get; set; } = new QuyenDuLieuViewModel();
     }

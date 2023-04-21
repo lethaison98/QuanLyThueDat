@@ -105,6 +105,7 @@ builder.Services.AddScoped<IThongBaoTienSuDungDatService, ThongBaoTienSuDungDatS
 builder.Services.AddScoped<IThongBaoDonGiaThueDatService, ThongBaoDonGiaThueDatService>();
 builder.Services.AddScoped<IQuyetDinhMienTienThueDatService, QuyetDinhMienTienThueDatService>();
 builder.Services.AddScoped<IThongBaoTienThueDatService, ThongBaoTienThueDatService>();
+builder.Services.AddScoped<IThongBaoGhiThuGhiChiService, ThongBaoGhiThuGhiChiService>();
 builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();

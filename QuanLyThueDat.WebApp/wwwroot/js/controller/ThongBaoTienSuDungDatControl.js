@@ -113,7 +113,7 @@ ThongBaoTienSuDungDatControl = {
                                     file + "&nbsp" +
                                     "<a href='javascript:;' class='ThongBaoTienSuDungDat-export' data-id='" + row.IdThongBaoTienSuDungDat + "'><i class='fas fa-file-word' title='Xuất thông báo' ></i></a> &nbsp" +
                                     "<a href='javascript:;' class='ThongBaoTienSuDungDat-edit' data-id='" + row.IdThongBaoTienSuDungDat + "'><i class='fas fa-edit' title='Chỉnh sửa'></i></a>" +
-                                    "<a href='javascript:;' class='ThongBaoTienSuDungDat-remove text-danger' "+show+ "data-id='" + row.IdThongBaoTienSuDungDat + "'><i class='fas fa-trash-alt' title='Xóa' ></i></a>" +
+                                    "<a href='javascript:;' class='ThongBaoTienSuDungDat-remove text-danger' " + show + "data-id='" + row.IdThongBaoTienSuDungDat + "'><i class='fas fa-trash-alt' title='Xóa' ></i></a>" +
                                     "</div>";
                                 return thaotac;
                             }
@@ -162,7 +162,8 @@ ThongBaoTienSuDungDatControl = {
                                                 $("#popupDetailThongBaoTienSuDungDat").find('.fa-trash-alt').hide();
                                                 $("#popupDetailThongBaoTienSuDungDat").find('.fa-folder').attr("disabled", true);
                                                 $("#popupDetailThongBaoTienSuDungDat").find('.btn-success').hide();
-                                                $("#popupDetailThongBaoTienSuDungDat").find('.btn-primary').hide();                                            } else {
+                                                $("#popupDetailThongBaoTienSuDungDat").find('.btn-primary').hide();
+                                            } else {
                                                 self.RegisterEventsPopup();
                                             }
                                         }, 200)
@@ -387,11 +388,8 @@ ThongBaoTienSuDungDatControl = {
                 popup.find('.ddQuyetDinhThueDat').html('');
                 popup.find('.ddQuyetDinhThueDat').append('<option value= "" selected="true" style="display: none"></option>');
                 $.each(res.Data, function (i, item) {
-                    if (item.HinhThucThue == "GiaoDatCoThuTien") {
-                        var name = item.SoQuyetDinhThueDat + " - " + item.TextHinhThucThue + " - Diện tích " + item.TongDienTich + "  (m<sup>2</sup>)"
-                        popup.find('.ddQuyetDinhThueDat').append('<option value=' + i + '>' + name + '</option>');
-                    }
-
+                    var name = item.SoQuyetDinhThueDat + " - " + item.TextHinhThucThue + " - Diện tích " + item.TongDienTich + "  (m<sup>2</sup>)"
+                    popup.find('.ddQuyetDinhThueDat').append('<option value=' + i + '>' + name + '</option>');
                 })
                 popup.find('.ddQuyetDinhThueDat').on('change', function () {
                     $('.groupQuyetDinhThueDat input').val("");

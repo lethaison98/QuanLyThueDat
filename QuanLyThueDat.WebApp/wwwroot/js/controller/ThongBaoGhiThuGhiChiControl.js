@@ -1,7 +1,7 @@
-﻿if (typeof (HopDongThueDatControl) == "undefined") HopDongThueDatControl = {};
-HopDongThueDatControl = {
+﻿if (typeof (ThongBaoGhiThuGhiChiControl) == "undefined") ThongBaoGhiThuGhiChiControl = {};
+ThongBaoGhiThuGhiChiControl = {
     Init: function () {
-        HopDongThueDatControl.RegisterEvents();
+        ThongBaoGhiThuGhiChiControl.RegisterEvents();
 
     },
 
@@ -12,10 +12,11 @@ HopDongThueDatControl = {
         } else {
             idDoanhNghiep = opts.IdDoanhNghiep
         }
+        console.log(23123);
         var self = this;
         self.table = SetDataTable({
-            table: $('#tblHopDongThueDat'),
-            url: localStorage.getItem("API_URL") + "/HopDongThueDat/GetAllPaging",
+            table: $('#tblThongBaoGhiThuGhiChi'),
+            url: localStorage.getItem("API_URL") + "/ThongBaoGhiThuGhiChi/GetAllPaging",
             dom: "rtip",
             data: {
                 "requestData": function () {
@@ -38,7 +39,7 @@ HopDongThueDatControl = {
                         "data": "RN",
                         "defaultContent": "1",
                         render: function (data, type, row, meta) {
-                            var tables = $('#tblHopDongThueDat').DataTable();
+                            var tables = $('#tblThongBaoGhiThuGhiChi').DataTable();
                             var info = tables.page.info();
                             return info.start + meta.row + 1;
                         }
@@ -46,14 +47,14 @@ HopDongThueDatControl = {
                     {
                         "class": "name-control",
                         "width": "20%",
-                        "data": "SoHopDong",
+                        "data": "SoThongBaoGhiThuGhiChi",
                         "defaultContent": "",
                         render: function (data, type, row) {
                             var file = "";
                             if (row.DsFileTaiLieu != null) {
                                 $.each(row.DsFileTaiLieu, function (i, item) {
-                                    if (item.LoaiTaiLieu == "HopDongThueDat") {
-                                        file = "<a href = '" + localStorage.getItem('API_URL').replace("api", "") + item.LinkFile + "' target='_blank'><i class = 'fas fa-paperclip' title = 'File hợp đồng thuê đất'></i></a>";
+                                    if (item.LoaiTaiLieu == "ThongBaoGhiThuGhiChi") {
+                                        file = "<a href = '" + localStorage.getItem('API_URL').replace("api", "") + item.LinkFile + "' target='_blank'><i class = 'fas fa-paperclip' title = 'File thông báo ghi thu ghi chi'></i></a>";
                                     }
                                 });
                             }
@@ -61,18 +62,22 @@ HopDongThueDatControl = {
                             return thaotac;
 
                         }
-
-                    },
-                    {
-                        "class": "name-control",
-                        "data": "TenDoanhNghiep",
-                        "defaultContent": ""
                     },
                     {
                         "class": "name-control",
                         "width": "15%",
-                        "data": "NgayKyHopDong",
+                        "data": "NgayThongBaoGhiThuGhiChi",
                         "defaultContent": "",
+                    },
+                    {
+                        "class": "name-control",
+                        "data": "SoTienGhiThu",
+                        "defaultContent": ""
+                    },
+                    {
+                        "class": "name-control",
+                        "data": "SoTienGhiChi",
+                        "defaultContent": ""
                     },
                     {
                         "class": "function-control",
@@ -87,14 +92,14 @@ HopDongThueDatControl = {
                             }
                             if (opts == undefined) {
                                 var thaotac = "<div class='hstn-func' style='text-align: center;' data-type='" + JSON.stringify(row) + "'>" +
-                                    "<a href='javascript:;' class='HopDongThueDat-view' data-id='" + row.IdHopDongThueDat + "'><i class='fas fa-eye' title='Xem'></i></a> &nbsp" +
+                                    "<a href='javascript:;' class='ThongBaoGhiThuGhiChi-view' data-id='" + row.IdThongBaoGhiThuGhiChi + "'><i class='fas fa-eye' title='Xem'></i></a> &nbsp" +
                                     "</div>";
                                 return thaotac;
                             } else {
                                 var thaotac = "<div class='hstn-func' style='text-align: center;' data-type='" + JSON.stringify(row) + "'>" +
-                                    "<a href='javascript:;' class='HopDongThueDat-view' data-id='" + row.IdHopDongThueDat + "'><i class='fas fa-eye' title='Xem'></i></a> &nbsp" +
-                                    "<a href='javascript:;' class='HopDongThueDat-edit' data-id='" + row.IdHopDongThueDat + "'><i class='fas fa-edit' title='Sửa'></i></a>  &nbsp" +
-                                    "<a href='javascript:;' class='HopDongThueDat-remove text-danger'"+show+" data-id='" + row.IdHopDongThueDat + "'><i class='fas fa-trash-alt' title='Xóa' ></i></a>" +
+                                    "<a href='javascript:;' class='ThongBaoGhiThuGhiChi-view' data-id='" + row.IdThongBaoGhiThuGhiChi + "'><i class='fas fa-eye' title='Xem'></i></a> &nbsp" +
+                                    "<a href='javascript:;' class='ThongBaoGhiThuGhiChi-edit' data-id='" + row.IdThongBaoGhiThuGhiChi + "'><i class='fas fa-edit' title='Sửa'></i></a>  &nbsp" +
+                                    "<a href='javascript:;' class='ThongBaoGhiThuGhiChi-remove text-danger'"+show+" data-id='" + row.IdThongBaoGhiThuGhiChi + "'><i class='fas fa-trash-alt' title='Xóa' ></i></a>" +
                                     "</div>";
                                 return thaotac;
                             }
@@ -103,21 +108,21 @@ HopDongThueDatControl = {
                 ]
             },
             callback: function () {
-                $("#tblHopDongThueDat tbody .HopDongThueDat-view").off('click').on('click', function (e) {
+                $("#tblThongBaoGhiThuGhiChi tbody .ThongBaoGhiThuGhiChi-view").off('click').on('click', function (e) {
                     var $y = $(this);
                     var id = $y.attr('data-id');
                     Get({
-                        url: localStorage.getItem("API_URL") + '/HopDongThueDat/GetById',
+                        url: localStorage.getItem("API_URL") + '/ThongBaoGhiThuGhiChi/GetById',
                         data: {
-                            idHopDongThueDat: id
+                            idThongBaoGhiThuGhiChi: id
                         },
                         callback: function (res) {
                             Get({
-                                url: '/HopDongThueDat/PopupViewHopDongThueDat',
+                                url: '/ThongBaoGhiThuGhiChi/PopupViewThongBaoGhiThuGhiChi',
                                 dataType: 'text',
                                 callback: function (popup) {
-                                    $('#modalViewHopDongThueDat').html(popup);
-                                    $('#popupViewHopDongThueDat').modal();
+                                    $('#modalViewThongBaoGhiThuGhiChi').html(popup);
+                                    $('#popupViewThongBaoGhiThuGhiChi').modal();
                                     var data = [];
                                     var obj = {
                                         TenDoanhNghiep: res.Data.TenDoanhNghiep,
@@ -132,7 +137,7 @@ HopDongThueDatControl = {
                                     data.push(obj);
 
                                     console.log(data);
-                                    $('#tblViewHopDongThueDat').DataTable({
+                                    $('#tblViewThongBaoGhiThuGhiChi').DataTable({
                                         data: data,
                                         dom: 'B',
                                         buttons: [
@@ -199,31 +204,31 @@ HopDongThueDatControl = {
                                             }
                                         ]
                                     });
-                                    $('#popupViewHopDongThueDat .buttons-print').trigger('click');
+                                    $('#popupViewThongBaoGhiThuGhiChi .buttons-print').trigger('click');
                                 }
                             });
                         }
                     });
                 });
-                $('#tblHopDongThueDat tbody .HopDongThueDat-edit').off('click').on('click', function (e) {
+                $('#tblThongBaoGhiThuGhiChi tbody .ThongBaoGhiThuGhiChi-edit').off('click').on('click', function (e) {
                     var id = $(this).attr('data-id');
                     Get({
-                        url: localStorage.getItem("API_URL") + '/HopDongThueDat/GetById',
+                        url: localStorage.getItem("API_URL") + '/ThongBaoGhiThuGhiChi/GetById',
                         data: {
-                            idHopDongThueDat: id
+                            idThongBaoGhiThuGhiChi: id
                         },
                         callback: function (res) {
                             if (res.IsSuccess) {
                                 Get({
-                                    url: '/HopDongThueDat/PopupDetailHopDongThueDat',
+                                    url: '/ThongBaoGhiThuGhiChi/PopupDetailThongBaoGhiThuGhiChi',
                                     dataType: 'text',
                                     callback: function (popup) {
-                                        $('#modalDetailHopDongThueDat').html(popup);
-                                        $('#popupDetailHopDongThueDat').modal();
-                                        $('#popupDetailHopDongThueDat .modal-title').text("Chỉnh sửa hợp đồng thuê đất - " + opts.TenDoanhNghiep);
+                                        $('#modalDetailThongBaoGhiThuGhiChi').html(popup);
+                                        $('#popupDetailThongBaoGhiThuGhiChi').modal();
+                                        $('#popupDetailThongBaoGhiThuGhiChi .modal-title').text("Chỉnh sửa ghi thu ghi chi - " + opts.TenDoanhNghiep);
 
-                                        FillFormData('#FormDetailHopDongThueDat', res.Data);
-                                        var popup = $('#popupDetailHopDongThueDat');
+                                        FillFormData('#FormDetailThongBaoGhiThuGhiChi', res.Data);
+                                        var popup = $('#popupDetailThongBaoGhiThuGhiChi');
                                         if (opts != undefined) {
                                             popup.find('.ddDoanhNghiep').append('<option value="' + opts.IdDoanhNghiep + '">' + opts.TenDoanhNghiep + '</option>');
                                         } else {
@@ -231,27 +236,27 @@ HopDongThueDatControl = {
                                         }
                                         if (res.Data.IdQuyetDinhThueDat != null) {
                                             console.log(111);
-                                            $('#popupDetailHopDongThueDat .ddQuyetDinhThueDat').append('<option value="' + res.Data.IdQuyetDinhThueDat + '">' + res.Data.SoQuyetDinhThueDat +'</option>');
+                                            $('#popupDetailThongBaoGhiThuGhiChi .ddQuyetDinhThueDat').append('<option value="' + res.Data.IdQuyetDinhThueDat + '">' + res.Data.SoQuyetDinhThueDat +'</option>');
                                         }
                                         setTimeout(function () {
                                             var checkRole = res.Data.QuyenDuLieu.AllowEdit;
                                             if (!checkRole) {
-                                                $("#popupDetailHopDongThueDat").find('input').attr("disabled", true);
-                                                $("#popupDetailHopDongThueDat").find('select').attr("disabled", true);
-                                                $("#popupDetailHopDongThueDat").find('.fa-trash-alt').hide();
-                                                $("#popupDetailHopDongThueDat").find('.fa-folder').attr("disabled", true);
-                                                $("#popupDetailHopDongThueDat").find('.btn-success').hide();
-                                                $("#popupDetailHopDongThueDat").find('.btn-primary').hide();                                            } else {
+                                                $("#popupDetailThongBaoGhiThuGhiChi").find('input').attr("disabled", true);
+                                                $("#popupDetailThongBaoGhiThuGhiChi").find('select').attr("disabled", true);
+                                                $("#popupDetailThongBaoGhiThuGhiChi").find('.fa-trash-alt').hide();
+                                                $("#popupDetailThongBaoGhiThuGhiChi").find('.fa-folder').attr("disabled", true);
+                                                $("#popupDetailThongBaoGhiThuGhiChi").find('.btn-success').hide();
+                                                $("#popupDetailThongBaoGhiThuGhiChi").find('.btn-primary').hide();                                            } else {
                                                 self.RegisterEventsPopup();
                                             }
                                         }, 200)
                                         if (res.Data.DsFileTaiLieu != null) {
                                             $.each(res.Data.DsFileTaiLieu, function (i, item) {
-                                                if (item.LoaiTaiLieu == "HopDongThueDat") {
-                                                    $('[data-name="FileHopDongThueDat"]').html('')
-                                                    $('[data-name="FileHopDongThueDat"]').append('<a href = "' + localStorage.getItem("API_URL").replace('api', '') + item.LinkFile + '" target="_blank">' + item.TenFile + '</a>&nbsp;<i class="fas fa-trash-alt btn-deleteFile" title="Xóa"></i>');
-                                                    $('[data-name="FileHopDongThueDat"]').attr('data-idFile', item.IdFile);
-                                                    $('[data-name="FileHopDongThueDat"]').attr('data-id', item.IdFileTaiLieu);
+                                                if (item.LoaiTaiLieu == "ThongBaoGhiThuGhiChi") {
+                                                    $('[data-name="FileThongBaoGhiThuGhiChi"]').html('')
+                                                    $('[data-name="FileThongBaoGhiThuGhiChi"]').append('<a href = "' + localStorage.getItem("API_URL").replace('api', '') + item.LinkFile + '" target="_blank">' + item.TenFile + '</a>&nbsp;<i class="fas fa-trash-alt btn-deleteFile" title="Xóa"></i>');
+                                                    $('[data-name="FileThongBaoGhiThuGhiChi"]').attr('data-idFile', item.IdFile);
+                                                    $('[data-name="FileThongBaoGhiThuGhiChi"]').attr('data-id', item.IdFileTaiLieu);
                                                 }
                                             });
                                         }
@@ -271,14 +276,14 @@ HopDongThueDatControl = {
                     });
                 });
 
-                $("#tblHopDongThueDat tbody .HopDongThueDat-remove").off('click').on('click', function (e) {
+                $("#tblThongBaoGhiThuGhiChi tbody .ThongBaoGhiThuGhiChi-remove").off('click').on('click', function (e) {
 
                     var $y = $(this);
                     var id = $y.attr('data-id');
                     if (id != "0") {
                         if (confirm("Xác nhận xóa?") == true) {
                             $.ajax({
-                                url: localStorage.getItem("API_URL") + "/HopDongThueDat/Delete?idHopDongThueDat=" + $y.attr('data-id') + "&Type=1",
+                                url: localStorage.getItem("API_URL") + "/ThongBaoGhiThuGhiChi/Delete?idThongBaoGhiThuGhiChi=" + $y.attr('data-id') + "&Type=1",
                                 headers: {
                                     'Authorization': 'Bearer ' + localStorage.getItem("ACCESS_TOKEN")
                                 },
@@ -310,13 +315,13 @@ HopDongThueDatControl = {
         $('.datetimepicker-input').datetimepicker({
             format: 'DD/MM/YYYY'
         });
-        $('#btnSelectFileHopDongThueDat').click(function () {
-            $('#fileHopDongThueDat').trigger("click");
+        $('#btnSelectFileThongBaoGhiThuGhiChi').click(function () {
+            $('#fileThongBaoGhiThuGhiChi').trigger("click");
         });
-        if ($('#fileHopDongThueDat').length > 0) {
-            $('#fileHopDongThueDat')[0].value = "";
-            $('#fileHopDongThueDat').off('change').on('change', function (e) {
-                var file = $('#fileHopDongThueDat')[0].files.length > 0 ? $('#fileHopDongThueDat')[0].files[0] : null;
+        if ($('#fileThongBaoGhiThuGhiChi').length > 0) {
+            $('#fileThongBaoGhiThuGhiChi')[0].value = "";
+            $('#fileThongBaoGhiThuGhiChi').off('change').on('change', function (e) {
+                var file = $('#fileThongBaoGhiThuGhiChi')[0].files.length > 0 ? $('#fileThongBaoGhiThuGhiChi')[0].files[0] : null;
                 if (file != null) {
                     var dataFile = new FormData();
                     dataFile.append("IdDoanhNghiep", $(".ddDoanhNghiep option:selected").val());
@@ -333,10 +338,10 @@ HopDongThueDatControl = {
                         data: dataFile,
                         success: function (res) {
                             if (res.IsSuccess) {
-                                $('[data-name="FileHopDongThueDat"]').html('')
-                                $('[data-name="FileHopDongThueDat"]').append('<a href = "#">' + file.name + '</a>&nbsp;<i class="fas fa-trash-alt btn-deleteFile" title="Xóa"></i>');
-                                $('[data-name="FileHopDongThueDat"]').attr('data-idFile', res.Data);
-                                $('[data-name="FileHopDongThueDat"]').attr('data-id', 0);
+                                $('[data-name="FileThongBaoGhiThuGhiChi"]').html('')
+                                $('[data-name="FileThongBaoGhiThuGhiChi"]').append('<a href = "#">' + file.name + '</a>&nbsp;<i class="fas fa-trash-alt btn-deleteFile" title="Xóa"></i>');
+                                $('[data-name="FileThongBaoGhiThuGhiChi"]').attr('data-idFile', res.Data);
+                                $('[data-name="FileThongBaoGhiThuGhiChi"]').attr('data-id', 0);
                                 $('.btn-deleteFile').off('click').on('click', function () {
                                     var $y = $(this);
                                     $y.parent().removeAttr("data-idFile");
@@ -351,12 +356,11 @@ HopDongThueDatControl = {
                 }
             });
         };
-
         $(".number").change(function () {
             $(this).val(ConvertDecimalToString($(this).val()));
         });
 
-        $("#btnSave").off('click').on('click', function () {
+        $("#btnSaveThongBaoGhiThuGhiChi").off('click').on('click', function () {
             self.InsertUpdate();
         });
 
@@ -365,18 +369,18 @@ HopDongThueDatControl = {
     RegisterEvents: function (opts) {
         var self = this;
         self.LoadDatatable(opts);
-        $('#btnCreateHopDongThueDat').off('click').on('click', function () {
+        $('#btnCreateThongBaoGhiThuGhiChi').off('click').on('click', function () {
 
             var $y = $(this);
             Get({
-                url: '/HopDongThueDat/PopupDetailHopDongThueDat',
+                url: '/ThongBaoGhiThuGhiChi/PopupDetailThongBaoGhiThuGhiChi',
                 dataType: 'text',
                 callback: function (res) {
-                    $('#modalDetailHopDongThueDat').html(res);
-                    $('#popupDetailHopDongThueDat').modal();
-                    $('#popupDetailHopDongThueDat .modal-title').text("Thêm mới hợp đồng thuê đất - " + opts.TenDoanhNghiep);
+                    $('#modalDetailThongBaoGhiThuGhiChi').html(res);
+                    $('#popupDetailThongBaoGhiThuGhiChi').modal();
+                    $('#popupDetailThongBaoGhiThuGhiChi .modal-title').text("Thêm mới ghi thu ghi chi - " + opts.TenDoanhNghiep);
 
-                    var popup = $('#popupDetailHopDongThueDat');
+                    var popup = $('#popupDetailThongBaoGhiThuGhiChi');
                     if (opts != undefined) {
                         popup.find('.ddDoanhNghiep').append('<option value="' + opts.IdDoanhNghiep + '">' + opts.TenDoanhNghiep + '</option>');
                     } else {
@@ -390,10 +394,10 @@ HopDongThueDatControl = {
         });
         $(document).on('keypress', function (e) {
             if (e.which == 13) {
-                $("#btnSearchHopDongThueDat").trigger('click');
+                $("#btnSearchThongBaoGhiThuGhiChi").trigger('click');
             }
         });
-        $("#btnSearchHopDongThueDat").off('click').on('click', function () {
+        $("#btnSearchThongBaoGhiThuGhiChi").off('click').on('click', function () {
             self.table.ajax.reload();
 
         });
@@ -401,30 +405,31 @@ HopDongThueDatControl = {
     },
     InsertUpdate: function () {
         var self = this;
+        var popup = $('#popupDetailThongBaoGhiThuGhiChi');
         $(".number").each(function () {
             $(this).val(ConvertStringToDecimal($(this).val()));
         });
-        var data = LoadFormData("#FormDetailHopDongThueDat");
-        data.IdDoanhNghiep = $(".ddDoanhNghiep option:selected").val();
-        data.IdQuyetDinhThueDat = $(".ddQuyetDinhThueDat option:selected").val();
+        var data = LoadFormData("#FormDetailThongBaoGhiThuGhiChi");
+        data.IdDoanhNghiep = popup.find(".ddDoanhNghiep option:selected").val();
+        data.IdQuyetDinhThueDat = popup.find(".ddQuyetDinhThueDat option:selected").val();
         var fileTaiLieu = [];
-        if ($('[data-name="FileHopDongThueDat"]').attr("data-idFile") != undefined) {
+        if ($('[data-name="FileThongBaoGhiThuGhiChi"]').attr("data-idFile") != undefined) {
             fileTaiLieu.push({
-                IdFileTaiLieu: $('[data-name="FileHopDongThueDat"]').attr("data-id"),
-                IdFile: $('[data-name="FileHopDongThueDat"]').attr("data-idFile"),
-                LoaiTaiLieu: "HopDongThueDat"
+                IdFileTaiLieu: $('[data-name="FileThongBaoGhiThuGhiChi"]').attr("data-id"),
+                IdFile: $('[data-name="FileThongBaoGhiThuGhiChi"]').attr("data-idFile"),
+                LoaiTaiLieu: "ThongBaoGhiThuGhiChi"
             });
         }
         data.FileTaiLieu = fileTaiLieu;
 
         Post({
-            "url": localStorage.getItem("API_URL") + "/HopDongThueDat/InsertUpdate",
+            "url": localStorage.getItem("API_URL") + "/ThongBaoGhiThuGhiChi/InsertUpdate",
             "data": data,
             callback: function (res) {
                 if (res.IsSuccess) {
                     toastr.success('Thực hiện thành công', 'Thông báo')
                     self.table.ajax.reload();
-                    $('#btnCloseHopDongThueDat').trigger('click');
+                    $('#btnCloseThongBaoGhiThuGhiChi').trigger('click');
                 }
                 else {
                     toastr.error(res.Message, 'Có lỗi xảy ra')
@@ -447,9 +452,9 @@ HopDongThueDatControl = {
         });
     },
     LoadDanhSachQuyetDinhThueDat: function () {
-        var popup = $('#popupDetailHopDongThueDat')
+        var popup = $('#popupDetailThongBaoGhiThuGhiChi')
         Get({
-            url: localStorage.getItem("API_URL") + "/QuyetDinhThueDat/GetAll",
+            url: localStorage.getItem("API_URL") + "/QuyetDinhThueDat/GetListQuyetDinhThueDatChiTiet",
             data: {
                 idDoanhNghiep: popup.find(".ddDoanhNghiep option:selected").val()
             },
@@ -458,8 +463,10 @@ HopDongThueDatControl = {
                 popup.find('.ddQuyetDinhThueDat').html('');
                 popup.find('.ddQuyetDinhThueDat').append('<option value= "" selected="true" style="display: none"></option>');
                 $.each(res.Data, function (i, item) {
-                        var name = item.SoQuyetDinhThueDat + " - " + " - Diện tích " + item.TongDienTich + "  (m<sup>2</sup>)"
+                    if (item.HinhThucThue == "ThueDatTraTienHangNam" || item.HinhThucThue == "HopDongThueLaiDat") {
+                        var name = item.SoQuyetDinhThueDat + " - " + item.TextHinhThucThue + " - Diện tích " + item.TongDienTich + "  (m<sup>2</sup>)"
                         popup.find('.ddQuyetDinhThueDat').append('<option value=' + item.IdQuyetDinhThueDat + ' index= ' + i + '>' + name + '</option>');
+                    }
 
                 })
                 popup.find('.ddQuyetDinhThueDat').on('change', function () {
@@ -474,6 +481,6 @@ HopDongThueDatControl = {
 }
 
 $(document).ready(function () {
-    HopDongThueDatControl.Init();
+    ThongBaoGhiThuGhiChiControl.Init();
 });
 

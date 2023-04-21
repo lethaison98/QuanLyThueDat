@@ -20,6 +20,7 @@ namespace QuanLyThueDat.Data.Entities
         public DateTime? NgayHieuLucHopDong { get; set; }
         public DateTime? NgayHetHieuLucHopDong { get; set; }
         public string SoHopDongDieuChinh { get; set; }
+        public decimal DienTich { get; set; }
         public string GhiChu { get; set; }
     }
 }

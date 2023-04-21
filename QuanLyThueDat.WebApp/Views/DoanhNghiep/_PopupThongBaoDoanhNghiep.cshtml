@@ -35,7 +35,7 @@
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" id="s" data-toggle="dropdown" aria-expanded="false">Khác</a>
                                     <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item" id="selectTabGhiThuGhiChi" data-toggle="pill" href="#tabGhiThuGhiChi" role="tab" aria-controls="tabGhiThuGhiChi" aria-selected="false">Ghi thu ghi chi</a>
+                                        <a class="dropdown-item" id="selectTabThongBaoGhiThuGhiChi" data-toggle="pill" href="#tabThongBaoGhiThuGhiChi" role="tab" aria-controls="tabThongBaoGhiThuGhiChi" aria-selected="false">Ghi thu ghi chi</a>
                                         <div class="dropdown-divider"></div>
                                         <a class="dropdown-item" id="selectTabTaiNguyenMoiTruong" data-toggle="pill" href="#tabTaiNguyenMoiTruong" role="tab" aria-controls="tabTaiNguyenMoiTruong" aria-selected="false">Tài nguyên môi trường</a>
 
@@ -183,8 +183,8 @@
                                                 <a class="dropdown-item" href="#" id="btnCreateThongBaoLanDau">Thông báo lần đầu tiên</a>
                                                 <div class="dropdown-divider"></div>
                                                 <a class="dropdown-item" href="#" id="btnCreateThongBaoTuNamThuHaiTroDi">Thông báo từ năm thứ hai</a>
-@*                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item" href="#">Thông báo bổ sung</a>*@
+                                                @*                                                <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item" href="#">Thông báo bổ sung</a>*@
                                                 <div class="dropdown-divider"></div>
                                                 <a class="dropdown-item" href="#" id="btnCreateThongBaoTienThueDatDieuChinh">Thông báo điều chỉnh</a>
                                             </div>
@@ -205,10 +205,28 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <div class="tab-pane fade" id="tabGhiThuGhiChi" role="tabpanel" aria-labelledby="selectTabGhiThuGhiChi">
+                                <div class="tab-pane fade" id="tabThongBaoGhiThuGhiChi" role="tabpanel" aria-labelledby="selectTabThongBaoGhiThuGhiChi">
                                     <div class="ttls-content d-flex mb-1" style="justify-content: space-between;">
                                         <h5>Ghi thu ghi chi</h5>
+                                        <a class="btn btn-sm btn-success waves-effect waves-light" id="btnCreateThongBaoGhiThuGhiChi">
+                                            <span>Tạo mới</span>
+                                            <i class="fas fa-plus"></i>
+                                        </a>
                                     </div>
+                                    <table id="tblThongBaoGhiThuGhiChi" class="table table-bordered table-hover table-striped" style="width: 100%">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 5%">STT</th>
+                                                <th>Số thông báo</th>
+                                                <th style="width: 15%">Ngày thông báo</th>
+                                                <th style="width: 15%">Số tiền ghi thu</th>
+                                                <th style="width: 15%">Số tiền ghi chi</th>
+                                                <th style="width: 10%">Thao tác</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
 
                                 </div>
                                 <div class="tab-pane fade" id="tabTaiNguyenMoiTruong" role="tabpanel" aria-labelledby="selectTabTaiNguyenMoiTruong">

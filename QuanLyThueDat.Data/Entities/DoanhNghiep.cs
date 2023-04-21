@@ -28,6 +28,7 @@ namespace QuanLyThueDat.Data.Entities
         public List<ThongBaoTienThueDat> DsThongBaoTienThueDat { get; set; }
         public List<ThongBaoTienSuDungDat> DsThongBaoTienSuDungDat { get; set; }
         public List<ThongBaoDonGiaThueDat> DsThongBaoDonGiaThueDat { get; set; }
+        public List<ThongBaoGhiThuGhiChi> DsThongBaoGhiThuGhiChi { get; set; }
 
     }
 }

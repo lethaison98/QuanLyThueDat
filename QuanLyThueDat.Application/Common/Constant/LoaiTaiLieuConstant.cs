@@ -14,6 +14,7 @@ namespace QuanLyThueDat.Application.Common.Constant
         public const int NhomThongBaoDonGiaThueDat = 4;
         public const int NhomThongBaoTienThueDat = 5;
         public const int NhomThongBaoTienSuDungDat = 6;
+        public const int NhomThongBaoGhiThuGhiChi = 7;
     }
     public class LoaiTaiLieuConstant
     {
@@ -24,5 +25,6 @@ namespace QuanLyThueDat.Application.Common.Constant
         public const string ThongBaoTienSuDungDat = "ThongBaoTienSuDungDat";
         public const string ThongBaoDonGiaThueDat = "ThongBaoDonGiaThueDat";
         public const string ThongBaoTienThueDat = "ThongBaoTienThueDat";
+        public const string ThongBaoGhiThuGhiChi = "ThongBaoGhiThuGhiChi";
     }
 }
