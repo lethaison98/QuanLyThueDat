@@ -49,14 +49,59 @@ namespace QuanLyThueDat.Application.Service
         {
             var result = new List<BaoCaoDoanhNghiepThueDatViewModel>();
             var dsDoanhNghiep = await _DoanhNghiepService.GetAll();
-            if(dsDoanhNghiep.Data.Count != 0)
+            if (dsDoanhNghiep.Data.Count != 0)
             {
                 foreach (var doanhNghiep in dsDoanhNghiep.Data)
                 {
                     var dsQuyetDinhThueDat = await _QuyetDinhThueDatService.GetListQuyetDinhThueDatChiTiet(doanhNghiep.IdDoanhNghiep);
                     var dsHopDong = await _HopDongThueDatService.GetAll(doanhNghiep.IdDoanhNghiep);
-                    if(dsQuyetDinhThueDat.Data.Count != 0)
+                    if (dsQuyetDinhThueDat.Data.Count != 0)
                     {
+                        var dsQuyetDinhGoc = await _QuyetDinhThueDatService.GetAll(doanhNghiep.IdDoanhNghiep);
+                        var dsGiaoDatCoThuTien = dsQuyetDinhThueDat.Data.Where(x => x.HinhThucThue == "GiaoDatCoThuTien");
+                        var dsGiaoDatKhongThuTien = dsQuyetDinhThueDat.Data.Where(x => x.HinhThucThue == "GiaoDatKhongThuTien");
+
+                        var dsQDGiaoLaiDat1 = (from qdGoc in dsQuyetDinhGoc.Data
+                                               join coThu in dsGiaoDatCoThuTien on qdGoc.IdQuyetDinhThueDat equals coThu.IdQuyetDinhThueDat
+                                               join koThu in dsGiaoDatKhongThuTien on qdGoc.IdQuyetDinhThueDat equals koThu.IdQuyetDinhThueDat
+                                               select new QuyetDinhGiaoLaiDatViewModel
+                                               {
+                                                   IdQuyetDinhThueDat = qdGoc.IdQuyetDinhThueDat,
+                                                   SoQuyetDinh = qdGoc.SoQuyetDinhThueDat + " ngày " + qdGoc.NgayQuyetDinhThueDat,
+                                                   DienTichPhaiNop = coThu == null ? 0.ToString() : coThu.TongDienTich,
+                                                   DienTichKhongPhaiNop = koThu == null ? 0.ToString() : koThu.TongDienTich
+                                               }).Distinct().ToList();
+
+                        var dsQDGiaoLaiDat2 = (from qdGoc in dsQuyetDinhGoc.Data
+                                               join koThu in dsGiaoDatKhongThuTien on qdGoc.IdQuyetDinhThueDat equals koThu.IdQuyetDinhThueDat
+                                               select new QuyetDinhGiaoLaiDatViewModel
+                                               {
+                                                   IdQuyetDinhThueDat = qdGoc.IdQuyetDinhThueDat,
+                                                   SoQuyetDinh = qdGoc.SoQuyetDinhThueDat + " ngày " + qdGoc.NgayQuyetDinhThueDat,
+                                                   DienTichKhongPhaiNop = koThu == null ? 0.ToString() : koThu.TongDienTich
+                                               }).Distinct().ToList();
+
+                        var dsQDGiaoLaiDat3 = (from qdGoc in dsQuyetDinhGoc.Data
+                                               join coThu in dsGiaoDatCoThuTien on qdGoc.IdQuyetDinhThueDat equals coThu.IdQuyetDinhThueDat
+                                               select new QuyetDinhGiaoLaiDatViewModel
+                                               {
+                                                   IdQuyetDinhThueDat = qdGoc.IdQuyetDinhThueDat,
+                                                   SoQuyetDinh = qdGoc.SoQuyetDinhThueDat + " ngày " + qdGoc.NgayQuyetDinhThueDat,
+                                                   DienTichPhaiNop = coThu == null ? 0.ToString() : coThu.TongDienTich,
+                                               }).Distinct().ToList();
+
+                        var dsQuyetDinhGiaoLaiDat = dsQDGiaoLaiDat1.Union(dsQDGiaoLaiDat2).Union(dsQDGiaoLaiDat3).DistinctBy(x => x.IdQuyetDinhThueDat).ToList();
+                        foreach (var item in dsQuyetDinhGiaoLaiDat)
+                        {
+                            decimal dienTichGiaoThuTien;
+                            decimal dienTichGiaoKhongThuTien;
+                            NumberStyles style = NumberStyles.AllowDecimalPoint | NumberStyles.AllowThousands;
+                            CultureInfo culture = CultureInfo.CreateSpecificCulture("vi-VN");
+                            Decimal.TryParse(item.DienTichPhaiNop, style, culture, out dienTichGiaoThuTien);
+                            Decimal.TryParse(item.DienTichKhongPhaiNop, style, culture, out dienTichGiaoKhongThuTien);
+                            item.TongDienTich = (dienTichGiaoKhongThuTien + dienTichGiaoThuTien).ToString("N", new CultureInfo("vi-VN"));
+                        }
+
                         var dsQuyetDinhThueDatTraTienHangNam = dsQuyetDinhThueDat.Data.Where(x => x.HinhThucThue == "ThueDatTraTienHangNam" || x.HinhThucThue == "HopDongThueLaiDat");
                         foreach (var quyetDinhThueDat in dsQuyetDinhThueDatTraTienHangNam)
                         {
@@ -72,8 +117,15 @@ namespace QuanLyThueDat.Application.Service
                                     foreach (var thongBaoDonGia in dsThongBaoDonGiaThueDat.Data)
                                     {
                                         var item = new BaoCaoDoanhNghiepThueDatViewModel();
+                                        var quyetDinhGiaoLaiDat = dsQuyetDinhGiaoLaiDat.FirstOrDefault(x => x.IdQuyetDinhThueDat == quyetDinhThueDat.IdQuyetDinhThueDat);
                                         item.DoanhNghiepViewModel = doanhNghiep;
                                         item.QuyetDinhThueDatViewModel = quyetDinhThueDat;
+                                        if(quyetDinhGiaoLaiDat != null)
+                                        {
+                                            item.QuyetDinhGiaoLaiDatViewModel = quyetDinhGiaoLaiDat;
+                                            dsQuyetDinhGiaoLaiDat.Remove(quyetDinhGiaoLaiDat);
+                                        }
+                                        
                                         item.ThongBaoDonGiaThueDatViewModel = thongBaoDonGia;
                                         foreach (var hopDong in dsHopDong.Data)
                                         {
@@ -88,6 +140,12 @@ namespace QuanLyThueDat.Application.Service
                                 else
                                 {
                                     var item = new BaoCaoDoanhNghiepThueDatViewModel();
+                                    var quyetDinhGiaoLaiDat = dsQuyetDinhGiaoLaiDat.FirstOrDefault(x => x.IdQuyetDinhThueDat == quyetDinhThueDat.IdQuyetDinhThueDat);
+                                    if (quyetDinhGiaoLaiDat != null)
+                                    {
+                                        item.QuyetDinhGiaoLaiDatViewModel = quyetDinhGiaoLaiDat;
+                                        dsQuyetDinhGiaoLaiDat.Remove(quyetDinhGiaoLaiDat);
+                                    }
                                     item.DoanhNghiepViewModel = doanhNghiep;
                                     item.QuyetDinhThueDatViewModel = quyetDinhThueDat;
                                     foreach (var hopDong in dsHopDong.Data)
@@ -99,7 +157,7 @@ namespace QuanLyThueDat.Application.Service
                                     }
                                     result.Add(item);
                                 }
-                            }                        
+                            }
                             else
                             {
                                 var item = new BaoCaoDoanhNghiepThueDatViewModel();
@@ -114,6 +172,13 @@ namespace QuanLyThueDat.Application.Service
                                 }
                                 result.Add(item);
                             }
+                        }
+                        foreach (var quyetDinhGiaoLaiThueDat in dsQuyetDinhGiaoLaiDat)
+                        {
+                            var item = new BaoCaoDoanhNghiepThueDatViewModel();
+                            item.DoanhNghiepViewModel = doanhNghiep;
+                            item.QuyetDinhGiaoLaiDatViewModel = quyetDinhGiaoLaiThueDat;
+                            result.Add(item);
                         }
                     }
                     else
@@ -131,7 +196,7 @@ namespace QuanLyThueDat.Application.Service
         {
             var query = from a in _context.ThongBaoTienThueDat.Include(x => x.DoanhNghiep).Include(x => x.DsThongBaoTienThueDatChiTiet)
                         select a;
-            
+
             if (nam != null && nam != 0)
             {
                 query = query.Where(x => x.Nam == nam);
@@ -155,7 +220,7 @@ namespace QuanLyThueDat.Application.Service
                 }
                 else
                 {
-                    if(entity.DsThongBaoTienThueDatChiTiet.Count > 0)
+                    if (entity.DsThongBaoTienThueDatChiTiet.Count > 0)
                     {
                         var tbDonGia = await _context.ThongBaoDonGiaThueDat.FirstOrDefaultAsync(x => x.IdThongBaoDonGiaThueDat == entity.DsThongBaoTienThueDatChiTiet.Last().IdThongBaoDonGiaThueDat);
                         thoiHanDonGia = tbDonGia.ThoiHanDonGia + (tbDonGia.NgayHieuLucDonGiaThueDat != null ? " từ ngày " + tbDonGia.NgayHieuLucDonGiaThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "") + (tbDonGia.NgayHetHieuLucDonGiaThueDat != null ? " đến ngày " + tbDonGia.NgayHetHieuLucDonGiaThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "");
@@ -225,7 +290,7 @@ namespace QuanLyThueDat.Application.Service
         public async Task<ApiResult<List<ImportDuLieuRequest>>> BaoCaoBieuLapBo()
         {
             var result = new List<ImportDuLieuRequest>();
-            
+
             return new ApiSuccessResult<List<ImportDuLieuRequest>>() { Data = result };
         }
     }
