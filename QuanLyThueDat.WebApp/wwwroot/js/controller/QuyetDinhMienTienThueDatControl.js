@@ -56,7 +56,7 @@ QuyetDinhMienTienThueDatControl = {
                             if (row.DsFileTaiLieu != null) {
                                 $.each(row.DsFileTaiLieu, function (i, item) {
                                     if (item.LoaiTaiLieu == "QuyetDinhMienTienThueDat") {
-                                        file = "<a href = '" + localStorage.getItem('API_URL').replace("api", "") + item.LinkFile + "' target='_blank'><i class = 'fas fa-paperclip' title = 'File quyết định miễn tiền thuê đất'></i></a>";
+                                        file += "<a href = '" + localStorage.getItem('API_URL').replace("api", "") + item.LinkFile + "' target='_blank'><i class = 'fas fa-paperclip' title = 'File quyết định miễn tiền thuê đất'></i></a>";
                                     }
                                 });
                             }
@@ -90,7 +90,7 @@ QuyetDinhMienTienThueDatControl = {
                             if (row.DsFileTaiLieu != null) {
                                 $.each(row.DsFileTaiLieu, function (i, item) {
                                     if (item.LoaiTaiLieu == "QuyetDinhMienTienThueDat") {
-                                        file = "<a href = '" + localStorage.getItem('API_URL').replace("api", "") + item.LinkFile + "' target='_blank'><i class = 'fas fa-paperclip' title = 'File quyết định miễn tiền thuê đất'></i></a>";
+                                        file += "<a href = '" + localStorage.getItem('API_URL').replace("api", "") + item.LinkFile + "' target='_blank'><i class = 'fas fa-paperclip' title = 'File quyết định miễn tiền thuê đất'></i></a>";
                                     }
                                 });
                             }
@@ -259,15 +259,11 @@ QuyetDinhMienTienThueDatControl = {
                                         if (res.Data.DsFileTaiLieu != null) {
                                             $.each(res.Data.DsFileTaiLieu, function (i, item) {
                                                 if (item.LoaiTaiLieu == "QuyetDinhMienTienThueDat") {
-                                                    $('[data-name="FileQuyetDinhMienTienThueDat"]').html('')
-                                                    $('[data-name="FileQuyetDinhMienTienThueDat"]').append('<a href = "' + localStorage.getItem("API_URL").replace('api', '') + item.LinkFile + '" target="_blank">' + item.TenFile + '</a>&nbsp;<i class="fas fa-trash-alt btn-deleteFile" title="Xóa"></i>');
-                                                    $('[data-name="FileQuyetDinhMienTienThueDat"]').attr('data-idFile', item.IdFile);
-                                                    $('[data-name="FileQuyetDinhMienTienThueDat"]').attr('data-id', item.IdFileTaiLieu);
+                                                    $('[data-name="FileQuyetDinhMienTienThueDat"]').append('<div><a href = "' + localStorage.getItem("API_URL").replace('api', '') + item.LinkFile + '"target="_blank" data-IdFile="' + item.IdFile + '" data-id="' + item.IdFileTaiLieu + '">' + item.TenFile + '</a>&nbsp;<i class="fas fa-trash-alt btn-deleteFile" title="Xóa"></i></div>');
                                                 }
                                             });
                                             $('.btn-deleteFile').off('click').on('click', function () {
                                                 var $y = $(this);
-                                                $y.parent().removeAttr("data-idFile");
                                                 $y.parent().html('');
                                             });
                                         }
@@ -279,7 +275,8 @@ QuyetDinhMienTienThueDatControl = {
                                                 $("#popupDetailQuyetDinhMienTienThueDat").find('.fa-trash-alt').hide();
                                                 $("#popupDetailQuyetDinhMienTienThueDat").find('.fa-folder').attr("disabled", true);
                                                 $("#popupDetailQuyetDinhMienTienThueDat").find('.btn-success').hide();
-                                                $("#popupDetailQuyetDinhMienTienThueDat").find('.btn-primary').hide();                                            } else {
+                                                $("#popupDetailQuyetDinhMienTienThueDat").find('.btn-primary').hide();
+                                            } else {
                                                 self.RegisterEventsPopup();
                                             }
                                         }, 200)
@@ -353,10 +350,7 @@ QuyetDinhMienTienThueDatControl = {
                         data: dataFile,
                         success: function (res) {
                             if (res.IsSuccess) {
-                                $('[data-name="FileQuyetDinhMienTienThueDat"]').html('')
-                                $('[data-name="FileQuyetDinhMienTienThueDat"]').append('<a href = "#">' + file.name + '</a>&nbsp;<i class="fas fa-trash-alt btn-deleteFile" title="Xóa"></i>');
-                                $('[data-name="FileQuyetDinhMienTienThueDat"]').attr('data-idFile', res.Data);
-                                $('[data-name="FileQuyetDinhMienTienThueDat"]').attr('data-id', 0);
+                                $('[data-name="FileQuyetDinhMienTienThueDat"]').append('<div><a href = "#" data-id="0" data-IdFile = "' + res.Data + '">' + file.name + '</a>&nbsp;<i class="fas fa-trash-alt btn-deleteFile" title="Xóa"></i></div>');
                                 $('.btn-deleteFile').off('click').on('click', function () {
                                     var $y = $(this);
                                     $y.parent().removeAttr("data-idFile");
@@ -427,13 +421,14 @@ QuyetDinhMienTienThueDatControl = {
         data.IdQuyetDinhThueDat = $(".ddQuyetDinhThueDat option:selected").val();
 
         var fileTaiLieu = [];
-        if ($('[data-name="FileQuyetDinhMienTienThueDat"]').attr("data-idFile") != undefined) {
+        $('[data-name="FileQuyetDinhMienTienThueDat"]').find("a").each(function () {
             fileTaiLieu.push({
-                IdFileTaiLieu: $('[data-name="FileQuyetDinhMienTienThueDat"]').attr("data-id"),
-                IdFile: $('[data-name="FileQuyetDinhMienTienThueDat"]').attr("data-idFile"),
+                IdFileTaiLieu: $(this).attr("data-id"),
+                IdFile: $(this).attr("data-idFile"),
                 LoaiTaiLieu: "QuyetDinhMienTienThueDat"
             });
-        }
+        });
+
         data.FileTaiLieu = fileTaiLieu;
         Post({
             "url": localStorage.getItem("API_URL") + "/QuyetDinhMienTienThueDat/InsertUpdate",

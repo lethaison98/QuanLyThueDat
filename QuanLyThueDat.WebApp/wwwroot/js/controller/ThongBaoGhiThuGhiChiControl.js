@@ -12,7 +12,6 @@ ThongBaoGhiThuGhiChiControl = {
         } else {
             idDoanhNghiep = opts.IdDoanhNghiep
         }
-        console.log(23123);
         var self = this;
         self.table = SetDataTable({
             table: $('#tblThongBaoGhiThuGhiChi'),
@@ -99,7 +98,7 @@ ThongBaoGhiThuGhiChiControl = {
                                 var thaotac = "<div class='hstn-func' style='text-align: center;' data-type='" + JSON.stringify(row) + "'>" +
                                     "<a href='javascript:;' class='ThongBaoGhiThuGhiChi-view' data-id='" + row.IdThongBaoGhiThuGhiChi + "'><i class='fas fa-eye' title='Xem'></i></a> &nbsp" +
                                     "<a href='javascript:;' class='ThongBaoGhiThuGhiChi-edit' data-id='" + row.IdThongBaoGhiThuGhiChi + "'><i class='fas fa-edit' title='Sửa'></i></a>  &nbsp" +
-                                    "<a href='javascript:;' class='ThongBaoGhiThuGhiChi-remove text-danger'"+show+" data-id='" + row.IdThongBaoGhiThuGhiChi + "'><i class='fas fa-trash-alt' title='Xóa' ></i></a>" +
+                                    "<a href='javascript:;' class='ThongBaoGhiThuGhiChi-remove text-danger'" + show + " data-id='" + row.IdThongBaoGhiThuGhiChi + "'><i class='fas fa-trash-alt' title='Xóa' ></i></a>" +
                                     "</div>";
                                 return thaotac;
                             }
@@ -108,108 +107,6 @@ ThongBaoGhiThuGhiChiControl = {
                 ]
             },
             callback: function () {
-                $("#tblThongBaoGhiThuGhiChi tbody .ThongBaoGhiThuGhiChi-view").off('click').on('click', function (e) {
-                    var $y = $(this);
-                    var id = $y.attr('data-id');
-                    Get({
-                        url: localStorage.getItem("API_URL") + '/ThongBaoGhiThuGhiChi/GetById',
-                        data: {
-                            idThongBaoGhiThuGhiChi: id
-                        },
-                        callback: function (res) {
-                            Get({
-                                url: '/ThongBaoGhiThuGhiChi/PopupViewThongBaoGhiThuGhiChi',
-                                dataType: 'text',
-                                callback: function (popup) {
-                                    $('#modalViewThongBaoGhiThuGhiChi').html(popup);
-                                    $('#popupViewThongBaoGhiThuGhiChi').modal();
-                                    var data = [];
-                                    var obj = {
-                                        TenDoanhNghiep: res.Data.TenDoanhNghiep,
-                                        SoHopDong: res.Data.SoHopDong,
-                                        NgayKyHopDong: res.Data.NgayKyHopDong,
-                                        NguoiKy: res.Data.NguoiKy,
-                                        CoQuanKy: res.Data.CoQuanKy,
-                                        ThoiHanHopDong: res.Data.ThoiHanHopDong,
-                                        NgayHieuLucHopDong: res.Data.NgayHieuLucHopDong,
-                                        NgayHetHieuLucHopDong: res.Data.NgayHetHieuLucHopDong,
-                                    };
-                                    data.push(obj);
-
-                                    console.log(data);
-                                    $('#tblViewThongBaoGhiThuGhiChi').DataTable({
-                                        data: data,
-                                        dom: 'B',
-                                        buttons: [
-                                            {
-                                                extend: "print",
-                                                title: function () {
-                                                    var title = '<div class="row"><div class="col-sm-4" style="text-align:center"><h5>UBND TỈNH NGHỆ AN</h5></div></div>' +
-                                                        '<div class="row"><div class="col-sm-4" style="text-align:center"><h5>BAN QUẢN LÝ KKT ĐÔNG NAM NGHỆ AN</h5></div></div>' +
-                                                        '<div class="row"><div class="col-sm-12" style="text-align:center"><h5>BÁO CÁO CHI TIẾT HỢP ĐỒNG THUÊ ĐẤT</h5></div></div>';
-                                                    return title;
-                                                },
-                                                customize: function (win) {
-
-                                                    var last = null;
-                                                    var current = null;
-                                                    var bod = [];
-
-                                                    var css = '@page { size: landscape; }',
-                                                        head = win.document.head || win.document.getElementsByTagName('head')[0],
-                                                        style = win.document.createElement('style');
-
-                                                    style.type = 'text/css';
-                                                    style.media = 'print';
-
-                                                    if (style.styleSheet) {
-                                                        style.styleSheet.cssText = css;
-                                                    }
-                                                    else {
-                                                        style.appendChild(win.document.createTextNode(css));
-                                                    }
-
-                                                    head.appendChild(style);
-                                                }
-                                            },
-                                        ],
-                                        columns: [
-                                            {
-                                                data: "1",
-                                                "defaultContent": "1",
-                                            },
-                                            {
-                                                data: 'TenDoanhNghiep'
-                                            },
-                                            {
-                                                data: 'SoHopDong'
-                                            },
-                                            {
-                                                data: 'NgayKyHopDong'
-                                            },
-                                            {
-                                                data: 'NguoiKy'
-                                            },
-                                            {
-                                                data: 'CoQuanKy',
-                                            },
-                                            {
-                                                data: 'ThoiHanHopDong',
-                                            },
-                                            {
-                                                data: 'NgayHieuLucHopDong',
-                                            },
-                                            {
-                                                data: 'NgayHetHieuLucHopDong',
-                                            }
-                                        ]
-                                    });
-                                    $('#popupViewThongBaoGhiThuGhiChi .buttons-print').trigger('click');
-                                }
-                            });
-                        }
-                    });
-                });
                 $('#tblThongBaoGhiThuGhiChi tbody .ThongBaoGhiThuGhiChi-edit').off('click').on('click', function (e) {
                     var id = $(this).attr('data-id');
                     Get({
@@ -235,8 +132,7 @@ ThongBaoGhiThuGhiChiControl = {
                                             popup.find('.ddDoanhNghiep').append('<option value="' + res.Data.IdDoanhNghiep + '">' + res.Data.TenDoanhNghiep + '</option>');
                                         }
                                         if (res.Data.IdQuyetDinhThueDat != null) {
-                                            console.log(111);
-                                            $('#popupDetailThongBaoGhiThuGhiChi .ddQuyetDinhThueDat').append('<option value="' + res.Data.IdQuyetDinhThueDat + '">' + res.Data.SoQuyetDinhThueDat +'</option>');
+                                            $('#popupDetailThongBaoGhiThuGhiChi .ddQuyetDinhThueDat').append('<option value="' + res.Data.IdQuyetDinhThueDat + '">' + res.Data.SoQuyetDinhThueDat + '</option>');
                                         }
                                         setTimeout(function () {
                                             var checkRole = res.Data.QuyenDuLieu.AllowEdit;
@@ -246,25 +142,21 @@ ThongBaoGhiThuGhiChiControl = {
                                                 $("#popupDetailThongBaoGhiThuGhiChi").find('.fa-trash-alt').hide();
                                                 $("#popupDetailThongBaoGhiThuGhiChi").find('.fa-folder').attr("disabled", true);
                                                 $("#popupDetailThongBaoGhiThuGhiChi").find('.btn-success').hide();
-                                                $("#popupDetailThongBaoGhiThuGhiChi").find('.btn-primary').hide();                                            } else {
+                                                $("#popupDetailThongBaoGhiThuGhiChi").find('.btn-primary').hide();
+                                            } else {
                                                 self.RegisterEventsPopup();
                                             }
                                         }, 200)
                                         if (res.Data.DsFileTaiLieu != null) {
                                             $.each(res.Data.DsFileTaiLieu, function (i, item) {
                                                 if (item.LoaiTaiLieu == "ThongBaoGhiThuGhiChi") {
-                                                    $('[data-name="FileThongBaoGhiThuGhiChi"]').html('')
-                                                    $('[data-name="FileThongBaoGhiThuGhiChi"]').append('<a href = "' + localStorage.getItem("API_URL").replace('api', '') + item.LinkFile + '" target="_blank">' + item.TenFile + '</a>&nbsp;<i class="fas fa-trash-alt btn-deleteFile" title="Xóa"></i>');
-                                                    $('[data-name="FileThongBaoGhiThuGhiChi"]').attr('data-idFile', item.IdFile);
-                                                    $('[data-name="FileThongBaoGhiThuGhiChi"]').attr('data-id', item.IdFileTaiLieu);
+                                                    $('[data-name="FileThongBaoGhiThuGhiChi"]').append('<div><a href = "' + localStorage.getItem("API_URL").replace('api', '') + item.LinkFile + '"target="_blank" data-IdFile="' + item.IdFile + '" data-id="' + item.IdFileTaiLieu+'">' + item.TenFile + '</a>&nbsp;<i class="fas fa-trash-alt btn-deleteFile" title="Xóa"></i></div>');
                                                 }
                                             });
                                         }
                                         $('.btn-deleteFile').off('click').on('click', function () {
                                             var $y = $(this);
-                                            $y.parent().removeAttr("data-idFile");
                                             $y.parent().html('');
-
                                         });
                                         //$("#btnTraCuu").on('click', function () {
                                         //    $('#modal-add-edit').modal('show');
@@ -338,15 +230,10 @@ ThongBaoGhiThuGhiChiControl = {
                         data: dataFile,
                         success: function (res) {
                             if (res.IsSuccess) {
-                                $('[data-name="FileThongBaoGhiThuGhiChi"]').html('')
-                                $('[data-name="FileThongBaoGhiThuGhiChi"]').append('<a href = "#">' + file.name + '</a>&nbsp;<i class="fas fa-trash-alt btn-deleteFile" title="Xóa"></i>');
-                                $('[data-name="FileThongBaoGhiThuGhiChi"]').attr('data-idFile', res.Data);
-                                $('[data-name="FileThongBaoGhiThuGhiChi"]').attr('data-id', 0);
+                                $('[data-name="FileThongBaoGhiThuGhiChi"]').append('<div><a href = "#" data-id="0" data-IdFile = "' + res.Data + '">' + file.name + '</a>&nbsp;<i class="fas fa-trash-alt btn-deleteFile" title="Xóa"></i></div>');
                                 $('.btn-deleteFile').off('click').on('click', function () {
                                     var $y = $(this);
-                                    $y.parent().removeAttr("data-idFile");
                                     $y.parent().html('');
-
                                 });
                             } else {
                                 alert("Upload không thành công");
@@ -413,13 +300,13 @@ ThongBaoGhiThuGhiChiControl = {
         data.IdDoanhNghiep = popup.find(".ddDoanhNghiep option:selected").val();
         data.IdQuyetDinhThueDat = popup.find(".ddQuyetDinhThueDat option:selected").val();
         var fileTaiLieu = [];
-        if ($('[data-name="FileThongBaoGhiThuGhiChi"]').attr("data-idFile") != undefined) {
+        $('[data-name="FileThongBaoGhiThuGhiChi"]').find("a").each(function () {
             fileTaiLieu.push({
-                IdFileTaiLieu: $('[data-name="FileThongBaoGhiThuGhiChi"]').attr("data-id"),
-                IdFile: $('[data-name="FileThongBaoGhiThuGhiChi"]').attr("data-idFile"),
+                IdFileTaiLieu: $(this).attr("data-id"),
+                IdFile: $(this).attr("data-idFile"),
                 LoaiTaiLieu: "ThongBaoGhiThuGhiChi"
             });
-        }
+        });
         data.FileTaiLieu = fileTaiLieu;
 
         Post({

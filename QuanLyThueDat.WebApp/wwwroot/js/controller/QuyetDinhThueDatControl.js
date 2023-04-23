@@ -57,7 +57,7 @@ QuyetDinhThueDatControl = {
                             if (row.DsFileTaiLieu != null) {
                                 $.each(row.DsFileTaiLieu, function (i, item) {
                                     if (item.LoaiTaiLieu == "QuyetDinhGiaoDat") {
-                                        fileQDGiaoDat = "<a href = '" + localStorage.getItem('API_URL').replace("api", "") + item.LinkFile + "' target='_blank'><i class = 'fas fa-paperclip' style = 'color: gold' title = 'File quyết định giao đất'></i></a>";
+                                        fileQDGiaoDat += "<a href = '" + localStorage.getItem('API_URL').replace("api", "") + item.LinkFile + "' target='_blank'><i class = 'fas fa-paperclip' style = 'color: gold' title = 'File quyết định giao đất'></i></a>";
                                     }
                                 });
                             }
@@ -76,7 +76,7 @@ QuyetDinhThueDatControl = {
                             if (row.DsFileTaiLieu != null) {
                                 $.each(row.DsFileTaiLieu, function (i, item) {
                                     if (item.LoaiTaiLieu == "QuyetDinhThueDat") {
-                                        fileQDThueDat = "<a href = '" + localStorage.getItem('API_URL').replace("api", "") + item.LinkFile + "' target='_blank'><i class = 'fas fa-paperclip' title = 'File quyết định thuê đất, hợp đồng thuê lại đất'></i></a>";
+                                        fileQDThueDat += "<a href = '" + localStorage.getItem('API_URL').replace("api", "") + item.LinkFile + "' target='_blank'><i class = 'fas fa-paperclip' title = 'File quyết định thuê đất, hợp đồng thuê lại đất'></i></a>";
                                     }
                                 });
                             }
@@ -311,21 +311,15 @@ QuyetDinhThueDatControl = {
                                             if (res.Data.DsFileTaiLieu != null) {
                                                 $.each(res.Data.DsFileTaiLieu, function (i, item) {
                                                     if (item.LoaiTaiLieu == "QuyetDinhThueDat") {
-                                                        $('[data-name="FileQuyetDinhThueDat"]').html('')
-                                                        $('[data-name="FileQuyetDinhThueDat"]').append('<a href = "' + localStorage.getItem("API_URL").replace('api', '') + item.LinkFile + '" target="_blank">' + item.TenFile + '</a>&nbsp;<i class="fas fa-trash-alt btn-deleteFile" title="Xóa"></i>');
-                                                        $('[data-name="FileQuyetDinhThueDat"]').attr('data-idFile', item.IdFile);
-                                                        $('[data-name="FileQuyetDinhThueDat"]').attr('data-id', item.IdFileTaiLieu);
+                                                        $('[data-name="FileQuyetDinhThueDat"]').append('<div><a href = "' + localStorage.getItem("API_URL").replace('api', '') + item.LinkFile + '"target="_blank" data-IdFile="' + item.IdFile + '" data-id="' + item.IdFileTaiLieu + '">' + item.TenFile + '</a>&nbsp;<i class="fas fa-trash-alt btn-deleteFile" title="Xóa"></i></div>');
                                                     }
                                                     if (item.LoaiTaiLieu == "QuyetDinhGiaoDat") {
-                                                        $('[data-name="FileQuyetDinhGiaoDat"]').html('')
-                                                        $('[data-name="FileQuyetDinhGiaoDat"]').append('<a href = "' + localStorage.getItem("API_URL").replace('api', '') + item.LinkFile + '" target="_blank">' + item.TenFile + '</a>&nbsp;<i class="fas fa-trash-alt btn-deleteFile" title="Xóa"></i>');
-                                                        $('[data-name="FileQuyetDinhGiaoDat"]').attr('data-idFile', item.IdFile);
-                                                        $('[data-name="FileQuyetDinhGiaoDat"]').attr('data-id', item.IdFileTaiLieu);
+                                                        $('[data-name="FileQuyetDinhGiaoDat"]').append('<div><a href = "' + localStorage.getItem("API_URL").replace('api', '') + item.LinkFile + '"target="_blank" data-IdFile="' + item.IdFile + '" data-id="' + item.IdFileTaiLieu + '">' + item.TenFile + '</a>&nbsp;<i class="fas fa-trash-alt btn-deleteFile" title="Xóa"></i></div>');
+
                                                     }
                                                 });
                                                 $('.btn-deleteFile').off('click').on('click', function () {
                                                     var $y = $(this);
-                                                    $y.parent().removeAttr("data-idFile");
                                                     $y.parent().html('');
 
                                                 });
@@ -333,6 +327,9 @@ QuyetDinhThueDatControl = {
                                             $('#popupDetailQuyetDinhThueDat').find('[data-dismiss="modal"]').off('click').on('click', function () {
                                                 $('#modalDetailQuyetDinhThueDat').html('');
                                                 $('.modal-backdrop:last').remove();
+                                            });
+                                            popup.find('input').blur(function () {
+                                                self.TinhToanCongThuc(opts);
                                             });
                                         }
                                     })
@@ -388,16 +385,10 @@ QuyetDinhThueDatControl = {
                                             if (res.Data.DsFileTaiLieu != null) {
                                                 $.each(res.Data.DsFileTaiLieu, function (i, item) {
                                                     if (item.LoaiTaiLieu == "QuyetDinhThueDat") {
-                                                        $('[data-name="FileQuyetDinhThueDat"]').html('')
-                                                        $('[data-name="FileQuyetDinhThueDat"]').append('<a href = "' + localStorage.getItem("API_URL").replace('api', '') + item.LinkFile + '" target="_blank">' + item.TenFile + '</a>&nbsp;<i class="fas fa-trash-alt btn-deleteFile" title="Xóa"></i>');
-                                                        $('[data-name="FileQuyetDinhThueDat"]').attr('data-idFile', item.IdFile);
-                                                        $('[data-name="FileQuyetDinhThueDat"]').attr('data-id', item.IdFileTaiLieu);
+                                                        $('[data-name="FileQuyetDinhThueDat"]').append('<div><a href = "' + localStorage.getItem("API_URL").replace('api', '') + item.LinkFile + '"target="_blank" data-IdFile="' + item.IdFile + '" data-id="' + item.IdFileTaiLieu + '">' + item.TenFile + '</a>&nbsp;<i class="fas fa-trash-alt btn-deleteFile" title="Xóa"></i></div>');
                                                     }
                                                     if (item.LoaiTaiLieu == "QuyetDinhGiaoDat") {
-                                                        $('[data-name="FileQuyetDinhGiaoDat"]').html('')
-                                                        $('[data-name="FileQuyetDinhGiaoDat"]').append('<a href = "' + localStorage.getItem("API_URL").replace('api', '') + item.LinkFile + '" target="_blank">' + item.TenFile + '</a>&nbsp;<i class="fas fa-trash-alt btn-deleteFile" title="Xóa"></i>');
-                                                        $('[data-name="FileQuyetDinhGiaoDat"]').attr('data-idFile', item.IdFile);
-                                                        $('[data-name="FileQuyetDinhGiaoDat"]').attr('data-id', item.IdFileTaiLieu);
+                                                        $('[data-name="FileQuyetDinhGiaoDat"]').append('<div><a href = "' + localStorage.getItem("API_URL").replace('api', '') + item.LinkFile + '"target="_blank" data-IdFile="' + item.IdFile + '" data-id="' + item.IdFileTaiLieu + '">' + item.TenFile + '</a>&nbsp;<i class="fas fa-trash-alt btn-deleteFile" title="Xóa"></i></div>');
                                                     }
                                                 });
                                                 $('.btn-deleteFile').off('click').on('click', function () {
@@ -410,6 +401,9 @@ QuyetDinhThueDatControl = {
                                             $('#popupDetailHopDongThueLaiDat').find('[data-dismiss="modal"]').off('click').on('click', function () {
                                                 $('#modalDetailHopDongThueLaiDat').html('');
                                                 $('.modal-backdrop:last').remove();
+                                            });
+                                            popup.find('input').blur(function () {
+                                                self.TinhToanCongThuc(opts);
                                             });
                                         }
                                     })
@@ -475,6 +469,9 @@ QuyetDinhThueDatControl = {
             $(".tr-remove").off('click').on('click', function () {
                 $(this).parents('tr:first').remove();
             });
+            $("#tblChiTietQuyetDinhThueDat").find('input').blur(function () {
+                self.TinhToanCongThuc(opts);
+            });
         });
 
         $('#btnSelectFileQuyetDinhThueDat').click(function () {
@@ -503,13 +500,9 @@ QuyetDinhThueDatControl = {
                         data: dataFile,
                         success: function (res) {
                             if (res.IsSuccess) {
-                                $('[data-name="FileQuyetDinhThueDat"]').html('')
-                                $('[data-name="FileQuyetDinhThueDat"]').append('<a href = "#">' + file.name + '</a>&nbsp;<i class="fas fa-trash-alt btn-deleteFile" title="Xóa"></i>');
-                                $('[data-name="FileQuyetDinhThueDat"]').attr('data-idFile', res.Data);
-                                $('[data-name="FileQuyetDinhThueDat"]').attr('data-id', 0);
+                                $('[data-name="FileQuyetDinhThueDat"]').append('<div><a href = "#" data-id="0" data-IdFile = "' + res.Data + '">' + file.name + '</a>&nbsp;<i class="fas fa-trash-alt btn-deleteFile" title="Xóa"></i></div>');
                                 $('.btn-deleteFile').off('click').on('click', function () {
                                     var $y = $(this);
-                                    $y.parent().removeAttr("data-idFile");
                                     $y.parent().html('');
 
                                 });
@@ -547,13 +540,9 @@ QuyetDinhThueDatControl = {
                         data: dataFile,
                         success: function (res) {
                             if (res.IsSuccess) {
-                                $('[data-name="FileQuyetDinhGiaoDat"]').html('')
-                                $('[data-name="FileQuyetDinhGiaoDat"]').append('<a href = "#">' + file.name + '</a>&nbsp;<i class="fas fa-trash-alt btn-deleteFile" title="Xóa"></i>');
-                                $('[data-name="FileQuyetDinhGiaoDat"]').attr('data-idFile', res.Data);
-                                $('[data-name="FileQuyetDinhGiaoDat"]').attr('data-id', 0);
+                                $('[data-name="FileQuyetDinhGiaoDat"]').append('<div><a href = "#" data-id="0" data-IdFile = "' + res.Data + '">' + file.name + '</a>&nbsp;<i class="fas fa-trash-alt btn-deleteFile" title="Xóa"></i></div>');
                                 $('.btn-deleteFile').off('click').on('click', function () {
                                     var $y = $(this);
-                                    $y.parent().removeAttr("data-idFile");
                                     $y.parent().html('');
 
                                 });
@@ -565,10 +554,14 @@ QuyetDinhThueDatControl = {
                 }
             });
         }
-
-
-
-
+        $('#tblChiTietQuyetDinhThueDat').find("[data-name='DienTich']").change(function () {
+            console.log("sss");
+            self.TinhToanCongThuc(opts);
+        });
+        $('#tblChiTietQuyetDinhThueDat').find("[data-name='DienTich']").blur(function () {
+            console.log("ss1s");
+            self.TinhToanCongThuc(opts);
+        });
     },
     RegisterEvents: function (opts) {
         var self = this;
@@ -658,20 +651,20 @@ QuyetDinhThueDatControl = {
             }
         });
         var fileTaiLieu = [];
-        if ($('[data-name="FileQuyetDinhThueDat"]').attr("data-idFile") != undefined) {
+        $('[data-name="FileQuyetDinhGiaoDat"]').find("a").each(function () {
             fileTaiLieu.push({
-                IdFileTaiLieu: $('[data-name="FileQuyetDinhThueDat"]').attr("data-id"),
-                IdFile: $('[data-name="FileQuyetDinhThueDat"]').attr("data-idFile"),
-                LoaiTaiLieu: "QuyetDinhThueDat"
-            });
-        }
-        if ($('[data-name="FileQuyetDinhGiaoDat"]').attr("data-idFile") != undefined) {
-            fileTaiLieu.push({
-                IdFileTaiLieu: $('[data-name="FileQuyetDinhGiaoDat"]').attr("data-id"),
-                IdFile: $('[data-name="FileQuyetDinhGiaoDat"]').attr("data-idFile"),
+                IdFileTaiLieu: $(this).attr("data-id"),
+                IdFile: $(this).attr("data-idFile"),
                 LoaiTaiLieu: "QuyetDinhGiaoDat"
             });
-        }
+        });
+        $('[data-name="FileQuyetDinhThueDat"]').find("a").each(function () {
+            fileTaiLieu.push({
+                IdFileTaiLieu: $(this).attr("data-id"),
+                IdFile: $(this).attr("data-idFile"),
+                LoaiTaiLieu: "QuyetDinhThueDat"
+            });
+        });
         data.QuyetDinhThueDatChiTiet = quyetDinhThueDatChiTiet;
         data.FileTaiLieu = fileTaiLieu;
 
@@ -704,7 +697,14 @@ QuyetDinhThueDatControl = {
             }
         });
     },
-
+    TinhToanCongThuc: function (opts) {
+        var tongDienTich = 0;
+        $("#tblChiTietQuyetDinhThueDat tbody tr").each(function () {
+            var dienTich = ConvertStringToDecimal($(this).find("[data-name='DienTich']").val());
+            tongDienTich += dienTich;
+        });
+        $("[data-name='TongDienTich']").val(ConvertDecimalToString(tongDienTich.toFixed(2)));
+    },
 }
 
 $(document).ready(function () {

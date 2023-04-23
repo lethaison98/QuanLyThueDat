@@ -53,7 +53,7 @@ HopDongThueDatControl = {
                             if (row.DsFileTaiLieu != null) {
                                 $.each(row.DsFileTaiLieu, function (i, item) {
                                     if (item.LoaiTaiLieu == "HopDongThueDat") {
-                                        file = "<a href = '" + localStorage.getItem('API_URL').replace("api", "") + item.LinkFile + "' target='_blank'><i class = 'fas fa-paperclip' title = 'File hợp đồng thuê đất'></i></a>";
+                                        file += "<a href = '" + localStorage.getItem('API_URL').replace("api", "") + item.LinkFile + "' target='_blank'><i class = 'fas fa-paperclip' title = 'File hợp đồng thuê đất'></i></a>";
                                     }
                                 });
                             }
@@ -248,10 +248,7 @@ HopDongThueDatControl = {
                                         if (res.Data.DsFileTaiLieu != null) {
                                             $.each(res.Data.DsFileTaiLieu, function (i, item) {
                                                 if (item.LoaiTaiLieu == "HopDongThueDat") {
-                                                    $('[data-name="FileHopDongThueDat"]').html('')
-                                                    $('[data-name="FileHopDongThueDat"]').append('<a href = "' + localStorage.getItem("API_URL").replace('api', '') + item.LinkFile + '" target="_blank">' + item.TenFile + '</a>&nbsp;<i class="fas fa-trash-alt btn-deleteFile" title="Xóa"></i>');
-                                                    $('[data-name="FileHopDongThueDat"]').attr('data-idFile', item.IdFile);
-                                                    $('[data-name="FileHopDongThueDat"]').attr('data-id', item.IdFileTaiLieu);
+                                                    $('[data-name="FileHopDongThueDat"]').append('<div><a href = "' + localStorage.getItem("API_URL").replace('api', '') + item.LinkFile + '"target="_blank" data-IdFile="' + item.IdFile + '" data-id="' + item.IdFileTaiLieu + '">' + item.TenFile + '</a>&nbsp;<i class="fas fa-trash-alt btn-deleteFile" title="Xóa"></i></div>');
                                                 }
                                             });
                                         }
@@ -333,15 +330,10 @@ HopDongThueDatControl = {
                         data: dataFile,
                         success: function (res) {
                             if (res.IsSuccess) {
-                                $('[data-name="FileHopDongThueDat"]').html('')
-                                $('[data-name="FileHopDongThueDat"]').append('<a href = "#">' + file.name + '</a>&nbsp;<i class="fas fa-trash-alt btn-deleteFile" title="Xóa"></i>');
-                                $('[data-name="FileHopDongThueDat"]').attr('data-idFile', res.Data);
-                                $('[data-name="FileHopDongThueDat"]').attr('data-id', 0);
+                                $('[data-name="FileHopDongThueDat"]').append('<div><a href = "#" data-id="0" data-IdFile = "' + res.Data + '">' + file.name + '</a>&nbsp;<i class="fas fa-trash-alt btn-deleteFile" title="Xóa"></i></div>');
                                 $('.btn-deleteFile').off('click').on('click', function () {
                                     var $y = $(this);
-                                    $y.parent().removeAttr("data-idFile");
                                     $y.parent().html('');
-
                                 });
                             } else {
                                 alert("Upload không thành công");
@@ -408,13 +400,13 @@ HopDongThueDatControl = {
         data.IdDoanhNghiep = $(".ddDoanhNghiep option:selected").val();
         data.IdQuyetDinhThueDat = $(".ddQuyetDinhThueDat option:selected").val();
         var fileTaiLieu = [];
-        if ($('[data-name="FileHopDongThueDat"]').attr("data-idFile") != undefined) {
+        $('[data-name="FileHopDongThueDat"]').find("a").each(function () {
             fileTaiLieu.push({
-                IdFileTaiLieu: $('[data-name="FileHopDongThueDat"]').attr("data-id"),
-                IdFile: $('[data-name="FileHopDongThueDat"]').attr("data-idFile"),
+                IdFileTaiLieu: $(this).attr("data-id"),
+                IdFile: $(this).attr("data-idFile"),
                 LoaiTaiLieu: "HopDongThueDat"
             });
-        }
+        });
         data.FileTaiLieu = fileTaiLieu;
 
         Post({
