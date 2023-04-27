@@ -14,6 +14,7 @@
     <None Remove="Assets\Template\MauBaoCaoDoanhNghiepThueDat.xlsx" />
     <None Remove="Assets\Template\MauBaoCaoQuyetDinhMienTienThueDat.xlsx" />
     <None Remove="Assets\Template\MauBaoCaoThongBaoTienThueDat.xlsx" />
+    <None Remove="Assets\Template\MauBieuLapBo.xlsx" />
     <None Remove="Assets\Template\MauThongBaoTienSuDungDatLanDau.docx" />
     <None Remove="Assets\Template\MauThongBaoTienThueDat1.docx" />
   </ItemGroup>

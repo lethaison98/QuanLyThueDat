@@ -703,7 +703,8 @@ QuyetDinhThueDatControl = {
             var dienTich = ConvertStringToDecimal($(this).find("[data-name='DienTich']").val());
             tongDienTich += dienTich;
         });
-        $("[data-name='TongDienTich']").val(ConvertDecimalToString(tongDienTich.toFixed(2)));
+        console.log(tongDienTich)
+        $("[data-name='TongDienTich']").val(ConvertDecimalToString(tongDienTich.toFixed(2).toString().replace(".", ",")));
     },
 }
 

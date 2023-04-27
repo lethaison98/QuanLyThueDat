@@ -12,6 +12,7 @@ namespace QuanLyThueDat.Application.Interfaces
     public interface IBaoCaoService
     {  
         public Task<ApiResult<List<BaoCaoDoanhNghiepThueDatViewModel>>> BaoCaoDoanhNghiepThueDat();
+        public Task<ApiResult<List<BaoCaoDoanhNghiepThueDatViewModel>>> BaoCaoBieuLapBo();
         public Task<ApiResult<List<ThongBaoTienThueDatViewModel>>> BaoCaoTienThueDat(int? nam);
     }
 }

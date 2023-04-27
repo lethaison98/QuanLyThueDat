@@ -150,7 +150,7 @@ ThongBaoGhiThuGhiChiControl = {
                                         if (res.Data.DsFileTaiLieu != null) {
                                             $.each(res.Data.DsFileTaiLieu, function (i, item) {
                                                 if (item.LoaiTaiLieu == "ThongBaoGhiThuGhiChi") {
-                                                    $('[data-name="FileThongBaoGhiThuGhiChi"]').append('<div><a href = "' + localStorage.getItem("API_URL").replace('api', '') + item.LinkFile + '"target="_blank" data-IdFile="' + item.IdFile + '" data-id="' + item.IdFileTaiLieu+'">' + item.TenFile + '</a>&nbsp;<i class="fas fa-trash-alt btn-deleteFile" title="Xóa"></i></div>');
+                                                    $('[data-name="FileThongBaoGhiThuGhiChi"]').append('<div><a href = "' + localStorage.getItem("API_URL").replace('api', '') + item.LinkFile + '"target="_blank" data-IdFile="' + item.IdFile + '" data-id="' + item.IdFileTaiLieu + '">' + item.TenFile + '</a>&nbsp;<i class="fas fa-trash-alt btn-deleteFile" title="Xóa"></i></div>');
                                                 }
                                             });
                                         }
@@ -350,10 +350,9 @@ ThongBaoGhiThuGhiChiControl = {
                 popup.find('.ddQuyetDinhThueDat').html('');
                 popup.find('.ddQuyetDinhThueDat').append('<option value= "" selected="true" style="display: none"></option>');
                 $.each(res.Data, function (i, item) {
-                    if (item.HinhThucThue == "ThueDatTraTienHangNam" || item.HinhThucThue == "HopDongThueLaiDat") {
-                        var name = item.SoQuyetDinhThueDat + " - " + item.TextHinhThucThue + " - Diện tích " + item.TongDienTich + "  (m<sup>2</sup>)"
-                        popup.find('.ddQuyetDinhThueDat').append('<option value=' + item.IdQuyetDinhThueDat + ' index= ' + i + '>' + name + '</option>');
-                    }
+                    var name = item.SoQuyetDinhThueDat + " - " + item.TextHinhThucThue + " - Diện tích " + item.TongDienTich + "  (m<sup>2</sup>)"
+                    popup.find('.ddQuyetDinhThueDat').append('<option value=' + item.IdQuyetDinhThueDat + ' index= ' + i + '>' + name + '</option>');
+
 
                 })
                 popup.find('.ddQuyetDinhThueDat').on('change', function () {

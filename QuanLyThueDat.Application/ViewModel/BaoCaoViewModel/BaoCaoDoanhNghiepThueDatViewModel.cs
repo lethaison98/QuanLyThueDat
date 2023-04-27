@@ -14,5 +14,6 @@ namespace QuanLyThueDat.Application.ViewModel.BaoCaoViewModel
         public HopDongThueDatViewModel HopDongThueDatViewModel { get; set; } = new HopDongThueDatViewModel();
         public QuyetDinhMienTienThueDatViewModel QuyetDinhMienTienThueDatViewModel { get; set; } = new QuyetDinhMienTienThueDatViewModel();
         public ThongBaoDonGiaThueDatViewModel ThongBaoDonGiaThueDatViewModel { get; set; } = new ThongBaoDonGiaThueDatViewModel();
+        public List<ThongBaoTienThueDatViewModel> DsThongBaoTienThueDatViewModel { get; set; } = new List<ThongBaoTienThueDatViewModel>(); 
     }
 }

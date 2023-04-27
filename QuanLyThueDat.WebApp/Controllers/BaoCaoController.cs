@@ -22,7 +22,7 @@ namespace QuanLyThueDat.WebApp.Controllers
             if (data.IsSuccess)
             {
                 //var result = File(data.Data, "application/vnd.ms-word", loaiThongBao + ".doc");
-                var result = File(data.Data, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "DanhSachThongBaoTienThueDat.xlsx");
+                var result = File(data.Data, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Báo cáo tiền thuê đất hàng năm.xlsx");
                 return result;
             }
             return Ok(data);
@@ -34,8 +34,7 @@ namespace QuanLyThueDat.WebApp.Controllers
             var data = await _exportExcelClient.ExportQuyetDinhMienTienThueDat(idQuyetDinhMienTienThueDat);
             if (data.IsSuccess)
             {
-                //var result = File(data.Data, "application/vnd.ms-word", loaiThongBao + ".doc");
-                var result = File(data.Data, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Bao_Cao_Mien_Tien_Thue_Dat.xlsx");
+                var result = File(data.Data, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Báo cáo miễn tiền thuê đất.xlsx");
                 return result;
             }
             return Ok(data);
@@ -47,8 +46,19 @@ namespace QuanLyThueDat.WebApp.Controllers
             var data = await _exportExcelClient.ExportBaoCaoDoanhNghiepThueDat();
             if (data.IsSuccess)
             {
-                //var result = File(data.Data, "application/vnd.ms-word", loaiThongBao + ".doc");
-                var result = File(data.Data, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Bao_cao_doanh_nghiep_thue_dat.xlsx");
+                var result = File(data.Data, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Báo cáo giao đất, cho thuê đất.xlsx");
+                return result;
+            }
+            return Ok(data);
+
+        }
+        [Route("ExportBieuLapBo")]
+        public async Task<IActionResult> _ExportBieuLapBo()
+        {
+            var data = await _exportExcelClient.ExportBieuLapBo();
+            if (data.IsSuccess)
+            {
+                var result = File(data.Data, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Biểu lập bộ.xlsx");
                 return result;
             }
             return Ok(data);

@@ -32,6 +32,12 @@ BaoCaoControl = {
                             window.open("BaoCao/ExportQuyetDinhMienTienThueDat");
                         });
                         break;
+                    case "BieuLapBo":
+                        $('#namThongBao').hide();
+                        $("#btnXuatBaoCao").off('click').on('click', function (e) {
+                            window.open("BaoCao/ExportBieuLapBo");
+                        });
+                        break;
                     default:
                     // code block
                 }

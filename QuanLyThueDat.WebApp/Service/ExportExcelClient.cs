@@ -268,5 +268,125 @@ namespace QuanLyThueDat.WebApp.Service
             }
             return result;
         }
+
+        public async Task<ApiResult<byte[]>> ExportBieuLapBo()
+        {
+            ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
+            var pathFileTemplate = "";
+            var data = new List<BaoCaoDoanhNghiepThueDatViewModel>();
+            var response = new HttpResponseMessage();
+            var handler = new HttpClientHandler();
+            handler.ClientCertificateOptions = ClientCertificateOption.Manual;
+            handler.ServerCertificateCustomValidationCallback =
+                (httpRequestMessage, cert, cetChain, policyErrors) =>
+                {
+                    return true;
+                };
+
+            var client = new HttpClient(handler);
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            pathFileTemplate = "Assets/Template/MauBieuLapBo.xlsx";
+            response = await client.GetAsync("/api/BaoCao/BaoCaoBieuLapBo");
+            if (response.IsSuccessStatusCode)
+            {
+                data = JsonConvert.DeserializeObject<ApiResult<List<BaoCaoDoanhNghiepThueDatViewModel>>>(await response.Content.ReadAsStringAsync()).Data;
+            }
+
+            var result = new ApiSuccessResult<byte[]>();
+            var file = new FileInfo(pathFileTemplate);
+            var p = new ExcelPackage(file);
+            var wb = p.Workbook;
+            var ws = wb.Worksheets.FirstOrDefault();
+            p.Compression = CompressionLevel.Default;
+            if (ws != null)
+            {
+                ExcelWorksheetView wv = ws.View;
+                wv.ZoomScale = 100;
+                wv.RightToLeft = false;
+                ws.PrinterSettings.Orientation = eOrientation.Landscape;
+                ws.Cells.AutoFitColumns();
+                var i = 0;
+                //decimal tongSoTien = 0;
+                //decimal tongSoTienMienGiam = 0;
+                //decimal tongSoTienPhaiNop = 0;
+                var maxCol = 28;
+                foreach (var obj in data)
+                {
+                    i++;
+                    ws.Cells[6 + i, 1].Value = i.ToString();
+                    ws.Cells[6 + i, 2].Value = obj.DoanhNghiepViewModel.CoQuanQuanLyThue;
+                    ws.Cells[6 + i, 3].Value = obj.DoanhNghiepViewModel.TenDoanhNghiep;
+                    ws.Cells[6 + i, 4].Value = obj.DoanhNghiepViewModel.MaSoThue;
+                    ws.Cells[6 + i, 5].Value = obj.DoanhNghiepViewModel.DiaChi;
+                    ws.Cells[6 + i, 6].Value = obj.QuyetDinhThueDatViewModel.SoQuyetDinhGiaoDat;
+                    ws.Cells[6 + i, 7].Value = obj.QuyetDinhThueDatViewModel.NgayQuyetDinhGiaoDat;
+
+                    ws.Cells[6 + i, 8].Value = obj.QuyetDinhGiaoLaiDatViewModel.SoQuyetDinh;
+                    ws.Cells[6 + i, 9].Value = obj.QuyetDinhGiaoLaiDatViewModel.DienTichPhaiNop;
+                    ws.Cells[6 + i, 10].Value = obj.QuyetDinhGiaoLaiDatViewModel.DienTichKhongPhaiNop;
+                    ws.Cells[6 + i, 11].Value = obj.QuyetDinhGiaoLaiDatViewModel.TongDienTich;
+
+                    ws.Cells[6 + i, 13].Value = obj.QuyetDinhThueDatViewModel.SoQuyetDinhThueDat;
+                    ws.Cells[6 + i, 14].Value = obj.QuyetDinhThueDatViewModel.NgayQuyetDinhThueDat;
+                    ws.Cells[6 + i, 15].Value = obj.QuyetDinhThueDatViewModel.TongDienTich;
+                    ws.Cells[6 + i, 16].Value = obj.QuyetDinhThueDatViewModel.ThoiHanThue + obj.QuyetDinhThueDatViewModel.TuNgayThue != "" ? " từ ngày " + obj.QuyetDinhThueDatViewModel.TuNgayThue : "" + obj.QuyetDinhThueDatViewModel.DenNgayThue != "" ? " đến ngày " + obj.QuyetDinhThueDatViewModel.DenNgayThue : "";
+                    ws.Cells[6 + i, 17].Value = obj.QuyetDinhThueDatViewModel.MucDichSuDung;
+                    ws.Cells[6 + i, 18].Value = obj.QuyetDinhThueDatViewModel.ViTriThuaDat;
+                    ws.Cells[6 + i, 19].Value = obj.QuyetDinhThueDatViewModel.DiaChiThuaDat;
+                    ws.Cells[6 + i, 20].Value = obj.HopDongThueDatViewModel.SoHopDong;
+                    ws.Cells[6 + i, 21].Value = obj.HopDongThueDatViewModel.NgayKyHopDong;
+                    ws.Cells[6 + i, 22].Value = obj.QuyetDinhThueDatViewModel.TongDienTich;
+
+                    ws.Cells[6 + i, 23].Value = obj.QuyetDinhMienTienThueDatViewModel.SoQuyetDinhMienTienThueDat;
+                    ws.Cells[6 + i, 24].Value = obj.QuyetDinhMienTienThueDatViewModel.NgayQuyetDinhMienTienThueDat;
+                    ws.Cells[6 + i, 25].Value = obj.QuyetDinhMienTienThueDatViewModel.ThoiHanMienTienThueDat + (!String.IsNullOrEmpty(obj.QuyetDinhMienTienThueDatViewModel.NgayHieuLucMienTienThueDat)? " từ ngày " + obj.QuyetDinhMienTienThueDatViewModel.NgayHieuLucMienTienThueDat:"") 
+                                                + (!String.IsNullOrEmpty(obj.QuyetDinhMienTienThueDatViewModel.NgayHetHieuLucMienTienThueDat) ? " đến ngày " + obj.QuyetDinhMienTienThueDatViewModel.NgayHetHieuLucMienTienThueDat : "");
+                    ws.Cells[6 + i, 26].Value = obj.QuyetDinhMienTienThueDatViewModel.DienTichMienTienThueDat;
+
+                    ws.Cells[6 + i, 27].Value = obj.ThongBaoDonGiaThueDatViewModel.SoThongBaoDonGiaThueDat;
+                    ws.Cells[6 + i, 28].Value = obj.ThongBaoDonGiaThueDatViewModel.NgayThongBaoDonGiaThueDat;
+                    ws.Cells[6 + i, 29].Value = obj.ThongBaoDonGiaThueDatViewModel.DonGia;
+                    ws.Cells[6 + i, 30].Value = obj.ThongBaoDonGiaThueDatViewModel.ThoiHanDonGia;
+                    ws.Cells[6 + i, 31].Value = obj.DoanhNghiepViewModel.GhiChu;
+                    foreach (var tbtd in obj.DsThongBaoTienThueDatViewModel)
+                    {
+                        // bắt đầu từ cột số 32 ứng với số thông báo của năm 2018. Mỗi năm sẽ có 4 cột
+                        var col = 32+ (tbtd.Nam - 2018)*4;
+                        if(col + 3 > maxCol) maxCol = col + 3;
+                        ws.Cells[6 + i, col].Value = tbtd.SoThongBaoTienThueDat + " ngày " + tbtd.NgayThongBaoTienThueDat;
+                        ws.Cells[6 + i, col + 1].Value = tbtd.SoTien;
+                        ws.Cells[6 + i, col + 2].Value = tbtd.SoTienMienGiam;
+                        ws.Cells[6 + i, col + 3].Value = tbtd.SoTienPhaiNop;
+                    }
+                }
+                // Tính số năm để hiển thị tên cột
+                for(int c = 32; c <= maxCol; c+=4)
+                {
+                    int nam = (c - 32) / 4 + 2018;
+                    ws.Cells[5, c, 5, c+3].Merge = true;
+                    ws.Cells[5, c, 5, c + 3].Value = "Thông báo tiền thuê đất năm " + nam;
+
+                    ws.Cells[6, c, 6, c].Value = "Số thông báo";
+                    ws.Cells[6, c + 1].Value = "Số tiền";
+                    ws.Cells[6, c + 2].Value = "Số tiền miễn giảm";
+                    ws.Cells[6, c + 3].Value = "Số tiền phải nộp";
+                }
+                ws.Cells[5,32,6,maxCol].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                ws.Cells[5,32,6,maxCol].Style.Font.Bold = true;
+
+                ws.Cells[7 + i, 9, 7 + i, maxCol].Style.Font.Bold = true;
+                ws.Cells[5, 1, i + 5, maxCol].Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                ws.Cells[5, 1, i + 5, maxCol].Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                ws.Cells[5, 1, i + 5, maxCol].Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                ws.Cells[5, 1, i + 5, maxCol].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                ws.Cells.AutoFitColumns();
+                ws.Column(5).Width = 40;
+                ws.Column(17).Width = 30;
+                ws.Column(18).Width = 30;
+                ws.Column(19).Width = 30;
+                result.Data = p.GetAsByteArray();
+            }
+            return result;
+        }
     }
 }
