@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QuanLyThueDat.Data.EF;
 
@@ -11,9 +12,10 @@ using QuanLyThueDat.Data.EF;
 namespace QuanLyThueDat.Data.Migrations
 {
     [DbContext(typeof(QuanLyThueDatDbContext))]
-    partial class QuanLyThueDatDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230427072741_Initial14")]
+    partial class Initial14
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -721,9 +723,6 @@ namespace QuanLyThueDat.Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("LoaiQuyetDinhMienTienThueDat")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime?>("NgayCapNhat")
                         .HasColumnType("datetime2");
 
@@ -750,9 +749,6 @@ namespace QuanLyThueDat.Data.Migrations
 
                     b.Property<string>("SoQuyetDinhMienTienThueDatDieuChinh")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("SoTienMienGiam")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("TenQuyetDinhMienTienThueDat")
                         .HasColumnType("nvarchar(max)");

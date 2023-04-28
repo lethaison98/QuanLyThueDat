@@ -200,7 +200,8 @@ namespace QuanLyThueDat.Application.Service
             var data = _context.ThongBaoTienThueDat.FirstOrDefault(x => x.IdThongBaoTienThueDat == idThongBaoTienThueDat);
             if (data != null)
             {
-                _context.ThongBaoTienThueDat.Remove(data);
+                data.IsDeleted = true;
+                //_context.ThongBaoTienThueDat.Remove(data);
                 await _context.SaveChangesAsync();
                 result = true;
                 return new ApiSuccessResult<bool>() { Data = result };
@@ -216,7 +217,7 @@ namespace QuanLyThueDat.Application.Service
         public async Task<ApiResult<List<ThongBaoTienThueDatViewModel>>> GetAll()
         {
             var result = new List<ThongBaoTienThueDatViewModel>();
-            var data = await _context.ThongBaoTienThueDat.Include(x => x.DoanhNghiep).ToListAsync();
+            var data = await _context.ThongBaoTienThueDat.Include(x => x.DoanhNghiep).Where(x => !x.IsDeleted).ToListAsync();
             foreach (var item in data)
             {
                 var ThongBaoTienThueDat = new ThongBaoTienThueDatViewModel
@@ -244,7 +245,7 @@ namespace QuanLyThueDat.Application.Service
 
         public async Task<ApiResult<PageViewModel<ThongBaoTienThueDatViewModel>>> GetAllPaging(int? idDoanhNghiep, int? nam, string keyword, int pageIndex, int pageSize)
         {
-            var query = from a in _context.ThongBaoTienThueDat.Include(x => x.DoanhNghiep).Include(x => x.DoanhNghiep)
+            var query = from a in _context.ThongBaoTienThueDat.Include(x => x.DoanhNghiep).Where(x => !x.IsDeleted).Include(x => x.DoanhNghiep)
                         select a;
             if (!string.IsNullOrEmpty(keyword))
             {
@@ -503,7 +504,7 @@ namespace QuanLyThueDat.Application.Service
         public async Task<ApiResult<List<ThongBaoTienThueDatViewModel>>> GetAllByNam(int namThongBao)
         {
             var result = new List<ThongBaoTienThueDatViewModel>();
-            var data = await _context.ThongBaoTienThueDat.Include(x => x.DoanhNghiep).Where(x => x.Nam == namThongBao).OrderBy(x => x.DoanhNghiep.CoQuanQuanLyThue).ToListAsync();
+            var data = await _context.ThongBaoTienThueDat.Include(x => x.DoanhNghiep).Where(x => !x.IsDeleted).Where(x => x.Nam == namThongBao).OrderBy(x => x.DoanhNghiep.CoQuanQuanLyThue).ToListAsync();
             foreach (var entity in data)
             {
                 var thoiHanDonGia = "";
@@ -561,7 +562,7 @@ namespace QuanLyThueDat.Application.Service
         public async Task<ApiResult<List<ThongBaoTienThueDatViewModel>>> GetAllByRequest(ThongBaoTienThueDatRequest rq)
         {
             var result = new List<ThongBaoTienThueDatViewModel>();
-            var query = from a in _context.ThongBaoTienThueDat.Include(x => x.DoanhNghiep).Where(x => x.BiDieuChinh == 0)
+            var query = from a in _context.ThongBaoTienThueDat.Include(x => x.DoanhNghiep).Where(x => !x.IsDeleted).Where(x => x.BiDieuChinh == 0)
                         select a;
             if (rq.IdDoanhNghiep != 0)
             {

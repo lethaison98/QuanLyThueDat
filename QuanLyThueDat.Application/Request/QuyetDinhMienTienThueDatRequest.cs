@@ -16,6 +16,7 @@ namespace QuanLyThueDat.Application.Request
         public string TenQuyetDinhMienTienThueDat { get; set; }
         public string NgayQuyetDinhMienTienThueDat { get; set; }
         public decimal DienTichMienTienThueDat { get; set; }
+        public decimal SoTienMienGiam { get; set; }
         public string ThoiHanMienTienThueDat { get; set; }
         public string NgayHieuLucMienTienThueDat { get; set; }
         public string NgayHetHieuLucMienTienThueDat { get; set; }

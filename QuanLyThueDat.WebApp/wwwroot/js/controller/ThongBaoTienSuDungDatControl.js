@@ -51,7 +51,7 @@ ThongBaoTienSuDungDatControl = {
                             if (row.DsFileTaiLieu != null) {
                                 $.each(row.DsFileTaiLieu, function (i, item) {
                                     if (item.LoaiTaiLieu == "ThongBaoTienSuDungDat") {
-                                        file = "<a href = '" + localStorage.getItem('API_URL').replace("api", "") + item.LinkFile + "' target='_blank'><i class = 'fas fa-paperclip' title = 'File thông báo đơn giá thuê đất'></i></a>";
+                                        file = "<a href = '" + localStorage.getItem('API_URL').replace("api", "") + item.LinkFile + "' target='_blank'><i class = 'fas fa-paperclip' title = 'File thông báo tiền sử dụng đất'></i></a>";
                                     }
                                 });
                             }
@@ -94,7 +94,7 @@ ThongBaoTienSuDungDatControl = {
                             if (row.DsFileTaiLieu != null) {
                                 $.each(row.DsFileTaiLieu, function (i, item) {
                                     if (item.LoaiTaiLieu == "ThongBaoTienSuDungDat") {
-                                        file = "<a href = '" + localStorage.getItem('API_URL').replace("api", "") + item.LinkFile + "' target='_blank'><i class = 'fas fa-paperclip' title = 'File thông báo đơn giá thuê đất'></i></a>";
+                                        file = "<a href = '" + localStorage.getItem('API_URL').replace("api", "") + item.LinkFile + "' target='_blank'><i class = 'fas fa-paperclip' title = 'File thông báo tiền sử dụng đất'></i></a>";
                                     }
                                 });
                             }
@@ -144,7 +144,7 @@ ThongBaoTienSuDungDatControl = {
                                     callback: function (popup) {
                                         $('#modalDetailThongBaoTienSuDungDat').html(popup);
                                         $('#popupDetailThongBaoTienSuDungDat').modal();
-                                        $('#popupDetailThongBaoTienSuDungDat .modal-title').text("Chỉnh sửa thông báo đơn giá thuê đất - " + opts.TenDoanhNghiep);
+                                        $('#popupDetailThongBaoTienSuDungDat .modal-title').text("Chỉnh sửa thông báo tiền sử dụng đất - " + opts.TenDoanhNghiep);
 
                                         FillFormData('#FormDetailThongBaoTienSuDungDat', res.Data);
                                         var popup = $('#popupDetailThongBaoTienSuDungDat');
@@ -153,6 +153,9 @@ ThongBaoTienSuDungDatControl = {
                                             popup.find('.ddDoanhNghiep').append('<option value="' + opts.IdDoanhNghiep + '">' + opts.TenDoanhNghiep + '</option>');
                                         } else {
                                             $('#popupDetailThongBaoTienSuDungDat .ddDoanhNghiep').append('<option value="' + res.Data.IdDoanhNghiep + '">' + res.Data.TenDoanhNghiep + '</option>');
+                                        }
+                                        if (res.Data.IdQuyetDinhThueDat != null) {
+                                            $('#popupDetailThongBaoTienSuDungDat .ddQuyetDinhThueDat').append('<option value="' + res.Data.IdQuyetDinhThueDat + '">' + res.Data.SoQuyetDinhThueDat + " - " + res.Data.NgayQuyetDinhThueDat + '</option>');
                                         }
                                         setTimeout(function () {
                                             var checkRole = res.Data.QuyenDuLieu.AllowEdit;
@@ -298,7 +301,7 @@ ThongBaoTienSuDungDatControl = {
                 callback: function (res) {
                     $('#modalDetailThongBaoTienSuDungDat').html(res);
                     $('#popupDetailThongBaoTienSuDungDat').modal();
-                    $('#popupDetailThongBaoTienSuDungDat .modal-title').text("Thêm mới thông báo đơn giá thuê đất - " + opts.TenDoanhNghiep);
+                    $('#popupDetailThongBaoTienSuDungDat .modal-title').text("Thêm mới thông báo tiền sử dụng đất - " + opts.TenDoanhNghiep);
 
                     var popup = $('#popupDetailThongBaoTienSuDungDat');
                     if (opts != undefined) {
@@ -330,6 +333,8 @@ ThongBaoTienSuDungDatControl = {
         });
         var data = LoadFormData("#FormDetailThongBaoTienSuDungDat");
         data.IdDoanhNghiep = popup.find(".ddDoanhNghiep option:selected").val();
+        data.IdQuyetDinhThueDat = popup.find(".ddQuyetDinhThueDat option:selected").val();
+
         var fileTaiLieu = [];
         if ($('[data-name="FileThongBaoTienSuDungDat"]').attr("data-idFile") != undefined) {
             fileTaiLieu.push({

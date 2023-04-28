@@ -144,7 +144,8 @@ namespace QuanLyThueDat.Application.Service
             var data = _context.QuyetDinhThueDat.FirstOrDefault(x => x.IdQuyetDinhThueDat == idQuyetDinhThueDat);
             if (data != null)
             {
-                _context.QuyetDinhThueDat.Remove(data);
+                data.IsDeleted = true;  
+                //_context.QuyetDinhThueDat.Remove(data);
                 await _context.SaveChangesAsync();
                 result = true;
                 return new ApiSuccessResult<bool>() { Data = result };
@@ -163,11 +164,11 @@ namespace QuanLyThueDat.Application.Service
             var data = new List<QuyetDinhThueDat>();
             if (idDoanhNghiep == null)
             {
-                data = await _context.QuyetDinhThueDat.Include(x => x.DoanhNghiep).ToListAsync();
+                data = await _context.QuyetDinhThueDat.Include(x => x.DoanhNghiep).Where(x => !x.IsDeleted).ToListAsync();
             }
             else
             {
-                data = await _context.QuyetDinhThueDat.Include(x => x.DoanhNghiep).Where(x => x.IdDoanhNghiep == idDoanhNghiep).ToListAsync();
+                data = await _context.QuyetDinhThueDat.Include(x => x.DoanhNghiep).Where(x => !x.IsDeleted).Where(x => x.IdDoanhNghiep == idDoanhNghiep).ToListAsync();
             }
 
             foreach (var item in data)
@@ -204,7 +205,7 @@ namespace QuanLyThueDat.Application.Service
 
         public async Task<ApiResult<PageViewModel<QuyetDinhThueDatViewModel>>> GetAllPaging(int? idDoanhNghiep, string keyword, int pageIndex, int pageSize)
         {
-            var query = from a in _context.QuyetDinhThueDat.Include(x => x.DoanhNghiep)
+            var query = from a in _context.QuyetDinhThueDat.Include(x => x.DoanhNghiep).Where(x => !x.IsDeleted)
                         select a;
             if (!string.IsNullOrEmpty(keyword))
             {
@@ -351,7 +352,7 @@ namespace QuanLyThueDat.Application.Service
             var result = new List<QuyetDinhThueDatViewModel>();
             var data = new List<QuyetDinhThueDat>();
 
-            data = await _context.QuyetDinhThueDat.Include(x => x.DoanhNghiep).Include(x => x.DsQuyetDinhThueDatChiTiet).Where(x => x.IdDoanhNghiep == idDoanhNghiep).ToListAsync();
+            data = await _context.QuyetDinhThueDat.Include(x => x.DoanhNghiep).Include(x => x.DsQuyetDinhThueDatChiTiet).Where(x => !x.IsDeleted).Where(x => x.IdDoanhNghiep == idDoanhNghiep).ToListAsync();
 
             foreach (var item in data)
             {

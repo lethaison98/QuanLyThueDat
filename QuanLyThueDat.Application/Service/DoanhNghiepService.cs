@@ -105,7 +105,8 @@ namespace QuanLyThueDat.Application.Service
             var data = _context.DoanhNghiep.FirstOrDefault(x => x.IdDoanhNghiep == idDoanhNghiep);
             if (data != null)
             {
-                _context.DoanhNghiep.Remove(data);
+                data.IsDeleted = true;
+                //_context.DoanhNghiep.Remove(data);
                 await _context.SaveChangesAsync();
                 result = true;
                 return new ApiSuccessResult<bool>() { Data = result };
@@ -121,7 +122,7 @@ namespace QuanLyThueDat.Application.Service
         public async Task<ApiResult<List<DoanhNghiepViewModel>>> GetAll()
         {
             var result = new List<DoanhNghiepViewModel>();
-            var data = await _context.DoanhNghiep.ToListAsync();
+            var data = await _context.DoanhNghiep.Where(x=>!x.IsDeleted).ToListAsync();
             foreach (var item in data)
             {
                 var doanhNghiep = new DoanhNghiepViewModel
@@ -145,7 +146,7 @@ namespace QuanLyThueDat.Application.Service
 
         public async Task<ApiResult<PageViewModel<DoanhNghiepViewModel>>> GetAllPaging(string keyword, int pageIndex, int pageSize)
         {
-            var query = from a in _context.DoanhNghiep
+            var query = from a in _context.DoanhNghiep.Where(x => !x.IsDeleted)
                         select a;
             if (!string.IsNullOrEmpty(keyword))
             {

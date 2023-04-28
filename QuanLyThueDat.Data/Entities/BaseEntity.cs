@@ -14,5 +14,6 @@ namespace QuanLyThueDat.Data.Entities
         public DateTime? NgayCapNhat { get; set; }
         public string NguoiCapNhat { get; set; }
         public string IdNguoiCapNhat { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

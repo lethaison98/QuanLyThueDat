@@ -150,7 +150,8 @@ namespace QuanLyThueDat.Application.Service
             var data = _context.ThongBaoDonGiaThueDat.FirstOrDefault(x => x.IdThongBaoDonGiaThueDat == idThongBaoDonGiaThueDat);
             if (data != null)
             {
-                _context.ThongBaoDonGiaThueDat.Remove(data);
+                data.IsDeleted = true;
+                //_context.ThongBaoDonGiaThueDat.Remove(data);
                 await _context.SaveChangesAsync();
                 result = true;
                 return new ApiSuccessResult<bool>() { Data = result };
@@ -166,7 +167,7 @@ namespace QuanLyThueDat.Application.Service
         public async Task<ApiResult<List<ThongBaoDonGiaThueDatViewModel>>> GetAll()
         {
             var result = new List<ThongBaoDonGiaThueDatViewModel>();
-            var data = await _context.ThongBaoDonGiaThueDat.Include(x => x.DoanhNghiep).ToListAsync();
+            var data = await _context.ThongBaoDonGiaThueDat.Include(x => x.DoanhNghiep).Where(x => !x.IsDeleted).ToListAsync();
             foreach (var item in data)
             {
                 var ThongBaoDonGiaThueDat = new ThongBaoDonGiaThueDatViewModel
@@ -192,7 +193,7 @@ namespace QuanLyThueDat.Application.Service
 
         public async Task<ApiResult<PageViewModel<ThongBaoDonGiaThueDatViewModel>>> GetAllPaging(int? idDoanhNghiep, string keyword, int pageIndex, int pageSize)
         {
-            var query = from a in _context.ThongBaoDonGiaThueDat.Include(x => x.DoanhNghiep)
+            var query = from a in _context.ThongBaoDonGiaThueDat.Include(x => x.DoanhNghiep).Where(x => !x.IsDeleted)
                         select a;
             if (!string.IsNullOrEmpty(keyword))
             {
@@ -341,7 +342,7 @@ namespace QuanLyThueDat.Application.Service
         public async Task<ApiResult<List<ThongBaoDonGiaThueDatViewModel>>> GetAllByRequest(ThongBaoDonGiaThueDatRequest rq)
         {
             var result = new List<ThongBaoDonGiaThueDatViewModel>();
-            var query = from a in _context.ThongBaoDonGiaThueDat.Include(x => x.DoanhNghiep)
+            var query = from a in _context.ThongBaoDonGiaThueDat.Include(x => x.DoanhNghiep).Where(x => !x.IsDeleted)
                         select a;
             if (rq.IdDoanhNghiep != 0)
             {
@@ -385,7 +386,7 @@ namespace QuanLyThueDat.Application.Service
         public async Task<ApiResult<List<ThongBaoDonGiaThueDatViewModel>>> CanhBaoThongBaoDonGiaThueDatSapHetHan()
         {
             var result = new List<ThongBaoDonGiaThueDatViewModel>();
-            var data = await _context.ThongBaoDonGiaThueDat.Include(x => x.DoanhNghiep).Where(x=> (DateTime.Now.Date.AddDays(90) > x.NgayHetHieuLucDonGiaThueDat) && (DateTime.Now < x.NgayHetHieuLucDonGiaThueDat)).ToListAsync();
+            var data = await _context.ThongBaoDonGiaThueDat.Include(x => x.DoanhNghiep).Where(x => !x.IsDeleted).Where(x=> (DateTime.Now.Date.AddDays(90) > x.NgayHetHieuLucDonGiaThueDat) && (DateTime.Now < x.NgayHetHieuLucDonGiaThueDat)).ToListAsync();
             foreach (var item in data)
             {
                 double soNgayConLai = 0;

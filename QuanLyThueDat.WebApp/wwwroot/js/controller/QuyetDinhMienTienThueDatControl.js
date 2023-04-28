@@ -102,7 +102,7 @@ QuyetDinhMienTienThueDatControl = {
                                     "<a href='javascript:;' class='QuyetDinhMienTienThueDat-view' data-id='" + row.IdQuyetDinhMienTienThueDat + "'><i class='fas fa-eye' title='Xem'></i></a> &nbsp" +
                                     "<a href='javascript:;' class='QuyetDinhMienTienThueDat-export' data-id='" + row.IdQuyetDinhMienTienThueDat + "'><i class='fas fa-file-excel' title='Xuất thông báo' ></i></a></div> ";
 
-                                    "</div>";
+                                "</div>";
                                 return thaotac;
                             } else {
                                 var show = "";
@@ -114,7 +114,7 @@ QuyetDinhMienTienThueDatControl = {
                                     "<a href='javascript:;' class='QuyetDinhMienTienThueDat-view' data-id='" + row.IdQuyetDinhMienTienThueDat + "'><i class='fas fa-eye' title='Xem'></i></a> &nbsp" +
                                     "<a href='javascript:;' class='QuyetDinhMienTienThueDat-export' data-id='" + row.IdQuyetDinhMienTienThueDat + "'><i class='fas fa-file-excel' title='Xuất thông báo' ></i></a> &nbsp" +
                                     "<a href='javascript:;' class='QuyetDinhMienTienThueDat-edit' data-id='" + row.IdQuyetDinhMienTienThueDat + "'><i class='fas fa-edit' title='Sửa'></i></a>  &nbsp" +
-                                    "<a href='javascript:;' class='QuyetDinhMienTienThueDat-remove text-danger'" + show +" data-id='" + row.IdQuyetDinhMienTienThueDat + "'><i class='fas fa-trash-alt' title='Xóa' ></i></a>" +
+                                    "<a href='javascript:;' class='QuyetDinhMienTienThueDat-remove text-danger'" + show + " data-id='" + row.IdQuyetDinhMienTienThueDat + "'><i class='fas fa-trash-alt' title='Xóa' ></i></a>" +
                                     "</div>";
                                 return thaotac;
                             }
@@ -254,7 +254,7 @@ QuyetDinhMienTienThueDatControl = {
                                             self.LoadDanhSachDoanhNghiep();
                                         }
                                         if (res.Data.IdQuyetDinhThueDat != null) {
-                                            $('#popupDetailQuyetDinhMienTienThueDat .ddQuyetDinhThueDat').append('<option value="' + res.Data.IdQuyetDinhThueDat + '">' + res.Data.SoQuyetDinhThueDat +'</option>');
+                                            $('#popupDetailQuyetDinhMienTienThueDat .ddQuyetDinhThueDat').append('<option value="' + res.Data.IdQuyetDinhThueDat + '">' + res.Data.SoQuyetDinhThueDat + '</option>');
                                         }
                                         if (res.Data.DsFileTaiLieu != null) {
                                             $.each(res.Data.DsFileTaiLieu, function (i, item) {
@@ -470,10 +470,8 @@ QuyetDinhMienTienThueDatControl = {
                 popup.find('.ddQuyetDinhThueDat').html('');
                 popup.find('.ddQuyetDinhThueDat').append('<option value= "" selected="true" style="display: none"></option>');
                 $.each(res.Data, function (i, item) {
-                    if (item.HinhThucThue == "ThueDatTraTienHangNam" || item.HinhThucThue == "HopDongThueLaiDat") {
-                        var name = item.SoQuyetDinhThueDat + " - " + item.TextHinhThucThue + " - Diện tích " + item.TongDienTich + "  (m<sup>2</sup>)"
-                        popup.find('.ddQuyetDinhThueDat').append('<option value=' + item.IdQuyetDinhThueDat + ' index= ' + i + '>' + name + '</option>');
-                    }
+                    var name = item.SoQuyetDinhThueDat + " - " + item.TextHinhThucThue + " - Diện tích " + item.TongDienTich + "  (m<sup>2</sup>)"
+                    popup.find('.ddQuyetDinhThueDat').append('<option value=' + item.IdQuyetDinhThueDat + ' index= ' + i + '>' + name + '</option>');
 
                 })
                 popup.find('.ddQuyetDinhThueDat').on('change', function () {

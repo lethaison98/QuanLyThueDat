@@ -100,7 +100,8 @@ namespace QuanLyThueDat.Application.Service
             var data = _context.ThongBaoGhiThuGhiChi.FirstOrDefault(x => x.IdThongBaoGhiThuGhiChi == idThongBaoGhiThuGhiChi);
             if (data != null)
             {
-                _context.ThongBaoGhiThuGhiChi.Remove(data);
+                data.IsDeleted = true;
+                //_context.ThongBaoGhiThuGhiChi.Remove(data);
                 await _context.SaveChangesAsync();
                 result = true;
                 return new ApiSuccessResult<bool>() { Data = result };
@@ -119,11 +120,11 @@ namespace QuanLyThueDat.Application.Service
             var data = new List<ThongBaoGhiThuGhiChi>();
             if (idDoanhNghiep == null)
             {
-                data = await _context.ThongBaoGhiThuGhiChi.Include(x => x.DoanhNghiep).ToListAsync();
+                data = await _context.ThongBaoGhiThuGhiChi.Include(x => x.DoanhNghiep).Where(x => !x.IsDeleted).ToListAsync();
             }
             else
             {
-                data = await _context.ThongBaoGhiThuGhiChi.Include(x => x.DoanhNghiep).Where(x => x.IdDoanhNghiep == idDoanhNghiep).ToListAsync();
+                data = await _context.ThongBaoGhiThuGhiChi.Include(x => x.DoanhNghiep).Where(x => !x.IsDeleted).Where(x => x.IdDoanhNghiep == idDoanhNghiep).ToListAsync();
             }
             foreach (var item in data)
             {
@@ -147,7 +148,7 @@ namespace QuanLyThueDat.Application.Service
 
         public async Task<ApiResult<PageViewModel<ThongBaoGhiThuGhiChiViewModel>>> GetAllPaging(int? idDoanhNghiep, string keyword, int pageIndex, int pageSize)
         {
-            var query = from a in _context.ThongBaoGhiThuGhiChi.Include(x => x.DoanhNghiep).Include(x => x.DoanhNghiep)
+            var query = from a in _context.ThongBaoGhiThuGhiChi.Include(x => x.DoanhNghiep).Include(x => x.DoanhNghiep).Where(x => !x.IsDeleted)
                         select a;
             if (!string.IsNullOrEmpty(keyword))
             {

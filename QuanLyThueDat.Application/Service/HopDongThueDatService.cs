@@ -106,6 +106,7 @@ namespace QuanLyThueDat.Application.Service
             var data = _context.HopDongThueDat.FirstOrDefault(x => x.IdHopDongThueDat == idHopDongThueDat);
             if (data != null)
             {
+                data.IsDeleted = true;
                 _context.HopDongThueDat.Remove(data);
                 await _context.SaveChangesAsync();
                 result = true;
@@ -125,11 +126,11 @@ namespace QuanLyThueDat.Application.Service
             var data = new List<HopDongThueDat>();
             if (idDoanhNghiep == null)
             {
-                data = await _context.HopDongThueDat.Include(x => x.DoanhNghiep).ToListAsync();
+                data = await _context.HopDongThueDat.Include(x => x.DoanhNghiep).Where(x => !x.IsDeleted).ToListAsync();
             }
             else
             {
-                data = await _context.HopDongThueDat.Include(x => x.DoanhNghiep).Where(x => x.IdDoanhNghiep == idDoanhNghiep).ToListAsync();
+                data = await _context.HopDongThueDat.Include(x => x.DoanhNghiep).Where(x => !x.IsDeleted).Where(x => x.IdDoanhNghiep == idDoanhNghiep).ToListAsync();
             }
             foreach (var item in data)
             {
@@ -158,7 +159,7 @@ namespace QuanLyThueDat.Application.Service
 
         public async Task<ApiResult<PageViewModel<HopDongThueDatViewModel>>> GetAllPaging(int? idDoanhNghiep, string keyword, int pageIndex, int pageSize)
         {
-            var query = from a in _context.HopDongThueDat.Include(x => x.DoanhNghiep).Include(x => x.DoanhNghiep)
+            var query = from a in _context.HopDongThueDat.Include(x => x.DoanhNghiep).Include(x => x.DoanhNghiep).Where(x => !x.IsDeleted)
                         select a;
             if (!string.IsNullOrEmpty(keyword))
             {
@@ -280,7 +281,7 @@ namespace QuanLyThueDat.Application.Service
         public async Task<ApiResult<List<HopDongThueDatViewModel>>> CanhBaoHopDongSapHetHan()
         {
             var result = new List<HopDongThueDatViewModel>();
-            var data = await _context.HopDongThueDat.Include(x => x.DoanhNghiep).Where(x => (DateTime.Now.Date.AddDays(90) > x.NgayHetHieuLucHopDong) && (DateTime.Now < x.NgayHetHieuLucHopDong)).ToListAsync();
+            var data = await _context.HopDongThueDat.Include(x => x.DoanhNghiep).Where(x => !x.IsDeleted ).Where(x => (DateTime.Now.Date.AddDays(90) > x.NgayHetHieuLucHopDong) && (DateTime.Now < x.NgayHetHieuLucHopDong)).ToListAsync();
             foreach (var item in data)
             {
                 double soNgayConLai = 0;
