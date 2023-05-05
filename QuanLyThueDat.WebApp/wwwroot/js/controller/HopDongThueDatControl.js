@@ -457,6 +457,7 @@ HopDongThueDatControl = {
                 popup.find('.ddQuyetDinhThueDat').on('change', function () {
                     if (popup.find(".ddQuyetDinhThueDat option:selected").val() != undefined) {
                         var qd = res.Data[popup.find(".ddQuyetDinhThueDat option:selected").attr("index")];
+                        popup.find('[data-name="DienTich"]').val(qd.TongDienTich);
                     }
                 });
                 popup.find('.ddQuyetDinhThueDat').trigger('change');

@@ -46,7 +46,8 @@ namespace QuanLyThueDat.Application.Service
                     TenQuyetDinhMienTienThueDat = rq.TenQuyetDinhMienTienThueDat,
                     NgayQuyetDinhMienTienThueDat = string.IsNullOrEmpty(rq.NgayQuyetDinhMienTienThueDat) ? null : DateTime.Parse(rq.NgayQuyetDinhMienTienThueDat, new CultureInfo("vi-VN")),
                     DienTichMienTienThueDat = rq.DienTichMienTienThueDat,
-                    SoTienMienGiam = rq.SoTienMienGiam,
+                    SoTienMienGiamTrongMotNam = rq.SoTienMienGiamTrongMotNam,
+                    TongSoTienMienGiam = rq.TongSoTienMienGiam,
                     ThoiHanMienTienThueDat = rq.ThoiHanMienTienThueDat,
                     NgayHieuLucMienTienThueDat = string.IsNullOrEmpty(rq.NgayHieuLucMienTienThueDat) ? null : DateTime.Parse(rq.NgayHieuLucMienTienThueDat, new CultureInfo("vi-VN")),
                     NgayHetHieuLucMienTienThueDat = string.IsNullOrEmpty(rq.NgayHetHieuLucMienTienThueDat) ? null : DateTime.Parse(rq.NgayHetHieuLucMienTienThueDat, new CultureInfo("vi-VN")),
@@ -66,7 +67,8 @@ namespace QuanLyThueDat.Application.Service
                 entity.TenQuyetDinhMienTienThueDat = rq.TenQuyetDinhMienTienThueDat;
                 entity.NgayQuyetDinhMienTienThueDat = string.IsNullOrEmpty(rq.NgayQuyetDinhMienTienThueDat) ? null : DateTime.Parse(rq.NgayQuyetDinhMienTienThueDat, new CultureInfo("vi-VN"));
                 entity.DienTichMienTienThueDat = rq.DienTichMienTienThueDat;
-                entity.SoTienMienGiam = rq.SoTienMienGiam;
+                entity.SoTienMienGiamTrongMotNam = rq.SoTienMienGiamTrongMotNam;
+                entity.TongSoTienMienGiam = rq.TongSoTienMienGiam;
                 entity.ThoiHanMienTienThueDat = rq.ThoiHanMienTienThueDat;
                 entity.NgayHieuLucMienTienThueDat = string.IsNullOrEmpty(rq.NgayHieuLucMienTienThueDat) ? null : DateTime.Parse(rq.NgayHieuLucMienTienThueDat, new CultureInfo("vi-VN"));
                 entity.NgayHetHieuLucMienTienThueDat = string.IsNullOrEmpty(rq.NgayHetHieuLucMienTienThueDat) ? null : DateTime.Parse(rq.NgayHetHieuLucMienTienThueDat, new CultureInfo("vi-VN"));
@@ -146,7 +148,8 @@ namespace QuanLyThueDat.Application.Service
                     TenQuyetDinhMienTienThueDat = item.TenQuyetDinhMienTienThueDat,
                     NgayQuyetDinhMienTienThueDat = item.NgayQuyetDinhMienTienThueDat != null ? item.NgayQuyetDinhMienTienThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                     DienTichMienTienThueDat = item.DienTichMienTienThueDat.ToString("N", new CultureInfo("vi-VN")),
-                    SoTienMienGiam = item.SoTienMienGiam.ToString("N0", new CultureInfo("vi-VN")),
+                    SoTienMienGiamTrongMotNam = item.SoTienMienGiamTrongMotNam.ToString("N0", new CultureInfo("vi-VN")),
+                    TongSoTienMienGiam = item.TongSoTienMienGiam.ToString("N0", new CultureInfo("vi-VN")),
                     ThoiHanMienTienThueDat = item.ThoiHanMienTienThueDat,
                     NgayHieuLucMienTienThueDat = item.NgayHieuLucMienTienThueDat != null ? item.NgayHieuLucMienTienThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                     NgayHetHieuLucMienTienThueDat = item.NgayHetHieuLucMienTienThueDat != null ? item.NgayHetHieuLucMienTienThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
@@ -187,7 +190,8 @@ namespace QuanLyThueDat.Application.Service
                     TenQuyetDinhMienTienThueDat = entity.TenQuyetDinhMienTienThueDat,
                     NgayQuyetDinhMienTienThueDat = entity.NgayQuyetDinhMienTienThueDat != null ? entity.NgayQuyetDinhMienTienThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                     DienTichMienTienThueDat = entity.DienTichMienTienThueDat.ToString("N", new CultureInfo("vi-VN")),
-                    SoTienMienGiam = entity.SoTienMienGiam.ToString("N0", new CultureInfo("vi-VN")),
+                    SoTienMienGiamTrongMotNam = entity.SoTienMienGiamTrongMotNam.ToString("N0", new CultureInfo("vi-VN")),
+                    TongSoTienMienGiam = entity.TongSoTienMienGiam.ToString("N0", new CultureInfo("vi-VN")),
                     ThoiHanMienTienThueDat = entity.ThoiHanMienTienThueDat,
                     NgayHieuLucMienTienThueDat = entity.NgayHieuLucMienTienThueDat != null ? entity.NgayHieuLucMienTienThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                     NgayHetHieuLucMienTienThueDat = entity.NgayHetHieuLucMienTienThueDat != null ? entity.NgayHetHieuLucMienTienThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
@@ -242,7 +246,8 @@ namespace QuanLyThueDat.Application.Service
                     TenQuyetDinhMienTienThueDat = entity.TenQuyetDinhMienTienThueDat,
                     NgayQuyetDinhMienTienThueDat = entity.NgayQuyetDinhMienTienThueDat != null ? entity.NgayQuyetDinhMienTienThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                     DienTichMienTienThueDat = entity.DienTichMienTienThueDat.ToString("N", new CultureInfo("vi-VN")),
-                    SoTienMienGiam = entity.SoTienMienGiam.ToString("N0", new CultureInfo("vi-VN")),
+                    SoTienMienGiamTrongMotNam = entity.SoTienMienGiamTrongMotNam.ToString("N0", new CultureInfo("vi-VN")),
+                    TongSoTienMienGiam = entity.TongSoTienMienGiam.ToString("N0", new CultureInfo("vi-VN")),
                     ThoiHanMienTienThueDat = entity.ThoiHanMienTienThueDat,
                     NgayHieuLucMienTienThueDat = entity.NgayHieuLucMienTienThueDat != null ? entity.NgayHieuLucMienTienThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                     NgayHetHieuLucMienTienThueDat = entity.NgayHetHieuLucMienTienThueDat != null ? entity.NgayHetHieuLucMienTienThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
@@ -300,7 +305,8 @@ namespace QuanLyThueDat.Application.Service
                     TenQuyetDinhMienTienThueDat = item.TenQuyetDinhMienTienThueDat,
                     NgayQuyetDinhMienTienThueDat = item.NgayQuyetDinhMienTienThueDat != null ? item.NgayQuyetDinhMienTienThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                     DienTichMienTienThueDat = item.DienTichMienTienThueDat.ToString("N", new CultureInfo("vi-VN")),
-                    SoTienMienGiam = item.SoTienMienGiam.ToString("N0", new CultureInfo("vi-VN")),
+                    SoTienMienGiamTrongMotNam = item.SoTienMienGiamTrongMotNam.ToString("N0", new CultureInfo("vi-VN")),
+                    TongSoTienMienGiam = item.TongSoTienMienGiam.ToString("N0", new CultureInfo("vi-VN")),
                     ThoiHanMienTienThueDat = soNgayConLai.ToString(),
                     NgayHieuLucMienTienThueDat = item.NgayHieuLucMienTienThueDat != null ? item.NgayHieuLucMienTienThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                     NgayHetHieuLucMienTienThueDat = item.NgayHetHieuLucMienTienThueDat != null ? item.NgayHetHieuLucMienTienThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",

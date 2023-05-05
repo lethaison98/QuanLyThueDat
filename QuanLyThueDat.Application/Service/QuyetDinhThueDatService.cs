@@ -449,22 +449,26 @@ namespace QuanLyThueDat.Application.Service
             var result = new QuyenDuLieuViewModel();
             var claimsIdentity = _accessor.HttpContext.User.Identity as ClaimsIdentity;
             var userId = claimsIdentity.FindFirst("UserId")?.Value;
-            var user = _userManager.FindByIdAsync(userId).Result;
-            var roles = _userManager.GetRolesAsync(user).Result;
-            if(roles.Contains("CHUYENVIENCHUYENQUAN"))
+            if(userId!= null)
             {
-                result.AllowEdit = true;
-                result.AllowDelete = true;
-            }
-            else
-            {
-                var check = _context.CanBo_QuyetDinhThueDat.Where(x => x.IdCanBoQuanLy == userId && x.IdQuyetDinhThueDat == idQuyetDinhThueDat);
-                if (check.Any())
+                var user = _userManager.FindByIdAsync(userId).Result;
+                var roles = _userManager.GetRolesAsync(user).Result;
+                if (roles.Contains("CHUYENVIENCHUYENQUAN"))
                 {
                     result.AllowEdit = true;
                     result.AllowDelete = true;
                 }
-            }     
+                else
+                {
+                    var check = _context.CanBo_QuyetDinhThueDat.Where(x => x.IdCanBoQuanLy == userId && x.IdQuyetDinhThueDat == idQuyetDinhThueDat);
+                    if (check.Any())
+                    {
+                        result.AllowEdit = true;
+                        result.AllowDelete = true;
+                    }
+                }
+
+            }
 
             return result;
         }

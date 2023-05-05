@@ -13,7 +13,7 @@
                 <div class="row col-sm-12" id="FormDetailQuyetDinhThueDat">
                     <div class="form-group col-md-6">
                         <div class="d-flex">
-                            <h5>Số hợp đồng</h5> &nbsp; &nbsp; 
+                            <h5>Số hợp đồng</h5> &nbsp; &nbsp;
                             <h5><a href="#" style="color: gold" class="fa fa-folder" id="btnSelectFileQuyetDinhThueDat"></a> &nbsp;</h5>
                             <input type="file" id="fileQuyetDinhThueDat" multiple="" style="display: none;">
                             <div class="fileDinhKem" data-name="FileQuyetDinhThueDat" data-id="0">
@@ -33,6 +33,10 @@
                         <input type="text" class="form-control" data-name="TenQuyetDinhThueDat" placeholder="Hợp đồng thuê lại đất">
                     </div>
                     <div class="form-group col-md-6">
+                        <h5>Phụ lục hợp đồng</h5>
+                        <input type="text" class="form-control" data-name="SoQuyetDinhThueDatDieuChinh" required>
+                    </div>
+                    <div class="form-group col-md-6">
                         <h5>Vị trí trên bản đồ</h5>
                         <input type="text" class="form-control" data-name="ViTriThuaDat" required>
                     </div>
@@ -48,6 +52,37 @@
                     <div class="form-group col-md-6">
                         <h5>Tổng diện tích (m<sup>2</sup>)</h5>
                         <input type="text" class="form-control number" data-name="TongDienTich" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <h5>Địa bàn</h5>
+                        <select class="form-control select2" data-name="IdQuanHuyen" style="width: 100%;">
+                            <option value="0">--- Lựa chọn địa bàn ---</option>
+                            <option value="1">Thành phố Vinh</option>
+                            <option value="2">Thị xã Cửa Lò</option>
+                            <option value="3">Thị xã Thái Hoà</option>
+                            <option value="4">Huyện Quế Phong</option>
+                            <option value="5">Huyện Quỳ Châu</option>
+                            <option value="6">Huyện Kỳ Sơn</option>
+                            <option value="7">Huyện Tương Dương</option>
+                            <option value="8">Huyện Nghĩa Ðàn</option>
+                            <option value="9">Huyện Quỳ Hợp</option>
+                            <option value="10">	Huyện Quỳnh Lưu</option>
+                            <option value="11">	Huyện Con Cuông</option>
+                            <option value="12">	Huyện Tân Kỳ</option>
+                            <option value="13">	Huyện Anh Sơn</option>
+                            <option value="14">	Huyện Diễn Châu</option>
+                            <option value="15">	Huyện Yên Thành</option>
+                            <option value="16">	Huyện Ðô Lương</option>
+                            <option value="17">	Huyện Thanh Chương</option>
+                            <option value="18">	Huyện Nghi Lộc</option>
+                            <option value="19">	Huyện Nam Ðàn</option>
+                            <option value="20">	Huyện Hưng Nguyên</option>
+                            <option value="21">	Thị xã Hoàng Mai</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <h5>Ghi chú</h5>
+                        <input type="text" class="form-control" data-name="GhiChu" required>
                     </div>
                     <div class="form-group col-md-12">
                         <h5>Chi tiết Quyết định</h5>

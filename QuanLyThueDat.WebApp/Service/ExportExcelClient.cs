@@ -162,16 +162,19 @@ namespace QuanLyThueDat.WebApp.Service
                     ws.Cells[6 + i, 5].Value = obj.ThoiHanMienTienThueDat;
                     ws.Cells[6 + i, 6].Value = "Từ ngày "+ obj.NgayHieuLucMienTienThueDat +" đến ngày "+ obj.NgayHetHieuLucMienTienThueDat ;
                     ws.Cells[6 + i, 7].Value = obj.DienTichMienTienThueDat;
+                    ws.Cells[6 + i, 8].Value = obj.SoTienMienGiamTrongMotNam;
+                    ws.Cells[6 + i, 9].Value = obj.TongSoTienMienGiam;
+                    ws.Cells[6 + i, 10].Value = obj.GhiChu;
                 }
                 //ws.Cells[7 + i, 9, 7 + i, 12].Style.Font.Bold = true;
                 //ws.Cells[7 + i, 9].Value = "Tổng cộng";
                 //ws.Cells[7 + i, 10].Value = tongSoTien;
                 //ws.Cells[7 + i, 11].Value = tongSoTienMienGiam;
                 //ws.Cells[7 + i, 12].Value = tongSoTienPhaiNop;
-                ws.Cells[7, 1, i + 6, 8].Style.Border.Top.Style = ExcelBorderStyle.Thin;
-                ws.Cells[7, 1, i + 6, 8].Style.Border.Left.Style = ExcelBorderStyle.Thin;
-                ws.Cells[7, 1, i + 6, 8].Style.Border.Right.Style = ExcelBorderStyle.Thin;
-                ws.Cells[7, 1, i + 6, 8].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                ws.Cells[7, 1, i + 6, 10].Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                ws.Cells[7, 1, i + 6, 10].Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                ws.Cells[7, 1, i + 6, 10].Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                ws.Cells[7, 1, i + 6, 10].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
                 ws.Cells.AutoFitColumns();
                 result.Data = p.GetAsByteArray();
             }

@@ -48,11 +48,21 @@
                     </div>
                     <div class="form-group col-md-6">
                         <h5>Cơ quan ký hợp đồng</h5>
-                        <input type="text" class="form-control" data-name="CoQuanKy" required>
+                        <input type="text" list="coquanky" class="form-control" data-name="CoQuanKy" required>
+                        <datalist id="coquanky">
+                            <option>Ban quản lý KKT Đông Nam</option>
+                        </datalist>
                     </div>
                     <div class="form-group col-md-6">
                         <h5>Người ký hợp đồng</h5>
-                        <input type="text" class="form-control" data-name="NguoiKy" required>
+                        @*<input type="text" class="form-control" data-name="NguoiKy" required>*@
+                        <input type="text" list="nguoiky" class="form-control" data-name="NguoiKy" required />
+                        <datalist id="nguoiky">
+                            <option>Lê Tiến Trị</option>
+                            <option>Nguyễn Văn Hải</option>
+                            <option>Đoàn Văn Đại</option>
+                            <option>Phan Văn Bình</option>
+                        </datalist>
                     </div>
                     <div class="form-group col-md-6">
                         <h5>Diện tích</h5>
