@@ -196,7 +196,7 @@ namespace QuanLyThueDat.Application.Service
         {
             var query = from a in _context.ThongBaoTienThueDat.Include(x => x.DoanhNghiep).Include(x => x.DsThongBaoTienThueDatChiTiet)
                         select a;
-
+            query = query.Where(x => x.IsDeleted == false && x.BiDieuChinh == 0);
             if (nam != null && nam != 0)
             {
                 query = query.Where(x => x.Nam == nam);
@@ -210,7 +210,7 @@ namespace QuanLyThueDat.Application.Service
                 var donGia = "";
                 if (!String.IsNullOrEmpty(entity.SoThongBaoDonGiaThueDat))
                 {
-                    var tbDonGia = await _context.ThongBaoDonGiaThueDat.FirstOrDefaultAsync(x => x.SoThongBaoDonGiaThueDat == entity.SoThongBaoDonGiaThueDat);
+                    var tbDonGia = await _context.ThongBaoDonGiaThueDat.FirstOrDefaultAsync(x => x.SoThongBaoDonGiaThueDat == entity.SoThongBaoDonGiaThueDat && !x.IsDeleted);
                     if (tbDonGia != null)
                     {
                         thoiHanDonGia = tbDonGia.ThoiHanDonGia + (tbDonGia.NgayHieuLucDonGiaThueDat != null ? " từ ngày " + tbDonGia.NgayHieuLucDonGiaThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "") + (tbDonGia.NgayHetHieuLucDonGiaThueDat != null ? " đến ngày " + tbDonGia.NgayHetHieuLucDonGiaThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "");

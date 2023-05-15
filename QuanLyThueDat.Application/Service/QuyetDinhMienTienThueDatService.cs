@@ -200,6 +200,7 @@ namespace QuanLyThueDat.Application.Service
                 };
                 if (entity.IdQuyetDinhThueDat != null)
                 {
+                    quyetDinhMienTienThueDat.DiaChiThuaDat = _quyetDinhThueDatService.GetById(entity.IdQuyetDinhThueDat.Value).Result.Data.DiaChiThuaDat;
                     quyetDinhMienTienThueDat.QuyenDuLieu = _quyetDinhThueDatService.CheckQuyenDuLieu(entity.IdQuyetDinhThueDat.Value);
                 }
                 var listFileViewModel = new List<FileTaiLieuViewModel>();

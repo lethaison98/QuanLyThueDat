@@ -478,7 +478,9 @@
         return  value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
     }
     ConvertStringToDecimal = function (value) {
-        return parseFloat(value.replaceAll('.', '').replaceAll(',', '.'))
+        var data = parseFloat(value.replaceAll('.', '').replaceAll(',', '.'));
+        if (isNaN(data)) data = 0;
+        return data;
     }
 
     CalculateMonthBetweenDays = function  (date1, date2) {

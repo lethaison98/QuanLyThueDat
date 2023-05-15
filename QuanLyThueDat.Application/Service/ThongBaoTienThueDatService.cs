@@ -327,7 +327,8 @@ namespace QuanLyThueDat.Application.Service
                     DenNgayThue = entity.DenNgayThue != null ? entity.DenNgayThue.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                     TuNgayThue = entity.TuNgayThue != null ? entity.TuNgayThue.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                     TongDienTich = entity.TongDienTich.ToString("N", new CultureInfo("vi-VN")),
-                    GhiChu = entity.GhiChu,
+                    TextLoaiThongBaoTienThueDat = typeof(LoaiThongBaoTienThueDatConstant).GetField(entity.LoaiThongBaoTienThueDat).GetValue(null).ToString(),
+                GhiChu = entity.GhiChu,
                 };
                 if (entity.IdQuyetDinhThueDat != null)
                 {

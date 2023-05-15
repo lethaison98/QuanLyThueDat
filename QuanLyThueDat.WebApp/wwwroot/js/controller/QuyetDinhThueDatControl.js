@@ -97,6 +97,12 @@ QuyetDinhThueDatControl = {
                         "defaultContent": "",
                     },
                     {
+                        "class": "name-control",
+                        "width": "10%",
+                        "data": "GhiChu",
+                        "defaultContent": "",
+                    },
+                    {
                         "class": "function-control",
                         "width": "10%",
                         "orderable": false,

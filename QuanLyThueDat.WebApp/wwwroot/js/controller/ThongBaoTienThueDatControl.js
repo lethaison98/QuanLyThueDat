@@ -76,6 +76,11 @@ ThongBaoTienThueDatControl = {
                         "defaultContent": "",
                     },
                     {
+                        "class": "name-control",
+                        "data": "TextLoaiThongBaoTienThueDat",
+                        "defaultContent": "",
+                    },
+                    {
                         "class": "function-control",
                         "orderable": false,
                         //"data": "thaotac",
@@ -491,6 +496,21 @@ ThongBaoTienThueDatControl = {
                 }
             })
         });
+        $('#btnCreateThongBaoTraTienMotLan').off('click').on('click', function () {
+            var $y = $(this);
+            Get({
+                url: '/ThongBaoTienThueDat/PopupDetailThongBaoTienThueDat',
+                dataType: 'text',
+                callback: function (res) {
+                    $('#modalDetailThongBaoTienThueDat').html(res);
+                    $('#popupDetailThongBaoTienThueDat').modal();
+                    $('#popupDetailThongBaoTienThueDat .modal-title').text("Thêm mới thông báo trả tiền một lần - " + opts.TenDoanhNghiep);
+                    opts.LoaiThongBaoTienThueDat = "ThongBaoTraTienMotLan";
+                    self.RegisterEventsPopup(opts);
+                    self.LoadDanhSachQuyetDinhThueDat(opts);
+                }
+            })
+        });
         $('#btnCreateThongBaoTienThueDatDieuChinh').off('click').on('click', function () {
             var $y = $(this);
             Get({
@@ -568,17 +588,28 @@ ThongBaoTienThueDatControl = {
         var dienTichKhongPhaiNop = 0;
         var tongSoTien = 0
         var soTienMienGiam = 0
-        $("#tblChiTietThongBaoTienThueDat tbody tr").each(function () {
-            var tuNgay = $(this).find('[data-name="TuNgayTinhTien"]').val();
-            var denNgay = $(this).find('[data-name="DenNgayTinhTien"]').val();
-            var donGia = ConvertStringToDecimal($(this).find("[data-name='DonGia']").val());
-            var dienTichPhaiNop = ConvertStringToDecimal($(this).find("[data-name='DienTichPhaiNop']").val());
 
-            var soThang = CalculateMonthBetweenDays(tuNgay, denNgay);
-            var soTienPhaiNop = Math.round(donGia * dienTichPhaiNop * soThang / 12) || 0;
-            tongSoTien += soTienPhaiNop;
-            $(this).find('[data-name="SoTienPhaiNop"]').val(ConvertDecimalToString(soTienPhaiNop.toFixed(0)));
-        });
+        if (opts.LoaiThongBaoTienThueDat == "ThongBaoTraTienMotLan") {
+            $("#tblChiTietThongBaoTienThueDat tbody tr").each(function () {
+                var donGia = ConvertStringToDecimal($(this).find("[data-name='DonGia']").val());
+                var dienTichPhaiNop = ConvertStringToDecimal($(this).find("[data-name='DienTichPhaiNop']").val());
+                var soTienPhaiNop = Math.round(donGia * dienTichPhaiNop) || 0;
+                tongSoTien += soTienPhaiNop;
+                $(this).find('[data-name="SoTienPhaiNop"]').val(ConvertDecimalToString(soTienPhaiNop.toFixed(0)));
+            });
+        } else {
+            $("#tblChiTietThongBaoTienThueDat tbody tr").each(function () {
+                var tuNgay = $(this).find('[data-name="TuNgayTinhTien"]').val();
+                var denNgay = $(this).find('[data-name="DenNgayTinhTien"]').val();
+                var donGia = ConvertStringToDecimal($(this).find("[data-name='DonGia']").val());
+                var dienTichPhaiNop = ConvertStringToDecimal($(this).find("[data-name='DienTichPhaiNop']").val());
+
+                var soThang = CalculateMonthBetweenDays(tuNgay, denNgay);
+                var soTienPhaiNop = Math.round(donGia * dienTichPhaiNop * soThang / 12) || 0;
+                tongSoTien += soTienPhaiNop;
+                $(this).find('[data-name="SoTienPhaiNop"]').val(ConvertDecimalToString(soTienPhaiNop.toFixed(0)));
+            });
+        }
         tongDienTich = ConvertStringToDecimal($(".groupThongBaoTienThueDat").find("[data-name='TongDienTich']").val());
         dienTichKhongPhaiNop = ConvertStringToDecimal($(".groupThongBaoTienThueDat").find("[data-name='DienTichKhongPhaiNop']").val());
 
