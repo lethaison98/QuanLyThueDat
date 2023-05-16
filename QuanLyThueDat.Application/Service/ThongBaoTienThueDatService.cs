@@ -648,7 +648,7 @@ namespace QuanLyThueDat.Application.Service
             var data = (from tbct in _context.ThongBaoTienThueDatChiTiet
                         join tbtd in _context.ThongBaoTienThueDat on tbct.IdThongBaoTienThueDat equals tbtd.IdThongBaoTienThueDat
                         join tbdg in _context.ThongBaoDonGiaThueDat on tbct.IdThongBaoDonGiaThueDat equals tbdg.IdThongBaoDonGiaThueDat
-                        where ((tbct.IdThongBaoDonGiaThueDat == thongBaoDonGiaId) && (tbtd.BiDieuChinh == 0))
+                        where ((tbct.IdThongBaoDonGiaThueDat == thongBaoDonGiaId) && (tbtd.BiDieuChinh == 0) && (!tbtd.IsDeleted))
                         select new ThongBaoTienThueDatViewModel
                         {
                             SoThongBaoTienThueDat = tbtd.SoThongBaoTienThueDat,

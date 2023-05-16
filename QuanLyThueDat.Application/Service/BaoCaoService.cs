@@ -102,7 +102,7 @@ namespace QuanLyThueDat.Application.Service
                             item.TongDienTich = (dienTichGiaoKhongThuTien + dienTichGiaoThuTien).ToString("N", new CultureInfo("vi-VN"));
                         }
 
-                        var dsQuyetDinhThueDatTraTienHangNam = dsQuyetDinhThueDat.Data.Where(x => x.HinhThucThue == "ThueDatTraTienHangNam" || x.HinhThucThue == "HopDongThueLaiDat");
+                        var dsQuyetDinhThueDatTraTienHangNam = dsQuyetDinhThueDat.Data.Where(x => x.HinhThucThue == "ThueDatTraTienHangNam" || x.HinhThucThue == "HopDongThueLaiDat" || x.HinhThucThue == "ThueDatTraTienMotLan");
                         foreach (var quyetDinhThueDat in dsQuyetDinhThueDatTraTienHangNam)
                         {
                             if (!String.IsNullOrEmpty(quyetDinhThueDat.SoQuyetDinhThueDat))
@@ -347,7 +347,7 @@ namespace QuanLyThueDat.Application.Service
                             item.TongDienTich = (dienTichGiaoKhongThuTien + dienTichGiaoThuTien).ToString("N", new CultureInfo("vi-VN"));
                         }
 
-                        var dsQuyetDinhThueDatTraTienHangNam = dsQuyetDinhThueDat.Data.Where(x => x.HinhThucThue == "ThueDatTraTienHangNam" || x.HinhThucThue == "HopDongThueLaiDat");
+                        var dsQuyetDinhThueDatTraTienHangNam = dsQuyetDinhThueDat.Data.Where(x => x.HinhThucThue == "ThueDatTraTienHangNam" || x.HinhThucThue == "HopDongThueLaiDat" || x.HinhThucThue == "ThueDatTraTienMotLan");
                         foreach (var quyetDinhThueDat in dsQuyetDinhThueDatTraTienHangNam)
                         {
                             if (!String.IsNullOrEmpty(quyetDinhThueDat.SoQuyetDinhThueDat))

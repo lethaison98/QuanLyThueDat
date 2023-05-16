@@ -39,7 +39,7 @@ namespace QuanLyThueDat.WebApp.Controllers
             if (data.IsSuccess)
             {
                 //var result = File(data.Data, "application/vnd.ms-word", loaiThongBao + ".doc");
-                var result = File(data.Data, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", loaiThongBao + ".docx");
+                var result = File(data.Data, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", data.Message + ".docx");
                 return result;
             }
             return Ok(data);

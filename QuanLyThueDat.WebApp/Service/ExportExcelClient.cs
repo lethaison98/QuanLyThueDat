@@ -153,15 +153,15 @@ namespace QuanLyThueDat.WebApp.Service
                 decimal tongSoTienMienGiam = 0;
                 decimal tongSoTienPhaiNop = 0;
                 ws.Cells[4, 1].Value = "BÁO CÁO MIỄN TIỀN THUÊ ĐẤT CỦA CÁC DN THUÊ ĐẤT TẠI KKT VÀ CÁC KCN";
-                ws.Cells[5, 4].Value = "Quyết định miễn tiền thuê đất";
+                ws.Cells[5, 5].Value = "Quyết định miễn tiền thuê đất";
                 foreach (var obj in data)
                 {
                     i++;
                     ws.Cells[6 + i, 1].Value = i.ToString();
                     ws.Cells[6 + i, 2].Value = obj.TenDoanhNghiep;
                     ws.Cells[6 + i, 3].Value = obj.MaSoThue;
-                    ws.Cells[6 + i, 4].Value = obj.SoQuyetDinhMienTienThueDat;
-                    ws.Cells[6 + i, 5].Value = obj.DiaChiThuaDat;
+                    ws.Cells[6 + i, 4].Value = obj.DiaChiThuaDat;
+                    ws.Cells[6 + i, 5].Value = obj.SoQuyetDinhMienTienThueDat + " ngày " + obj.NgayQuyetDinhMienTienThueDat;
                     ws.Cells[6 + i, 6].Value = obj.ThoiHanMienTienThueDat;
                     ws.Cells[6 + i, 7].Value = "Từ ngày "+ obj.NgayHieuLucMienTienThueDat +" đến ngày "+ obj.NgayHetHieuLucMienTienThueDat ;
                     ws.Cells[6 + i, 8].Value = obj.DienTichMienTienThueDat;

@@ -245,6 +245,51 @@
 
                                 </div>
                             </div>
+
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <h5>Chi tiết Miễn giảm tiền thuê đất</h5>
+                                    <table id="tblChiTietMienGiamTienThueDat" class="table table-bordered table-hover dataTable" role="grid">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:20%">
+                                                    Quyết định miễn tiền
+                                                </th>
+                                                <th style="width:15%">
+                                                    Đơn giá
+                                                </th>
+                                                <th style="width:15%">
+                                                    Diện tích miễn giảm
+                                                </th>
+                                                <th style="width:15%">
+                                                    Số tiền miễn giảm
+                                                </th>
+                                                <th style="width:15%">
+                                                    Từ ngày
+                                                </th>
+                                                <th style="width:15%">
+                                                    Đến ngày
+                                                </th>
+                                                <th style="width:5%">
+                                                    Xóa
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="8">
+                                                    <button class="btn btn-xs btn-success" id="btnAddChiTietMienGiamTienThueDat" type="button">
+                                                        <i class="fa fa-plus"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+
+                                </div>
+                            </div>
                             <div class="groupThongBaoTienThueDat" style="width: 100%">
                                 <div class="row">
                                     <div class="form-group col-md-6">
@@ -301,10 +346,41 @@
                             <input type="text" class="form-control number px-1" data-name="SoTienPhaiNop" required>
                         </td>
                         <td style="width:15%">
-                            <input type="text" class="form-control datetimepicker-input" data-toggle="datetimepicker" data-name="TuNgayTinhTien">
+                            <input type="text" class="form-control" data-name="TuNgayTinhTien" placeholder="dd/mm/yyyy">
                         </td>
                         <td style="width:15%">
-                            <input type="text" class="form-control datetimepicker-input" data-toggle="datetimepicker" data-name="DenNgayTinhTien">
+                            <input type="text" class="form-control" data-name="DenNgayTinhTien" placeholder="dd/mm/yyyy">
+                        </td>
+                        <td style="width:5%">
+                            <a href="javascript:;" class="tr-remove text-danger"><i class="fas fa-trash-alt" title="Xóa"></i></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table style="display:none">
+                <tbody id="tempChiTietMienGiamTienThueDat">
+                    <tr>
+                        <td style="width:20%">
+
+                            <select class="form-control ddQuyetDinhMienTienThueDat" data-name="IdQuyetDinhMienTienThueDat" style="width: 100%;">
+                            </select>
+                        </td>
+                        <td style="width:15%">
+                            <input type="hidden" class="form-control" data-name="IdThongBaoTienThueDatChiTiet" value="0">
+                            <input type="text" class="form-control number px-1" data-name="DonGia" required>
+                        </td>
+                        <td style="width:15%">
+                            <input type="text" class="form-control number px-1" data-name="DienTichMienGiam" required>
+                        </td>
+                        <td style="width:15%">
+                            <input type="text" class="form-control number px-1" data-name="SoTienMienGiam" required>
+                        </td>
+                        <td style="width:15%">
+                            <input type="text" class="form-control" data-name="TuNgayMienGiam" placeholder="dd/mm/yyyy">
+                        </td>
+                        <td style="width:15%">
+                            <input type="text" class="form-control" data-name="DenNgayMienGiam" placeholder="dd/mm/yyyy">
                         </td>
                         <td style="width:5%">
                             <a href="javascript:;" class="tr-remove text-danger"><i class="fas fa-trash-alt" title="Xóa"></i></a>

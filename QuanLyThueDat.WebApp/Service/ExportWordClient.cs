@@ -264,6 +264,7 @@ namespace QuanLyThueDat.WebApp.Service
 
         public async Task<ApiResult<byte[]>> CreateWordDocument(int idThongBao, string loaiThongBaoConstant)
         {
+            var tenFile = loaiThongBaoConstant;
             try
             {
 
@@ -289,6 +290,7 @@ namespace QuanLyThueDat.WebApp.Service
                         {
                             data = JsonConvert.DeserializeObject<ApiSuccessResult<ThongBaoDonGiaThueDatViewModel>>(await response.Content.ReadAsStringAsync());
                         }
+                        tenFile = "Thông báo đơn giá_" + data.Data.TenDoanhNghiep;
                         data.Data.HinhThucThue = "Thuê đất trả tiền hằng năm";
                         if (String.IsNullOrEmpty(data.Data.TenThongBaoDonGiaThueDat))
                         {
@@ -321,6 +323,7 @@ namespace QuanLyThueDat.WebApp.Service
                         {
                             data = JsonConvert.DeserializeObject<ApiSuccessResult<ThongBaoTienThueDatViewModel>>(await response.Content.ReadAsStringAsync());
                         }
+                        tenFile = "Thông báo tiền thuê đất_" + data.Data.TenDoanhNghiep + " năm "+ data.Data.Nam;
                         if (String.IsNullOrEmpty(data.Data.TenThongBaoTienThueDat))
                         {
                             data.Data.TenThongBaoTienThueDat = "Về tiền thuê đất, thuê mặt nước theo hình thức nộp hàng năm";
@@ -346,11 +349,22 @@ namespace QuanLyThueDat.WebApp.Service
                         }
                         if (!String.IsNullOrEmpty(data.Data.LoaiThongBaoTienThueDat))
                         {
-                            data.Data.TextLoaiThongBaoTienThueDat = typeof(LoaiThongBaoTienThueDatConstant).GetField(data.Data.LoaiThongBaoTienThueDat).GetValue(null).ToString();
+                            switch (data.Data.LoaiThongBaoTienThueDat)
+                            {
+                                case "ThongBaoLanDau":
+                                    data.Data.TextLoaiThongBaoTienThueDat = "□x Thông báo lần đầu   □ Thông báo từ năm thứ hai trở đi   □ Thông báo điều chỉnh, bổ sung";
+                                    break;
+                                case "ThongBaoTuNamThuHaiTroDi":
+                                    data.Data.TextLoaiThongBaoTienThueDat = "□ Thông báo lần đầu   □x Thông báo từ năm thứ hai trở đi   □ Thông báo điều chỉnh, bổ sung";
+                                    break;
+                                case "ThongBaoDieuChinh":
+                                    data.Data.TextLoaiThongBaoTienThueDat = "□ Thông báo lần đầu   □ Thông báo từ năm thứ hai trở đi   □x Thông báo điều chỉnh, bổ sung";
+                                    break;
+                            }
                         }
                         else
                         {
-                            data.Data.TextLoaiThongBaoTienThueDat = "Thông báo lần.....";
+                            data.Data.TextLoaiThongBaoTienThueDat = "□ Thông báo lần đầu   □ Thông báo từ năm thứ hai trở đi   □ Thông báo điều chỉnh, bổ sung";
                         }
 
                         if(data.Data.DsThongBaoTienThueDatChiTiet.Count > 0)
@@ -383,6 +397,7 @@ namespace QuanLyThueDat.WebApp.Service
                         {
                             data = JsonConvert.DeserializeObject<ApiSuccessResult<ThongBaoTienSuDungDatViewModel>>(await response.Content.ReadAsStringAsync());
                         }
+                        tenFile = "Thông báo tiền thuê đất_" + data.Data.TenDoanhNghiep + " năm " + data.Data.Nam;
                         if (String.IsNullOrEmpty(data.Data.TenThongBaoTienSuDungDat))
                         {
                             data.Data.TenThongBaoTienSuDungDat = "Về tiền thuê đất, thuê mặt nước theo hình thức nộp hàng năm";
@@ -453,7 +468,7 @@ namespace QuanLyThueDat.WebApp.Service
                     byteArray = stream.ToArray();
                 }
 
-                return new ApiSuccessResult<byte[]>() { Data = byteArray };
+                return new ApiSuccessResult<byte[]>() { Data = byteArray, Message=tenFile };
             }catch (Exception ex)
             {
                 return new ApiErrorResult<byte[]>(ex.Message);
