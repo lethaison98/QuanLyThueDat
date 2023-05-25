@@ -70,6 +70,9 @@ namespace QuanLyThueDat.Application.Service
                     NgayCap = string.IsNullOrEmpty(rq.NgayCap) ? null : DateTime.Parse(rq.NgayCap, new CultureInfo("vi-VN")),
                     NoiCap = rq.NoiCap,
                     GhiChu = rq.GhiChu,
+                    TenChuong = rq.TenChuong,
+                    MaChuong = rq.MaChuong,
+                    MaCoQuanQuanLyThu = rq.MaCoQuanQuanLyThu,
                     NgayTao = DateTime.Now,
                     NguoiTao = tenUser,
                     IdNguoiTao = userId
@@ -88,6 +91,9 @@ namespace QuanLyThueDat.Application.Service
                 entity.NgayCap = string.IsNullOrEmpty(rq.NgayCap) ? null : DateTime.Parse(rq.NgayCap, new CultureInfo("vi-VN"));
                 entity.NoiCap = rq.NoiCap;
                 entity.GhiChu = rq.GhiChu;
+                entity.TenChuong = rq.TenChuong;
+                entity.MaChuong = rq.MaChuong;
+                entity.MaCoQuanQuanLyThu = rq.MaCoQuanQuanLyThu;
                 entity.NgayCapNhat = DateTime.Now;
                 entity.NguoiCapNhat = tenUser;
                 entity.IdNguoiCapNhat = userId;
@@ -170,7 +176,11 @@ namespace QuanLyThueDat.Application.Service
                     MaSoThue = item.MaSoThue,
                     NgayCap = item.NgayCap != null ? item.NgayCap.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                     NoiCap = item.NoiCap,
-                    GhiChu = item.GhiChu
+                    GhiChu = item.GhiChu,
+                    TenChuong = item.TenChuong,
+                    MaChuong = item.MaChuong,
+                    MaCoQuanQuanLyThu = item.MaCoQuanQuanLyThu,
+
                 };
                 listItem.Add(doanhNghiep);
             }
@@ -203,6 +213,9 @@ namespace QuanLyThueDat.Application.Service
                     NgayCap = entity.NgayCap != null ? entity.NgayCap.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
                     NoiCap = entity.NoiCap,
                     GhiChu = entity.GhiChu,
+                    TenChuong = entity.TenChuong,
+                    MaChuong = entity.MaChuong,
+                    MaCoQuanQuanLyThu = entity.MaCoQuanQuanLyThu,
                 };
                 return new ApiSuccessResult<DoanhNghiepViewModel>() { Data = result };
 

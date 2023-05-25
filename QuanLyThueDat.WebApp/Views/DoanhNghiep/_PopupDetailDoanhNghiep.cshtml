@@ -34,7 +34,36 @@
                     </div>
                     <div class="form-group col-md-6">
                         <h5>Cơ quan quản lý thuế</h5>
-                        <input type="text" class="form-control" data-name="CoQuanQuanLyThue" required>
+                        <input type="text" list="coquanthue" class="form-control" data-name="CoQuanQuanLyThue" required />
+                        <datalist id="coquanthue">
+                            <option>Cục Thuế tỉnh Nghệ An</option>
+                            <option>Chi cục thuế khu vực Bắc Vinh</option>
+                            <option>Chi cục thuế thành phố Vinh</option>
+                            <option>Chi cục thuế khu vực Bắc Nghệ I</option>
+                            <option>Chi cục thuế khu vực Bắc Nghệ II</option>
+                        </datalist>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <h5>Mã cơ quan quản lý thu</h5>
+                        <input type="text" class="form-control" data-name="MaCoQuanQuanLyThu" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <h5>Tên chương</h5>
+                        <input type="text" list="tenchuong" class="form-control" data-name="TenChuong" required />
+                        <datalist id="tenchuong">
+                            <option>Kinh tế hỗn hợp ngoài quốc doanh</option>
+                            <option>Doanh nghiệp tư nhân</option>
+                            <option>Các đơn vị khác</option>
+                            <option>Hợp tác xã</option>
+                            <option>Bộ Quốc phòng</option>
+                            <option>Các đ.vị KT có 100% vốn đầu tư NN vào VN</option>
+                            <option>ĐV vốn nước ngoài từ 51 đến dưới 100%</option>
+                            <option>Các đ.vị có 100% vốn đ.tư NN vào VN</option>
+                        </datalist>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <h5>Mã chương</h5>
+                        <input type="text" class="form-control" data-name="MaChuong" required>
                     </div>
                     <div class="form-group col-md-6">
                         <h5>Ngày cấp</h5>
@@ -46,7 +75,7 @@
                     </div>
                     <div class="form-group col-md-12">
                         <h5>Ghi chú</h5>
-                        <textarea  rows="4" type="text" class="form-control" data-name="GhiChu" required></textarea>
+                        <textarea rows="4" type="text" class="form-control" data-name="GhiChu" required></textarea>
                     </div>
                 </div>
             </div>

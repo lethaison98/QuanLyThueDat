@@ -19,6 +19,10 @@ namespace QuanLyThueDat.Data.Entities
         public DateTime? NgayCap { get; set; }
         public string NoiCap { get; set; }
         public string GhiChu { get; set; }
+        public string TenChuong { get; set; }
+        public string MaChuong { get; set; }
+        public string MaCoQuanQuanLyThu { get; set; }
+
         public List<HopDongThueDat> DsHopDongThueDat { get; set; }
         public List<QuyetDinhDonGiaThueDat> DsQuyetDinhDonGiaThueDat { get; set; }
         public List<QuyetDinhGiaoDat> DsQuyetDinhGiaoDat { get; set; }

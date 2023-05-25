@@ -384,6 +384,22 @@ namespace QuanLyThueDat.WebApp.Service
                             data.Data.TextDonGiaChiTiet = data.Data.DonGia+" đồng/m2/năm.";
                             data.Data.TextCanCuThongBaoDonGia = "Căn cứ Thông báo số " + data.Data.SoThongBaoDonGiaThueDat + " ngày " + data.Data.NgayThongBaoDonGiaThueDat + " của Ban quản lý KKT Đông Nam về việc thông báo đơn giá thuê đất, thuê mặt nước.";
                         }
+
+                        if (!String.IsNullOrEmpty(data.Data.SoQuyetDinhMienTienThueDat))
+                        {
+                            var soQuyetDinh = Convert.ToString(data.Data.SoQuyetDinhMienTienThueDat);
+                            var coquanmien = "";
+                            //if (soQuyetDinh.Contain("KKT"))
+                            //{
+                            //    coquanmien = " của Ban quản lý KKT Đông Nam ";
+                            //}
+                            //else if (soQuyetDinh.Contain("CT"))
+                            //{
+                            //    coquanmien = " của Cục thuế tỉnh Nghệ An ";
+                            //}
+                            data.Data.TextLyDoMien = "Theo Quyết định số " + data.Data.SoQuyetDinhMienTienThueDat + " ngày " + data.Data.NgayQuyetDinhMienTienThueDat + coquanmien + " về việc "+ data.Data.TenQuyetDinhMienTienThueDat;
+                            data.Data.TextThoiGianMien = data.Data.ThoiHanMienTienThueDat + " từ ngày " + data.Data.NgayHieuLucMienTienThueDat + " đến ngày " + data.Data.NgayHetHieuLucMienTienThueDat;
+                        }
                         data.Data.TextSoTienPhaiNop = NumberToTextVN(data.Data.SoTienPhaiNop);
                         data.Data.TextTongDienTich = NumberToTextVN(data.Data.TongDienTich);
 

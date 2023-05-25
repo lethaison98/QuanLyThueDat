@@ -395,6 +395,9 @@ namespace QuanLyThueDat.Application.Service
                     DiaChi = entity.DoanhNghiep.DiaChi,
                     SoDienThoai = entity.DoanhNghiep.SoDienThoai,
                     Email = entity.DoanhNghiep.Email,
+                    MaCoQuanQuanLyThu = entity.DoanhNghiep.MaCoQuanQuanLyThu,
+                    MaChuong = entity.DoanhNghiep.MaChuong,
+                    TenChuong = entity.DoanhNghiep.TenChuong,
                     LoaiThongBaoTienThueDat = entity.LoaiThongBaoTienThueDat,
                     SoQuyetDinhThueDat = entity.SoQuyetDinhThueDat,
                     TenQuyetDinhThueDat = entity.TenQuyetDinhThueDat,
@@ -426,6 +429,16 @@ namespace QuanLyThueDat.Application.Service
                 if (entity.IdQuyetDinhThueDat != null)
                 {
                     result.QuyenDuLieu = _quyetDinhThueDatService.CheckQuyenDuLieu(entity.IdQuyetDinhThueDat.Value);
+                    var quyetDinhMienTienThueDat = _context.QuyetDinhMienTienThueDat.FirstOrDefault(x => x.IdQuyetDinhThueDat == entity.IdQuyetDinhThueDat && !x.IsDeleted);
+                    if (quyetDinhMienTienThueDat != null)
+                    {
+                        result.SoQuyetDinhMienTienThueDat = quyetDinhMienTienThueDat.SoQuyetDinhMienTienThueDat;
+                        result.NgayQuyetDinhMienTienThueDat = quyetDinhMienTienThueDat.NgayQuyetDinhMienTienThueDat != null ? quyetDinhMienTienThueDat.NgayQuyetDinhMienTienThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "";
+                        result.TenQuyetDinhMienTienThueDat = quyetDinhMienTienThueDat.TenQuyetDinhMienTienThueDat;
+                        result.ThoiHanMienTienThueDat = quyetDinhMienTienThueDat.ThoiHanMienTienThueDat;
+                        result.NgayHieuLucMienTienThueDat = quyetDinhMienTienThueDat.NgayHieuLucMienTienThueDat != null ? quyetDinhMienTienThueDat.NgayHieuLucMienTienThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "";
+                        result.NgayHetHieuLucMienTienThueDat = quyetDinhMienTienThueDat.NgayHetHieuLucMienTienThueDat != null ? quyetDinhMienTienThueDat.NgayHetHieuLucMienTienThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "";
+                    }
                 }
                 if (entity.DsThongBaoTienThueDatChiTiet != null)
                 {
