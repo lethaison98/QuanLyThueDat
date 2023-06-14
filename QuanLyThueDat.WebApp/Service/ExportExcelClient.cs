@@ -88,9 +88,12 @@ namespace QuanLyThueDat.WebApp.Service
                 }
                 ws.Cells[7 + i, 10, 7 + i, 13].Style.Font.Bold = true;
                 ws.Cells[7 + i, 10].Value = "Tổng cộng";
-                ws.Cells[7 + i, 11].Value = tongSoTien;
-                ws.Cells[7 + i, 12].Value = tongSoTienMienGiam;
-                ws.Cells[7 + i, 13].Value = tongSoTienPhaiNop;
+                //ws.Cells[7 + i, 11].Value = tongSoTien;
+                //ws.Cells[7 + i, 12].Value = tongSoTienMienGiam;
+                //ws.Cells[7 + i, 13].Value = tongSoTienPhaiNop;
+                ws.Cells[7 + i, 11].Formula = "=SUM(" + ws.Cells[7, 11].Address + ":" + ws.Cells[6 + i, 11].Address + ")"; 
+                ws.Cells[7 + i, 12].Formula = "=SUM(" + ws.Cells[7, 12].Address + ":" + ws.Cells[6 + i, 12].Address + ")"; ;
+                ws.Cells[7 + i, 13].Formula = "=SUM(" + ws.Cells[7, 13].Address + ":" + ws.Cells[6 + i, 13].Address + ")"; ;
                 ws.Cells[7, 1, i + 7, 14].Style.Border.Top.Style = ExcelBorderStyle.Thin;
                 ws.Cells[7, 1, i + 7, 14].Style.Border.Left.Style = ExcelBorderStyle.Thin;
                 ws.Cells[7, 1, i + 7, 14].Style.Border.Right.Style = ExcelBorderStyle.Thin;
@@ -164,9 +167,9 @@ namespace QuanLyThueDat.WebApp.Service
                     ws.Cells[6 + i, 5].Value = obj.SoQuyetDinhMienTienThueDat + " ngày " + obj.NgayQuyetDinhMienTienThueDat;
                     ws.Cells[6 + i, 6].Value = obj.ThoiHanMienTienThueDat;
                     ws.Cells[6 + i, 7].Value = "Từ ngày "+ obj.NgayHieuLucMienTienThueDat +" đến ngày "+ obj.NgayHetHieuLucMienTienThueDat ;
-                    ws.Cells[6 + i, 8].Value = obj.DienTichMienTienThueDat;
-                    ws.Cells[6 + i, 9].Value = obj.SoTienMienGiamTrongMotNam;
-                    ws.Cells[6 + i, 10].Value = obj.TongSoTienMienGiam;
+                    ws.Cells[6 + i, 8].Value = decimal.Parse(obj.DienTichMienTienThueDat, new CultureInfo("vi-VN")); 
+                    ws.Cells[6 + i, 9].Value = decimal.Parse(obj.SoTienMienGiamTrongMotNam, new CultureInfo("vi-VN"));  
+                    ws.Cells[6 + i, 10].Value = decimal.Parse(obj.TongSoTienMienGiam, new CultureInfo("vi-VN"));
                     ws.Cells[6 + i, 11].Value = obj.GhiChu;
                 }
                 //ws.Cells[7 + i, 9, 7 + i, 12].Style.Font.Bold = true;
@@ -178,6 +181,7 @@ namespace QuanLyThueDat.WebApp.Service
                 ws.Cells[7, 1, i + 6, 11].Style.Border.Left.Style = ExcelBorderStyle.Thin;
                 ws.Cells[7, 1, i + 6, 11].Style.Border.Right.Style = ExcelBorderStyle.Thin;
                 ws.Cells[7, 1, i + 6, 11].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                ws.Cells[7, 8, i + 7, 10].Style.Numberformat.Format = "#,##0.00";
                 ws.Cells.AutoFitColumns();
                 result.Data = p.GetAsByteArray();
             }
@@ -236,20 +240,20 @@ namespace QuanLyThueDat.WebApp.Service
                     ws.Cells[6 + i, 7].Value = obj.QuyetDinhThueDatViewModel.NgayQuyetDinhGiaoDat;
 
                     ws.Cells[6 + i, 8].Value = obj.QuyetDinhGiaoLaiDatViewModel.SoQuyetDinh;
-                    ws.Cells[6 + i, 9].Value = obj.QuyetDinhGiaoLaiDatViewModel.DienTichPhaiNop;
-                    ws.Cells[6 + i, 10].Value = obj.QuyetDinhGiaoLaiDatViewModel.DienTichKhongPhaiNop;
-                    ws.Cells[6 + i, 11].Value = obj.QuyetDinhGiaoLaiDatViewModel.TongDienTich;
+                    ws.Cells[6 + i, 9].Value = obj.QuyetDinhGiaoLaiDatViewModel.DienTichPhaiNop != null?  decimal.Parse(obj.QuyetDinhGiaoLaiDatViewModel.DienTichPhaiNop, new CultureInfo("vi-VN")): "";
+                    ws.Cells[6 + i, 10].Value = obj.QuyetDinhGiaoLaiDatViewModel.DienTichKhongPhaiNop!= null? decimal.Parse(obj.QuyetDinhGiaoLaiDatViewModel.DienTichKhongPhaiNop, new CultureInfo("vi-VN")): "";
+                    ws.Cells[6 + i, 11].Value = obj.QuyetDinhGiaoLaiDatViewModel.TongDienTich != null? decimal.Parse(obj.QuyetDinhGiaoLaiDatViewModel.TongDienTich, new CultureInfo("vi-VN")): "";
 
                     ws.Cells[6 + i, 13].Value = obj.QuyetDinhThueDatViewModel.SoQuyetDinhThueDat;
                     ws.Cells[6 + i, 14].Value = obj.QuyetDinhThueDatViewModel.NgayQuyetDinhThueDat;
-                    ws.Cells[6 + i, 15].Value = obj.QuyetDinhThueDatViewModel.TongDienTich;
+                    ws.Cells[6 + i, 15].Value = obj.QuyetDinhThueDatViewModel.TongDienTich != null ? decimal.Parse(obj.QuyetDinhThueDatViewModel.TongDienTich, new CultureInfo("vi-VN")) : "";
                     ws.Cells[6 + i, 16].Value = obj.QuyetDinhThueDatViewModel.ThoiHanThue + obj.QuyetDinhThueDatViewModel.TuNgayThue != "" ? " từ ngày "+ obj.QuyetDinhThueDatViewModel.TuNgayThue:"" + obj.QuyetDinhThueDatViewModel.DenNgayThue!=""? " đến ngày " + obj.QuyetDinhThueDatViewModel.DenNgayThue : "";
                     ws.Cells[6 + i, 17].Value = obj.QuyetDinhThueDatViewModel.MucDichSuDung;
                     ws.Cells[6 + i, 18].Value = obj.QuyetDinhThueDatViewModel.ViTriThuaDat;
                     ws.Cells[6 + i, 19].Value = obj.QuyetDinhThueDatViewModel.DiaChiThuaDat;
                     ws.Cells[6 + i, 20].Value = obj.HopDongThueDatViewModel.SoHopDong;
                     ws.Cells[6 + i, 21].Value = obj.HopDongThueDatViewModel.NgayKyHopDong;
-                    ws.Cells[6 + i, 22].Value = obj.QuyetDinhThueDatViewModel.TongDienTich;
+                    ws.Cells[6 + i, 22].Value = obj.QuyetDinhThueDatViewModel.TongDienTich != null ? decimal.Parse(obj.QuyetDinhThueDatViewModel.TongDienTich, new CultureInfo("vi-VN")) : "";
                     ws.Cells[6 + i, 23].Value = obj.ThongBaoDonGiaThueDatViewModel.SoThongBaoDonGiaThueDat;
                     ws.Cells[6 + i, 24].Value = obj.ThongBaoDonGiaThueDatViewModel.NgayThongBaoDonGiaThueDat;
                     ws.Cells[6 + i, 25].Value = obj.ThongBaoDonGiaThueDatViewModel.DonGia;
@@ -261,10 +265,13 @@ namespace QuanLyThueDat.WebApp.Service
                 //ws.Cells[7 + i, 10].Value = tongSoTien;
                 //ws.Cells[7 + i, 11].Value = tongSoTienMienGiam;
                 //ws.Cells[7 + i, 12].Value = tongSoTienPhaiNop;
-                ws.Cells[7, 1, i + 7, 27].Style.Border.Top.Style = ExcelBorderStyle.Thin;
-                ws.Cells[7, 1, i + 7, 27].Style.Border.Left.Style = ExcelBorderStyle.Thin;
-                ws.Cells[7, 1, i + 7, 27].Style.Border.Right.Style = ExcelBorderStyle.Thin;
-                ws.Cells[7, 1, i + 7, 27].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                ws.Cells[7, 1, i + 6, 27].Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                ws.Cells[7, 1, i + 6, 27].Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                ws.Cells[7, 1, i + 6, 27].Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                ws.Cells[7, 1, i + 6, 27].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                ws.Cells[7, 9, i + 7, 11].Style.Numberformat.Format = "#,##0.00";
+                ws.Cells[7, 15, i + 7, 15].Style.Numberformat.Format = "#,##0.00";
+                ws.Cells[7, 22, i + 7, 22].Style.Numberformat.Format = "#,##0.00";
                 ws.Cells.AutoFitColumns();
                 ws.Column(5).Width = 40;
                 ws.Column(17).Width = 30;
@@ -328,21 +335,20 @@ namespace QuanLyThueDat.WebApp.Service
                     ws.Cells[6 + i, 7].Value = obj.QuyetDinhThueDatViewModel.NgayQuyetDinhGiaoDat;
 
                     ws.Cells[6 + i, 8].Value = obj.QuyetDinhGiaoLaiDatViewModel.SoQuyetDinh;
-                    ws.Cells[6 + i, 9].Value = obj.QuyetDinhGiaoLaiDatViewModel.DienTichPhaiNop;
-                    ws.Cells[6 + i, 10].Value = obj.QuyetDinhGiaoLaiDatViewModel.DienTichKhongPhaiNop;
-                    ws.Cells[6 + i, 11].Value = obj.QuyetDinhGiaoLaiDatViewModel.TongDienTich;
+                    ws.Cells[6 + i, 9].Value = obj.QuyetDinhGiaoLaiDatViewModel.DienTichPhaiNop != null ? decimal.Parse(obj.QuyetDinhGiaoLaiDatViewModel.DienTichPhaiNop, new CultureInfo("vi-VN")) : "";
+                    ws.Cells[6 + i, 10].Value = obj.QuyetDinhGiaoLaiDatViewModel.DienTichKhongPhaiNop != null ? decimal.Parse(obj.QuyetDinhGiaoLaiDatViewModel.DienTichKhongPhaiNop, new CultureInfo("vi-VN")) : "";
+                    ws.Cells[6 + i, 11].Value = obj.QuyetDinhGiaoLaiDatViewModel.TongDienTich != null ? decimal.Parse(obj.QuyetDinhGiaoLaiDatViewModel.TongDienTich, new CultureInfo("vi-VN")) : "";
 
                     ws.Cells[6 + i, 13].Value = obj.QuyetDinhThueDatViewModel.SoQuyetDinhThueDat;
                     ws.Cells[6 + i, 14].Value = obj.QuyetDinhThueDatViewModel.NgayQuyetDinhThueDat;
-                    ws.Cells[6 + i, 15].Value = obj.QuyetDinhThueDatViewModel.TongDienTich;
+                    ws.Cells[6 + i, 15].Value = obj.QuyetDinhThueDatViewModel.TongDienTich != null ? decimal.Parse(obj.QuyetDinhThueDatViewModel.TongDienTich, new CultureInfo("vi-VN")) : "";
                     ws.Cells[6 + i, 16].Value = obj.QuyetDinhThueDatViewModel.ThoiHanThue + obj.QuyetDinhThueDatViewModel.TuNgayThue != "" ? " từ ngày " + obj.QuyetDinhThueDatViewModel.TuNgayThue : "" + obj.QuyetDinhThueDatViewModel.DenNgayThue != "" ? " đến ngày " + obj.QuyetDinhThueDatViewModel.DenNgayThue : "";
                     ws.Cells[6 + i, 17].Value = obj.QuyetDinhThueDatViewModel.MucDichSuDung;
                     ws.Cells[6 + i, 18].Value = obj.QuyetDinhThueDatViewModel.ViTriThuaDat;
                     ws.Cells[6 + i, 19].Value = obj.QuyetDinhThueDatViewModel.DiaChiThuaDat;
                     ws.Cells[6 + i, 20].Value = obj.HopDongThueDatViewModel.SoHopDong;
                     ws.Cells[6 + i, 21].Value = obj.HopDongThueDatViewModel.NgayKyHopDong;
-                    ws.Cells[6 + i, 22].Value = obj.QuyetDinhThueDatViewModel.TongDienTich;
-
+                    ws.Cells[6 + i, 22].Value = obj.QuyetDinhThueDatViewModel.TongDienTich != null? decimal.Parse(obj.QuyetDinhThueDatViewModel.TongDienTich, new CultureInfo("vi-VN")): "";
                     ws.Cells[6 + i, 23].Value = obj.QuyetDinhMienTienThueDatViewModel.SoQuyetDinhMienTienThueDat;
                     ws.Cells[6 + i, 24].Value = obj.QuyetDinhMienTienThueDatViewModel.NgayQuyetDinhMienTienThueDat;
                     ws.Cells[6 + i, 25].Value = obj.QuyetDinhMienTienThueDatViewModel.ThoiHanMienTienThueDat + (!String.IsNullOrEmpty(obj.QuyetDinhMienTienThueDatViewModel.NgayHieuLucMienTienThueDat)? " từ ngày " + obj.QuyetDinhMienTienThueDatViewModel.NgayHieuLucMienTienThueDat:"") 
@@ -360,9 +366,9 @@ namespace QuanLyThueDat.WebApp.Service
                         var col = 32+ (tbtd.Nam - 2018)*4;
                         if(col + 3 > maxCol) maxCol = col + 3;
                         ws.Cells[6 + i, col].Value = tbtd.SoThongBaoTienThueDat + " ngày " + tbtd.NgayThongBaoTienThueDat;
-                        ws.Cells[6 + i, col + 1].Value = tbtd.SoTien;
-                        ws.Cells[6 + i, col + 2].Value = tbtd.SoTienMienGiam;
-                        ws.Cells[6 + i, col + 3].Value = tbtd.SoTienPhaiNop;
+                        ws.Cells[6 + i, col + 1].Value = decimal.Parse(tbtd.SoTien, new CultureInfo("vi-VN"));
+                        ws.Cells[6 + i, col + 2].Value = decimal.Parse(tbtd.SoTienMienGiam, new CultureInfo("vi-VN"));
+                        ws.Cells[6 + i, col + 3].Value = decimal.Parse(tbtd.SoTienPhaiNop, new CultureInfo("vi-VN"));
                     }
                 }
                 // Tính số năm để hiển thị tên cột
@@ -381,10 +387,13 @@ namespace QuanLyThueDat.WebApp.Service
                 ws.Cells[5,32,6,maxCol].Style.Font.Bold = true;
 
                 ws.Cells[7 + i, 9, 7 + i, maxCol].Style.Font.Bold = true;
-                ws.Cells[5, 1, i + 5, maxCol].Style.Border.Top.Style = ExcelBorderStyle.Thin;
-                ws.Cells[5, 1, i + 5, maxCol].Style.Border.Left.Style = ExcelBorderStyle.Thin;
-                ws.Cells[5, 1, i + 5, maxCol].Style.Border.Right.Style = ExcelBorderStyle.Thin;
-                ws.Cells[5, 1, i + 5, maxCol].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                ws.Cells[5, 1, i + 6, maxCol].Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                ws.Cells[5, 1, i + 6, maxCol].Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                ws.Cells[5, 1, i + 6, maxCol].Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                ws.Cells[5, 1, i + 6, maxCol].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                ws.Cells[7, 9, i + 7, 11].Style.Numberformat.Format = "#,##0.00";
+                ws.Cells[7, 15, i + 7, 15].Style.Numberformat.Format = "#,##0.00";
+                ws.Cells[7, 22, i + 7, 22].Style.Numberformat.Format = "#,##0.00";
                 ws.Cells.AutoFitColumns();
                 ws.Column(5).Width = 40;
                 ws.Column(17).Width = 30;

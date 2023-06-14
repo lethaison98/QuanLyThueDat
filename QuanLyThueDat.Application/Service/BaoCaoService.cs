@@ -196,7 +196,7 @@ namespace QuanLyThueDat.Application.Service
         {
             var query = from a in _context.ThongBaoTienThueDat.Include(x => x.DoanhNghiep).Include(x => x.DsThongBaoTienThueDatChiTiet)
                         select a;
-            query = query.Where(x => x.IsDeleted == false && x.BiDieuChinh == 0);
+            query = query.Where(x => x.IsDeleted == false && (x.LoaiThongBaoTienThueDat == "ThongBaoLanDau" || x.LoaiThongBaoTienThueDat == "ThongBaoTuNamThuHaiTroDi" || x.LoaiThongBaoTienThueDat == "ThongBaoDieuChinh") && x.BiDieuChinh == 0);
             if (nam != null && nam != 0)
             {
                 query = query.Where(x => x.Nam == nam);
