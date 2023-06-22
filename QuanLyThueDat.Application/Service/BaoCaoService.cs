@@ -205,6 +205,7 @@ namespace QuanLyThueDat.Application.Service
             var result = new List<ThongBaoTienThueDatViewModel>();
             foreach (var entity in data)
             {
+                entity.DsThongBaoTienThueDatChiTiet = entity.DsThongBaoTienThueDatChiTiet.Where(x => x.IdThongBaoDonGiaThueDat > 0 && x.IdThongBaoDonGiaThueDat != null).ToList();
                 var thoiHanDonGia = "";
                 var soThongBaoDonGia = "";
                 var donGia = "";

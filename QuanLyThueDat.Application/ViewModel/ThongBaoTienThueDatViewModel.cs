@@ -87,6 +87,7 @@ namespace QuanLyThueDat.Application.ViewModel
         public int IdThongBaoTienThueDatChiTiet { get; set; }
         public int IdThongBaoTienThueDat { get; set; }
         public int? IdThongBaoDonGiaThueDat { get; set; }
+        public int? IdQuyetDinhMienTienThueDat { get; set; }
         public int? IdThongBaoTienThueDatGoc { get; set; }
         public int Nam { get; set; }
         public string DonGia { get; set; }
