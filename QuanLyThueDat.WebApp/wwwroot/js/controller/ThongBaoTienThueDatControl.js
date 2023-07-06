@@ -162,44 +162,46 @@ ThongBaoTienThueDatControl = {
                                                 $('#popupDetailThongBaoTienThueDat .ddQuyetDinhThueDat').append('<option value="' + res.Data.IdQuyetDinhThueDat + '">' + res.Data.SoQuyetDinhThueDat + " - " + res.Data.NgayQuyetDinhThueDat + '</option>');
                                             }
                                             if (res.Data.DsThongBaoTienThueDatChiTiet != null) {
+                                                var j = 0;
+                                                var k = 0;
                                                 $.each(res.Data.DsThongBaoTienThueDatChiTiet, function (i, item) {
-                                                    var j = 0;
-                                                    var k = 0;
                                                     if (item.IdThongBaoDonGiaThueDat > 0) {
                                                         var $td = $("#tempChiTietThongBaoTienThueDat").html();
                                                         $("#tblChiTietThongBaoTienThueDat tbody").append($td);
                                                         self.LoadDanhSachThongBaoDonGiaThueDat(opts);
-
-                                                        $("#tblChiTietThongBaoTienThueDat tbody tr").eq(j).find('[data-name="DienTichPhaiNop"]').val(item.DienTichPhaiNop);
-                                                        $("#tblChiTietThongBaoTienThueDat tbody tr").eq(j).find('[data-name="SoTienPhaiNop"]').val(item.SoTienPhaiNop);
-                                                        $("#tblChiTietThongBaoTienThueDat tbody tr").eq(j).find('[data-name="TuNgayTinhTien"]').val(item.TuNgayTinhTien);
-                                                        $("#tblChiTietThongBaoTienThueDat tbody tr").eq(j).find('[data-name="DenNgayTinhTien"]').val(item.DenNgayTinhTien);
                                                         setTimeout(function () {
                                                             $("#tblChiTietThongBaoTienThueDat tbody tr").eq(j).find('[data-name="IdThongBaoDonGiaThueDat"]').val(item.IdThongBaoDonGiaThueDat);
                                                             $("#tblChiTietThongBaoTienThueDat tbody tr").eq(j).find('[data-name="DonGia"]').val(item.DonGia);
-                                                        }, 1000)
+                                                            $("#tblChiTietThongBaoTienThueDat tbody tr").eq(j).find('[data-name="DienTichPhaiNop"]').val(item.DienTichPhaiNop);
+                                                            $("#tblChiTietThongBaoTienThueDat tbody tr").eq(j).find('[data-name="SoTienPhaiNop"]').val(item.SoTienPhaiNop);
+                                                            $("#tblChiTietThongBaoTienThueDat tbody tr").eq(j).find('[data-name="TuNgayTinhTien"]').val(item.TuNgayTinhTien);
+                                                            $("#tblChiTietThongBaoTienThueDat tbody tr").eq(j).find('[data-name="DenNgayTinhTien"]').val(item.DenNgayTinhTien);
+                                                            $("#tblChiTietThongBaoTienThueDat tbody tr").eq(j).find('[data-name="IdThongBaoDonGiaThueDat"]').val(item.IdThongBaoDonGiaThueDat);
+                                                            $("#tblChiTietThongBaoTienThueDat tbody tr").eq(j).find('[data-name="DonGia"]').val(item.DonGia);
+                                                            j++;
+                                                        },500)
+
                                                         $(".tr-remove").off('click').on('click', function () {
                                                             $(this).parents('tr:first').remove();
                                                         });
-                                                        j++;
+
                                                     } else if (item.IdQuyetDinhMienTienThueDat > 0) {
                                                         var $td = $("#tempChiTietMienGiamTienThueDat").html();
                                                         $("#tblChiTietMienGiamTienThueDat tbody").append($td);
                                                         self.LoadDanhSachQuyetDinhMienTienThueDat(opts);
-                                                        console.log(item.DonGia)
-                                                        $("#tblChiTietMienGiamTienThueDat tbody tr").eq(k).find('[data-name="DienTichMienGiam"]').val(item.DienTichKhongPhaiNop);
-                                                        $("#tblChiTietMienGiamTienThueDat tbody tr").eq(k).find('[data-name="SoTienMienGiam"]').val(item.SoTienMienGiam);
-                                                        $("#tblChiTietMienGiamTienThueDat tbody tr").eq(k).find('[data-name="TuNgayTinhTien"]').val(item.TuNgayTinhTien);
-                                                        $("#tblChiTietMienGiamTienThueDat tbody tr").eq(k).find('[data-name="DenNgayTinhTien"]').val(item.DenNgayTinhTien);
-                                                        $("#tblChiTietMienGiamTienThueDat tbody tr").eq(k).find('[data-name="DonGia"]').val(item.DonGia);
                                                         setTimeout(function () {
+                                                            $("#tblChiTietMienGiamTienThueDat tbody tr").eq(k).find('[data-name="DienTichMienGiam"]').val(item.DienTichKhongPhaiNop);
+                                                            $("#tblChiTietMienGiamTienThueDat tbody tr").eq(k).find('[data-name="SoTienMienGiam"]').val(item.SoTienMienGiam);
+                                                            $("#tblChiTietMienGiamTienThueDat tbody tr").eq(k).find('[data-name="TuNgayTinhTien"]').val(item.TuNgayTinhTien);
+                                                            $("#tblChiTietMienGiamTienThueDat tbody tr").eq(k).find('[data-name="DenNgayTinhTien"]').val(item.DenNgayTinhTien);
+                                                            $("#tblChiTietMienGiamTienThueDat tbody tr").eq(k).find('[data-name="DonGia"]').val(item.DonGia);
                                                             $("#tblChiTietMienGiamTienThueDat tbody tr").eq(k).find('[data-name="IdQuyetDinhMienTienThueDat"]').val(item.IdQuyetDinhMienTienThueDat);
-
-                                                        }, 1000)
+                                                            k++;
+                                                        }, 500)
                                                         $(".tr-remove").off('click').on('click', function () {
                                                             $(this).parents('tr:first').remove();
                                                         });
-                                                        k++;
+   
                                                     }
 
 
