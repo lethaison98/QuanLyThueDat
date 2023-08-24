@@ -135,7 +135,102 @@ ThongBaoTienThueDatControl = {
                         },
                         callback: function (res) {
                             if (res.IsSuccess) {
-                                if (res.Data.LoaiThongBaoTienThueDat != "ThongBaoDieuChinh") {
+                                if (res.Data.LoaiThongBaoTienThueDat == "ThongBaoDieuChinh") {
+                                    Get({
+                                        url: '/ThongBaoTienThueDat/PopupDetailThongBaoTienThueDat',
+                                        dataType: 'text',
+                                        callback: function (popup) {
+                                            $('#modalDetailThongBaoTienThueDat').html(popup);
+                                            $('#popupDetailThongBaoTienThueDat').modal();
+                                            $('#popupDetailThongBaoTienThueDat .modal-title').text("Chỉnh sửa thông báo tiền thuê đất - " + opts.TenDoanhNghiep);
+                                            FillFormData('#FormDetailThongBaoTienThueDat', res.Data);
+                                            opts.LoaiThongBaoTienThueDat = res.Data.LoaiThongBaoTienThueDat;
+                                            setTimeout(function () {
+                                                var checkRole = res.Data.QuyenDuLieu.AllowEdit;
+                                                if (!checkRole) {
+                                                    $("#popupDetailThongBaoTienThueDat").find('input').attr("disabled", true);
+                                                    $("#popupDetailThongBaoTienThueDat").find('select').attr("disabled", true);
+                                                    $("#popupDetailThongBaoTienThueDat").find('.fa-trash-alt').hide();
+                                                    $("#popupDetailThongBaoTienThueDat").find('.fa-folder').attr("disabled", true);
+                                                    $("#popupDetailThongBaoTienThueDat").find('.btn-success').hide();
+                                                    $("#popupDetailThongBaoTienThueDat").find('.btn-primary').hide();
+                                                } else {
+                                                    self.RegisterEventsPopup(opts);
+                                                }
+                                            }, 200);
+                                            if (res.Data.IdQuyetDinhThueDat != null) {
+                                                $('#popupDetailThongBaoTienThueDat .ddQuyetDinhThueDat').append('<option value="' + res.Data.IdQuyetDinhThueDat + '">' + res.Data.SoQuyetDinhThueDat + " - " + res.Data.NgayQuyetDinhThueDat + '</option>');
+                                            }
+                                            if (res.Data.DsThongBaoTienThueDatChiTiet != null) {
+                                                var j = 0;
+                                                var k = 0;
+                                                $.each(res.Data.DsThongBaoTienThueDatChiTiet, function (i, item) {
+                                                    if (item.IdThongBaoDonGiaThueDat > 0) {
+                                                        setTimeout(function () {
+                                                            var $td = $("#tempChiTietThongBaoTienThueDatDieuChinh").html();
+                                                            $("#tblChiTietThongBaoTienThueDat tbody").append($td);
+                                                            self.LoadDanhSachThongBaoDonGiaThueDat(opts);
+                                                            self.LoadDanhSachThongBaoTienThueDatDeDieuChinh(opts);
+                                                        },300)
+                                                        setTimeout(function () {
+                                                            $("#tblChiTietThongBaoTienThueDat tbody tr").eq(j).find('[data-name="IdThongBaoTienThueDatGoc"]').val(item.IdThongBaoTienThueDatGoc);
+                                                            $("#tblChiTietThongBaoTienThueDat tbody tr").eq(j).find('[data-name="IdThongBaoDonGiaThueDat"]').val(item.IdThongBaoDonGiaThueDat);
+                                                            $("#tblChiTietThongBaoTienThueDat tbody tr").eq(j).find('[data-name="DonGia"]').val(item.DonGia);
+                                                            $("#tblChiTietThongBaoTienThueDat tbody tr").eq(j).find('[data-name="DienTichPhaiNop"]').val(item.DienTichPhaiNop);
+                                                            $("#tblChiTietThongBaoTienThueDat tbody tr").eq(j).find('[data-name="SoTienPhaiNop"]').val(item.SoTienPhaiNop);
+                                                            $("#tblChiTietThongBaoTienThueDat tbody tr").eq(j).find('[data-name="TuNgayTinhTien"]').val(item.TuNgayTinhTien);
+                                                            $("#tblChiTietThongBaoTienThueDat tbody tr").eq(j).find('[data-name="DenNgayTinhTien"]').val(item.DenNgayTinhTien);
+                                                            $("#tblChiTietThongBaoTienThueDat tbody tr").eq(j).find('[data-name="IdThongBaoDonGiaThueDat"]').val(item.IdThongBaoDonGiaThueDat);
+                                                            $("#tblChiTietThongBaoTienThueDat tbody tr").eq(j).find('[data-name="DonGia"]').val(item.DonGia);
+                                                            j++;
+                                                        },500)
+
+                                                        $(".tr-remove").off('click').on('click', function () {
+                                                            $(this).parents('tr:first').remove();
+                                                        });
+
+                                                    } else if (item.IdQuyetDinhMienTienThueDat > 0) {
+                                                        var $td = $("#tempChiTietMienGiamTienThueDat").html();
+                                                        $("#tblChiTietMienGiamTienThueDat tbody").append($td);
+                                                        self.LoadDanhSachQuyetDinhMienTienThueDat(opts);
+                                                        setTimeout(function () {
+                                                            $("#tblChiTietMienGiamTienThueDat tbody tr").eq(k).find('[data-name="DienTichMienGiam"]').val(item.DienTichKhongPhaiNop);
+                                                            $("#tblChiTietMienGiamTienThueDat tbody tr").eq(k).find('[data-name="SoTienMienGiam"]').val(item.SoTienMienGiam);
+                                                            $("#tblChiTietMienGiamTienThueDat tbody tr").eq(k).find('[data-name="TuNgayTinhTien"]').val(item.TuNgayTinhTien);
+                                                            $("#tblChiTietMienGiamTienThueDat tbody tr").eq(k).find('[data-name="DenNgayTinhTien"]').val(item.DenNgayTinhTien);
+                                                            $("#tblChiTietMienGiamTienThueDat tbody tr").eq(k).find('[data-name="DonGia"]').val(item.DonGia);
+                                                            $("#tblChiTietMienGiamTienThueDat tbody tr").eq(k).find('[data-name="IdQuyetDinhMienTienThueDat"]').val(item.IdQuyetDinhMienTienThueDat);
+                                                            k++;
+                                                        }, 500)
+                                                        $(".tr-remove").off('click').on('click', function () {
+                                                            $(this).parents('tr:first').remove();
+                                                        });
+
+                                                    }
+
+
+                                                });
+                                            }
+                                            if (res.Data.DsFileTaiLieu != null) {
+                                                $.each(res.Data.DsFileTaiLieu, function (i, item) {
+                                                    if (item.LoaiTaiLieu == "ThongBaoTienThueDat") {
+                                                        $('[data-name="FileThongBaoTienThueDat"]').html('')
+                                                        $('[data-name="FileThongBaoTienThueDat"]').append('<a href = "' + localStorage.getItem("API_URL").replace('api', '') + item.LinkFile + '" target="_blank">' + item.TenFile + '</a>&nbsp;<i class="fas fa-trash-alt btn-deleteFile" title="Xóa"></i>');
+                                                        $('[data-name="FileThongBaoTienThueDat"]').attr('data-idFile', item.IdFile);
+                                                        $('[data-name="FileThongBaoTienThueDat"]').attr('data-id', item.IdFileTaiLieu);
+                                                    }
+                                                });
+                                            }
+                                            $('.btn-deleteFile').off('click').on('click', function () {
+                                                var $y = $(this);
+                                                $y.parent().removeAttr("data-idFile");
+                                                $y.parent().html('');
+
+                                            });
+                                            $('#popupDetailThongBaoTienThueDat .select2').attr("disabled", true);
+                                        }
+                                    })
+                                } else {
                                     Get({
                                         url: '/ThongBaoTienThueDat/PopupDetailThongBaoTienThueDat',
                                         dataType: 'text',
@@ -179,7 +274,7 @@ ThongBaoTienThueDatControl = {
                                                             $("#tblChiTietThongBaoTienThueDat tbody tr").eq(j).find('[data-name="IdThongBaoDonGiaThueDat"]').val(item.IdThongBaoDonGiaThueDat);
                                                             $("#tblChiTietThongBaoTienThueDat tbody tr").eq(j).find('[data-name="DonGia"]').val(item.DonGia);
                                                             j++;
-                                                        },500)
+                                                        }, 500)
 
                                                         $(".tr-remove").off('click').on('click', function () {
                                                             $(this).parents('tr:first').remove();
@@ -201,7 +296,7 @@ ThongBaoTienThueDatControl = {
                                                         $(".tr-remove").off('click').on('click', function () {
                                                             $(this).parents('tr:first').remove();
                                                         });
-   
+
                                                     }
 
 
@@ -224,86 +319,10 @@ ThongBaoTienThueDatControl = {
 
                                             });
                                             $('#popupDetailThongBaoTienThueDat .select2').attr("disabled", true);
-
-                                            //$("#btnTraCuu").on('click', function () {
-                                            //    $('#modal-add-edit').modal('show');
-                                            //});
-                                        }
-                                    })
-                                } else {
-                                    Get({
-                                        url: '/ThongBaoTienThueDat/PopupDetailThongBaoTienThueDatDieuChinh',
-                                        dataType: 'text',
-                                        callback: function (popup) {
-                                            $('#modalDetailThongBaoTienThueDatDieuChinh').html(popup);
-                                            $('#popupDetailThongBaoTienThueDatDieuChinh').modal();
-                                            $('#popupDetailThongBaoTienThueDatDieuChinh .modal-title').text("Chỉnh sửa thông báo tiền thuê đất điều chỉnh - " + opts.TenDoanhNghiep);
-                                            FillFormData('#FormDetailThongBaoTienThueDatDieuChinh', res.Data);
-                                            opts.LoaiThongBaoTienThueDat = res.Data.LoaiThongBaoTienThueDat;
-                                            setTimeout(function () {
-                                                var checkRole = res.Data.QuyenDuLieu.AllowEdit;
-                                                if (!checkRole) {
-                                                    $("#popupDetailThongBaoTienThueDatDieuChinh").find('input').attr("disabled", true);
-                                                    $("#popupDetailThongBaoTienThueDatDieuChinh").find('select').attr("disabled", true);
-                                                    $("#popupDetailThongBaoTienThueDatDieuChinh").find('.fa-trash-alt').hide();
-                                                    $("#popupDetailThongBaoTienThueDatDieuChinh").find('.fa-folder').attr("disabled", true);
-                                                    $("#popupDetailThongBaoTienThueDatDieuChinh").find('.btn-success').hide();
-                                                    $("#popupDetailThongBaoTienThueDatDieuChinh").find('.btn-primary').hide();
-                                                } else {
-
-                                                    self.RegisterEventsPopupThongBaoDieuChinh(opts);
-                                                }
-
-                                            }, 200);
-                                            if (res.Data.IdQuyetDinhThueDat != null) {
-                                                $('#popupDetailThongBaoTienThueDatDieuChinh .ddQuyetDinhThueDat').append('<option value="' + res.Data.IdQuyetDinhThueDat + '">' + res.Data.SoQuyetDinhThueDat + " - " + res.Data.NgayQuyetDinhThueDat + '</option>');
-                                            }
-
-                                            if (res.Data.DsThongBaoTienThueDatChiTiet != null) {
-                                                $.each(res.Data.DsThongBaoTienThueDatChiTiet, function (i, item) {
-                                                    var $td = $("#tempChiTietThongBaoTienThueDatDieuChinh").html();
-                                                    $("#tblChiTietThongBaoTienThueDatDieuChinh tbody").append($td);
-                                                    self.LoadDanhSachThongBaoTienThueDatDeDieuChinh(opts);
-
-                                                    $("#tblChiTietThongBaoTienThueDatDieuChinh tbody tr").eq(i).find('[data-name="DienTichPhaiNop"]').val(item.DienTichPhaiNop);
-                                                    $("#tblChiTietThongBaoTienThueDatDieuChinh tbody tr").eq(i).find('[data-name="SoTienPhaiNop"]').val(item.SoTienPhaiNop);
-                                                    $("#tblChiTietThongBaoTienThueDatDieuChinh tbody tr").eq(i).find('[data-name="SoTienMienGiam"]').val(item.SoTienMienGiam);
-                                                    $("#tblChiTietThongBaoTienThueDatDieuChinh tbody tr").eq(i).find('[data-name="SoTien"]').val(item.SoTien);
-                                                    $("#tblChiTietThongBaoTienThueDatDieuChinh tbody tr").eq(i).find('[data-name="GhiChuChiTiet"]').val(item.GhiChu);
-                                                    setTimeout(function () {
-                                                        $("#tblChiTietThongBaoTienThueDat tbody tr").eq(i).find('[data-name="IdThongBaoTienThueDatGoc"]').val(item.IdThongBaoTienThueDat);
-                                                    }, 1000)
-                                                    $(".tr-remove").off('click').on('click', function () {
-                                                        $(this).parents('tr:first').remove();
-                                                    });
-
-                                                });
-                                            }
-                                            if (res.Data.DsFileTaiLieu != null) {
-                                                $.each(res.Data.DsFileTaiLieu, function (i, item) {
-                                                    if (item.LoaiTaiLieu == "ThongBaoTienThueDat") {
-                                                        $('[data-name="FileThongBaoTienThueDat"]').html('')
-                                                        $('[data-name="FileThongBaoTienThueDat"]').append('<a href = "' + localStorage.getItem("API_URL").replace('api', '') + item.LinkFile + '" target="_blank">' + item.TenFile + '</a>&nbsp;<i class="fas fa-trash-alt btn-deleteFile" title="Xóa"></i>');
-                                                        $('[data-name="FileThongBaoTienThueDat"]').attr('data-idFile', item.IdFile);
-                                                        $('[data-name="FileThongBaoTienThueDat"]').attr('data-id', item.IdFileTaiLieu);
-                                                    }
-                                                });
-                                            }
-                                            $('.btn-deleteFile').off('click').on('click', function () {
-                                                var $y = $(this);
-                                                $y.parent().removeAttr("data-idFile");
-                                                $y.parent().html('');
-
-                                            });
-                                            $('#popupDetailThongBaoTienThueDat .select2').attr("disabled", true);
-
-                                            //$("#btnTraCuu").on('click', function () {
-                                            //    $('#modal-add-edit').modal('show');
-                                            //});
                                         }
                                     })
                                 }
-
+                               
                             }
                         }
                     });
@@ -343,8 +362,16 @@ ThongBaoTienThueDatControl = {
 
     },
     RegisterEventsPopup: function (opts) {
+        console.log(opts)
         var self = this;
         var popup = $('#popupDetailThongBaoTienThueDat');
+        if (opts.LoaiThongBaoTienThueDat == "ThongBaoDieuChinh") {
+            var $table = popup.find("#temptable-ThongBaoTienThueDatDieuChinh").html();
+            popup.find("#temptable").append($table);
+        } else {
+            var $table = popup.find("#temptable-ThongBaoTienThueDat").html();
+            popup.find("#temptable").append($table);
+        }
         $('.select2').select2();
         $('.datetimepicker-input').datetimepicker({
             format: 'DD/MM/YYYY'
@@ -421,6 +448,23 @@ ThongBaoTienThueDatControl = {
             });
             self.LoadDanhSachThongBaoDonGiaThueDat(opts);
         });
+        $("#btnAddChiTietThongBaoTienThueDatDieuChinh").off('click').on('click', function () {
+            var $td = $("#tempChiTietThongBaoTienThueDatDieuChinh").html();
+            $("#tblChiTietThongBaoTienThueDat tbody").append($td);
+            $(".number").change(function () {
+                $(this).val(ConvertDecimalToString($(this).val()));
+            });
+            setTimeout(function () {
+                $('.datetimepicker-input').datetimepicker({
+                    format: 'DD/MM/YYYY'
+                });
+            }, 500)
+            $(".tr-remove").off('click').on('click', function () {
+                $(this).parents('tr:first').remove();
+            });
+            self.LoadDanhSachThongBaoDonGiaThueDat(opts);
+            self.LoadDanhSachThongBaoTienThueDatDeDieuChinh(opts);
+        });
         $("#btnAddChiTietMienGiamTienThueDat").off('click').on('click', function () {
             var $td = $("#tempChiTietMienGiamTienThueDat").html();
             $("#tblChiTietMienGiamTienThueDat tbody").append($td);
@@ -437,74 +481,6 @@ ThongBaoTienThueDatControl = {
             $lastrow.find('[data-name="DienTichMienGiam"]').val(dienTich);
             self.LoadDanhSachQuyetDinhMienTienThueDat(opts);
         });
-    },
-    RegisterEventsPopupThongBaoDieuChinh: function (opts) {
-        var self = this;
-        var popup = $('#popupDetailThongBaoTienThueDatDieuChinh');
-        popup.find('.ddDoanhNghiep').append('<option value="' + opts.IdDoanhNghiep + '">' + opts.TenDoanhNghiep + '</option>');
-        popup.find("[data-name = 'LoaiThongBaoTienThueDat']").val(opts.LoaiThongBaoTienThueDat);
-        $('.select2').select2();
-        $('.datetimepicker-input').datetimepicker({
-            format: 'DD/MM/YYYY'
-        });
-        $(".number").change(function () {
-            $(this).val(ConvertDecimalToString($(this).val()));
-        });
-        $("#btnSaveThongBaoTienThueDatDieuChinh").off('click').on('click', function () {
-            self.InsertUpdate(opts);
-        });
-        $("#btnAddChiTietThongBaoTienThueDatDieuChinh").off('click').on('click', function () {
-            var $td = $("#tempChiTietThongBaoTienThueDatDieuChinh").html();
-            $("#tblChiTietThongBaoTienThueDatDieuChinh tbody").append($td);
-            $(".number").change(function () {
-                $(this).val(ConvertDecimalToString($(this).val()));
-            });
-            $(".tr-remove").off('click').on('click', function () {
-                $(this).parents('tr:first').remove();
-            });
-            self.LoadDanhSachThongBaoTienThueDatDeDieuChinh(opts);
-        });
-        $('#btnSelectFileThongBaoTienThueDat').click(function () {
-            $('#fileThongBaoTienThueDat').trigger("click");
-        });
-        if ($('#fileThongBaoTienThueDat').length > 0) {
-            $('#fileThongBaoTienThueDat')[0].value = "";
-            $('#fileThongBaoTienThueDat').off('change').on('change', function (e) {
-                var file = $('#fileThongBaoTienThueDat')[0].files.length > 0 ? $('#fileThongBaoTienThueDat')[0].files[0] : null;
-                if (file != null) {
-                    var dataFile = new FormData();
-                    dataFile.append("IdDoanhNghiep", $(".ddDoanhNghiep option:selected").val());
-                    dataFile.append("File", file);
-                    $.ajax({
-                        url: localStorage.getItem("API_URL") + "/File/UploadFile",
-                        type: "POST",
-                        headers: {
-                            'Authorization': 'Bearer ' + localStorage.getItem("access_token")
-                        },
-                        cache: false,
-                        contentType: false,
-                        processData: false,
-                        data: dataFile,
-                        success: function (res) {
-                            if (res.IsSuccess) {
-                                $('[data-name="FileThongBaoTienThueDat"]').html('')
-                                $('[data-name="FileThongBaoTienThueDat"]').append('<a href = "#">' + file.name + '</a>&nbsp;<i class="fas fa-trash-alt btn-deleteFile" title="Xóa"></i>');
-                                $('[data-name="FileThongBaoTienThueDat"]').attr('data-idFile', res.Data);
-                                $('[data-name="FileThongBaoTienThueDat"]').attr('data-id', 0);
-                                $('.btn-deleteFile').off('click').on('click', function () {
-                                    var $y = $(this);
-                                    $y.parent().removeAttr("data-idFile");
-                                    $y.parent().html('');
-
-                                });
-                            } else {
-                                alert("Upload không thành công");
-                            }
-                        }
-                    });
-                }
-            });
-        }
     },
     RegisterEvents: function (opts) {
         var self = this;
@@ -556,13 +532,13 @@ ThongBaoTienThueDatControl = {
         $('#btnCreateThongBaoTienThueDatDieuChinh').off('click').on('click', function () {
             var $y = $(this);
             Get({
-                url: '/ThongBaoTienThueDat/PopupDetailThongBaoTienThueDatDieuChinh',
+                url: '/ThongBaoTienThueDat/PopupDetailThongBaoTienThueDat',
                 dataType: 'text',
                 callback: function (res) {
-                    $('#modalDetailThongBaoTienThueDatDieuChinh').html(res);
-                    $('#popupDetailThongBaoTienThueDatDieuChinh').modal();
+                    $('#modalDetailThongBaoTienThueDat').html(res);
+                    $('#popupDetailThongBaoTienThueDat').modal();
                     opts.LoaiThongBaoTienThueDat = "ThongBaoDieuChinh";
-                    self.RegisterEventsPopupThongBaoDieuChinh(opts);
+                    self.RegisterEventsPopup(opts);
                     self.LoadDanhSachQuyetDinhThueDat(opts);
 
                 }
@@ -587,44 +563,7 @@ ThongBaoTienThueDatControl = {
 
 
     },
-    //TinhToanCongThuc: function (opts) {
-    //    if (opts.LoaiThongBaoTienThueDat == "ThongBaoDieuChinh") {
-    //        var popup = $('#popupDetailThongBaoTienThueDatDieuChinh');
-    //        var form = '#FormDetailThongBaoTienThueDatDieuChinh';
-    //    } else {
-    //        var popup = $('#popupDetailThongBaoTienThueDat');
-    //        var form = '#FormDetailThongBaoTienThueDat';
-    //    };
 
-    //    var tongDienTich = 0;
-    //    var donGia = 0;
-    //    var dienTichKhongPhaiNop = 0;
-
-    //    if (popup.find(".groupThongBaoDonGiaThueDat [data-name='TongDienTich']").val() != '') {
-    //        tongDienTich = ConvertStringToDecimal(popup.find(".groupThongBaoDonGiaThueDat [data-name='TongDienTich']").val());
-    //        console.log(popup.find(".groupThongBaoDonGiaThueDat [data-name='TongDienTich']").val());
-    //    };
-    //    if (popup.find("[data-name='DonGia']").val() != '') {
-    //        donGia = ConvertStringToDecimal(popup.find("[data-name='DonGia']").val());
-    //    };
-    //    if (popup.find("[data-name='DienTichKhongPhaiNop']").val() != '') {
-    //        dienTichKhongPhaiNop = ConvertStringToDecimal(popup.find(".groupThongBaoDonGiaThueDat [data-name='DienTichKhongPhaiNop']").val());
-    //    };
-
-    //    var tongSoTien = donGia * tongDienTich;
-    //    popup.find("[data-name='SoTien']").val(ConvertDecimalToString(tongSoTien.toFixed(0)));
-
-
-    //    var soTienMienGiam = donGia * dienTichKhongPhaiNop;
-    //    popup.find("[data-name='SoTienMienGiam']").val(ConvertDecimalToString(soTienMienGiam.toFixed(0)));
-
-    //    var dienTichPhaiNop = tongDienTich - dienTichKhongPhaiNop;
-    //    popup.find("[data-name='DienTichPhaiNop']").val(ConvertDecimalToString(dienTichPhaiNop.toFixed(2).toString().replace(".", ",")));
-
-    //    var soTienPhaiNop = tongSoTien - soTienMienGiam;
-    //    popup.find("[data-name='SoTienPhaiNop']").val(ConvertDecimalToString(soTienPhaiNop.toFixed(0)));
-
-    //},
     TinhToanCongThuc: function (opts) {
         var tongDienTich = 0;
         var dienTichKhongPhaiNop = 0;
@@ -685,71 +624,45 @@ ThongBaoTienThueDatControl = {
         $(".number").each(function () {
             $(this).val(ConvertStringToDecimal($(this).val()));
         });
-        if (opts != undefined) {
-            if (opts.LoaiThongBaoTienThueDat == "ThongBaoDieuChinh") {
-                var popup = $('#popupDetailThongBaoTienThueDatDieuChinh');
-                var data = LoadFormData("#FormDetailThongBaoTienThueDatDieuChinh");
-                data.IdDoanhNghiep = popup.find(".ddDoanhNghiep option:selected").val();
-                data.IdQuyetDinhThueDat = popup.find(".ddQuyetDinhThueDat option:selected").val();
+        var popup = $('#popupDetailThongBaoTienThueDat');
+        var data = LoadFormData("#FormDetailThongBaoTienThueDat");
+        data.IdDoanhNghiep = popup.find(".ddDoanhNghiep option:selected").val();
+        data.IdQuyetDinhThueDat = popup.find(".ddQuyetDinhThueDat option:selected").val();
+        var arrayRowChiTiet = popup.find("#FormDetailThongBaoTienThueDat #tblChiTietThongBaoTienThueDat tbody tr");
+        var arrayRowMienGiam = popup.find("#FormDetailThongBaoTienThueDat #tblChiTietMienGiamTienThueDat tbody tr");
+        var thongBaoChiTiet = [];
+        $.each(arrayRowChiTiet, function (i, item) {
+            var ct = $(item).find('[data-name="DonGia"]').val();
+            if (ct != undefined && ct != "") {
+                thongBaoChiTiet.push({
+                    IdThongBaoTienThueDatGoc: $(item).find(".ddThongBaoTienThueDatGoc option:selected").val(),
+                    IdThongBaoDonGiaThueDat: $(item).find(".ddThongBaoDonGiaThueDat option:selected").val(),
+                    IdQuyetDinhMienTienThueDat: 0,
+                    DonGia: $(item).find('[data-name="DonGia"]').val(),
+                    DienTichPhaiNop: $(item).find('[data-name="DienTichPhaiNop"]').val(),
+                    SoTienPhaiNop: $(item).find('[data-name="SoTienPhaiNop"]').val(),
+                    TuNgayTinhTien: $(item).find('[data-name="TuNgayTinhTien"]').val(),
+                    DenNgayTinhTien: $(item).find('[data-name="DenNgayTinhTien"]').val()
+                });
+            }
+        });
+        $.each(arrayRowMienGiam, function (i, item) {
+            var ct = $(item).find('[data-name="DonGia"]').val();
+            if (ct != undefined && ct != "") {
+                thongBaoChiTiet.push({
+                    IdThongBaoDonGiaThueDat: 0,
+                    IdQuyetDinhMienTienThueDat: $(item).find(".ddQuyetDinhMienTienThueDat option:selected").val(),
+                    DonGia: $(item).find('[data-name="DonGia"]').val(),
+                    DienTichKhongPhaiNop: $(item).find('[data-name="DienTichMienGiam"]').val(),
+                    SoTienMienGiam: $(item).find('[data-name="SoTienMienGiam"]').val(),
+                    TuNgayTinhTien: $(item).find('[data-name="TuNgayTinhTien"]').val(),
+                    DenNgayTinhTien: $(item).find('[data-name="DenNgayTinhTien"]').val()
+                });
+            }
+        });
+        data.ThongBaoTienThueDatChiTiet = thongBaoChiTiet;
 
-                var arrayRow = $("#tblChiTietThongBaoTienThueDatDieuChinh tbody tr");
-                var thongBaoChiTiet = [];
-                $.each(arrayRow, function (i, item) {
-                    var ct = $(item).find('[data-name="SoTien"]').val();
-                    if (ct != undefined && ct != "") {
-                        thongBaoChiTiet.push({
-                            IdThongBaoTienThueDatGoc: $(item).find(".ddThongBaoTienThueDatGoc option:selected").val(),
-                            SoTien: $(item).find('[data-name="SoTien"]').val(),
-                            SoTienPhaiNop: $(item).find('[data-name="SoTienPhaiNop"]').val(),
-                            SoTienMienGiam: $(item).find('[data-name="SoTienMienGiam"]').val(),
-                            GhiChu: $(item).find('[data-name="GhiChuChiTiet"]').val()
-                        });
-                    }
-                });
-                data.ThongBaoTienThueDatChiTiet = thongBaoChiTiet;
-            } else {
-                var popup = $('#popupDetailThongBaoTienThueDat');
-                var data = LoadFormData("#FormDetailThongBaoTienThueDat");
-                data.IdDoanhNghiep = popup.find(".ddDoanhNghiep option:selected").val();
-                data.IdQuyetDinhThueDat = popup.find(".ddQuyetDinhThueDat option:selected").val();
-                var arrayRowChiTiet = $("#tblChiTietThongBaoTienThueDat tbody tr");
-                var arrayRowMienGiam = $("#tblChiTietMienGiamTienThueDat tbody tr");
-                var thongBaoChiTiet = [];
-                $.each(arrayRowChiTiet, function (i, item) {
-                    var ct = $(item).find('[data-name="DonGia"]').val();
-                    if (ct != undefined && ct != "") {
-                        thongBaoChiTiet.push({
-                            IdThongBaoDonGiaThueDat: $(item).find(".ddThongBaoDonGiaThueDat option:selected").val(),
-                            IdQuyetDinhMienTienThueDat: 0,
-                            DonGia: $(item).find('[data-name="DonGia"]').val(),
-                            DienTichPhaiNop: $(item).find('[data-name="DienTichPhaiNop"]').val(),
-                            SoTienPhaiNop: $(item).find('[data-name="SoTienPhaiNop"]').val(),
-                            TuNgayTinhTien: $(item).find('[data-name="TuNgayTinhTien"]').val(),
-                            DenNgayTinhTien: $(item).find('[data-name="DenNgayTinhTien"]').val()
-                        });
-                    }
-                });
-                $.each(arrayRowMienGiam, function (i, item) {
-                    var ct = $(item).find('[data-name="DonGia"]').val();
-                    if (ct != undefined && ct != "") {
-                        thongBaoChiTiet.push({
-                            IdThongBaoDonGiaThueDat: 0,
-                            IdQuyetDinhMienTienThueDat: $(item).find(".ddQuyetDinhMienTienThueDat option:selected").val(),
-                            DonGia: $(item).find('[data-name="DonGia"]').val(),
-                            DienTichKhongPhaiNop: $(item).find('[data-name="DienTichMienGiam"]').val(),
-                            SoTienMienGiam: $(item).find('[data-name="SoTienMienGiam"]').val(),
-                            TuNgayTinhTien: $(item).find('[data-name="TuNgayTinhTien"]').val(),
-                            DenNgayTinhTien: $(item).find('[data-name="DenNgayTinhTien"]').val()
-                        });
-                    }
-                });
-                data.ThongBaoTienThueDatChiTiet = thongBaoChiTiet;
-            };
-        } else {
-            var popup = $('#popupDetailThongBaoTienThueDat');
-            var data = LoadFormData("#FormDetailThongBaoTienThueDat");
-            data.IdDoanhNghiep = popup.find(".ddDoanhNghiep option:selected").val();
-        }
+
         if (data.Nam == "") data.Nam = new Date().getFullYear()
         var fileTaiLieu = [];
         if ($('[data-name="FileThongBaoTienThueDat"]').attr("data-idFile") != undefined) {
@@ -777,15 +690,7 @@ ThongBaoTienThueDatControl = {
     },
     LoadDanhSachDoanhNghiep: function (opts) {
         var self = this;
-        if (opts != undefined) {
-            if (opts.LoaiThongBaoTienThueDat == "ThongBaoDieuChinh") {
-                var popup = $('#popupDetailThongBaoTienThueDatDieuChinh');
-            } else {
-                var popup = $('#popupDetailThongBaoTienThueDat');
-            };
-        } else {
-            var popup = $('#popupDetailThongBaoTienThueDat');
-        }
+        var popup = $('#popupDetailThongBaoTienThueDat');
         Get({
             url: localStorage.getItem("API_URL") + "/DoanhNghiep/GetAll",
             showLoading: true,
@@ -806,18 +711,9 @@ ThongBaoTienThueDatControl = {
     },
     LoadDanhSachQuyetDinhThueDat: function (opts) {
         var self = this;
-        if (opts != undefined) {
-            if (opts.LoaiThongBaoTienThueDat == "ThongBaoDieuChinh") {
-                var popup = $('#popupDetailThongBaoTienThueDatDieuChinh');
-                var form = '#FormDetailThongBaoTienThueDatDieuChinh';
-            } else {
-                var popup = $('#popupDetailThongBaoTienThueDat');
-                var form = '#FormDetailThongBaoTienThueDat';
-            };
-        } else {
-            var popup = $('#popupDetailThongBaoTienThueDat');
-            var form = '#FormDetailThongBaoTienThueDat';
-        }
+        var popup = $('#popupDetailThongBaoTienThueDat');
+        var form = '#FormDetailThongBaoTienThueDat';
+
         Get({
             url: localStorage.getItem("API_URL") + "/QuyetDinhThueDat/GetListQuyetDinhThueDatChiTiet",
             data: {
@@ -847,18 +743,19 @@ ThongBaoTienThueDatControl = {
     },
     LoadDanhSachThongBaoDonGiaThueDat: function (opts) {
         var self = this;
-        var $lastrow = $('#tblChiTietThongBaoTienThueDat tbody tr:last');
-        if (opts != undefined) {
-            if (opts.LoaiThongBaoTienThueDat == "ThongBaoDieuChinh") {
-                var popup = $('#popupDetailThongBaoTienThueDatDieuChinh');
-                var form = '#FormDetailThongBaoTienThueDatDieuChinh';
-            } else {
-                var popup = $('#popupDetailThongBaoTienThueDat');
-                var form = '#FormDetailThongBaoTienThueDat';
-            };
+        console.log(opts);
+
+        var popup = $('#popupDetailThongBaoTienThueDat');
+        var form = $('#FormDetailThongBaoTienThueDat');
+        if (opts.LoaiThongBaoTienThueDat == "ThongBaoDieuChinh") {
+            var $lastrow = $('#tblChiTietThongBaoTienThueDat tbody tr:last');
+
         } else {
-            var popup = $('#popupDetailThongBaoTienThueDat');
+            var $lastrow = $('#tblChiTietThongBaoTienThueDat tbody tr:last');
+
         }
+
+
         var Data = {
             IdQuyetDinhThueDat: popup.find(".ddQuyetDinhThueDat option:selected").val(),
             IdDoanhNghiep: popup.find(".ddDoanhNghiep option:selected").val()
@@ -903,17 +800,10 @@ ThongBaoTienThueDatControl = {
     LoadDanhSachQuyetDinhMienTienThueDat: function (opts) {
         var self = this;
         var $lastrow = $('#tblChiTietMienGiamTienThueDat tbody tr:last');
-        if (opts != undefined) {
-            if (opts.LoaiThongBaoTienThueDat == "ThongBaoDieuChinh") {
-                var popup = $('#popupDetailThongBaoTienThueDatDieuChinh');
-                var form = '#FormDetailThongBaoTienThueDatDieuChinh';
-            } else {
-                var popup = $('#popupDetailThongBaoTienThueDat');
-                var form = '#FormDetailThongBaoTienThueDat';
-            };
-        } else {
-            var popup = $('#popupDetailThongBaoTienThueDat');
-        }
+
+        var popup = $('#popupDetailThongBaoTienThueDat');
+        var form = '#FormDetailThongBaoTienThueDat';
+
 
         Get({
             url: localStorage.getItem("API_URL") + "/QuyetDinhMienTienThueDat/GetAll?idDoanhNghiep=" + opts.IdDoanhNghiep,
@@ -933,57 +823,49 @@ ThongBaoTienThueDatControl = {
 
     LoadDanhSachThongBaoTienThueDatDeDieuChinh: function (opts) {
         var self = this;
-        var $lastrow = $('#tblChiTietThongBaoTienThueDatDieuChinh tbody tr:last');
+        var $lastrow = $('#tblChiTietThongBaoTienThueDat tbody tr:last');
         if (opts != undefined) {
-            if (opts.LoaiThongBaoTienThueDat == "ThongBaoDieuChinh") {
-                var popup = $('#popupDetailThongBaoTienThueDatDieuChinh');
-                var form = '#FormDetailThongBaoTienThueDatDieuChinh';
-            } else {
-                var popup = $('#popupDetailThongBaoTienThueDat');
-                var form = '#FormDetailThongBaoTienThueDat';
-            };
-        } else {
             var popup = $('#popupDetailThongBaoTienThueDat');
-        }
-        var Data = {
-            IdQuyetDinhThueDat: popup.find(".ddQuyetDinhThueDat option:selected").val(),
-            IdDoanhNghiep: popup.find(".ddDoanhNghiep option:selected").val()
-        };
-        Post({
-            url: localStorage.getItem("API_URL") + "/ThongBaoTienThueDat/GetAllByRequest",
-            data: Data,
-            showLoading: true,
-            callback: function (res) {
-                $lastrow.find('.ddThongBaoTienThueDatGoc').html('');
-                $.each(res.Data, function (i, item) {
-                    $lastrow.find('.ddThongBaoTienThueDatGoc').append('<option value="' + item.IdThongBaoTienThueDat + '">' + item.SoThongBaoTienThueDat + " ngày " + item.NgayThongBaoTienThueDat + '</option>');
-                })
-                $lastrow.find('.ddThongBaoTienThueDatGoc').on('change', function () {
-                    if ($lastrow.find(".ddThongBaoTienThueDatGoc option:selected").val() != 0 && $lastrow.find(".ddThongBaoTienThueDatGoc option:selected").val() != undefined) {
-                        var $y = $(this).parent().parent();
-                        Get({
-                            url: localStorage.getItem("API_URL") + '/ThongBaoTienThueDat/GetById',
-                            data: {
-                                idThongBaoTienThueDat: $y.find(".ddThongBaoTienThueDatGoc option:selected").val()
-                            },
-                            callback: function (res) {
-                                if (res.IsSuccess) {
-                                    $y.find('[data-name="SoTien"]').val(res.Data.SoTienPhaiNop);
-                                    popup.find('input').blur(function () {
-                                        self.TinhToanCongThuc(opts);
-                                    });
+            var form = '#FormDetailThongBaoTienThueDat';
+            var Data = {
+                IdQuyetDinhThueDat: popup.find(".ddQuyetDinhThueDat option:selected").val(),
+                IdDoanhNghiep: popup.find(".ddDoanhNghiep option:selected").val()
+            };
+            Post({
+                url: localStorage.getItem("API_URL") + "/ThongBaoTienThueDat/GetAllByRequest",
+                data: Data,
+                showLoading: true,
+                callback: function (res) {
+                    $lastrow.find('.ddThongBaoTienThueDatGoc').html('');
+                    $.each(res.Data, function (i, item) {
+                        $lastrow.find('.ddThongBaoTienThueDatGoc').append('<option value="' + item.IdThongBaoTienThueDat + '">' + item.SoThongBaoTienThueDat + " ngày " + item.NgayThongBaoTienThueDat + '</option>');
+                    })
+                    $lastrow.find('.ddThongBaoTienThueDatGoc').on('change', function () {
+                        if ($lastrow.find(".ddThongBaoTienThueDatGoc option:selected").val() != 0 && $lastrow.find(".ddThongBaoTienThueDatGoc option:selected").val() != undefined) {
+                            var $y = $(this).parent().parent();
+                            Get({
+                                url: localStorage.getItem("API_URL") + '/ThongBaoTienThueDat/GetById',
+                                data: {
+                                    idThongBaoTienThueDat: $y.find(".ddThongBaoTienThueDatGoc option:selected").val()
+                                },
+                                callback: function (res) {
+                                    if (res.IsSuccess) {
+                                        $y.find('[data-name="SoTien"]').val(res.Data.SoTienPhaiNop);
+                                        popup.find('input').blur(function () {
+                                            self.TinhToanCongThuc(opts);
+                                        });
+                                    }
                                 }
-                            }
-                        });
-                    } else {
-                        $('.groupThongBaoDonGiaThueDat input').val("");
-                    }
-                });
-                $lastrow.find('.ddThongBaoTienThueDatGoc').trigger('change');
-            }
-        });
+                            });
+                        } else {
+                            $('.groupThongBaoDonGiaThueDat input').val("");
+                        }
+                    });
+                    $lastrow.find('.ddThongBaoTienThueDatGoc').trigger('change');
+                }
+            });
+        }
     },
-
 }
 
 $(document).ready(function () {

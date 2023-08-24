@@ -439,56 +439,30 @@ namespace QuanLyThueDat.Application.Service
                 if (entity.DsThongBaoTienThueDatChiTiet != null)
                 {
                     var listct = new List<ThongBaoTienThueDatChiTietViewModel>();
-                    if (entity.LoaiThongBaoTienThueDat == "ThongBaoDieuChinh")
+                    foreach (var item in entity.DsThongBaoTienThueDatChiTiet)
                     {
-                        foreach (var item in entity.DsThongBaoTienThueDatChiTiet)
-                        {
-                            var tbTienThueDat = await _context.ThongBaoTienThueDat.FirstOrDefaultAsync(x => x.IdThongBaoTienThueDat == item.IdThongBaoTienThueDatGoc);
-                            var ctVM = new ThongBaoTienThueDatChiTietViewModel();
-                            ctVM.IdThongBaoTienThueDat = item.IdThongBaoTienThueDat;
-                            ctVM.IdThongBaoTienThueDatChiTiet = item.IdThongBaoTienThueDatChiTiet;
-                            ctVM.IdThongBaoDonGiaThueDat = item.IdThongBaoDonGiaThueDat;
-                            ctVM.IdQuyetDinhMienTienThueDat = item.IdQuyetDinhMienTienThueDat;
-                            ctVM.IdThongBaoTienThueDatGoc = item.IdThongBaoTienThueDatGoc;
-                            ctVM.Nam = tbTienThueDat.Nam;
-                            ctVM.SoTien = item.SoTien.ToString("N0", new CultureInfo("vi-VN"));
-                            ctVM.SoTienMienGiam = item.SoTienMienGiam.ToString("N0", new CultureInfo("vi-VN"));
-                            ctVM.SoTienPhaiNop = item.SoTienPhaiNop.ToString("N0", new CultureInfo("vi-VN"));
-                            ctVM.TuNgayTinhTien = item.TuNgayTinhTien != null ? item.TuNgayTinhTien.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "";
-                            ctVM.DenNgayTinhTien = item.DenNgayTinhTien != null ? item.DenNgayTinhTien.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "";
-                            ctVM.GhiChu = item.GhiChu;
-                            listct.Add(ctVM);
-                        }
-                        result.DsThongBaoTienThueDatChiTiet = listct;
+                        var ctVM = new ThongBaoTienThueDatChiTietViewModel();
+                        ctVM.IdThongBaoTienThueDat = item.IdThongBaoTienThueDat;
+                        ctVM.IdThongBaoTienThueDatChiTiet = item.IdThongBaoTienThueDatChiTiet;
+                        ctVM.IdThongBaoDonGiaThueDat = item.IdThongBaoDonGiaThueDat;
+                        ctVM.IdQuyetDinhMienTienThueDat = item.IdQuyetDinhMienTienThueDat;
+                        ctVM.IdThongBaoTienThueDatGoc = item.IdThongBaoTienThueDatGoc; ctVM.Nam = item.Nam;
+                        ctVM.DonGia = item.DonGia.ToString("N0", new CultureInfo("vi-VN"));
+                        ctVM.DienTichKhongPhaiNop = item.DienTichKhongPhaiNop.ToString("N", new CultureInfo("vi-VN"));
+                        ctVM.DienTichPhaiNop = item.DienTichPhaiNop.ToString("N", new CultureInfo("vi-VN"));
+                        ctVM.SoTien = item.SoTien.ToString("N0", new CultureInfo("vi-VN"));
+                        ctVM.SoTienMienGiam = item.SoTienMienGiam.ToString("N0", new CultureInfo("vi-VN"));
+                        ctVM.SoTienPhaiNop = item.SoTienPhaiNop.ToString("N0", new CultureInfo("vi-VN"));
+                        ctVM.TuNgayTinhTien = item.TuNgayTinhTien != null ? item.TuNgayTinhTien.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "";
+                        ctVM.DenNgayTinhTien = item.DenNgayTinhTien != null ? item.DenNgayTinhTien.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "";
+                        ctVM.GhiChu = item.GhiChu;
+                        listct.Add(ctVM);
+
                     }
-                    else
-                    {
-                        foreach (var item in entity.DsThongBaoTienThueDatChiTiet)
-                        {
-
-                            var ctVM = new ThongBaoTienThueDatChiTietViewModel();
-                            ctVM.IdThongBaoTienThueDat = item.IdThongBaoTienThueDat;
-                            ctVM.IdThongBaoTienThueDatChiTiet = item.IdThongBaoTienThueDatChiTiet;
-                            ctVM.IdThongBaoDonGiaThueDat = item.IdThongBaoDonGiaThueDat;
-                            ctVM.IdQuyetDinhMienTienThueDat = item.IdQuyetDinhMienTienThueDat;
-                            ctVM.IdQuyetDinhMienTienThueDat = item.IdQuyetDinhMienTienThueDat;
-                            ctVM.Nam = item.Nam;
-                            ctVM.DonGia = item.DonGia.ToString("N0", new CultureInfo("vi-VN"));
-                            ctVM.DienTichKhongPhaiNop = item.DienTichKhongPhaiNop.ToString("N", new CultureInfo("vi-VN"));
-                            ctVM.DienTichPhaiNop = item.DienTichPhaiNop.ToString("N", new CultureInfo("vi-VN"));
-                            ctVM.SoTien = item.SoTien.ToString("N0", new CultureInfo("vi-VN"));
-                            ctVM.SoTienMienGiam = item.SoTienMienGiam.ToString("N0", new CultureInfo("vi-VN"));
-                            ctVM.SoTienPhaiNop = item.SoTienPhaiNop.ToString("N0", new CultureInfo("vi-VN"));
-                            ctVM.TuNgayTinhTien = item.TuNgayTinhTien != null ? item.TuNgayTinhTien.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "";
-                            ctVM.DenNgayTinhTien = item.DenNgayTinhTien != null ? item.DenNgayTinhTien.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "";
-                            ctVM.GhiChu = item.GhiChu;
-                            listct.Add(ctVM);
-
-                        }
-                        result.DsThongBaoTienThueDatChiTiet = listct;
-                    }
-
+                    result.DsThongBaoTienThueDatChiTiet = listct;
                 }
+
+
                 var listFileViewModel = new List<FileTaiLieuViewModel>();
                 var listFile = _context.FileTaiLieu.Include(x => x.File).Where(x => x.IdLoaiTaiLieu == NhomLoaiTaiLieuConstant.NhomThongBaoTienThueDat && x.IdTaiLieu == entity.IdThongBaoTienThueDat && x.TrangThai != 4).ToList();
                 foreach (var item in listFile)
@@ -574,7 +548,7 @@ namespace QuanLyThueDat.Application.Service
         public async Task<ApiResult<List<ThongBaoTienThueDatViewModel>>> GetAllByRequest(ThongBaoTienThueDatRequest rq)
         {
             var result = new List<ThongBaoTienThueDatViewModel>();
-            var query = from a in _context.ThongBaoTienThueDat.Include(x => x.DoanhNghiep).Where(x => !x.IsDeleted).Where(x => x.BiDieuChinh == 0)
+            var query = from a in _context.ThongBaoTienThueDat.Include(x => x.DoanhNghiep).Where(x => !x.IsDeleted)
                         select a;
             if (rq.IdDoanhNghiep != 0)
             {

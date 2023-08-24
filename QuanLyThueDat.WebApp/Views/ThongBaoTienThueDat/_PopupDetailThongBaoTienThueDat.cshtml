@@ -84,70 +84,6 @@
                         </div>
                     </div>
 
-                    @*Thông báo đơn giá thuê đất*@
-                    @*                    <div class="card groupThongBaoDonGiaThueDat" style="width: 100%">
-                        <div class="card-header">
-                        <h2 class="card-title">Thông báo đơn giá thuê đất</h2>
-                        </div>
-                        <div class="card-body">
-                        <div class="row">
-                        <div class="form-group col-md-12">
-                        <select class="form-control select2 ddThongBaoDonGiaThueDat" style="width: 100%;">
-                        </select>
-                        </div>
-                        <div class="form-group col-md-6">
-                        <h5>Số thông báo đơn giá thuê đất</h5>
-                        <input type="text" class="form-control" data-name="SoThongBaoDonGiaThueDat" required>
-                        </div>
-                        <div class="form-group col-md-6">
-                        <h5>Tên thông báo đơn giá thuê đất</h5>
-                        <input type="text" class="form-control" data-name="TenThongBaoDonGiaThueDat" required>
-                        </div>
-                        </div>
-                        <div class="row">
-                        <div class="form-group col-md-6">
-                        <h5>Ngày thông báo đơn giá thuê đất</h5>
-                        <input type="text" class="form-control datetimepicker-input" data-toggle="datetimepicker" data-name="NgayThongBaoDonGiaThueDat">
-
-                        </div>
-                        <div class="form-group col-md-6">
-                        <h5>Đơn giá</h5>
-                        <input type="text" class="form-control number" data-name="DonGia" required>
-                        </div>
-                        </div>
-                        <div class="row">
-                        <div class="form-group col-md-6">
-                        <h5>Tổng diện tích (m<sup>2</sup>)</h5>
-                        <input type="text" class="form-control number" data-name="TongDienTich" required>
-                        </div>
-                        <div class="form-group col-md-6">
-                        <h5>Tổng số tiền</h5>
-                        <input type="text" class="form-control number" data-name="SoTien" required>
-                        </div>
-                        </div>
-                        <div class="row">
-                        <div class="form-group col-md-6">
-                        <h5>Diện tích không phải nộp tiền (m<sup>2</sup>)</h5>
-                        <input type="text" class="form-control number" data-name="DienTichKhongPhaiNop" required>
-                        </div>
-                        <div class="form-group col-md-6">
-                        <h5>Số tiền miễn giảm</h5>
-                        <input type="text" class="form-control number" data-name="SoTienMienGiam" required>
-                        </div>
-                        </div>
-
-                        <div class="row">
-                        <div class="form-group col-md-6">
-                        <h5>Diện tích phải nộp tiền (m<sup>2</sup>)</h5>
-                        <input type="text" class="form-control number" data-name="DienTichPhaiNop" required>
-                        </div>
-                        <div class="form-group col-md-6">
-                        <h5>Số tiền phải nộp</h5>
-                        <input type="text" class="form-control number" data-name="SoTienPhaiNop" required>
-                        </div>
-                        </div>
-                        </div>
-                        </div>*@
                     <div class="card" style="width: 100%">
                         <div class="card-header d-flex">
                             <h2 class="card-title">Thông báo tiền thuê đất</h2>
@@ -191,58 +127,19 @@
                                 </div>
                                 <div class="form-group col-md-6" style="display: none">
                                     <h5>Loại thông báo</h5>
-                                    <input type="text" class="form-control" data-name="LoaiThongBaoTienThueDat" required>
-                                    @*                                    <select class="form-control select2" style="width: 100%;" data-name="LoaiThongBaoTienThueDat">
-                                        <option value="Thông báo lần đầu">Thông báo lần đầu</option>
-                                        <option value="Thông báo từ năm thứ hai trở đi">Thông báo từ năm thứ hai trở đi</option>
-                                        <option value="Thông báo điều chỉnh">Thông báo điều chỉnh</option>
-                                        <option value="Thông báo bổ sung">Thông báo bổ sung</option>
-                                        </select>*@
+                                    <input type="text" class="form-control" data-name="LoaiThongBaoTienThueDat">
                                 </div>
                             </div>
-
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <h5>Ghi chú</h5>
+                                    <input type="text" class="form-control" data-name="GhiChu" required>
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="form-group col-md-12">
                                     <h5>Chi tiết Thông báo tiền thuê đất</h5>
-                                    <table id="tblChiTietThongBaoTienThueDat" class="table table-bordered table-hover dataTable" role="grid">
-                                        <thead>
-                                            <tr>
-                                                <th style="width:20%">
-                                                    Thông báo đơn giá
-                                                </th>
-                                                <th style="width:15%">
-                                                    Đơn giá
-                                                </th>
-                                                <th style="width:15%">
-                                                    Diện tích nộp tiền
-                                                </th>
-                                                <th style="width:15%">
-                                                    Số tiền phải nộp
-                                                </th>
-                                                <th style="width:15%">
-                                                    Từ ngày
-                                                </th>
-                                                <th style="width:15%">
-                                                    Đến ngày
-                                                </th>
-                                                <th style="width:5%">
-                                                    Xóa
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <td colspan="8">
-                                                    <button class="btn btn-xs btn-success" id="btnAddChiTietThongBaoTienThueDat" type="button">
-                                                        <i class="fa fa-plus"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-
+                                    <div id="temptable"></div>
                                 </div>
                             </div>
 
@@ -327,6 +224,91 @@
                     </div>
                 </div>
             </div>
+            <div id="temptable-ThongBaoTienThueDat" style="display:none">
+                <table id="tblChiTietThongBaoTienThueDat" class="table table-bordered table-hover dataTable" role="grid">
+                    <thead>
+                        <tr>
+                            <th style="width:20%">
+                                Thông báo đơn giá
+                            </th>
+                            <th style="width:15%">
+                                Đơn giá
+                            </th>
+                            <th style="width:15%">
+                                Diện tích nộp tiền
+                            </th>
+                            <th style="width:15%">
+                                Số tiền phải nộp
+                            </th>
+                            <th style="width:15%">
+                                Từ ngày
+                            </th>
+                            <th style="width:15%">
+                                Đến ngày
+                            </th>
+                            <th style="width:5%">
+                                Xóa
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="8">
+                                <button class="btn btn-xs btn-success" id="btnAddChiTietThongBaoTienThueDat" type="button">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div id="temptable-ThongBaoTienThueDatDieuChinh" style="display:none">
+                <table id="tblChiTietThongBaoTienThueDat" class="table table-bordered table-hover dataTable" role="grid">
+                    <thead>
+                        <tr>
+                            <th style="width:15%">
+                                Thông báo cần điều chỉnh
+                            </th>
+                            <th style="width:15%">
+                                Thông báo đơn giá
+                            </th>
+                            <th style="width:15%">
+                                Đơn giá
+                            </th>
+                            <th style="width:15%">
+                                Diện tích nộp tiền
+                            </th>
+                            <th style="width:15%">
+                                Số tiền phải nộp
+                            </th>
+                            <th style="width:15%">
+                                Từ ngày
+                            </th>
+                            <th style="width:15%">
+                                Đến ngày
+                            </th>
+                            <th style="width:5%">
+                                Xóa
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="8">
+                                <button class="btn btn-xs btn-success" id="btnAddChiTietThongBaoTienThueDatDieuChinh" type="button">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+
+            </div>
+
             <table style="display:none">
                 <tbody id="tempChiTietThongBaoTienThueDat">
                     <tr>
@@ -357,7 +339,40 @@
                     </tr>
                 </tbody>
             </table>
+            <table style="display:none">
+                <tbody id="tempChiTietThongBaoTienThueDatDieuChinh">
+                    <tr>
+                        <td style="width:15%">
+                            <select class="form-control ddThongBaoTienThueDatGoc" data-name="IdThongBaoTienThueDatGoc" style="width: 100%;">
+                            </select>
+                        </td>
+                        <td style="width:15%">
 
+                            <select class="form-control ddThongBaoDonGiaThueDat" data-name="IdThongBaoDonGiaThueDat" style="width: 100%;">
+                            </select>
+                        </td>
+                        <td style="width:15%">
+                            <input type="hidden" class="form-control" data-name="IdThongBaoTienThueDatChiTiet" value="0">
+                            <input type="text" class="form-control number px-1" data-name="DonGia" required>
+                        </td>
+                        <td style="width:15%">
+                            <input type="text" class="form-control number px-1" data-name="DienTichPhaiNop" required>
+                        </td>
+                        <td style="width:15%">
+                            <input type="text" class="form-control number px-1" data-name="SoTienPhaiNop" required>
+                        </td>
+                        <td style="width:15%">
+                            <input type="text" class="form-control" data-name="TuNgayTinhTien" placeholder="dd/mm/yyyy">
+                        </td>
+                        <td style="width:15%">
+                            <input type="text" class="form-control" data-name="DenNgayTinhTien" placeholder="dd/mm/yyyy">
+                        </td>
+                        <td style="width:5%">
+                            <a href="javascript:;" class="tr-remove text-danger"><i class="fas fa-trash-alt" title="Xóa"></i></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
             <table style="display:none">
                 <tbody id="tempChiTietMienGiamTienThueDat">
                     <tr>
@@ -388,6 +403,7 @@
                     </tr>
                 </tbody>
             </table>
+
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" id="btnSaveThongBaoTienThueDat">Lưu</button>
                 <button type="button" class="btn btn-danger" id="btnCloseThongBaoTienThueDat" data-dismiss="modal">Đóng</button>
