@@ -46,9 +46,9 @@ namespace QuanLyThueDat.WebApp.Controllers
 
         }
         [Route("ExportThongBaoTienThueDatHangNam")]
-        public async Task<IActionResult> _ExportThongBaoTienThueDatHangNam(int namThongBao)
+        public async Task<IActionResult> _ExportThongBaoTienThueDatHangNam(int namThongBao, string tuNgay, string denNgay)
         {
-            var data = await _exportExcelClient.ExportThongBaoTienThueDatHangNam(namThongBao);
+            var data = await _exportExcelClient.ExportThongBaoTienThueDatHangNam(namThongBao, tuNgay, denNgay);
             if (data.IsSuccess)
             {
                 //var result = File(data.Data, "application/vnd.ms-word", loaiThongBao + ".doc");
@@ -59,9 +59,9 @@ namespace QuanLyThueDat.WebApp.Controllers
 
         }
         [Route("ExportQuyetDinhMienTienThueDat")]
-        public async Task<IActionResult> _ExportQuyetDinhMienTienThueDat(int? idQuyetDinhMienTienThueDat)
+        public async Task<IActionResult> _ExportQuyetDinhMienTienThueDat(int? idQuyetDinhMienTienThueDat, string tuNgay, string denNgay)
         {
-            var data = await _exportExcelClient.ExportQuyetDinhMienTienThueDat(idQuyetDinhMienTienThueDat);
+            var data = await _exportExcelClient.ExportQuyetDinhMienTienThueDat(idQuyetDinhMienTienThueDat, tuNgay, denNgay);
             if (data.IsSuccess)
             {
                 //var result = File(data.Data, "application/vnd.ms-word", loaiThongBao + ".doc");

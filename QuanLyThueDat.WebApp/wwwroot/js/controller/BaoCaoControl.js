@@ -4,36 +4,50 @@ BaoCaoControl = {
         BaoCaoControl.RegisterEvents();
     },
     RegisterEvents: function (opts) {
+        $('.datetimepicker-input').datetimepicker({
+            format: 'DD/MM/YYYY'
+        });
         var self = this;
         $('[data-name="LoaiBaoCao"]').on('change', function () {
             if ($('[data-name="LoaiBaoCao"] option:selected').val() != 0 && $('[data-name="LoaiBaoCao"] option:selected').val() != undefined) {
                 var loaiBaoCao = $('[data-name="LoaiBaoCao"] option:selected').val();
-                console.log(loaiBaoCao);
                 switch (loaiBaoCao) {
                     case "BaoCaoDoanhNghiepThueDat":
-                        $('#namThongBao').hide();
+                        $('#namThongBao').parent().parent().hide();
+                        $('#tuNgay').parent().parent().hide();
+                        $('#denNgay').parent().parent().hide();
                         $("#btnXuatBaoCao").off('click').on('click', function (e) {
                             window.open("BaoCao/ExportBaoCaoDoanhNghiepThueDat");
                         });
                         break;
                     case "BaoCaoTienThueDat":
-                        $('#namThongBao').show();
+                        $('#namThongBao').parent().parent().show();
+                        $('#tuNgay').parent().parent().show();
+                        $('#denNgay').parent().parent().show();
                         $("#btnXuatBaoCao").off('click').on('click', function (e) {
-                            if ($('#namThongBao option:selected').val() != "") {
-                                window.open("BaoCao/ExportThongBaoTienThueDatHangNam?namThongBao=" + $('#namThongBao option:selected').val());
-                            } else {
-                                alert("Vui lòng chọn năm thông báo");
-                            }
+                            window.open("BaoCao/ExportThongBaoTienThueDatHangNam?namThongBao=" + $('#namThongBao option:selected').val() + "&tuNgay=" + $('#tuNgay').val() + "&denNgay=" + $('#denNgay').val());
+                        });
+                        break;
+                    case "BaoCaoDonGiaThueDat":
+                        $('#namThongBao').parent().parent().hide();
+                        $('#tuNgay').parent().parent().show();
+                        $('#denNgay').parent().parent().show();
+                        $("#btnXuatBaoCao").off('click').on('click', function (e) {
+                            window.open("BaoCao/ExportThongBaoDonGiaThueDat?tuNgay=" + $('#tuNgay').val() + "&denNgay=" + $('#denNgay').val());
                         });
                         break;
                     case "BaoCaoMienGiamTienThueDat":
-                        $('#namThongBao').hide();
+                        $('#namThongBao').parent().parent().hide();
+                        $('#tuNgay').parent().parent().show();
+                        $('#denNgay').parent().parent().show();
                         $("#btnXuatBaoCao").off('click').on('click', function (e) {
-                            window.open("BaoCao/ExportQuyetDinhMienTienThueDat");
+                            window.open("BaoCao/ExportQuyetDinhMienTienThueDat?tuNgay=" + $('#tuNgay').val() + "&denNgay=" + $('#denNgay').val());
                         });
                         break;
                     case "BieuLapBo":
-                        $('#namThongBao').hide();
+                        $('#namThongBao').parent().parent().hide();
+                        $('#tuNgay').parent().parent().hide();
+                        $('#denNgay').parent().parent().hide();
                         $("#btnXuatBaoCao").off('click').on('click', function (e) {
                             window.open("BaoCao/ExportBieuLapBo");
                         });
@@ -44,7 +58,6 @@ BaoCaoControl = {
             }
         });
         $("#btnXuatBaoCao").off('click').on('click', function (e) {
-            console.log(111);
             if ($('[data-name="LoaiBaoCao"] option:selected').val() == "") {
                 alert("Vui lòng chọn loại báo cáo");
             }

@@ -192,7 +192,7 @@ namespace QuanLyThueDat.Application.Service
             }
             return new ApiSuccessResult<List<BaoCaoDoanhNghiepThueDatViewModel>>() { Data = result };
         }
-        public async Task<ApiResult<List<ThongBaoTienThueDatViewModel>>> BaoCaoTienThueDat(int? nam)
+        public async Task<ApiResult<List<ThongBaoTienThueDatViewModel>>> BaoCaoTienThueDat(int? nam, string tuNgay, string denNgay)
         {
             var query = from a in _context.ThongBaoTienThueDat.Include(x => x.DoanhNghiep).Include(x => x.DsThongBaoTienThueDatChiTiet)
                         select a;
@@ -200,6 +200,16 @@ namespace QuanLyThueDat.Application.Service
             if (nam != null && nam != 0)
             {
                 query = query.Where(x => x.Nam == nam);
+            }
+            DateTime? fromDate = string.IsNullOrEmpty(tuNgay) ? null : DateTime.Parse(tuNgay, new CultureInfo("vi-VN"));
+            DateTime? toDate = string.IsNullOrEmpty(denNgay) ? null : DateTime.Parse(denNgay, new CultureInfo("vi-VN"));
+            if (fromDate != null)
+            {
+                query = query.Where(x => x.NgayThongBaoTienThueDat >= fromDate);
+            }
+            if (toDate != null)
+            {
+                query = query.Where(x => x.NgayThongBaoTienThueDat <= toDate);
             }
             var data = await query.OrderByDescending(x => x.Nam).ThenBy(x => x.SoThongBaoTienThueDat).ToListAsync();
             var result = new List<ThongBaoTienThueDatViewModel>();
@@ -288,6 +298,91 @@ namespace QuanLyThueDat.Application.Service
             }
             return new ApiSuccessResult<List<ThongBaoTienThueDatViewModel>>() { Data = result };
         }
+        public async Task<ApiResult<List<QuyetDinhMienTienThueDatViewModel>>> BaoCaoMienTienThueDat(string tuNgay, string denNgay)
+        {
+            var query = from a in _context.QuyetDinhMienTienThueDat.Include(x => x.DoanhNghiep).Where(x => !x.IsDeleted)
+                        select a;
+            DateTime? fromDate = string.IsNullOrEmpty(tuNgay) ? null : DateTime.Parse(tuNgay, new CultureInfo("vi-VN"));
+            DateTime? toDate = string.IsNullOrEmpty(denNgay) ? null : DateTime.Parse(denNgay, new CultureInfo("vi-VN"));
+            if (fromDate != null)
+            {
+                query = query.Where(x => x.NgayQuyetDinhMienTienThueDat >= fromDate);
+            }
+            if (toDate != null)
+            {
+                query = query.Where(x => x.NgayQuyetDinhMienTienThueDat <= toDate);
+            }
+            var data = await query.OrderByDescending(x => x.NgayQuyetDinhMienTienThueDat).ToListAsync();
+            var result = new List<QuyetDinhMienTienThueDatViewModel>();
+            foreach (var entity in data)
+            {
+                var quyetDinhMienTienThueDat = new QuyetDinhMienTienThueDatViewModel
+                {
+                    IdQuyetDinhMienTienThueDat = entity.IdQuyetDinhMienTienThueDat,
+                    IdDoanhNghiep = entity.IdDoanhNghiep,
+                    IdQuyetDinhThueDat = entity.IdQuyetDinhThueDat,
+                    TenDoanhNghiep = entity.DoanhNghiep.TenDoanhNghiep,
+                    MaSoThue = entity.DoanhNghiep.MaSoThue,
+                    SoQuyetDinhMienTienThueDat = entity.SoQuyetDinhMienTienThueDat,
+                    TenQuyetDinhMienTienThueDat = entity.TenQuyetDinhMienTienThueDat,
+                    NgayQuyetDinhMienTienThueDat = entity.NgayQuyetDinhMienTienThueDat != null ? entity.NgayQuyetDinhMienTienThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
+                    DienTichMienTienThueDat = entity.DienTichMienTienThueDat.ToString("N", new CultureInfo("vi-VN")),
+                    SoTienMienGiamTrongMotNam = entity.SoTienMienGiamTrongMotNam.ToString("N0", new CultureInfo("vi-VN")),
+                    TongSoTienMienGiam = entity.TongSoTienMienGiam.ToString("N0", new CultureInfo("vi-VN")),
+                    ThoiHanMienTienThueDat = entity.ThoiHanMienTienThueDat,
+                    NgayHieuLucMienTienThueDat = entity.NgayHieuLucMienTienThueDat != null ? entity.NgayHieuLucMienTienThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
+                    NgayHetHieuLucMienTienThueDat = entity.NgayHetHieuLucMienTienThueDat != null ? entity.NgayHetHieuLucMienTienThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
+                    SoQuyetDinhMienTienThueDatDieuChinh = entity.SoQuyetDinhMienTienThueDatDieuChinh,
+                    GhiChu = entity.GhiChu,
+                };
+                result.Add(quyetDinhMienTienThueDat);
+            }
+            return new ApiSuccessResult<List<QuyetDinhMienTienThueDatViewModel>>() { Data = result };
+        }
+        public async Task<ApiResult<List<ThongBaoDonGiaThueDatViewModel>>> BaoCaoDonGiaThueDat(string tuNgay, string denNgay)
+        {
+            var query = from a in _context.ThongBaoDonGiaThueDat.Include(x => x.DoanhNghiep).Where(x => !x.IsDeleted)
+                        select a;
+            DateTime? fromDate = string.IsNullOrEmpty(tuNgay) ? null : DateTime.Parse(tuNgay, new CultureInfo("vi-VN"));
+            DateTime? toDate = string.IsNullOrEmpty(denNgay) ? null : DateTime.Parse(denNgay, new CultureInfo("vi-VN"));
+            if (fromDate != null)
+            {
+                query = query.Where(x => x.NgayThongBaoDonGiaThueDat >= fromDate);
+            }
+            if (toDate != null)
+            {
+                query = query.Where(x => x.NgayThongBaoDonGiaThueDat <= toDate);
+            }
+            var data = await query.OrderByDescending(x => x.NgayThongBaoDonGiaThueDat).ToListAsync();
+            var result = new List<ThongBaoDonGiaThueDatViewModel>();
+            foreach (var entity in data)
+            {
+                var x = entity.DoanhNghiep;
+                var thongBaoDonGiaThueDat = new ThongBaoDonGiaThueDatViewModel
+                {
+                    IdThongBaoDonGiaThueDat = entity.IdThongBaoDonGiaThueDat,
+                    IdDoanhNghiep = entity.IdDoanhNghiep,
+                    TenDoanhNghiep = entity.DoanhNghiep.TenDoanhNghiep,
+                    MaSoThue = entity.DoanhNghiep.MaSoThue,
+                    CoQuanQuanLyThue = entity.DoanhNghiep.CoQuanQuanLyThue,
+                    DiaChi = entity.DoanhNghiep.DiaChi,
+                    SoThongBaoDonGiaThueDat = entity.SoThongBaoDonGiaThueDat,
+                    TenThongBaoDonGiaThueDat = entity.TenThongBaoDonGiaThueDat,
+                    ViTriThuaDat = entity.ViTriThuaDat,
+                    DienTichKhongPhaiNop = entity.DienTichKhongPhaiNop.ToString("N", new CultureInfo("vi-VN")),
+                    DienTichPhaiNop = entity.DienTichPhaiNop.ToString("N", new CultureInfo("vi-VN")),
+                    DonGia = entity.DonGia.ToString("N0", new CultureInfo("vi-VN")),
+                    NgayThongBaoDonGiaThueDat = entity.NgayThongBaoDonGiaThueDat != null ? entity.NgayThongBaoDonGiaThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
+                    NgayHieuLucDonGiaThueDat = entity.NgayHieuLucDonGiaThueDat != null ? entity.NgayHieuLucDonGiaThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
+                    NgayHetHieuLucDonGiaThueDat = entity.NgayHetHieuLucDonGiaThueDat != null ? entity.NgayHetHieuLucDonGiaThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
+                    ThoiHanDonGia = entity.ThoiHanDonGia + (entity.NgayHieuLucDonGiaThueDat != null ? " từ ngày " + entity.NgayHieuLucDonGiaThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "") + (entity.NgayHetHieuLucDonGiaThueDat != null ? " đến ngày " + entity.NgayHetHieuLucDonGiaThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : ""),
+                    GhiChu = entity.GhiChu,
+                };
+                result.Add(thongBaoDonGiaThueDat);
+            }
+            return new ApiSuccessResult<List<ThongBaoDonGiaThueDatViewModel>>() { Data = result };
+        }
+
         public async Task<ApiResult<List<BaoCaoDoanhNghiepThueDatViewModel>>> BaoCaoBieuLapBo()
         {
             var result = new List<BaoCaoDoanhNghiepThueDatViewModel>();

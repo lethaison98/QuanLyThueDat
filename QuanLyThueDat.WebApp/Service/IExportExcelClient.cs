@@ -4,8 +4,9 @@ namespace QuanLyThueDat.WebApp.Service
 {
     public interface IExportExcelClient
     {
-        Task<ApiResult<byte[]>> ExportThongBaoTienThueDatHangNam(int namThongBao);
-        Task<ApiResult<byte[]>> ExportQuyetDinhMienTienThueDat(int? idQuyetDinhMienTienThueDat);
+        Task<ApiResult<byte[]>> ExportThongBaoTienThueDatHangNam(int namThongBao, string tuNgay, string denNgay);
+        Task<ApiResult<byte[]>> ExportThongBaoDonGiaThueDat(string tuNgay, string denNgay);
+        Task<ApiResult<byte[]>> ExportQuyetDinhMienTienThueDat(int? idQuyetDinhMienTienThueDat, string tuNgay, string denNgay);
         Task<ApiResult<byte[]>> ExportBaoCaoDoanhNghiepThueDat();
         Task<ApiResult<byte[]>> ExportBieuLapBo();
 

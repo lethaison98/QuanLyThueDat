@@ -29,23 +29,43 @@
                     <!-- /.card-header -->
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-7 col-md-7 col-lg-7 col-xl-7">
+                            <div class="col-4 col-md-4 col-lg-4 col-xl-4">
                                 <div class="ttls-cm">
+                                    <div class="ttls-label">Loại báo cáo</div>
                                     <div class="ttls-content">
                                         <select class="form-control px-0" style="width: 100%;" data-name="LoaiBaoCao">
                                             <option value="">--- Lựa chọn loại báo cáo ---</option>
                                             <option value="BieuLapBo">Biểu lập bộ</option>
                                             <option value="BaoCaoDoanhNghiepThueDat">Báo cáo giao đất, cho thuê đất</option>
                                             <option value="BaoCaoTienThueDat">Báo cáo tiền thuê đất hàng năm</option>
+                                            <option value="BaoCaoDonGiaThueDat">Báo cáo thông báo đơn giá</option>
                                             <option value="BaoCaoMienGiamTienThueDat">Báo cáo miễn giảm tiền thuê đất</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-2 col-md-2 col-lg-2 col-xl-2">
-                                <div class="ttls-cm">
+                                <div class="ttls-cm" style="width: 100%; display: none" >
+                                    <div class="ttls-label">Từ ngày</div>
                                     <div class="ttls-content">
-                                        <select class="form-control px-0" style="width: 100%; display: none" id="namThongBao">
+                                        <input type="text" class="form-control datetimepicker-input" data-toggle="datetimepicker" id="tuNgay">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-2 col-md-2 col-lg-2 col-xl-2">
+                                <div class="ttls-cm" style="width: 100%; display: none">
+                                    <div class="ttls-label">Đến ngày</div>
+                                    <div class="ttls-content">
+                                        <input type="text" class="form-control datetimepicker-input" data-toggle="datetimepicker" id="denNgay">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-2 col-md-2 col-lg-2 col-xl-2">
+                                <div class="ttls-cm" style="width: 100%; display: none">
+                                    <div class="ttls-label">Năm báo cáo</div>
+                                    <div class="ttls-content">
+                                        <select class="form-control px-0" id="namThongBao">
                                             <option value="">Lựa chọn năm báo cáo</option>
                                             <option value="2018">Năm 2018</option>
                                             <option value="2019">Năm 2019</option>
@@ -61,8 +81,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-3 col-md-3 col-lg-3 col-xl-3">
+
+                            <div class="col-2 col-md-2 col-lg-2 col-xl-2">
                                 <div class="ttls-cm">
+                                    <div class="ttls-label"> &nbsp;</div>
                                     <div class="ttls-content">
                                         <a class="btn btn-sm btn-success waves-effect waves-light" id="btnXuatBaoCao">
                                             <span>Xuất báo cáo</span>

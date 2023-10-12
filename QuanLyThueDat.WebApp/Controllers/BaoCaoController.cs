@@ -16,9 +16,9 @@ namespace QuanLyThueDat.WebApp.Controllers
             return View();
         }
         [Route("ExportThongBaoTienThueDatHangNam")]
-        public async Task<IActionResult> _ExportThongBaoTienThueDatHangNam(int namThongBao)
+        public async Task<IActionResult> _ExportThongBaoTienThueDatHangNam(int namThongBao, string tuNgay, string denNgay)
         {
-            var data = await _exportExcelClient.ExportThongBaoTienThueDatHangNam(namThongBao);
+            var data = await _exportExcelClient.ExportThongBaoTienThueDatHangNam(namThongBao, tuNgay, denNgay);
             if (data.IsSuccess)
             {
                 //var result = File(data.Data, "application/vnd.ms-word", loaiThongBao + ".doc");
@@ -27,11 +27,25 @@ namespace QuanLyThueDat.WebApp.Controllers
             }
             return Ok(data);
 
+        }        
+        
+        [Route("ExportThongBaoDonGiaThueDat")]
+        public async Task<IActionResult> _ExportThongBaoDonGiaThueDat(string tuNgay, string denNgay)
+        {
+            var data = await _exportExcelClient.ExportThongBaoDonGiaThueDat(tuNgay, denNgay);
+            if (data.IsSuccess)
+            {
+                //var result = File(data.Data, "application/vnd.ms-word", loaiThongBao + ".doc");
+                var result = File(data.Data, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Báo cáo đơn giá thuê đất.xlsx");
+                return result;
+            }
+            return Ok(data);
+
         }
         [Route("ExportQuyetDinhMienTienThueDat")]
-        public async Task<IActionResult> _ExportQuyetDinhMienTienThueDat(int? idQuyetDinhMienTienThueDat)
+        public async Task<IActionResult> _ExportQuyetDinhMienTienThueDat(int? idQuyetDinhMienTienThueDat, string tuNgay, string denNgay)
         {
-            var data = await _exportExcelClient.ExportQuyetDinhMienTienThueDat(idQuyetDinhMienTienThueDat);
+            var data = await _exportExcelClient.ExportQuyetDinhMienTienThueDat(idQuyetDinhMienTienThueDat, tuNgay, denNgay);
             if (data.IsSuccess)
             {
                 var result = File(data.Data, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Báo cáo miễn tiền thuê đất.xlsx");
