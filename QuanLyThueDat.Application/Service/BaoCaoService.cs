@@ -316,6 +316,8 @@ namespace QuanLyThueDat.Application.Service
             var result = new List<QuyetDinhMienTienThueDatViewModel>();
             foreach (var entity in data)
             {
+                var qdtd = await _QuyetDinhThueDatService.GetById(entity.IdQuyetDinhThueDat.Value);
+                var diaChiThuaDat = qdtd.Data != null? qdtd.Data.ViTriThuaDat : "";
                 var quyetDinhMienTienThueDat = new QuyetDinhMienTienThueDatViewModel
                 {
                     IdQuyetDinhMienTienThueDat = entity.IdQuyetDinhMienTienThueDat,
@@ -323,6 +325,7 @@ namespace QuanLyThueDat.Application.Service
                     IdQuyetDinhThueDat = entity.IdQuyetDinhThueDat,
                     TenDoanhNghiep = entity.DoanhNghiep.TenDoanhNghiep,
                     MaSoThue = entity.DoanhNghiep.MaSoThue,
+                    DiaChiThuaDat = diaChiThuaDat,
                     SoQuyetDinhMienTienThueDat = entity.SoQuyetDinhMienTienThueDat,
                     TenQuyetDinhMienTienThueDat = entity.TenQuyetDinhMienTienThueDat,
                     NgayQuyetDinhMienTienThueDat = entity.NgayQuyetDinhMienTienThueDat != null ? entity.NgayQuyetDinhMienTienThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",

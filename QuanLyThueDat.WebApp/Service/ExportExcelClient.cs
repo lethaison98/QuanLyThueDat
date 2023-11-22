@@ -240,10 +240,10 @@ namespace QuanLyThueDat.WebApp.Service
                 //ws.Cells[7 + i, 10].Value = tongSoTien;
                 //ws.Cells[7 + i, 11].Value = tongSoTienMienGiam;
                 //ws.Cells[7 + i, 12].Value = tongSoTienPhaiNop;
-                ws.Cells[7, 1, i + 6, 11].Style.Border.Top.Style = ExcelBorderStyle.Thin;
-                ws.Cells[7, 1, i + 6, 11].Style.Border.Left.Style = ExcelBorderStyle.Thin;
-                ws.Cells[7, 1, i + 6, 11].Style.Border.Right.Style = ExcelBorderStyle.Thin;
-                ws.Cells[7, 1, i + 6, 11].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                ws.Cells[6, 1, i + 6, 11].Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                ws.Cells[6, 1, i + 6, 11].Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                ws.Cells[6, 1, i + 6, 11].Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                ws.Cells[6, 1, i + 6, 11].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
                 ws.Cells[7, 8, i + 7, 10].Style.Numberformat.Format = "#,##0.00";
                 ws.Cells.AutoFitColumns();
                 result.Data = p.GetAsByteArray();

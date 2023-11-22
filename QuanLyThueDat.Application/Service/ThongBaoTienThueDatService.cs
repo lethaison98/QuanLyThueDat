@@ -149,6 +149,7 @@ namespace QuanLyThueDat.Application.Service
                     {
                         ct.IdThongBaoTienThueDatGoc = item.IdThongBaoTienThueDatGoc;
                         var tbGoc = _context.ThongBaoTienThueDat.FirstOrDefault(x => x.IdThongBaoTienThueDat == item.IdThongBaoTienThueDatGoc);
+                        entity.GhiChu = entity.GhiChu + " điều chỉnh cho thông báo số "+ tbGoc.SoThongBaoTienThueDat;
                         tbGoc.BiDieuChinh = 1;
                         tbGoc.GhiChu += ("Đã ra thông báo điều chỉnh số " + rq.SoThongBaoTienThueDat + " ngày " + rq.NgayThongBaoTienThueDat);
                     }
@@ -621,10 +622,10 @@ namespace QuanLyThueDat.Application.Service
         {
             if (Vm.BiDieuChinh == 1)
             {
-                Vm.SoTienPhaiNop = 0.ToString();
-                Vm.SoTienMienGiam = 0.ToString();
-                Vm.SoTien = 0.ToString();
-                Vm.GhiChu += " Đã ra thông báo điều chỉnh ";
+                //Vm.SoTienPhaiNop = 0.ToString();
+                //Vm.SoTienMienGiam = 0.ToString();
+                //Vm.SoTien = 0.ToString();
+                //Vm.GhiChu += " Đã ra thông báo điều chỉnh ";
             }
             return Vm;
         }

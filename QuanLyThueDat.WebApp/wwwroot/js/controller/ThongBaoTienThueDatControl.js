@@ -6,6 +6,7 @@ ThongBaoTienThueDatControl = {
     },
 
     LoadDatatable: function (opts) {
+        console.log(113);
         var idDoanhNghiep;
         if (opts == undefined) {
             idDoanhNghiep = null;
@@ -78,6 +79,11 @@ ThongBaoTienThueDatControl = {
                     {
                         "class": "name-control",
                         "data": "TextLoaiThongBaoTienThueDat",
+                        "defaultContent": "",
+                    },
+                    {
+                        "class": "name-control",
+                        "data": "GhiChu",
                         "defaultContent": "",
                     },
                     {
@@ -419,10 +425,13 @@ ThongBaoTienThueDatControl = {
         }
         popup.find("[data-name = 'LoaiThongBaoTienThueDat']").val(opts.LoaiThongBaoTienThueDat);
         popup.find('.ddDoanhNghiep').append('<option value="' + opts.IdDoanhNghiep + '">' + opts.TenDoanhNghiep + '</option>');
-        $('.groupThongBaoDonGiaThueDat input').change(function () {
+        popup.find('.calc').change(function () {
+            console.log(123)
             self.TinhToanCongThuc(opts);
         });
-        $('.groupThongBaoDonGiaThueDat input').blur(function () {
+        popup.find('.calc').blur(function () {
+            console.log(123)
+
             self.TinhToanCongThuc(opts);
         });
 
@@ -565,6 +574,7 @@ ThongBaoTienThueDatControl = {
     },
 
     TinhToanCongThuc: function (opts) {
+        console.log(1111);
         var tongDienTich = 0;
         var dienTichKhongPhaiNop = 0;
         var tongSoTien = 0
@@ -781,7 +791,7 @@ ThongBaoTienThueDatControl = {
                                 if (res.IsSuccess) {
                                     $y.find('[data-name="DonGia"]').val(res.Data.DonGia);
                                     $y.find('[data-name="DienTichPhaiNop"]').val(res.Data.DienTichPhaiNop);
-                                    popup.find('input').blur(function () {
+                                    popup.find('.calc').blur(function () {
                                         self.TinhToanCongThuc(opts);
                                     });
                                 }
@@ -814,7 +824,7 @@ ThongBaoTienThueDatControl = {
                     $lastrow.find('.ddQuyetDinhMienTienThueDat').append('<option value="' + item.IdQuyetDinhMienTienThueDat + '">' + item.SoQuyetDinhMienTienThueDat + " từ " + item.NgayHieuLucMienTienThueDat + " đến " + item.NgayHetHieuLucMienTienThueDat + '</option>');
                 })
 
-                popup.find('input').blur(function () {
+                popup.find('.calc').blur(function () {
                     self.TinhToanCongThuc(opts);
                 });
             }
@@ -851,7 +861,7 @@ ThongBaoTienThueDatControl = {
                                 callback: function (res) {
                                     if (res.IsSuccess) {
                                         $y.find('[data-name="SoTien"]').val(res.Data.SoTienPhaiNop);
-                                        popup.find('input').blur(function () {
+                                        popup.find('.calc').blur(function () {
                                             self.TinhToanCongThuc(opts);
                                         });
                                     }
