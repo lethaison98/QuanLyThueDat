@@ -192,7 +192,7 @@ namespace QuanLyThueDat.Application.Service
             }
             return new ApiSuccessResult<List<BaoCaoDoanhNghiepThueDatViewModel>>() { Data = result };
         }
-        public async Task<ApiResult<List<ThongBaoTienThueDatViewModel>>> BaoCaoTienThueDat(int? nam, string tuNgay, string denNgay)
+        public async Task<ApiResult<List<ThongBaoTienThueDatViewModel>>> BaoCaoTienThueDat(int? nam, int? idQuanHuyen, string keyword, string tuNgay, string denNgay)
         {
             var query = from a in _context.ThongBaoTienThueDat.Include(x => x.DoanhNghiep).Include(x => x.DsThongBaoTienThueDatChiTiet)
                         select a;
@@ -215,6 +215,17 @@ namespace QuanLyThueDat.Application.Service
             var result = new List<ThongBaoTienThueDatViewModel>();
             foreach (var entity in data)
             {
+                var qdtd = await _QuyetDinhThueDatService.GetById(entity.IdQuyetDinhThueDat.Value);
+                var diaChiThuaDat = qdtd.Data != null ? qdtd.Data.DiaChiThuaDat : "";
+                var viTriThuaDat = qdtd.Data != null ? qdtd.Data.ViTriThuaDat : "";
+                if (idQuanHuyen != null && idQuanHuyen != 0 && idQuanHuyen != qdtd.Data.IdQuanHuyen)
+                {
+                    continue;
+                }
+                if (!String.IsNullOrEmpty(keyword) && !diaChiThuaDat.Contains(keyword) && !viTriThuaDat.Contains(keyword))
+                {
+                    continue;
+                }
                 entity.DsThongBaoTienThueDatChiTiet = entity.DsThongBaoTienThueDatChiTiet.Where(x => x.IdThongBaoDonGiaThueDat > 0 && x.IdThongBaoDonGiaThueDat != null).ToList();
                 var thoiHanDonGia = "";
                 var soThongBaoDonGia = "";
@@ -298,7 +309,7 @@ namespace QuanLyThueDat.Application.Service
             }
             return new ApiSuccessResult<List<ThongBaoTienThueDatViewModel>>() { Data = result };
         }
-        public async Task<ApiResult<List<QuyetDinhMienTienThueDatViewModel>>> BaoCaoMienTienThueDat(string tuNgay, string denNgay)
+        public async Task<ApiResult<List<QuyetDinhMienTienThueDatViewModel>>> BaoCaoMienTienThueDat(int? idQuanHuyen, string keyword, string tuNgay, string denNgay)
         {
             var query = from a in _context.QuyetDinhMienTienThueDat.Include(x => x.DoanhNghiep).Where(x => !x.IsDeleted)
                         select a;
@@ -317,7 +328,16 @@ namespace QuanLyThueDat.Application.Service
             foreach (var entity in data)
             {
                 var qdtd = await _QuyetDinhThueDatService.GetById(entity.IdQuyetDinhThueDat.Value);
-                var diaChiThuaDat = qdtd.Data != null? qdtd.Data.ViTriThuaDat : "";
+                var diaChiThuaDat = qdtd.Data != null? qdtd.Data.DiaChiThuaDat : "";
+                var viTriThuaDat = qdtd.Data != null? qdtd.Data.ViTriThuaDat : "";
+                if(idQuanHuyen != null && idQuanHuyen != 0 && idQuanHuyen != qdtd.Data.IdQuanHuyen)
+                {
+                    continue;
+                }
+                if(!String.IsNullOrEmpty(keyword) && !diaChiThuaDat.Contains(keyword) && !viTriThuaDat.Contains(keyword))
+                {
+                    continue;
+                }
                 var quyetDinhMienTienThueDat = new QuyetDinhMienTienThueDatViewModel
                 {
                     IdQuyetDinhMienTienThueDat = entity.IdQuyetDinhMienTienThueDat,
@@ -326,6 +346,7 @@ namespace QuanLyThueDat.Application.Service
                     TenDoanhNghiep = entity.DoanhNghiep.TenDoanhNghiep,
                     MaSoThue = entity.DoanhNghiep.MaSoThue,
                     DiaChiThuaDat = diaChiThuaDat,
+                    ViTriThuaDat = viTriThuaDat,
                     SoQuyetDinhMienTienThueDat = entity.SoQuyetDinhMienTienThueDat,
                     TenQuyetDinhMienTienThueDat = entity.TenQuyetDinhMienTienThueDat,
                     NgayQuyetDinhMienTienThueDat = entity.NgayQuyetDinhMienTienThueDat != null ? entity.NgayQuyetDinhMienTienThueDat.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
@@ -342,7 +363,7 @@ namespace QuanLyThueDat.Application.Service
             }
             return new ApiSuccessResult<List<QuyetDinhMienTienThueDatViewModel>>() { Data = result };
         }
-        public async Task<ApiResult<List<ThongBaoDonGiaThueDatViewModel>>> BaoCaoDonGiaThueDat(string tuNgay, string denNgay)
+        public async Task<ApiResult<List<ThongBaoDonGiaThueDatViewModel>>> BaoCaoDonGiaThueDat(int? idQuanHuyen, string keyword, string tuNgay, string denNgay)
         {
             var query = from a in _context.ThongBaoDonGiaThueDat.Include(x => x.DoanhNghiep).Where(x => !x.IsDeleted)
                         select a;
@@ -360,6 +381,17 @@ namespace QuanLyThueDat.Application.Service
             var result = new List<ThongBaoDonGiaThueDatViewModel>();
             foreach (var entity in data)
             {
+                var qdtd = await _QuyetDinhThueDatService.GetById(entity.IdQuyetDinhThueDat.Value);
+                var diaChiThuaDat = qdtd.Data != null ? qdtd.Data.DiaChiThuaDat : "";
+                var viTriThuaDat = qdtd.Data != null ? qdtd.Data.ViTriThuaDat : "";
+                if (idQuanHuyen != null && idQuanHuyen != 0 && idQuanHuyen != qdtd.Data.IdQuanHuyen)
+                {
+                    continue;
+                }
+                if (!String.IsNullOrEmpty(keyword) && !diaChiThuaDat.Contains(keyword) && !viTriThuaDat.Contains(keyword))
+                {
+                    continue;
+                }
                 var x = entity.DoanhNghiep;
                 var thongBaoDonGiaThueDat = new ThongBaoDonGiaThueDatViewModel
                 {

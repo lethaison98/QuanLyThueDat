@@ -23,6 +23,7 @@ ThongBaoTienThueDatControl = {
                     return {
                         "keyword": $('#txtKEY_WORD').val(),
                         "idDoanhNghiep": idDoanhNghiep,
+                        "thueDatTraTienMotLan": 0,
                         "nam": $('#namThongBao option:selected').val(),
                     }
                 },

@@ -29,9 +29,9 @@ namespace QuanLyThueDat.API.Controllers
             return Ok(result);
         }
         [HttpGet("GetAllPaging")]
-        public async Task<IActionResult> GetAllPaging(int? idDoanhNghiep, int? nam, string keyword ="", int pageNumber=1, int pageSize=10 )
+        public async Task<IActionResult> GetAllPaging(int? idDoanhNghiep, int? thueDatTraTienMotLan, int? nam, string keyword ="", int pageNumber=1, int pageSize=10 )
         {
-            var result = await _ThongBaoTienThueDatService.GetAllPaging(idDoanhNghiep, nam, keyword, pageNumber, pageSize);
+            var result = await _ThongBaoTienThueDatService.GetAllPaging(idDoanhNghiep, thueDatTraTienMotLan, nam, keyword, pageNumber, pageSize);
             return Ok(result);
         }
         [HttpDelete("Delete")]

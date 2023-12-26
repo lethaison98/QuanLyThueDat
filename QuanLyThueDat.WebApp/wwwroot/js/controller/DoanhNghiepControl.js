@@ -148,6 +148,10 @@ DoanhNghiepControl = {
                                             $('#tblThongBaoTienThueDat').DataTable().destroy();
                                             self.RegisterEventsThongBaoTienThueDat(opts);
                                         });
+                                        $("#selectTabThongBaoTraTienMotLan").off('click').on('click', function () {
+                                            $('#tblThongBaoTraTienMotLan').DataTable().destroy();
+                                            self.RegisterEventsThongBaoTraTienMotLan(opts);
+                                        });
                                         $("#selectTabThongBaoGhiThuGhiChi").off('click').on('click', function () {
                                             $('#tblThongBaoGhiThuGhiChi').DataTable().destroy();
                                             self.RegisterEventsThongBaoGhiThuGhiChi(opts);
@@ -320,6 +324,10 @@ DoanhNghiepControl = {
     RegisterEventsThongBaoTienThueDat: function (opts) {
         var self = this;
         ThongBaoTienThueDatControl.RegisterEvents(opts);
+    },
+    RegisterEventsThongBaoTraTienMotLan: function (opts) {
+        var self = this;
+        ThongBaoTraTienMotLanControl.RegisterEvents(opts);
     },
     RegisterEventsThongBaoGhiThuGhiChi: function (opts) {
         var self = this;

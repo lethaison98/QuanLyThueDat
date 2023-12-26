@@ -23,7 +23,7 @@ namespace QuanLyThueDat.WebApp.Service
             _configuration = configuration;
         }
 
-        public async Task<ApiResult<byte[]>> ExportThongBaoTienThueDatHangNam(int namThongBao, string tuNgay, string denNgay)
+        public async Task<ApiResult<byte[]>> ExportThongBaoTienThueDatHangNam(int namThongBao, int? idQuanHuyen, string keyword, string tuNgay, string denNgay)
         {
             ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
             var pathFileTemplate = "";
@@ -40,7 +40,7 @@ namespace QuanLyThueDat.WebApp.Service
             var client = new HttpClient(handler);
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
             pathFileTemplate = "Assets/Template/MauBaoCaoThongBaoTienThueDat.xlsx";
-            response = await client.GetAsync("/api/BaoCao/BaoCaoTienThueDat?&nam=" + namThongBao + "&tuNgay=" + tuNgay + "&denNgay=" + denNgay);
+            response = await client.GetAsync("/api/BaoCao/BaoCaoTienThueDat?&nam=" + namThongBao + "&idQuanHuyen="+idQuanHuyen+"&keyword="+keyword+"&tuNgay=" + tuNgay + "&denNgay=" + denNgay);
             if (response.IsSuccessStatusCode)
             {
                 data = JsonConvert.DeserializeObject<ApiResult<List<ThongBaoTienThueDatViewModel>>>(await response.Content.ReadAsStringAsync()).Data;
@@ -106,7 +106,7 @@ namespace QuanLyThueDat.WebApp.Service
             }
             return result;
         }
-        public async Task<ApiResult<byte[]>> ExportThongBaoDonGiaThueDat(string tuNgay, string denNgay)
+        public async Task<ApiResult<byte[]>> ExportThongBaoDonGiaThueDat(int? idQuanHuyen, string keyword, string tuNgay, string denNgay)
         {
             ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
             var pathFileTemplate = "";
@@ -123,7 +123,7 @@ namespace QuanLyThueDat.WebApp.Service
             var client = new HttpClient(handler);
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
             pathFileTemplate = "Assets/Template/MauBaoCaoThongBaoDonGiaThueDat.xlsx";
-            response = await client.GetAsync("/api/BaoCao/BaoCaoDonGiaThueDat?tuNgay=" + tuNgay + "&denNgay=" + denNgay);
+            response = await client.GetAsync("/api/BaoCao/BaoCaoDonGiaThueDat?idQuanHuyen= " + idQuanHuyen + "&keyword=" + keyword + "&tuNgay=" + tuNgay + "&denNgay=" + denNgay);
             if (response.IsSuccessStatusCode)
             {
                 data = JsonConvert.DeserializeObject<ApiResult<List<ThongBaoDonGiaThueDatViewModel>>>(await response.Content.ReadAsStringAsync()).Data;
@@ -168,7 +168,7 @@ namespace QuanLyThueDat.WebApp.Service
             }
             return result;
         }
-        public async Task<ApiResult<byte[]>> ExportQuyetDinhMienTienThueDat(int? idQuyetDinhMienTienThueDat, string tuNgay, string denNgay)
+        public async Task<ApiResult<byte[]>> ExportQuyetDinhMienTienThueDat(int? idQuyetDinhMienTienThueDat, int? idQuanHuyen, string keyword,  string tuNgay, string denNgay)
         {
             ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
             var pathFileTemplate = "";
@@ -187,7 +187,7 @@ namespace QuanLyThueDat.WebApp.Service
             pathFileTemplate = "Assets/Template/MauBaoCaoQuyetDinhMienTienThueDat.xlsx";
             if (idQuyetDinhMienTienThueDat == null)
             {
-                response = await client.GetAsync("/api/BaoCao/BaoCaoMienTienThueDat?tuNgay=" + tuNgay + "&denNgay=" + denNgay);
+                response = await client.GetAsync("/api/BaoCao/BaoCaoMienTienThueDat?idQuanHuyen= "+idQuanHuyen+"&keyword="+keyword+"&tuNgay=" + tuNgay + "&denNgay=" + denNgay);
                 if (response.IsSuccessStatusCode)
                 {
                     data = JsonConvert.DeserializeObject<ApiResult<List<QuyetDinhMienTienThueDatViewModel>>>(await response.Content.ReadAsStringAsync()).Data;
@@ -219,7 +219,7 @@ namespace QuanLyThueDat.WebApp.Service
                 decimal tongSoTienMienGiam = 0;
                 decimal tongSoTienPhaiNop = 0;
                 ws.Cells[4, 1].Value = "BÁO CÁO MIỄN TIỀN THUÊ ĐẤT CỦA CÁC DN THUÊ ĐẤT TẠI KKT VÀ CÁC KCN";
-                ws.Cells[5, 5].Value = "Quyết định miễn tiền thuê đất";
+                ws.Cells[5, 6].Value = "Quyết định miễn tiền thuê đất";
                 foreach (var obj in data)
                 {
                     i++;
@@ -227,24 +227,29 @@ namespace QuanLyThueDat.WebApp.Service
                     ws.Cells[6 + i, 2].Value = obj.TenDoanhNghiep;
                     ws.Cells[6 + i, 3].Value = obj.MaSoThue;
                     ws.Cells[6 + i, 4].Value = obj.DiaChiThuaDat;
-                    ws.Cells[6 + i, 5].Value = obj.SoQuyetDinhMienTienThueDat + " ngày " + obj.NgayQuyetDinhMienTienThueDat;
-                    ws.Cells[6 + i, 6].Value = obj.ThoiHanMienTienThueDat;
-                    ws.Cells[6 + i, 7].Value = "Từ ngày " + obj.NgayHieuLucMienTienThueDat + " đến ngày " + obj.NgayHetHieuLucMienTienThueDat;
-                    ws.Cells[6 + i, 8].Value = decimal.Parse(obj.DienTichMienTienThueDat, new CultureInfo("vi-VN"));
-                    ws.Cells[6 + i, 9].Value = decimal.Parse(obj.SoTienMienGiamTrongMotNam, new CultureInfo("vi-VN"));
-                    ws.Cells[6 + i, 10].Value = decimal.Parse(obj.TongSoTienMienGiam, new CultureInfo("vi-VN"));
-                    ws.Cells[6 + i, 11].Value = obj.GhiChu;
+                    ws.Cells[6 + i, 5].Value = obj.ViTriThuaDat;
+                    ws.Cells[6 + i, 6].Value = obj.SoQuyetDinhMienTienThueDat + " ngày " + obj.NgayQuyetDinhMienTienThueDat;
+                    ws.Cells[6 + i, 7].Value = obj.ThoiHanMienTienThueDat;
+                    ws.Cells[6 + i, 8].Value = "Từ ngày " + obj.NgayHieuLucMienTienThueDat + " đến ngày " + obj.NgayHetHieuLucMienTienThueDat;
+                    ws.Cells[6 + i, 9].Value = decimal.Parse(obj.DienTichMienTienThueDat, new CultureInfo("vi-VN"));
+                    ws.Cells[6 + i, 10].Value = decimal.Parse(obj.SoTienMienGiamTrongMotNam, new CultureInfo("vi-VN"));
+                    ws.Cells[6 + i, 11].Value = decimal.Parse(obj.TongSoTienMienGiam, new CultureInfo("vi-VN"));
+                    ws.Cells[6 + i, 12].Value = obj.GhiChu;
                 }
                 //ws.Cells[7 + i, 9, 7 + i, 12].Style.Font.Bold = true;
                 //ws.Cells[7 + i, 9].Value = "Tổng cộng";
                 //ws.Cells[7 + i, 10].Value = tongSoTien;
                 //ws.Cells[7 + i, 11].Value = tongSoTienMienGiam;
                 //ws.Cells[7 + i, 12].Value = tongSoTienPhaiNop;
-                ws.Cells[6, 1, i + 6, 11].Style.Border.Top.Style = ExcelBorderStyle.Thin;
-                ws.Cells[6, 1, i + 6, 11].Style.Border.Left.Style = ExcelBorderStyle.Thin;
-                ws.Cells[6, 1, i + 6, 11].Style.Border.Right.Style = ExcelBorderStyle.Thin;
-                ws.Cells[6, 1, i + 6, 11].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
-                ws.Cells[7, 8, i + 7, 10].Style.Numberformat.Format = "#,##0.00";
+                ws.Cells[7 + i, 2].Value = "Tổng cộng";
+                ws.Cells[7 + i, 9].Formula = "=SUM(" + ws.Cells[7, 9].Address + ":" + ws.Cells[6 + i, 9].Address + ")";
+                ws.Cells[7 + i, 10].Formula = "=SUM(" + ws.Cells[7, 10].Address + ":" + ws.Cells[6 + i, 10].Address + ")"; ;
+                ws.Cells[7 + i, 11].Formula = "=SUM(" + ws.Cells[7, 11].Address + ":" + ws.Cells[6 + i, 11].Address + ")"; ;
+                ws.Cells[6, 1, i + 6, 12].Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                ws.Cells[6, 1, i + 6, 12].Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                ws.Cells[6, 1, i + 6, 12].Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                ws.Cells[6, 1, i + 6, 12].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                ws.Cells[7, 9, i + 7, 11].Style.Numberformat.Format = "#,##0.00";
                 ws.Cells.AutoFitColumns();
                 result.Data = p.GetAsByteArray();
             }
@@ -328,6 +333,13 @@ namespace QuanLyThueDat.WebApp.Service
                 //ws.Cells[7 + i, 10].Value = tongSoTien;
                 //ws.Cells[7 + i, 11].Value = tongSoTienMienGiam;
                 //ws.Cells[7 + i, 12].Value = tongSoTienPhaiNop;
+                ws.Cells[7 + i, 2].Value = "Tổng cộng";
+                ws.Cells[7 + i, 9].Formula = "=SUM(" + ws.Cells[7, 9].Address + ":" + ws.Cells[6 + i, 9].Address + ")";
+                ws.Cells[7 + i, 10].Formula = "=SUM(" + ws.Cells[7, 10].Address + ":" + ws.Cells[6 + i, 10].Address + ")"; ;
+                ws.Cells[7 + i, 11].Formula = "=SUM(" + ws.Cells[7, 11].Address + ":" + ws.Cells[6 + i, 11].Address + ")"; ;
+                ws.Cells[7 + i, 15].Formula = "=SUM(" + ws.Cells[7, 15].Address + ":" + ws.Cells[6 + i, 15].Address + ")"; ;
+                ws.Cells[7 + i, 22].Formula = "=SUM(" + ws.Cells[7, 22].Address + ":" + ws.Cells[6 + i, 22].Address + ")"; ;
+
                 ws.Cells[7, 1, i + 6, 27].Style.Border.Top.Style = ExcelBorderStyle.Thin;
                 ws.Cells[7, 1, i + 6, 27].Style.Border.Left.Style = ExcelBorderStyle.Thin;
                 ws.Cells[7, 1, i + 6, 27].Style.Border.Right.Style = ExcelBorderStyle.Thin;
@@ -416,7 +428,7 @@ namespace QuanLyThueDat.WebApp.Service
                     ws.Cells[6 + i, 24].Value = obj.QuyetDinhMienTienThueDatViewModel.NgayQuyetDinhMienTienThueDat;
                     ws.Cells[6 + i, 25].Value = obj.QuyetDinhMienTienThueDatViewModel.ThoiHanMienTienThueDat + (!String.IsNullOrEmpty(obj.QuyetDinhMienTienThueDatViewModel.NgayHieuLucMienTienThueDat) ? " từ ngày " + obj.QuyetDinhMienTienThueDatViewModel.NgayHieuLucMienTienThueDat : "")
                                                 + (!String.IsNullOrEmpty(obj.QuyetDinhMienTienThueDatViewModel.NgayHetHieuLucMienTienThueDat) ? " đến ngày " + obj.QuyetDinhMienTienThueDatViewModel.NgayHetHieuLucMienTienThueDat : "");
-                    ws.Cells[6 + i, 26].Value = obj.QuyetDinhMienTienThueDatViewModel.DienTichMienTienThueDat;
+                    ws.Cells[6 + i, 26].Value = obj.QuyetDinhMienTienThueDatViewModel.DienTichMienTienThueDat != null ? decimal.Parse(obj.QuyetDinhMienTienThueDatViewModel.DienTichMienTienThueDat, new CultureInfo("vi-VN")) : "";
 
                     ws.Cells[6 + i, 27].Value = obj.ThongBaoDonGiaThueDatViewModel.SoThongBaoDonGiaThueDat;
                     ws.Cells[6 + i, 28].Value = obj.ThongBaoDonGiaThueDatViewModel.NgayThongBaoDonGiaThueDat;
@@ -450,6 +462,15 @@ namespace QuanLyThueDat.WebApp.Service
                 ws.Cells[5, 32, 6, maxCol].Style.Font.Bold = true;
 
                 ws.Cells[7 + i, 9, 7 + i, maxCol].Style.Font.Bold = true;
+
+                ws.Cells[7 + i, 2].Value = "Tổng cộng";
+                ws.Cells[7 + i, 9].Formula = "=SUM(" + ws.Cells[7, 9].Address + ":" + ws.Cells[6 + i, 9].Address + ")";
+                ws.Cells[7 + i, 10].Formula = "=SUM(" + ws.Cells[7, 10].Address + ":" + ws.Cells[6 + i, 10].Address + ")"; ;
+                ws.Cells[7 + i, 11].Formula = "=SUM(" + ws.Cells[7, 11].Address + ":" + ws.Cells[6 + i, 11].Address + ")"; ;
+                ws.Cells[7 + i, 15].Formula = "=SUM(" + ws.Cells[7, 15].Address + ":" + ws.Cells[6 + i, 15].Address + ")"; ;
+                ws.Cells[7 + i, 22].Formula = "=SUM(" + ws.Cells[7, 22].Address + ":" + ws.Cells[6 + i, 22].Address + ")"; ;
+                ws.Cells[7 + i, 26].Formula = "=SUM(" + ws.Cells[7, 26].Address + ":" + ws.Cells[6 + i, 26].Address + ")"; ;
+
                 ws.Cells[5, 1, i + 6, maxCol].Style.Border.Top.Style = ExcelBorderStyle.Thin;
                 ws.Cells[5, 1, i + 6, maxCol].Style.Border.Left.Style = ExcelBorderStyle.Thin;
                 ws.Cells[5, 1, i + 6, maxCol].Style.Border.Right.Style = ExcelBorderStyle.Thin;

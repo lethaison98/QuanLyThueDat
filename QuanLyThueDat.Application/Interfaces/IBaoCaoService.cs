@@ -13,8 +13,8 @@ namespace QuanLyThueDat.Application.Interfaces
     {  
         public Task<ApiResult<List<BaoCaoDoanhNghiepThueDatViewModel>>> BaoCaoDoanhNghiepThueDat();
         public Task<ApiResult<List<BaoCaoDoanhNghiepThueDatViewModel>>> BaoCaoBieuLapBo();
-        public Task<ApiResult<List<ThongBaoTienThueDatViewModel>>> BaoCaoTienThueDat(int? nam, string tuNgay, string denNgay);
-        public Task<ApiResult<List<QuyetDinhMienTienThueDatViewModel>>> BaoCaoMienTienThueDat(string tuNgay, string denNgay);
-        public Task<ApiResult<List<ThongBaoDonGiaThueDatViewModel>>> BaoCaoDonGiaThueDat(string tuNgay, string denNgay);
+        public Task<ApiResult<List<ThongBaoTienThueDatViewModel>>> BaoCaoTienThueDat(int? nam, int? idQuanHuyen, string keyword, string tuNgay, string denNgay);
+        public Task<ApiResult<List<QuyetDinhMienTienThueDatViewModel>>> BaoCaoMienTienThueDat(int? idQuanHuyen, string keyword, string tuNgay, string denNgay);
+        public Task<ApiResult<List<ThongBaoDonGiaThueDatViewModel>>> BaoCaoDonGiaThueDat(int? idQuanHuyen, string keyword, string tuNgay, string denNgay);
     }
 }

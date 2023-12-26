@@ -24,21 +24,21 @@ namespace QuanLyThueDat.API.Controllers
             return Ok(result);
         }
         [HttpGet("BaoCaoTienThueDat")]
-        public async Task<IActionResult> BaoCaoTienThueDat(int? nam, string tuNgay, string denNgay)
+        public async Task<IActionResult> BaoCaoTienThueDat(int? nam, int? idQuanHuyen, string keyword, string tuNgay, string denNgay)
         {
-            var result = await _baoCaoService.BaoCaoTienThueDat(nam, tuNgay, denNgay);
+            var result = await _baoCaoService.BaoCaoTienThueDat(nam, idQuanHuyen, keyword, tuNgay, denNgay);
             return Ok(result);
         }
         [HttpGet("BaoCaoMienTienThueDat")]
-        public async Task<IActionResult> BaoCaoMienTienThueDat(string tuNgay, string denNgay)
+        public async Task<IActionResult> BaoCaoMienTienThueDat(int? idQuanHuyen, string keyword, string tuNgay, string denNgay)
         {
-            var result = await _baoCaoService.BaoCaoMienTienThueDat(tuNgay, denNgay);
+            var result = await _baoCaoService.BaoCaoMienTienThueDat(idQuanHuyen, keyword, tuNgay, denNgay);
             return Ok(result);
         } 
         [HttpGet("BaoCaoDonGiaThueDat")]
-        public async Task<IActionResult> BaoCaoDonGiaThueDat(string tuNgay, string denNgay)
+        public async Task<IActionResult> BaoCaoDonGiaThueDat(int? idQuanHuyen, string keyword, string tuNgay, string denNgay)
         {
-            var result = await _baoCaoService.BaoCaoDonGiaThueDat(tuNgay, denNgay);
+            var result = await _baoCaoService.BaoCaoDonGiaThueDat(idQuanHuyen, keyword, tuNgay, denNgay);
             return Ok(result);
         }
         [HttpGet("BaoCaoBieuLapBo")]

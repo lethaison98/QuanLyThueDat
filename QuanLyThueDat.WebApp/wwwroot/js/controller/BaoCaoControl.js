@@ -14,6 +14,8 @@ BaoCaoControl = {
                 switch (loaiBaoCao) {
                     case "BaoCaoDoanhNghiepThueDat":
                         $('#namThongBao').parent().parent().hide();
+                        $('#keyword').parent().parent().hide();
+                        $('#ddQuanHuyen').parent().parent().hide();
                         $('#tuNgay').parent().parent().hide();
                         $('#denNgay').parent().parent().hide();
                         $("#btnXuatBaoCao").off('click').on('click', function (e) {
@@ -24,28 +26,36 @@ BaoCaoControl = {
                         $('#namThongBao').parent().parent().show();
                         $('#tuNgay').parent().parent().show();
                         $('#denNgay').parent().parent().show();
+                        $('#keyword').parent().parent().show();
+                        $('#ddQuanHuyen').parent().parent().show();
                         $("#btnXuatBaoCao").off('click').on('click', function (e) {
-                            window.open("BaoCao/ExportThongBaoTienThueDatHangNam?namThongBao=" + $('#namThongBao option:selected').val() + "&tuNgay=" + $('#tuNgay').val() + "&denNgay=" + $('#denNgay').val());
+                            window.open("BaoCao/ExportThongBaoTienThueDatHangNam?namThongBao=" + $('#namThongBao option:selected').val() + "&idQuanHuyen=" + $('#ddQuanHuyen option:selected').val() + "&keyword=" + $('#keyword').val() + "&tuNgay=" + $('#tuNgay').val() + "&denNgay=" + $('#denNgay').val());
                         });
                         break;
                     case "BaoCaoDonGiaThueDat":
                         $('#namThongBao').parent().parent().hide();
                         $('#tuNgay').parent().parent().show();
                         $('#denNgay').parent().parent().show();
+                        $('#keyword').parent().parent().show();
+                        $('#ddQuanHuyen').parent().parent().show();
                         $("#btnXuatBaoCao").off('click').on('click', function (e) {
-                            window.open("BaoCao/ExportThongBaoDonGiaThueDat?tuNgay=" + $('#tuNgay').val() + "&denNgay=" + $('#denNgay').val());
+                            window.open("BaoCao/ExportThongBaoDonGiaThueDat?idQuanHuyen=" + $('#ddQuanHuyen option:selected').val() + "&keyword=" + $('#keyword').val() + "&tuNgay=" + $('#tuNgay').val() + "&denNgay=" + $('#denNgay').val());
                         });
                         break;
                     case "BaoCaoMienGiamTienThueDat":
                         $('#namThongBao').parent().parent().hide();
                         $('#tuNgay').parent().parent().show();
                         $('#denNgay').parent().parent().show();
+                        $('#keyword').parent().parent().show();
+                        $('#ddQuanHuyen').parent().parent().show();
                         $("#btnXuatBaoCao").off('click').on('click', function (e) {
-                            window.open("BaoCao/ExportQuyetDinhMienTienThueDat?tuNgay=" + $('#tuNgay').val() + "&denNgay=" + $('#denNgay').val());
+                            window.open("BaoCao/ExportQuyetDinhMienTienThueDat?idQuanHuyen=" + $('#ddQuanHuyen option:selected').val() + "&keyword=" + $('#keyword').val() + "&tuNgay=" + $('#tuNgay').val() + "&denNgay=" + $('#denNgay').val());
                         });
                         break;
                     case "BieuLapBo":
                         $('#namThongBao').parent().parent().hide();
+                        $('#keyword').parent().parent().hide();
+                        $('#ddQuanHuyen').parent().parent().hide();
                         $('#tuNgay').parent().parent().hide();
                         $('#denNgay').parent().parent().hide();
                         $("#btnXuatBaoCao").off('click').on('click', function (e) {

@@ -14,7 +14,7 @@ namespace QuanLyThueDat.Application.Interfaces
         public Task<ApiResult<bool>> Delete(int idThongBaoTienThueDat);
         public Task<ApiResult<ThongBaoTienThueDatViewModel>> GetById(int idThongBaoTienThueDat);
         public Task<ApiResult<List<ThongBaoTienThueDatViewModel>>> GetAll();
-        public Task<ApiResult<PageViewModel<ThongBaoTienThueDatViewModel>>> GetAllPaging(int? idDoanhNghiep, int? nam, string keyword, int pageIndex, int pageSize);
+        public Task<ApiResult<PageViewModel<ThongBaoTienThueDatViewModel>>> GetAllPaging(int? idDoanhNghiep, int? thueDatTraTienMotLan, int? nam, string keyword, int pageIndex, int pageSize);
         public Task<ApiResult<List<ThongBaoTienThueDatViewModel>>> GetAllByNam(int nam);
         public Task<ApiResult<List<ThongBaoTienThueDatViewModel>>> GetAllByRequest(ThongBaoTienThueDatRequest rq);
         public Task<ApiResult<List<ThongBaoTienThueDatViewModel>>> GetListThongBaoTienThueDatChiTietByThongBaoDonGia(int thongBaoDonGiaId);

@@ -2,7 +2,7 @@
     Layout = null;
 }
 <div class="modal fade" id="popupThongBaoDoanhNghiep" data-backdrop="static" role="dialog">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog" style="max-width:80%">
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
@@ -32,7 +32,13 @@
                                 <li class="nav-item">
                                     <a class="nav-link" id="selectTabThongBaoTienThueDat" data-toggle="pill" href="#tabThongBaoTienThueDat" role="tab" aria-controls="tabThongBaoTienThueDat" aria-selected="false">TB tiền thuê đất</a>
                                 </li>
-                                <li class="nav-item dropdown">
+                                <li class="nav-item">
+                                    <a class="nav-link" id="selectTabThongBaoTraTienMotLan" data-toggle="pill" href="#tabThongBaoTraTienMotLan" role="tab" aria-controls="tabThongBaoTraTienMotLan" aria-selected="false">TB trả tiền một lần</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="selectTabThongBaoGhiThuGhiChi" data-toggle="pill" href="#tabThongBaoGhiThuGhiChi" role="tab" aria-controls="tabThongBaoGhiThuGhiChi" aria-selected="false">TB ghi thu ghi chi</a>
+                                </li>
+@*                                <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" id="s" data-toggle="dropdown" aria-expanded="false">Khác</a>
                                     <div class="dropdown-menu dropdown-menu-right">
                                         <a class="dropdown-item" id="selectTabThongBaoGhiThuGhiChi" data-toggle="pill" href="#tabThongBaoGhiThuGhiChi" role="tab" aria-controls="tabThongBaoGhiThuGhiChi" aria-selected="false">Ghi thu ghi chi</a>
@@ -41,7 +47,7 @@
 
                                     </div>
                                 </li>
-                            </ul>
+*@                            </ul>
                         </div>
                         <div class="card-body">
                             <div class="tab-content" id="custom-tabs-four-tabContent">
@@ -188,12 +194,37 @@
                                                     <a class="dropdown-item" href="#">Thông báo bổ sung</a>*@
                                                 <div class="dropdown-divider"></div>
                                                 <a class="dropdown-item" href="#" id="btnCreateThongBaoTienThueDatDieuChinh">Thông báo điều chỉnh</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item" href="#" id="btnCreateThongBaoTraTienMotLan">Thông báo trả tiền một lần</a>
+@*                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item" href="#" id="btnCreateThongBaoTraTienMotLan">Thông báo trả tiền một lần</a>*@
                                             </div>
                                         </div>
                                     </div>
                                     <table id="tblThongBaoTienThueDat" class="table table-bordered table-hover table-striped" style="width: 100%">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 5px">STT</th>
+                                                <th>Số thông báo</th>
+                                                <th>Tên doanh nghiệp</th>
+                                                <th>Năm</th>
+                                                <th>Số tiền phải nộp</th>
+                                                <th>Loại thông báo</th>
+                                                <th>Ghi chú</th>
+                                                <th>Thao tác</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="tab-pane fade" id="tabThongBaoTraTienMotLan" role="tabpanel" aria-labelledby="selectTabThongBaoTraTienMotLan">
+                                    <div class="ttls-content d-flex mb-1" style="justify-content: space-between;">
+                                        <h5>DANH SÁCH THÔNG BÁO TRẢ TIỀN MỘT LẦN</h5>
+                                        <a class="btn btn-sm btn-success waves-effect waves-light" id="btnCreateThongBaoTraTienMotLan">
+                                            <span>Tạo mới</span>
+                                            <i class="fas fa-plus"></i>
+                                        </a>
+                                    </div>
+                                    <table id="tblThongBaoTraTienMotLan" class="table table-bordered table-hover table-striped" style="width: 100%">
                                         <thead>
                                             <tr>
                                                 <th style="width: 5px">STT</th>

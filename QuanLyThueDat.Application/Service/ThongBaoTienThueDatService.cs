@@ -240,7 +240,7 @@ namespace QuanLyThueDat.Application.Service
             return new ApiSuccessResult<List<ThongBaoTienThueDatViewModel>>() { Data = result };
         }
 
-        public async Task<ApiResult<PageViewModel<ThongBaoTienThueDatViewModel>>> GetAllPaging(int? idDoanhNghiep, int? nam, string keyword, int pageIndex, int pageSize)
+        public async Task<ApiResult<PageViewModel<ThongBaoTienThueDatViewModel>>> GetAllPaging(int? idDoanhNghiep, int? thueDatTraTienMotLan, int? nam, string keyword, int pageIndex, int pageSize)
         {
             var query = from a in _context.ThongBaoTienThueDat.Include(x => x.DoanhNghiep).Where(x => !x.IsDeleted).Include(x => x.DoanhNghiep)
                         select a;
@@ -255,6 +255,17 @@ namespace QuanLyThueDat.Application.Service
             if (nam != null && nam != 0)
             {
                 query = query.Where(x => x.Nam == nam);
+            }
+            if(thueDatTraTienMotLan != null)
+            {
+                if(thueDatTraTienMotLan == 1)
+                {
+                    query = query.Where(x => x.LoaiThongBaoTienThueDat == "ThongBaoTraTienMotLan");
+                }
+                else
+                {
+                    query = query.Where(x => x.LoaiThongBaoTienThueDat != "ThongBaoTraTienMotLan");
+                }
             }
             var data = await query.OrderByDescending(x => x.Nam).ThenBy(x => x.SoThongBaoTienThueDat)
                 .Skip((pageIndex - 1) * pageSize)

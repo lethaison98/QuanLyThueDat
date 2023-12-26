@@ -16,9 +16,9 @@ namespace QuanLyThueDat.WebApp.Controllers
             return View();
         }
         [Route("ExportThongBaoTienThueDatHangNam")]
-        public async Task<IActionResult> _ExportThongBaoTienThueDatHangNam(int namThongBao, string tuNgay, string denNgay)
+        public async Task<IActionResult> _ExportThongBaoTienThueDatHangNam(int namThongBao, int? idQuanHuyen, string keyword, string tuNgay, string denNgay)
         {
-            var data = await _exportExcelClient.ExportThongBaoTienThueDatHangNam(namThongBao, tuNgay, denNgay);
+            var data = await _exportExcelClient.ExportThongBaoTienThueDatHangNam(namThongBao, idQuanHuyen, keyword, tuNgay, denNgay);
             if (data.IsSuccess)
             {
                 //var result = File(data.Data, "application/vnd.ms-word", loaiThongBao + ".doc");
@@ -30,9 +30,9 @@ namespace QuanLyThueDat.WebApp.Controllers
         }        
         
         [Route("ExportThongBaoDonGiaThueDat")]
-        public async Task<IActionResult> _ExportThongBaoDonGiaThueDat(string tuNgay, string denNgay)
+        public async Task<IActionResult> _ExportThongBaoDonGiaThueDat(int? idQuanHuyen, string keyword, string tuNgay, string denNgay)
         {
-            var data = await _exportExcelClient.ExportThongBaoDonGiaThueDat(tuNgay, denNgay);
+            var data = await _exportExcelClient.ExportThongBaoDonGiaThueDat(idQuanHuyen, keyword, tuNgay, denNgay);
             if (data.IsSuccess)
             {
                 //var result = File(data.Data, "application/vnd.ms-word", loaiThongBao + ".doc");
@@ -43,9 +43,9 @@ namespace QuanLyThueDat.WebApp.Controllers
 
         }
         [Route("ExportQuyetDinhMienTienThueDat")]
-        public async Task<IActionResult> _ExportQuyetDinhMienTienThueDat(int? idQuyetDinhMienTienThueDat, string tuNgay, string denNgay)
+        public async Task<IActionResult> _ExportQuyetDinhMienTienThueDat(int? idQuyetDinhMienTienThueDat, int? idQuanHuyen, string keyword, string tuNgay, string denNgay)
         {
-            var data = await _exportExcelClient.ExportQuyetDinhMienTienThueDat(idQuyetDinhMienTienThueDat, tuNgay, denNgay);
+            var data = await _exportExcelClient.ExportQuyetDinhMienTienThueDat(idQuyetDinhMienTienThueDat, idQuanHuyen, keyword, tuNgay, denNgay);
             if (data.IsSuccess)
             {
                 var result = File(data.Data, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Báo cáo miễn tiền thuê đất.xlsx");
