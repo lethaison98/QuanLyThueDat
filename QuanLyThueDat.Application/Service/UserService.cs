@@ -377,5 +377,33 @@ namespace QuanLyThueDat.Application.Service
             }
 
         }
+        public async Task<ApiResult<bool>> ResetPassword(ChangePasswordRequest request)
+        {
+            try
+            {
+                var user = await _userManager.FindByNameAsync(request.OldPassword);
+                var x = new object();
+                if (request.NewPassword != null && request.OldPassword != null)
+                {
+                    var removePass = await _userManager.RemovePasswordAsync(user);
+                    var changePasswordResult = await _userManager.AddPasswordAsync(user, request.NewPassword);
+                    if (changePasswordResult.Succeeded)
+                    {
+                        await _userManager.UpdateAsync(user);
+                        return new ApiSuccessResult<bool>() { };
+                    }
+                    else
+                    {
+                        return new ApiErrorResult<bool>(changePasswordResult.Errors.First().Description) { };
+                    }
+                }
+                return new ApiErrorResult<bool>();
+            }
+            catch (Exception ex)
+            {
+                return new ApiErrorResult<bool>(ex.Message);
+
+            }
+        }
     }
 }

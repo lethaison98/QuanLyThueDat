@@ -45,7 +45,7 @@ namespace QuanLyThueDat.Application.Service
             _ThongBaoDonGiaThueDatService = ThongBaoDonGiaThueDatService;
             _ThongBaoTienThueDatService = ThongBaoTienThueDatService;
         }
-        public async Task<ApiResult<List<BaoCaoDoanhNghiepThueDatViewModel>>> BaoCaoDoanhNghiepThueDat()
+        public async Task<ApiResult<List<BaoCaoDoanhNghiepThueDatViewModel>>> BaoCaoDoanhNghiepThueDat1()
         {
             var result = new List<BaoCaoDoanhNghiepThueDatViewModel>();
             var dsDoanhNghiep = await _DoanhNghiepService.GetAll();
@@ -120,12 +120,12 @@ namespace QuanLyThueDat.Application.Service
                                         var quyetDinhGiaoLaiDat = dsQuyetDinhGiaoLaiDat.FirstOrDefault(x => x.IdQuyetDinhThueDat == quyetDinhThueDat.IdQuyetDinhThueDat);
                                         item.DoanhNghiepViewModel = doanhNghiep;
                                         item.QuyetDinhThueDatViewModel = quyetDinhThueDat;
-                                        if(quyetDinhGiaoLaiDat != null)
+                                        if (quyetDinhGiaoLaiDat != null)
                                         {
                                             item.QuyetDinhGiaoLaiDatViewModel = quyetDinhGiaoLaiDat;
                                             dsQuyetDinhGiaoLaiDat.Remove(quyetDinhGiaoLaiDat);
                                         }
-                                        
+
                                         item.ThongBaoDonGiaThueDatViewModel = thongBaoDonGia;
                                         foreach (var hopDong in dsHopDong.Data)
                                         {
@@ -192,6 +192,128 @@ namespace QuanLyThueDat.Application.Service
             }
             return new ApiSuccessResult<List<BaoCaoDoanhNghiepThueDatViewModel>>() { Data = result };
         }
+        public async Task<ApiResult<List<BaoCaoDoanhNghiepThueDatViewModel>>> BaoCaoDoanhNghiepThueDat()
+        {
+            var result = new List<BaoCaoDoanhNghiepThueDatViewModel>();
+            var dsDoanhNghiep = await _DoanhNghiepService.GetAll();
+            if (dsDoanhNghiep.Data.Count != 0)
+            {
+                dsDoanhNghiep.Data = dsDoanhNghiep.Data.OrderBy(x=> x.TenDoanhNghiep).ToList();
+                foreach (var doanhNghiep in dsDoanhNghiep.Data)
+                {
+                    var dsQuyetDinhThueDat = await _QuyetDinhThueDatService.GetListQuyetDinhThueDatChiTiet(doanhNghiep.IdDoanhNghiep);
+                    var dsHopDong = await _HopDongThueDatService.GetAll(doanhNghiep.IdDoanhNghiep);
+                    if (dsQuyetDinhThueDat.Data.Count != 0)
+                    {
+                        var dsQuyetDinhGoc = await _QuyetDinhThueDatService.GetAll(doanhNghiep.IdDoanhNghiep);
+                        var dsGiaoDatCoThuTien = dsQuyetDinhThueDat.Data.Where(x => x.HinhThucThue == "GiaoDatCoThuTien");
+                        var dsGiaoDatKhongThuTien = dsQuyetDinhThueDat.Data.Where(x => x.HinhThucThue == "GiaoDatKhongThuTien");
+
+                        var dsQDGiaoLaiDat1 = (from qdGoc in dsQuyetDinhGoc.Data
+                                               join coThu in dsGiaoDatCoThuTien on qdGoc.IdQuyetDinhThueDat equals coThu.IdQuyetDinhThueDat
+                                               join koThu in dsGiaoDatKhongThuTien on qdGoc.IdQuyetDinhThueDat equals koThu.IdQuyetDinhThueDat
+                                               select new QuyetDinhGiaoLaiDatViewModel
+                                               {
+                                                   IdQuyetDinhThueDat = qdGoc.IdQuyetDinhThueDat,
+                                                   SoQuyetDinh = qdGoc.SoQuyetDinhThueDat + " ngày " + qdGoc.NgayQuyetDinhThueDat,
+                                                   DienTichPhaiNop = coThu == null ? 0.ToString() : coThu.TongDienTich,
+                                                   DienTichKhongPhaiNop = koThu == null ? 0.ToString() : koThu.TongDienTich
+                                               }).Distinct().ToList();
+
+                        var dsQDGiaoLaiDat2 = (from qdGoc in dsQuyetDinhGoc.Data
+                                               join koThu in dsGiaoDatKhongThuTien on qdGoc.IdQuyetDinhThueDat equals koThu.IdQuyetDinhThueDat
+                                               select new QuyetDinhGiaoLaiDatViewModel
+                                               {
+                                                   IdQuyetDinhThueDat = qdGoc.IdQuyetDinhThueDat,
+                                                   SoQuyetDinh = qdGoc.SoQuyetDinhThueDat + " ngày " + qdGoc.NgayQuyetDinhThueDat,
+                                                   DienTichKhongPhaiNop = koThu == null ? 0.ToString() : koThu.TongDienTich
+                                               }).Distinct().ToList();
+
+                        var dsQDGiaoLaiDat3 = (from qdGoc in dsQuyetDinhGoc.Data
+                                               join coThu in dsGiaoDatCoThuTien on qdGoc.IdQuyetDinhThueDat equals coThu.IdQuyetDinhThueDat
+                                               select new QuyetDinhGiaoLaiDatViewModel
+                                               {
+                                                   IdQuyetDinhThueDat = qdGoc.IdQuyetDinhThueDat,
+                                                   SoQuyetDinh = qdGoc.SoQuyetDinhThueDat + " ngày " + qdGoc.NgayQuyetDinhThueDat,
+                                                   DienTichPhaiNop = coThu == null ? 0.ToString() : coThu.TongDienTich,
+                                               }).Distinct().ToList();
+
+                        var dsQuyetDinhGiaoLaiDat = dsQDGiaoLaiDat1.Union(dsQDGiaoLaiDat2).Union(dsQDGiaoLaiDat3).DistinctBy(x => x.IdQuyetDinhThueDat).ToList();
+                        foreach (var item in dsQuyetDinhGiaoLaiDat)
+                        {
+                            decimal dienTichGiaoThuTien;
+                            decimal dienTichGiaoKhongThuTien;
+                            NumberStyles style = NumberStyles.AllowDecimalPoint | NumberStyles.AllowThousands;
+                            CultureInfo culture = CultureInfo.CreateSpecificCulture("vi-VN");
+                            Decimal.TryParse(item.DienTichPhaiNop, style, culture, out dienTichGiaoThuTien);
+                            Decimal.TryParse(item.DienTichKhongPhaiNop, style, culture, out dienTichGiaoKhongThuTien);
+                            item.TongDienTich = (dienTichGiaoKhongThuTien + dienTichGiaoThuTien).ToString("N", new CultureInfo("vi-VN"));
+                        }
+
+                        var dsQuyetDinhThueDatTraTienHangNam = dsQuyetDinhThueDat.Data.Where(x => x.HinhThucThue == "ThueDatTraTienHangNam" || x.HinhThucThue == "HopDongThueLaiDat" || x.HinhThucThue == "ThueDatTraTienMotLan");
+                        foreach (var quyetDinhThueDat in dsQuyetDinhThueDatTraTienHangNam)
+                        {
+                            if (!String.IsNullOrEmpty(quyetDinhThueDat.SoQuyetDinhThueDat))
+                            {
+                                var rq = new ThongBaoDonGiaThueDatRequest();
+                                rq.IdQuyetDinhThueDat = quyetDinhThueDat.IdQuyetDinhThueDat;
+                                //rq.SoQuyetDinhThueDat = quyetDinhThueDat.SoQuyetDinhThueDat;
+                                //rq.NgayQuyetDinhThueDat = quyetDinhThueDat.NgayQuyetDinhThueDat;
+                                var dsThongBaoDonGiaThueDat = await _ThongBaoDonGiaThueDatService.GetAllByRequest(rq);
+
+                                var item = new BaoCaoDoanhNghiepThueDatViewModel();
+                                var quyetDinhGiaoLaiDat = dsQuyetDinhGiaoLaiDat.FirstOrDefault(x => x.IdQuyetDinhThueDat == quyetDinhThueDat.IdQuyetDinhThueDat);
+                                if (quyetDinhGiaoLaiDat != null)
+                                {
+                                    item.QuyetDinhGiaoLaiDatViewModel = quyetDinhGiaoLaiDat;
+                                    dsQuyetDinhGiaoLaiDat.Remove(quyetDinhGiaoLaiDat);
+                                }
+                                item.DoanhNghiepViewModel = doanhNghiep;
+                                item.QuyetDinhThueDatViewModel = quyetDinhThueDat;
+                                foreach (var hopDong in dsHopDong.Data)
+                                {
+                                    if (quyetDinhThueDat.IdQuyetDinhThueDat == hopDong.IdQuyetDinhThueDat)
+                                    {
+                                        item.HopDongThueDatViewModel = hopDong;
+                                    }
+                                }
+                                result.Add(item);
+                            }
+                            else
+                            {
+                                var item = new BaoCaoDoanhNghiepThueDatViewModel();
+                                item.DoanhNghiepViewModel = doanhNghiep;
+                                item.QuyetDinhThueDatViewModel = quyetDinhThueDat;
+                                foreach (var hopDong in dsHopDong.Data)
+                                {
+                                    if (quyetDinhThueDat.IdQuyetDinhThueDat == hopDong.IdQuyetDinhThueDat)
+                                    {
+                                        item.HopDongThueDatViewModel = hopDong;
+                                    }
+                                }
+                                result.Add(item);
+                            }
+                        }
+                        foreach (var quyetDinhGiaoLaiThueDat in dsQuyetDinhGiaoLaiDat)
+                        {
+                            var item = new BaoCaoDoanhNghiepThueDatViewModel();
+                            item.DoanhNghiepViewModel = doanhNghiep;
+                            item.QuyetDinhGiaoLaiDatViewModel = quyetDinhGiaoLaiThueDat;
+                            result.Add(item);
+                        }
+                    }
+                    else
+                    {
+                        var item = new BaoCaoDoanhNghiepThueDatViewModel();
+                        item.DoanhNghiepViewModel = doanhNghiep;
+                        result.Add(item);
+                    }
+
+                }
+            }
+            return new ApiSuccessResult<List<BaoCaoDoanhNghiepThueDatViewModel>>() { Data = result };
+        }
+
         public async Task<ApiResult<List<ThongBaoTienThueDatViewModel>>> BaoCaoTienThueDat(int? nam, int? idQuanHuyen, string keyword, string tuNgay, string denNgay)
         {
             var query = from a in _context.ThongBaoTienThueDat.Include(x => x.DoanhNghiep).Include(x => x.DsThongBaoTienThueDatChiTiet)
@@ -328,13 +450,13 @@ namespace QuanLyThueDat.Application.Service
             foreach (var entity in data)
             {
                 var qdtd = await _QuyetDinhThueDatService.GetById(entity.IdQuyetDinhThueDat.Value);
-                var diaChiThuaDat = qdtd.Data != null? qdtd.Data.DiaChiThuaDat : "";
-                var viTriThuaDat = qdtd.Data != null? qdtd.Data.ViTriThuaDat : "";
-                if(idQuanHuyen != null && idQuanHuyen != 0 && idQuanHuyen != qdtd.Data.IdQuanHuyen)
+                var diaChiThuaDat = qdtd.Data != null ? qdtd.Data.DiaChiThuaDat : "";
+                var viTriThuaDat = qdtd.Data != null ? qdtd.Data.ViTriThuaDat : "";
+                if (idQuanHuyen != null && idQuanHuyen != 0 && idQuanHuyen != qdtd.Data.IdQuanHuyen)
                 {
                     continue;
                 }
-                if(!String.IsNullOrEmpty(keyword) && !diaChiThuaDat.Contains(keyword) && !viTriThuaDat.Contains(keyword))
+                if (!String.IsNullOrEmpty(keyword) && !diaChiThuaDat.Contains(keyword) && !viTriThuaDat.Contains(keyword))
                 {
                     continue;
                 }

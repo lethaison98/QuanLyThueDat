@@ -23,5 +23,6 @@ namespace QuanLyThueDat.Application.Interfaces
         public Task<ApiResult<bool>> PhanQuyenChuyenVienPhuTrachKV(PhanQuyenCanBoRequest rq);
         public Task<ApiResult<List<QuyetDinhThueDatViewModel>>> LayDanhSachQuyetDinhThueDatTheoChuyenVienPhuTrachKV(string idCanBo);
         public Task<ApiResult<bool>> ChangePassByUser(ChangePasswordRequest rq);
+        public Task<ApiResult<bool>> ResetPassword(ChangePasswordRequest rq);
     }
 }

@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Assets\Template\MauBaoCaoDoanhNghiepThueDat.xlsx" />
+    <None Remove="Assets\Template\MauBaoCaoDoanhNghiepThueDat2024.xlsx" />
     <None Remove="Assets\Template\MauBaoCaoQuyetDinhMienTienThueDat.xlsx" />
     <None Remove="Assets\Template\MauBaoCaoThongBaoDonGiaThueDat.xlsx" />
     <None Remove="Assets\Template\MauBaoCaoThongBaoTienThueDat.xlsx" />

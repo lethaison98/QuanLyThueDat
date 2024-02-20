@@ -255,8 +255,108 @@ namespace QuanLyThueDat.WebApp.Service
             }
             return result;
         }
-
         public async Task<ApiResult<byte[]>> ExportBaoCaoDoanhNghiepThueDat()
+        {
+            ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
+            var pathFileTemplate = "";
+            var data = new List<BaoCaoDoanhNghiepThueDatViewModel>();
+            var response = new HttpResponseMessage();
+            var handler = new HttpClientHandler();
+            handler.ClientCertificateOptions = ClientCertificateOption.Manual;
+            handler.ServerCertificateCustomValidationCallback =
+                (httpRequestMessage, cert, cetChain, policyErrors) =>
+                {
+                    return true;
+                };
+
+            var client = new HttpClient(handler);
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            pathFileTemplate = "Assets/Template/MauBaoCaoDoanhNghiepThueDat2024.xlsx";
+            response = await client.GetAsync("/api/BaoCao/BaoCaoDoanhNghiepThueDat");
+            if (response.IsSuccessStatusCode)
+            {
+                data = JsonConvert.DeserializeObject<ApiResult<List<BaoCaoDoanhNghiepThueDatViewModel>>>(await response.Content.ReadAsStringAsync()).Data;
+            }
+
+            var result = new ApiSuccessResult<byte[]>();
+            var file = new FileInfo(pathFileTemplate);
+            var p = new ExcelPackage(file);
+            var wb = p.Workbook;
+            var ws = wb.Worksheets.FirstOrDefault();
+            p.Compression = CompressionLevel.Default;
+            if (ws != null)
+            {
+                ExcelWorksheetView wv = ws.View;
+                wv.ZoomScale = 100;
+                wv.RightToLeft = false;
+                ws.PrinterSettings.Orientation = eOrientation.Landscape;
+                ws.Cells.AutoFitColumns();
+                var i = 0;
+                //decimal tongSoTien = 0;
+                //decimal tongSoTienMienGiam = 0;
+                //decimal tongSoTienPhaiNop = 0;
+                foreach (var obj in data)
+                {
+                    i++;
+                    ws.Cells[6 + i, 1].Value = i.ToString();
+                    ws.Cells[6 + i, 2].Value = obj.DoanhNghiepViewModel.CoQuanQuanLyThue;
+                    ws.Cells[6 + i, 3].Value = obj.DoanhNghiepViewModel.TenDoanhNghiep;
+                    ws.Cells[6 + i, 4].Value = obj.DoanhNghiepViewModel.MaSoThue;
+                    ws.Cells[6 + i, 5].Value = obj.DoanhNghiepViewModel.DiaChi;
+                    ws.Cells[6 + i, 6].Value = obj.QuyetDinhThueDatViewModel.SoQuyetDinhGiaoDat;
+                    ws.Cells[6 + i, 7].Value = obj.QuyetDinhThueDatViewModel.NgayQuyetDinhGiaoDat;
+
+                    ws.Cells[6 + i, 8].Value = obj.QuyetDinhGiaoLaiDatViewModel.SoQuyetDinh;
+                    ws.Cells[6 + i, 9].Value = obj.QuyetDinhGiaoLaiDatViewModel.DienTichPhaiNop != null ? decimal.Parse(obj.QuyetDinhGiaoLaiDatViewModel.DienTichPhaiNop, new CultureInfo("vi-VN")) : "";
+                    ws.Cells[6 + i, 10].Value = obj.QuyetDinhGiaoLaiDatViewModel.DienTichKhongPhaiNop != null ? decimal.Parse(obj.QuyetDinhGiaoLaiDatViewModel.DienTichKhongPhaiNop, new CultureInfo("vi-VN")) : "";
+                    ws.Cells[6 + i, 11].Value = obj.QuyetDinhGiaoLaiDatViewModel.TongDienTich != null ? decimal.Parse(obj.QuyetDinhGiaoLaiDatViewModel.TongDienTich, new CultureInfo("vi-VN")) : "";
+
+                    ws.Cells[6 + i, 13].Value = obj.QuyetDinhThueDatViewModel.SoQuyetDinhThueDat;
+                    ws.Cells[6 + i, 14].Value = obj.QuyetDinhThueDatViewModel.NgayQuyetDinhThueDat;
+                    ws.Cells[6 + i, 15].Value = obj.QuyetDinhThueDatViewModel.TongDienTich != null ? decimal.Parse(obj.QuyetDinhThueDatViewModel.TongDienTich, new CultureInfo("vi-VN")) : "";
+                    ws.Cells[6 + i, 16].Value = obj.QuyetDinhThueDatViewModel.ThoiHanThue + obj.QuyetDinhThueDatViewModel.TuNgayThue != "" ? " từ ngày " + obj.QuyetDinhThueDatViewModel.TuNgayThue : "" + obj.QuyetDinhThueDatViewModel.DenNgayThue != "" ? " đến ngày " + obj.QuyetDinhThueDatViewModel.DenNgayThue : "";
+                    ws.Cells[6 + i, 17].Value = obj.QuyetDinhThueDatViewModel.MucDichSuDung;
+                    ws.Cells[6 + i, 18].Value = obj.QuyetDinhThueDatViewModel.ViTriThuaDat;
+                    ws.Cells[6 + i, 19].Value = obj.QuyetDinhThueDatViewModel.DiaChiThuaDat;
+
+                    ws.Cells[6 + i, 20].Formula = "=SUM(" + ws.Cells[6 + i, 11].Address + ":" + ws.Cells[6 + i, 15].Address + ")";
+
+                    ws.Cells[6 + i, 21].Value = obj.HopDongThueDatViewModel.SoHopDong;
+                    ws.Cells[6 + i, 22].Value = obj.HopDongThueDatViewModel.NgayKyHopDong;
+                    ws.Cells[6 + i, 23].Value = obj.QuyetDinhThueDatViewModel.TongDienTich != null ? decimal.Parse(obj.QuyetDinhThueDatViewModel.TongDienTich, new CultureInfo("vi-VN")) : "";
+                    ws.Cells[6 + i, 24].Value = obj.DoanhNghiepViewModel.GhiChu;
+                }
+                ws.Cells[7 + i, 9, 7 + i, 24].Style.Font.Bold = true;
+                //ws.Cells[7 + i, 9].Value = "Tổng cộng";
+                //ws.Cells[7 + i, 10].Value = tongSoTien;
+                //ws.Cells[7 + i, 11].Value = tongSoTienMienGiam;
+                //ws.Cells[7 + i, 12].Value = tongSoTienPhaiNop;
+                ws.Cells[7 + i, 2].Value = "Tổng cộng";
+                ws.Cells[7 + i, 9].Formula = "=SUM(" + ws.Cells[7, 9].Address + ":" + ws.Cells[6 + i, 9].Address + ")";
+                ws.Cells[7 + i, 10].Formula = "=SUM(" + ws.Cells[7, 10].Address + ":" + ws.Cells[6 + i, 10].Address + ")"; ;
+                ws.Cells[7 + i, 11].Formula = "=SUM(" + ws.Cells[7, 11].Address + ":" + ws.Cells[6 + i, 11].Address + ")"; ;
+                ws.Cells[7 + i, 15].Formula = "=SUM(" + ws.Cells[7, 15].Address + ":" + ws.Cells[6 + i, 15].Address + ")"; ;
+                ws.Cells[7 + i, 20].Formula = "=SUM(" + ws.Cells[7, 20].Address + ":" + ws.Cells[6 + i, 20].Address + ")"; ;
+                ws.Cells[7 + i, 23].Formula = "=SUM(" + ws.Cells[7, 23].Address + ":" + ws.Cells[6 + i, 23].Address + ")"; ;
+
+                ws.Cells[7, 1, i + 6, 24].Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                ws.Cells[7, 1, i + 6, 24].Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                ws.Cells[7, 1, i + 6, 24].Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                ws.Cells[7, 1, i + 6, 24].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                ws.Cells[7, 9, i + 7, 11].Style.Numberformat.Format = "#,##0.00";
+                ws.Cells[7, 15, i + 7, 15].Style.Numberformat.Format = "#,##0.00";
+                ws.Cells[7, 20, i + 7, 20].Style.Numberformat.Format = "#,##0.00";
+                ws.Cells[7, 23, i + 7, 23].Style.Numberformat.Format = "#,##0.00";
+                ws.Cells.AutoFitColumns();
+                ws.Column(5).Width = 40;
+                ws.Column(17).Width = 30;
+                ws.Column(18).Width = 30;
+                ws.Column(19).Width = 30;
+                result.Data = p.GetAsByteArray();
+            }
+            return result;
+        }
+        public async Task<ApiResult<byte[]>> ExportBaoCaoDoanhNghiepThueDat1()
         {
             ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
             var pathFileTemplate = "";
